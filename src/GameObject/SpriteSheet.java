@@ -1,3 +1,8 @@
+package GameObject;
+
+import Engine.Config;
+import Utils.ImageUtils;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -51,19 +56,21 @@ public class SpriteSheet {
 
 	public void loadImage(String imageFileName) {
 		try {
-			image = ImageIO.read(new File(Config.resourcesPath + imageFileName));
+			image = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
 		} catch (IOException e) {
-			System.out.println("Unable to find file " + Config.resourcesPath + imageFileName);
+			System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
+			throw new RuntimeException(e);
 		}
 	}
 
 	public void loadImage(String imageFileName, Color transparentColor) {
 		try {
-			BufferedImage initialImage = ImageIO.read(new File(Config.resourcesPath + imageFileName));
+			BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
 			Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, transparentColor, new Color(255, 255, 255));
 			image = ImageUtils.convertImageToBufferedImage(transparentImage, initialImage.getWidth(), initialImage.getHeight());
 		} catch (IOException e) {
-			System.out.println("Unable to find file " + Config.resourcesPath + imageFileName);
+			System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
+			throw new RuntimeException(e);
 		}
 	}
 }

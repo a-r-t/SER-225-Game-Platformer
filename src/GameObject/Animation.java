@@ -1,3 +1,4 @@
+package GameObject;
 
 public class Animation {
 	private String animationName;

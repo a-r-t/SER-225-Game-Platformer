@@ -1,8 +1,12 @@
+package GameObject;
+
+import Engine.Keyboard;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public class AnimatedSprite extends Rectangle {
+public class AnimatedSprite extends Sprite {
 
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations = new HashMap<>();
@@ -11,15 +15,14 @@ public class AnimatedSprite extends Rectangle {
 	protected int currentFrame;
 	protected long beforeTime = System.currentTimeMillis();
 	protected boolean hasAnimationFinished;
-	protected BufferedImage image;
 
-	public AnimatedSprite(float x, float y, float width, float height, SpriteSheet spriteSheet) {
+	public AnimatedSprite(float x, float y, int width, int height, SpriteSheet spriteSheet) {
 		super(x, y, width, height);
 		this.spriteSheet = spriteSheet;
 	}
 
 	@Override
-	public void update(Keyboard keyboard) {		
+	public void update(Keyboard keyboard) {
 		if (!previousAnimation.equals(currentAnimation)) {
 			currentFrame = 0;
 			beforeTime = System.currentTimeMillis();
@@ -39,7 +42,6 @@ public class AnimatedSprite extends Rectangle {
 		}
 		previousAnimation = currentAnimation;
 		image = getCurrentFrame().getFrameImage();
-
 	}
 	
 	public Frame getCurrentFrame() {
@@ -48,7 +50,7 @@ public class AnimatedSprite extends Rectangle {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(image, Math.round(getX()), Math.round(getY()), Math.round(width), Math.round(height), null);
+		super.draw(g);
 	}
 
 }

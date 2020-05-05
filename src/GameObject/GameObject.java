@@ -1,3 +1,7 @@
+package GameObject;
+
+import Engine.Keyboard;
+
 import java.awt.*;
 
 public interface GameObject {

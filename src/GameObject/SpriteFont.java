@@ -1,3 +1,7 @@
+package GameObject;
+
+import Engine.Keyboard;
+
 import java.awt.*;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;

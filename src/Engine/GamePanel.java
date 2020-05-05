@@ -1,3 +1,8 @@
+package Engine;
+
+import GameObject.Rectangle;
+import GameObject.SpriteFont;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,7 +11,7 @@ import java.awt.event.ActionListener;
 public class GamePanel extends JPanel {
 	private GameScene gameScene;
 	private Timer timer;
-	private Bounds sceneBounds;
+	private Rectangle sceneBounds;
 	private Keyboard keyboard;
 	private boolean doPaint = false;
 	private boolean isGamePaused = false;
@@ -38,7 +43,7 @@ public class GamePanel extends JPanel {
 	}
 
 	public void setupGame() {
-		sceneBounds = new Bounds(getX(), getY(), getWidth(), getHeight());
+		sceneBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		setBackground(new Color(100, 149, 237));
 		gameScene.initialize(sceneBounds);
 		doPaint = true;

@@ -3,11 +3,12 @@ package Engine;
 import javax.swing.*;
 
 public class GameWindow {
-	JFrame gameWindow;
+	private JFrame gameWindow;
+	private GamePanel gamePanel;
 
 	public GameWindow() {
 		gameWindow = new JFrame("Game");
-		GamePanel gamePanel = new GamePanel();
+		gamePanel = new GamePanel();
 		gamePanel.setFocusable(true);
 		gamePanel.requestFocusInWindow();
 		gameWindow.setContentPane(gamePanel);
@@ -17,6 +18,15 @@ public class GameWindow {
 		gameWindow.setVisible(true);
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // it'd be nice if this actually worked more than 1/3rd of the time
 		gamePanel.setupGame();
+	}
+
+	public void startGame() {
 		gamePanel.startGame();
 	}
+
+	public ScreenManager getScreenManager() {
+		return gamePanel.getScreenManager();
+	}
+
+
 }

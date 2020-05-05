@@ -1,5 +1,7 @@
-package Engine;
+package Game;
 
+import Engine.Key;
+import Engine.Keyboard;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;

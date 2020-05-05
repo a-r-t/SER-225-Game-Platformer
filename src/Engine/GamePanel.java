@@ -9,9 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel {
-	private GameScene gameScene;
+	private ScreenManager screenManager;
 	private Timer timer;
-	private Rectangle sceneBounds;
+	private Rectangle windowBounds;
 	private Keyboard keyboard;
 	private boolean doPaint = false;
 	private boolean isGamePaused = false;
@@ -27,7 +27,7 @@ public class GamePanel extends JPanel {
 		keyboard = new Keyboard();
 		this.addKeyListener(keyboard.getKeyListener());
 
-		gameScene = new GameScene();
+		screenManager = new ScreenManager();
 		
 		pauseLabel = new SpriteFont("PAUSE", 365, 280, "Comic Sans", 24, Color.white);
 		pauseLabel.setOutlineColor(Color.black);
@@ -43,14 +43,18 @@ public class GamePanel extends JPanel {
 	}
 
 	public void setupGame() {
-		sceneBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		windowBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		setBackground(new Color(100, 149, 237));
-		gameScene.initialize(sceneBounds);
+		screenManager.initialize(windowBounds);
 		doPaint = true;
 	}
 
 	public void startGame() {
 		timer.start();
+	}
+
+	public ScreenManager getScreenManager() {
+		return screenManager;
 	}
 
 	public void update(Keyboard keyboard) {
@@ -64,16 +68,16 @@ public class GamePanel extends JPanel {
 		}
 		
 		if (!isGamePaused) {
-			gameScene.update(keyboard);
+			screenManager.update(keyboard);
 		}
 	}
 
 	public void draw(Graphics2D g) {
-		gameScene.draw(g);
+		screenManager.draw(g);
 		if (isGamePaused) {
 			pauseLabel.draw(g);
 			g.setColor(new Color(0, 0, 0, 100));
-			g.fillRect(Math.round(sceneBounds.getX1()), Math.round(sceneBounds.getY1()), Math.round(sceneBounds.getWidth()), Math.round(sceneBounds.getHeight()));
+			g.fillRect(windowBounds.getX(), windowBounds.getY(), windowBounds.getWidth(), windowBounds.getHeight());
 		}
 	}
 

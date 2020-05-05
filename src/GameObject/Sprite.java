@@ -12,23 +12,23 @@ import java.io.IOException;
 
 public class Sprite extends Rectangle {
 	protected BufferedImage image;
-    protected Rectangle hurtbox;
+    protected Rectangle bounds;
 
     public Sprite(float x, float y, int width, int height) {
 	    super(x, y, width, height);
-        this.hurtbox = new Rectangle(x, y, width, height);
+        this.bounds = new Rectangle(x, y, width, height);
     }
 	
 	public Sprite(float x, float y, int width, int height, String imageFile) {
 		super(x, y, width, height);
 		this.setImage(imageFile);
-        this.hurtbox = new Rectangle(x, y, width, height);
+        this.bounds = new Rectangle(x, y, width, height);
     }
 	
 	public Sprite(float x, float y, int width, int height, String imageFile, Color transparentColor) {
 		super(x, y, width, height);
 		this.setImage(imageFile, transparentColor);
-        this.hurtbox = new Rectangle(x, y, width, height);
+        this.bounds = new Rectangle(x, y, width, height);
     }
 	
 	public BufferedImage getImage() {
@@ -59,50 +59,50 @@ public class Sprite extends Rectangle {
     public void setX(float x) {
         int oldX = getX();
         super.setX(x);
-        hurtbox.moveX(x - oldX);
+        bounds.moveX(x - oldX);
     }
 
     @Override
     public void moveX(float dx) {
         super.moveX(dx);
-        hurtbox.moveX(dx);
+        bounds.moveX(dx);
     }
 
     @Override
     public void moveRight(float dx) {
         super.moveRight(dx);
-        hurtbox.moveRight(dx);
+        bounds.moveRight(dx);
     }
 
     @Override
     public void moveLeft(float dx) {
         super.moveLeft(dx);
-        hurtbox.moveLeft(dx);
+        bounds.moveLeft(dx);
     }
 
     @Override
     public void setY(float y) {
         int oldY = getY();
         super.setY(y);
-        hurtbox.moveY(y - oldY);
+        bounds.moveY(y - oldY);
     }
 
     @Override
     public void moveY(float dy) {
         super.moveY(dy);
-        hurtbox.moveY(dy);
+        bounds.moveY(dy);
     }
 
     @Override
     public void moveDown(float dy) {
         super.moveDown(dy);
-        hurtbox.moveDown(dy);
+        bounds.moveDown(dy);
     }
 
     @Override
     public void moveUp(float dy) {
         super.moveUp(dy);
-        hurtbox.moveUp(dy);
+        bounds.moveUp(dy);
     }
 
     @Override
@@ -115,50 +115,50 @@ public class Sprite extends Rectangle {
     public void setWidth(int width) {
         int oldWidth = getWidth();
         super.setWidth(width);
-        hurtbox.setWidth(hurtbox.getWidth() + (width - oldWidth));
+        bounds.setWidth(bounds.getWidth() + (width - oldWidth));
     }
 
     @Override
     public void setHeight(int height) {
         int oldHeight = getHeight();
         super.setHeight(height);
-        hurtbox.setHeight(hurtbox.getHeight() + (height - oldHeight));
+        bounds.setHeight(bounds.getHeight() + (height - oldHeight));
     }
 
-    public int getHurtboxX1() {
-        return Math.round(hurtbox.getX1());
+    public int getBoundsX1() {
+        return Math.round(bounds.getX1());
     }
 
-    public int getHurtboxX2() {
-        return Math.round(hurtbox.getX2());
+    public int getBoundsX2() {
+        return Math.round(bounds.getX2());
     }
 
-    public int getHurtboxY1() {
-        return Math.round(hurtbox.getY1());
+    public int getBoundsY1() {
+        return Math.round(bounds.getY1());
     }
 
-    public int getHurtboxY2() {
-        return Math.round(hurtbox.getY2());
+    public int getBoundsY2() {
+        return Math.round(bounds.getY2());
     }
 
-    public Rectangle getHurtbox(Rectangle hurtBox) {
-        return hurtBox;
+    public Rectangle getBounds(Rectangle bounds) {
+        return bounds;
     }
 
-    public void setHurtbox(Rectangle hurtBox) {
-        this.hurtbox = hurtBox;
+    public void setBounds(Rectangle bounds) {
+        this.bounds = bounds;
     }
 
-    public void setHurtbox(float x, float y, int width, int height) {
-        this.hurtbox = new Rectangle(x, y, width, height);
+    public void setBounds(float x, float y, int width, int height) {
+        this.bounds = new Rectangle(x, y, width, height);
     }
 
     @Override
     public boolean intersects(Rectangle other) {
         if (other instanceof Sprite) {
             Sprite otherSprite = (Sprite) other;
-            return getHurtboxX1() < otherSprite.getHurtboxX2() && getHurtboxX2() > otherSprite.getHurtboxX1() &&
-                    getHurtboxY1() < otherSprite.getHurtboxY2() && getHurtboxY2() > otherSprite.getHurtboxY1();
+            return getBoundsX1() < otherSprite.getBoundsX2() && getBoundsX2() > otherSprite.getBoundsX1() &&
+                    getBoundsY1() < otherSprite.getBoundsY2() && getBoundsY2() > otherSprite.getBoundsY1();
         } else {
             return super.intersects(other);
         }

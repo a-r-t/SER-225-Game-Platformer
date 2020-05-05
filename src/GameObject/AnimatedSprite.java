@@ -3,7 +3,6 @@ package GameObject;
 import Engine.Keyboard;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class AnimatedSprite extends Sprite {

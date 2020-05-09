@@ -8,12 +8,10 @@ public class Game {
         new Game();
     }
 
-    private GameWindow gameWindow;
-
     public Game() {
-        gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow();
         gameWindow.startGame();
         ScreenManager screenManager = gameWindow.getScreenManager();
-        screenManager.setCurrentGameScreen(new GameScene());
+        screenManager.setCurrentScreen(new Scene());
     }
 }

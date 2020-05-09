@@ -4,8 +4,8 @@ import GameObject.Rectangle;
 
 import java.awt.*;
 
-public class DefaultGameScreen extends GameScreen {
-    public DefaultGameScreen() {
+public class DefaultScreen extends Screen {
+    public DefaultScreen() {
 
     }
 

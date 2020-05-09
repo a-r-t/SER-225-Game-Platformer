@@ -1,12 +1,12 @@
 package Game;
 
-import Engine.GameScreen;
+import Engine.Screen;
 import Engine.Keyboard;
 import GameObject.Rectangle;
 
 import java.awt.*;
 
-public class GameScene extends GameScreen {
+public class Scene extends Screen {
 	private Rectangle sceneBounds;
 	private DonkeyKong donkeyKong;
 

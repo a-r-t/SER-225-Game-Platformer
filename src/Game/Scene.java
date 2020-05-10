@@ -19,7 +19,7 @@ public class Scene extends Screen {
 		this.sceneBounds = sceneBounds;
 		donkeyKong = new DonkeyKong(100, 100, 100, 100);
 		testMap = new TestMap();
-		kirby = new Kirby(100, 100, sceneBounds);
+		kirby = new Kirby(100, 500, sceneBounds);
 	}
 
 	@Override

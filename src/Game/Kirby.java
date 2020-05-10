@@ -7,7 +7,9 @@ import GameObject.Frame;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 import Utils.Colors;
+import Utils.Direction;
 
+import javax.xml.stream.FactoryConfigurationError;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -17,88 +19,30 @@ public class Kirby extends AnimatedSprite {
     private float momentumY = 0f;
     private final float terminalVelocityY = 4f;
     private final float jumpHeight = 20f;
-    private final float jumpDegrade = 1f;
+    private final float jumpDegrade = .5f;
     private float jumpForce = 0;
-    private boolean isJumping = false;
     private Rectangle sceneBounds;
-    private int xDirection;
-    private boolean isWalking = false;
-    private boolean isMoving = false;
     private float walkSpeed = 2f;
+    private PlayerState playerState;
+    private Direction facingDirection;
+    private AirGroundState airGroundState;
+    private AirGroundState previousAirGroundState;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
         super(x, y, 48, 48, new SpriteSheet("Kirby.png", 24, 24, Colors.MAGENTA));
         this.sceneBounds = sceneBounds;
         currentAnimation = "STAND_RIGHT";
+        facingDirection = Direction.RIGHT;
+        airGroundState = AirGroundState.AIR;
+        previousAirGroundState = airGroundState;
         image = getCurrentFrame().getFrameImage();
+        playerState = PlayerState.STANDING;
     }
 
     public void update(Keyboard keyboard) {
         super.update(keyboard);
 
-        if (keyboard.isKeyDown(Key.LEFT)) {
-            currentAnimation = "WALK_LEFT";
-            xDirection = -1;
-            isWalking = true;
-        }
-        if (keyboard.isKeyDown(Key.RIGHT)) {
-            currentAnimation = "WALK_RIGHT";
-            xDirection = 1;
-            isWalking = true;
-        }
-
-        if (keyboard.isKeyUp(Key.LEFT) && keyboard.isKeyUp(Key.RIGHT) && isWalking) {
-            isWalking = false;
-        }
-
-        if (keyboard.isKeyDown(Key.W) && !isJumping) {
-            isJumping = true;
-            jumpForce = jumpHeight;
-            if (xDirection == -1) {
-                currentAnimation = "JUMP_LEFT";
-            } else {
-                currentAnimation = "JUMP_RIGHT";
-            }
-        }
-
-        if (isJumping && jumpForce > 0) {
-            moveUp(jumpForce);
-            jumpForce -= jumpDegrade;
-        }
-
-        if (getY2() >= sceneBounds.getY2() && isJumping) {
-            isJumping = false;
-        }
-
         moveDown(gravity + momentumY);
-        if (keyboard.isKeyDown(Key.LEFT) && isJumping) {
-            isMoving = true;
-            xDirection = -1;
-        }
-        if (keyboard.isKeyDown(Key.RIGHT) && isJumping) {
-            isMoving = true;
-            xDirection = 1;
-        }
-        if (isJumping) {
-            if (xDirection == 1) {
-                if (jumpForce < gravity + momentumY) {
-                    currentAnimation = "FALL_RIGHT";
-                } else {
-                    currentAnimation = "JUMP_RIGHT";
-                }
-            } else {
-                if (jumpForce < gravity + momentumY) {
-                    currentAnimation = "FALL_LEFT";
-                } else {
-                    currentAnimation = "JUMP_LEFT";
-                }
-            }
-        }
-
-        if (keyboard.isKeyUp(Key.RIGHT) && keyboard.isKeyUp(Key.LEFT) && isMoving) {
-            isMoving = false;
-        }
-
         if (momentumY <= terminalVelocityY) {
             momentumY += 2f;
         }
@@ -106,21 +50,94 @@ public class Kirby extends AnimatedSprite {
         if (getY2() > sceneBounds.getY2()) {
             setY(sceneBounds.getY2() - getHeight());
             momentumY = 0;
+            airGroundState = AirGroundState.GROUND;
+        } else if (getY2() < sceneBounds.getY2()) {
+            airGroundState = AirGroundState.AIR;
         }
 
-        if (isWalking || isMoving) {
-            moveX(walkSpeed * xDirection);
-        } else if (!isJumping){
-            if (xDirection == 1) {
-                currentAnimation = "STAND_RIGHT";
-            } else {
-                currentAnimation = "STAND_LEFT";
+        if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
+            playerState = PlayerState.STANDING;
+        }
+
+        if (playerState == PlayerState.STANDING) {
+            currentAnimation = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+            if (keyboard.isKeyDown(Key.A) || keyboard.isKeyDown(Key.D)) {
+                playerState = PlayerState.WALKING;
+            } else if (keyboard.isKeyDown(Key.W)) {
+                playerState = PlayerState.JUMPING;
+            } else if (keyboard.isKeyDown(Key.S)) {
+                playerState = PlayerState.CROUCHING;
             }
         }
+        if (playerState == PlayerState.WALKING) {
+            currentAnimation = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+            if (keyboard.isKeyDown(Key.A)) {
+                moveLeft(walkSpeed);
+                facingDirection = Direction.LEFT;
+            } else if (keyboard.isKeyDown(Key.D)) {
+                moveRight(walkSpeed);
+                facingDirection = Direction.RIGHT;
+            } else if (keyboard.isKeyUp(Key.A) && keyboard.isKeyUp(Key.D)) {
+                playerState = PlayerState.STANDING;
+            }
+
+            if (keyboard.isKeyDown(Key.W)) {
+                playerState = PlayerState.JUMPING;
+            } else if (keyboard.isKeyDown(Key.S)) {
+                playerState = PlayerState.CROUCHING;
+            }
+        }
+        if (playerState == PlayerState.CROUCHING) {
+            currentAnimation = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+            if (keyboard.isKeyUp(Key.S)) {
+                playerState = PlayerState.STANDING;
+            }
+            if (keyboard.isKeyDown(Key.W)) {
+                playerState = PlayerState.JUMPING;
+            }
+        }
+        if (playerState == PlayerState.JUMPING) {
+            if (keyboard.isKeyDown(Key.W) && airGroundState == AirGroundState.GROUND) {
+                currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+                airGroundState = AirGroundState.AIR;
+                jumpForce = jumpHeight;
+            }
+            if (airGroundState == AirGroundState.AIR) {
+                if (jumpForce > 0) {
+                    moveUp(jumpForce);
+                    jumpForce -= jumpDegrade;
+                    if (jumpForce < 0) {
+                        jumpForce = 0;
+                    }
+                }
+
+                if (jumpForce >= gravity + momentumY) {
+                    currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+                } else {
+                    currentAnimation = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+                }
+
+                if (keyboard.isKeyDown(Key.A)) {
+                    moveLeft(walkSpeed);
+                } else if (keyboard.isKeyDown(Key.D)) {
+                    moveRight(walkSpeed);
+                }
+            }
+        }
+
+        previousAirGroundState = airGroundState;
     }
 
     public void draw(Graphics2D g) {
         super.draw(g);
+    }
+
+    private enum PlayerState {
+        STANDING, WALKING, JUMPING, CROUCHING
+    }
+
+    private enum AirGroundState {
+        AIR, GROUND
     }
 
     @Override

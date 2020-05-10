@@ -4,6 +4,7 @@ import GameObject.AnimatedSprite;
 import GameObject.SpriteSheet;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Tile extends AnimatedSprite {
     private TileType tileType;
@@ -13,13 +14,13 @@ public class Tile extends AnimatedSprite {
         this.tileType = tileType;
     }
 
-    public Tile(float x, float y, int width, int height, String imageFile, TileType tileType) {
-        super(x, y, width, height, imageFile);
+    public Tile(float x, float y, int width, int height, BufferedImage image, TileType tileType) {
+        super(x, y, width, height, image);
         this.tileType = tileType;
     }
 
-    public Tile(float x, float y, int width, int height, String imageFile, Color transparentColor, TileType tileType) {
-        super(x, y, width, height, imageFile, transparentColor);
+    public Tile(float x, float y, int width, int height, BufferedImage image, Color transparentColor, TileType tileType) {
+        super(x, y, width, height, image, transparentColor);
         this.tileType = tileType;
     }
 

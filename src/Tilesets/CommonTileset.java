@@ -1,28 +1,27 @@
 package Tilesets;
 
-import GameObject.Sprite;
+import Map.Tile;
+import Map.TileType;
 import Map.Tileset;
-
-import java.awt.*;
-import java.util.HashMap;
+import Utils.Colors;
 
 public class CommonTileset extends Tileset {
 
-    public CommonTileset(String imageFileName, int spriteWidth, int spriteHeight) {
-        super(imageFileName, spriteWidth, spriteHeight);
-    }
-
-    public CommonTileset(String imageFileName, int spriteWidth, int spriteHeight, Color transparentColor) {
-        super(imageFileName, spriteWidth, spriteHeight, transparentColor);
+    public CommonTileset() {
+        super("CommonTileset.png", 16, 16, Colors.MAGENTA);
     }
 
     @Override
-    public HashMap<Integer, Sprite> defineTiles() {
-//        return new HashMap<Integer, Sprite>() {{
-//            put(0, new Sprite()),
-//            put(),
-//            put()
-//        }};
-        return null;
+    public Tile createTile(int tileNumber, int xIndex, int yIndex) {
+        switch (tileNumber) {
+            case 0:
+                return new Tile(xIndex * spriteWidth, yIndex * spriteHeight, spriteWidth, spriteHeight, getSubImage(0,0), Colors.MAGENTA, TileType.NOT_PASSABLE);
+            case 1:
+                return new Tile(xIndex * spriteWidth, yIndex * spriteHeight, spriteWidth, spriteHeight, getSubImage(0,1), Colors.MAGENTA, TileType.PASSABLE);
+            case 2:
+                return new Tile(xIndex * spriteWidth, yIndex * spriteHeight, spriteWidth, spriteHeight, getSubImage(0,2), Colors.MAGENTA, TileType.NOT_PASSABLE);
+            default:
+                return null;
+        }
     }
 }

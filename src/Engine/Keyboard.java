@@ -42,7 +42,7 @@ public class Keyboard {
     }
     
     public boolean isKeyUp(Key key) {
-    	return keyUp.getOrDefault(keyMap.get(key), false);
+    	return keyUp.getOrDefault(keyMap.get(key), true);
     }
     
     public boolean areKeysDown(Key[] keys) {

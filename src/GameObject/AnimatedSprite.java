@@ -3,12 +3,13 @@ package GameObject;
 import Engine.Keyboard;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class AnimatedSprite extends Sprite {
 
 	protected SpriteSheet spriteSheet;
-	protected HashMap<String, Frame[]> animations = new HashMap<>();
+	protected HashMap<String, Frame[]> animations;
 	protected String currentAnimation = "";
 	protected String previousAnimation = "";
 	protected int currentFrame;
@@ -20,6 +21,7 @@ public class AnimatedSprite extends Sprite {
 		super(x, y, width, height);
 		this.spriteSheet = spriteSheet;
 		isAnimated = true;
+		animations = loadAnimations();
 	}
 
 	public AnimatedSprite(float x, float y, int width, int height, String imageFile) {
@@ -29,6 +31,23 @@ public class AnimatedSprite extends Sprite {
 	public AnimatedSprite(float x, float y, int width, int height, String imageFile, Color transparentColor) {
 		super(x, y, width, height, imageFile, transparentColor);
 	}
+
+    public AnimatedSprite(float x, float y, int width, int height, BufferedImage image) {
+        super(x, y, width, height);
+        this.setImage(image);
+        this.bounds = new Rectangle(x, y, width, height);
+    }
+
+    public AnimatedSprite(float x, float y, int width, int height, BufferedImage image, Color transparentColor) {
+        super(x, y, width, height);
+        this.setImage(image, transparentColor);
+        this.bounds = new Rectangle(x, y, width, height);
+        animations = loadAnimations();
+    }
+
+    public HashMap<String, Frame[]> loadAnimations() {
+        return null;
+    }
 
 	@Override
 	public void update(Keyboard keyboard) {

@@ -9,17 +9,13 @@ import java.util.HashMap;
 
 public abstract class Tileset extends SpriteSheet {
 
-    protected HashMap<Integer, Sprite> tiles = defineTiles();
-
-    public Tileset(String imageFileName, int spriteWidth, int spriteHeight) {
-        super(imageFileName, spriteWidth, spriteHeight);
+    public Tileset(String imageFileName, int tileWidth, int tileHeight) {
+        super(imageFileName, tileWidth, tileHeight);
     }
 
-    public Tileset(String imageFileName, int spriteWidth, int spriteHeight, Color transparentColor) {
-        super(imageFileName, spriteWidth, spriteHeight, transparentColor);
+    public Tileset(String imageFileName, int tileWidth, int tileHeight, Color transparentColor) {
+        super(imageFileName, tileWidth, tileHeight, transparentColor);
     }
-
-    public abstract HashMap<Integer, Sprite> defineTiles();
 
     public BufferedImage getSubImage(int row, int column) {
         return image.getSubimage((column * spriteWidth) + column, (row * spriteHeight) + row, spriteWidth, spriteHeight);
@@ -30,7 +26,5 @@ public abstract class Tileset extends SpriteSheet {
         return new SpriteSheet(subImage, spriteWidth, spriteHeight);
     }
 
-    public HashMap<Integer, Sprite> getTiles() {
-        return tiles;
-    }
+    public abstract Tile createTile(int tileNumber, int xIndex, int yIndex);
 }

@@ -24,14 +24,14 @@ public class Scene extends Screen {
 
 	@Override
 	public void update(Keyboard keyboard) {
-		donkeyKong.update(keyboard);
+		//donkeyKong.update(keyboard);
 		testMap.update();
 		kirby.update(keyboard);
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		donkeyKong.draw(g);
+		//donkeyKong.draw(g);
 		testMap.draw(g);
 		kirby.draw(g);
 	}

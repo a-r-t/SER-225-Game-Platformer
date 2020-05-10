@@ -5,9 +5,10 @@ import GameObject.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 public abstract class Tileset extends SpriteSheet {
+
+    protected int scale = 1;
 
     public Tileset(String imageFileName, int tileWidth, int tileHeight) {
         super(imageFileName, tileWidth, tileHeight);
@@ -27,4 +28,12 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public abstract Tile createTile(int tileNumber, int xIndex, int yIndex);
+
+    public int getScale() {
+        return scale;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
 }

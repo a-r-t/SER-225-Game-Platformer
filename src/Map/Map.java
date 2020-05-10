@@ -1,5 +1,6 @@
 package Map;
 
+import GameObject.Rectangle;
 import GameObject.Sprite;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ public abstract class Map {
     protected int width;
     protected int height;
     protected Tileset tileset;
+    protected Rectangle camera;
 
     public Map(int width, int height, Tileset tileset) {
         this.tileset = tileset;

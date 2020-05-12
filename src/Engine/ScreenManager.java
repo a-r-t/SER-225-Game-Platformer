@@ -6,24 +6,24 @@ import GameObject.Rectangle;
 import java.awt.*;
 
 public class ScreenManager {
-    private GameScreen currentGameScreen;
+    private Screen currentScreen;
     private Rectangle windowBounds;
 
     public void initialize(Rectangle windowBounds) {
         this.windowBounds = windowBounds;
-        setCurrentGameScreen(new DefaultGameScreen());
+        setCurrentScreen(new DefaultScreen());
     }
 
-    public void setCurrentGameScreen(GameScreen gameScreen) {
-        gameScreen.initialize(windowBounds);
-        this.currentGameScreen = gameScreen;
+    public void setCurrentScreen(Screen screen) {
+        screen.initialize(windowBounds);
+        this.currentScreen = screen;
     }
 
     public void update(Keyboard keyboard) {
-        currentGameScreen.update(keyboard);
+        currentScreen.update(keyboard);
     }
 
     public void draw(Graphics2D g) {
-        currentGameScreen.draw(g);
+        currentScreen.draw(g);
     }
 }

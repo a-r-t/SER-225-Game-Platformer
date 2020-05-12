@@ -26,8 +26,20 @@ public class Sprite extends Rectangle {
     }
 	
 	public Sprite(float x, float y, int width, int height, String imageFile, Color transparentColor) {
-		super(x, y, width, height);
-		this.setImage(imageFile, transparentColor);
+        super(x, y, width, height);
+        this.setImage(imageFile, transparentColor);
+        this.bounds = new Rectangle(x, y, width, height);
+    }
+
+    public Sprite(float x, float y, int width, int height, BufferedImage image) {
+        super(x, y, width, height);
+        this.setImage(image);
+        this.bounds = new Rectangle(x, y, width, height);
+    }
+
+    public Sprite(float x, float y, int width, int height, BufferedImage image, Color transparentColor) {
+        super(x, y, width, height);
+        this.setImage(image, transparentColor);
         this.bounds = new Rectangle(x, y, width, height);
     }
 	
@@ -54,6 +66,15 @@ public class Sprite extends Rectangle {
             throw new RuntimeException(e);
         }
 	}
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    public void setImage(BufferedImage image, Color transparentColor) {
+        Image transparentImage = ImageUtils.transformColorToTransparency(image, transparentColor, new Color(255, 255, 255));
+        this.image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
+    }
 
     @Override
     public void setX(float x) {

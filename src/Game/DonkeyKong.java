@@ -8,6 +8,7 @@ import GameObject.SpriteSheet;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.HashMap;
 
 public class DonkeyKong extends AnimatedSprite {
 	public DonkeyKong(float x, float y, int width, int height) {
@@ -17,13 +18,18 @@ public class DonkeyKong extends AnimatedSprite {
 		image = getCurrentFrame().getFrameImage();
 	}
 
-	public void loadAnimations() {
-		animations.put("BEAT_CHEST", new Frame[] {
-				new Frame(spriteSheet.getSprite(0, 0, false), 200),
-				new Frame(spriteSheet.getSprite(0, 1, false), 200) });
+	@Override
+	public HashMap<String, Frame[]> loadAnimations() {
+		return new HashMap<String, Frame[]>() {{
+			put("BEAT_CHEST", new Frame[] {
+					new Frame(spriteSheet.getSprite(0, 0, false), 200),
+					new Frame(spriteSheet.getSprite(0, 1, false), 200)
+			});
 
-		animations.put("STAND_STILL", new Frame[] { new 
-				Frame(spriteSheet.getSprite(1, 0, false), 0) });
+			put("STAND_STILL", new Frame[] {
+					new Frame(spriteSheet.getSprite(1, 0, false), 0)
+			});
+		}};
 	}
 
 	@Override

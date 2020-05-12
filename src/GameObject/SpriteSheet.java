@@ -11,10 +11,10 @@ import java.io.IOException;
 
 
 public class SpriteSheet {
-	private BufferedImage image;
-	private int spriteWidth;
-	private int spriteHeight;
-	private Color transparentColor;
+	protected BufferedImage image;
+	protected int spriteWidth;
+	protected int spriteHeight;
+	protected Color transparentColor;
 
 	public SpriteSheet(String imageFileName, int spriteWidth, int spriteHeight) {
 		loadImage(imageFileName);
@@ -24,6 +24,19 @@ public class SpriteSheet {
 
 	public SpriteSheet(String imageFileName, int spriteWidth, int spriteHeight, Color transparentColor) {
 		loadImage(imageFileName, transparentColor);
+		this.spriteWidth = spriteWidth;
+		this.spriteHeight = spriteHeight;
+		this.transparentColor = transparentColor;
+	}
+
+	public SpriteSheet(BufferedImage image, int spriteWidth, int spriteHeight) {
+		this.image = image;
+		this.spriteWidth = spriteWidth;
+		this.spriteHeight = spriteHeight;
+	}
+
+	public SpriteSheet(BufferedImage image, int spriteWidth, int spriteHeight, Color transparentColor) {
+		this.image = image;
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
 		this.transparentColor = transparentColor;

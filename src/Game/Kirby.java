@@ -29,6 +29,7 @@ public class Kirby extends AnimatedSprite {
     private AirGroundState airGroundState;
     private AirGroundState previousAirGroundState;
     private Map map;
+    private float previousX, previousY;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
         super(x, y, 48, 48, new SpriteSheet("Kirby.png", 24, 24, Colors.MAGENTA));
@@ -37,6 +38,8 @@ public class Kirby extends AnimatedSprite {
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
+        previousX = getX();
+        previousY = getY();
         image = getCurrentFrame().getFrameImage();
         playerState = PlayerState.STANDING;
     }
@@ -126,7 +129,8 @@ public class Kirby extends AnimatedSprite {
                 }
             }
         }
-
+        previousX = getX();
+        previousY = getY();
         previousAirGroundState = airGroundState;
     }
 

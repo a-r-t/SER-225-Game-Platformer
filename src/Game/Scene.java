@@ -18,8 +18,8 @@ public class Scene extends Screen {
 	public void initialize(Rectangle sceneBounds) {
 		this.sceneBounds = sceneBounds;
 		donkeyKong = new DonkeyKong(100, 100, 100, 100);
-		testMap = new TestMap();
-		kirby = new Kirby(100, 500, sceneBounds);
+		testMap = new TestMap(sceneBounds);
+		kirby = new Kirby(testMap.getPlayerStart().x, testMap.getPlayerStart().y, sceneBounds);
 	}
 
 	@Override

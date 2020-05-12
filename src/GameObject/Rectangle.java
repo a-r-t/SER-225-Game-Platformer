@@ -23,6 +23,16 @@ public class Rectangle implements GameObject {
 		this.borderThickness = new BasicStroke(0);
 	}
 
+	public Rectangle() {
+		this.x = 0;
+		this.y = 0;
+		this.width = 0;
+		this.height = 0;
+		this.color = Color.white;
+		this.borderColor = null;
+		this.borderThickness = new BasicStroke(0);
+	}
+
     public int getX() {
         return Math.round(x);
     }

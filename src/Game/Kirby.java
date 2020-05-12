@@ -6,6 +6,7 @@ import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
+import Map.Map;
 import Utils.Colors;
 import Utils.Direction;
 
@@ -27,6 +28,7 @@ public class Kirby extends AnimatedSprite {
     private Direction facingDirection;
     private AirGroundState airGroundState;
     private AirGroundState previousAirGroundState;
+    private Map map;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
         super(x, y, 48, 48, new SpriteSheet("Kirby.png", 24, 24, Colors.MAGENTA));
@@ -130,6 +132,10 @@ public class Kirby extends AnimatedSprite {
 
     public void draw(Graphics2D g) {
         super.draw(g);
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     private enum PlayerState {

@@ -9,7 +9,7 @@ public class CommonTileset extends Tileset {
 
     public CommonTileset() {
         super("CommonTileset.png", 16, 16, Colors.MAGENTA);
-        this.scale = 2;
+        this.scale = 3;
     }
 
     @Override

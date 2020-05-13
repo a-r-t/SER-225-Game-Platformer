@@ -7,21 +7,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Tile extends AnimatedSprite {
-    private TileType tileType;
 
-    public Tile(float x, float y, int width, int height, SpriteSheet spriteSheet, TileType tileType) {
+    public Tile(float x, float y, int width, int height, SpriteSheet spriteSheet) {
         super(x, y, width, height, spriteSheet);
-        this.tileType = tileType;
     }
 
-    public Tile(float x, float y, int width, int height, BufferedImage image, TileType tileType) {
+    public Tile(float x, float y, int width, int height, BufferedImage image) {
         super(x, y, width, height, image);
-        this.tileType = tileType;
     }
 
-    public Tile(float x, float y, int width, int height, BufferedImage image, Color transparentColor, TileType tileType) {
+    public Tile(float x, float y, int width, int height, BufferedImage image, Color transparentColor) {
         super(x, y, width, height, image, transparentColor);
-        this.tileType = tileType;
     }
 
     public void update() {

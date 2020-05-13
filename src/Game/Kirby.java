@@ -33,7 +33,7 @@ public class Kirby extends AnimatedSprite {
     private float moveAmountX, moveAmountY;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
-        super(x, y, 48, 48, new SpriteSheet("Kirby.png", 24, 24, Colors.MAGENTA));
+        super(x, y, 48, 48, new SpriteSheet("Kirby.png", 24, 24));
         this.sceneBounds = sceneBounds;
         currentAnimation = "STAND_RIGHT";
         facingDirection = Direction.RIGHT;

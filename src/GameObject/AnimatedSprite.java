@@ -28,21 +28,10 @@ public class AnimatedSprite extends Sprite {
 		super(x, y, width, height, imageFile);
 	}
 
-	public AnimatedSprite(float x, float y, int width, int height, String imageFile, Color transparentColor) {
-		super(x, y, width, height, imageFile, transparentColor);
-	}
-
     public AnimatedSprite(float x, float y, int width, int height, BufferedImage image) {
         super(x, y, width, height);
         this.setImage(image);
         this.bounds = new Rectangle(x, y, width, height);
-    }
-
-    public AnimatedSprite(float x, float y, int width, int height, BufferedImage image, Color transparentColor) {
-        super(x, y, width, height);
-        this.setImage(image, transparentColor);
-        this.bounds = new Rectangle(x, y, width, height);
-        animations = loadAnimations();
     }
 
     public HashMap<String, Frame[]> loadAnimations() {

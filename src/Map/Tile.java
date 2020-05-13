@@ -16,10 +16,6 @@ public class Tile extends AnimatedSprite {
         super(x, y, width, height, image);
     }
 
-    public Tile(float x, float y, int width, int height, BufferedImage image, Color transparentColor) {
-        super(x, y, width, height, image, transparentColor);
-    }
-
     public void update() {
         super.update(null);
     }

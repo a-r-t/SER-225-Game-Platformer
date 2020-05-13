@@ -14,10 +14,6 @@ public abstract class Tileset extends SpriteSheet {
         super(imageFileName, tileWidth, tileHeight);
     }
 
-    public Tileset(String imageFileName, int tileWidth, int tileHeight, Color transparentColor) {
-        super(imageFileName, tileWidth, tileHeight, transparentColor);
-    }
-
     public BufferedImage getSubImage(int row, int column) {
         return image.getSubimage((column * spriteWidth) + column, (row * spriteHeight) + row, spriteWidth, spriteHeight);
     }

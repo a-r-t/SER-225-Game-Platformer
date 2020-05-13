@@ -20,6 +20,7 @@ public class Scene extends Screen {
 		donkeyKong = new DonkeyKong(100, 100, 100, 100);
 		testMap = new TestMap(sceneBounds);
 		kirby = new Kirby(testMap.getPlayerStart().x, testMap.getPlayerStart().y, sceneBounds);
+		kirby.setMap(testMap);
 	}
 
 	@Override

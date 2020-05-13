@@ -16,11 +16,11 @@ public class CommonTileset extends Tileset {
     public Tile createTile(int tileNumber, int xIndex, int yIndex) {
         switch (tileNumber) {
             case 0:
-                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,0), Colors.MAGENTA, TileType.NOT_PASSABLE);
+                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,0), Colors.MAGENTA);
             case 1:
-                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,1), Colors.MAGENTA, TileType.PASSABLE);
+                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,1), Colors.MAGENTA);
             case 2:
-                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,2), Colors.MAGENTA, TileType.NOT_PASSABLE);
+                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,2), Colors.MAGENTA);
             default:
                 return null;
         }

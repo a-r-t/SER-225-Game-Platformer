@@ -12,14 +12,14 @@ import java.nio.Buffer;
 
 public class ImageUtils {
 	// https://stackoverflow.com/a/665428
-	public static Image transformColorToTransparency(BufferedImage image, Color c1, Color c2) {
+	public static Image transformColorToTransparency(BufferedImage image, Color c1) {
 		// Primitive test, just an example
 		final int r1 = c1.getRed();
 		final int g1 = c1.getGreen();
 		final int b1 = c1.getBlue();
-		final int r2 = c2.getRed();
-		final int g2 = c2.getGreen();
-		final int b2 = c2.getBlue();
+		final int r2 = 255;
+		final int g2 = 255;
+		final int b2 = 255;
 		ImageFilter filter = new RGBImageFilter() {
 			public final int filterRGB(int x, int y, int rgb) {
 				int r = (rgb & 0xFF0000) >> 16;

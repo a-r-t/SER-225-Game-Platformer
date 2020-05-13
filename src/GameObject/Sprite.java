@@ -46,7 +46,7 @@ public class Sprite extends Rectangle {
 	public void setImage(String imageFileName) {
 		try {
 			BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
-		    Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, Config.TRANSPARENT_COLOR, new Color(255, 255, 255));
+		    Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, Config.TRANSPARENT_COLOR);
 		    image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
 		} catch (IOException e) {
 			System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
@@ -55,7 +55,7 @@ public class Sprite extends Rectangle {
 	}
 
     public void setImage(BufferedImage image) {
-        Image transparentImage = ImageUtils.transformColorToTransparency(image, Config.TRANSPARENT_COLOR, new Color(255, 255, 255));
+        Image transparentImage = ImageUtils.transformColorToTransparency(image, Config.TRANSPARENT_COLOR);
         this.image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
     }
 

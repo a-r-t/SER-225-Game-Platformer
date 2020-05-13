@@ -51,7 +51,7 @@ public class SpriteSheet {
 	public void loadImage(String imageFileName) {
 		try {
 			BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
-			Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, Config.TRANSPARENT_COLOR, new Color(255, 255, 255));
+			Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, Config.TRANSPARENT_COLOR);
 			image = ImageUtils.convertImageToBufferedImage(transparentImage, initialImage.getWidth(), initialImage.getHeight());
 		} catch (IOException e) {
 			System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);

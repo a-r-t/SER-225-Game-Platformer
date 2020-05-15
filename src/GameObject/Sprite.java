@@ -2,6 +2,7 @@ package GameObject;
 
 import Engine.Config;
 import Engine.Keyboard;
+import Engine.Painter;
 import Utils.ImageUtils;
 
 import javax.imageio.ImageIO;
@@ -10,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Sprite extends Rectangle {
+public abstract class Sprite extends Rectangle {
 	protected BufferedImage image;
     protected Rectangle bounds;
 
@@ -174,8 +175,8 @@ public class Sprite extends Rectangle {
 	}
 	
 	@Override
-	public void draw(Graphics2D g) {
-		g.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);
+	public void draw(Painter painter) {
+		painter.paintImage(image, getX(), getY(), getWidth(), getHeight(), null);
 	}
 
 }

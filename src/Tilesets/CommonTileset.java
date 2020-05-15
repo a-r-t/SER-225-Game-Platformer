@@ -1,9 +1,7 @@
 package Tilesets;
 
 import Map.Tile;
-import Map.TileType;
 import Map.Tileset;
-import Utils.Colors;
 
 public class CommonTileset extends Tileset {
 

@@ -1,9 +1,7 @@
 package Map;
 
-import GameObject.Sprite;
 import GameObject.SpriteSheet;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Tileset extends SpriteSheet {

@@ -23,7 +23,7 @@ public class ScreenManager {
         currentScreen.update(keyboard);
     }
 
-    public void draw(Graphics2D g) {
-        currentScreen.draw(g);
+    public void draw(Painter painter) {
+        currentScreen.draw(painter);
     }
 }

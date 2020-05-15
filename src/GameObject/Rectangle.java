@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.Keyboard;
+import Engine.Painter;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public class Rectangle implements GameObject {
     private int height;
     private Color color;
     private Color borderColor;
-    private Stroke borderThickness;
+    private int borderThickness;
 
 	public Rectangle(float x, float y, int width, int height) {
 		this.x = x;
@@ -20,7 +21,7 @@ public class Rectangle implements GameObject {
 		this.height = height;
 		this.color = Color.white;
 		this.borderColor = null;
-		this.borderThickness = new BasicStroke(0);
+		this.borderThickness = 0;
 	}
 
 	public Rectangle() {
@@ -30,7 +31,7 @@ public class Rectangle implements GameObject {
 		this.height = 0;
 		this.color = Color.white;
 		this.borderColor = null;
-		this.borderThickness = new BasicStroke(0);
+		this.borderThickness = 0;
 	}
 
     public int getX() {
@@ -123,7 +124,7 @@ public class Rectangle implements GameObject {
 	}
 
 	public void setBorderThickness(int borderThickness) {
-		this.borderThickness = new BasicStroke(borderThickness);
+		this.borderThickness = borderThickness;
 	}
 
     public Point getTopLeftPoint() {
@@ -157,13 +158,10 @@ public class Rectangle implements GameObject {
 	public void update(Keyboard keyboard) { }
 
 	@Override
-	public void draw(Graphics2D g) {
-		g.setColor(color);
-		g.fillRect(getX(), getY(), width, height);
+	public void draw(Painter painter) {
+		painter.paintFilledRectangle(getX(), getY(), width, height, color);
 		if (borderColor != null && !borderColor.equals(color)) {
-			g.setColor(borderColor);
-			g.setStroke(borderThickness);
-			g.drawRect(getX(), getY(), width, height);
+			painter.paintRectangle(getX(), getY(), width, height, borderColor, borderThickness);
 		}
 
 	}

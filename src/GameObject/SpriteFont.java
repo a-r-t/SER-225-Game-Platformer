@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.Keyboard;
+import Engine.Painter;
 
 import java.awt.*;
 import java.awt.font.GlyphVector;
@@ -15,7 +16,7 @@ public class SpriteFont implements GameObject {
 	protected Color outlineColor;
 	protected float outlineThickness = 1f;
 
-	public SpriteFont(String text,int x, int y, String fontName, int fontSize, Color color) {
+	public SpriteFont(String text, float x, float y, String fontName, int fontSize, Color color) {
 		this.text = text;
 		font = new Font(fontName, Font.PLAIN, fontSize);
 		this.x = x;
@@ -55,16 +56,16 @@ public class SpriteFont implements GameObject {
 		this.outlineThickness = outlineThickness;
 	}
 
-	public float getX() {
-		return x;
+	public int getX() {
+		return Math.round(x);
 	}
 
 	public void setX(float x) {
 		this.x = x;
 	}
 
-	public float getY() {
-		return y;
+	public int getY() {
+		return Math.round(y);
 	}
 
 	public void setY(float y) {
@@ -98,13 +99,11 @@ public class SpriteFont implements GameObject {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Painter painter) {
 		if (outlineColor != null && !outlineColor.equals(color)) {
-			drawStringWithOutline(g);
+			painter.paintStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
 		} else {
-			g.setFont(font);
-			g.setColor(color);
-			g.drawString(text, Math.round(x), Math.round(y));
+			painter.paintString(text, getX(), getY(), font, color);
 		}
 	}
 

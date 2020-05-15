@@ -2,13 +2,13 @@ package Game;
 
 import Engine.Key;
 import Engine.Keyboard;
+import Engine.Painter;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 import Map.Map;
 import Map.Tile;
-import Utils.Colors;
 import Utils.Direction;
 
 import java.awt.*;
@@ -18,18 +18,18 @@ public class Kirby extends AnimatedSprite {
 
     private final float gravity = .5f;
     private float momentumY = 0f;
-    private final float terminalVelocityY = 4f;
+    private final float terminalVelocityY = 6f;
     private final float jumpHeight = 20f;
     private final float jumpDegrade = .5f;
     private float jumpForce = 0;
     private Rectangle sceneBounds;
-    private float walkSpeed = 2f;
+    private final float walkSpeed = 2f;
+    private final float momentumYIncrease = 2f;
     private PlayerState playerState;
     private Direction facingDirection;
     private AirGroundState airGroundState;
     private AirGroundState previousAirGroundState;
     private Map map;
-    private float previousX, previousY;
     private float moveAmountX, moveAmountY;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
@@ -39,8 +39,6 @@ public class Kirby extends AnimatedSprite {
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
-        previousX = getX();
-        previousY = getY();
         image = getCurrentFrame().getFrameImage();
         playerState = PlayerState.STANDING;
     }
@@ -49,8 +47,9 @@ public class Kirby extends AnimatedSprite {
         super.update(keyboard);
 
         moveAmountY += gravity + momentumY;
-        if (momentumY <= terminalVelocityY) {
-            momentumY += 2f;
+        momentumY += momentumYIncrease;
+        if (momentumY > terminalVelocityY) {
+            momentumY = terminalVelocityY;
         }
 
         if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
@@ -207,13 +206,11 @@ public class Kirby extends AnimatedSprite {
 
         moveAmountX = 0;
         moveAmountY = 0;
-        previousX = getX();
-        previousY = getY();
         previousAirGroundState = airGroundState;
     }
 
-    public void draw(Graphics2D g) {
-        super.draw(g);
+    public void draw(Painter painter) {
+        super.draw(painter);
     }
 
     public void setMap(Map map) {

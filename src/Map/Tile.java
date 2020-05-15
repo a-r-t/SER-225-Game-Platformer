@@ -1,10 +1,13 @@
 package Map;
 
+import Engine.Painter;
 import GameObject.AnimatedSprite;
+import GameObject.Frame;
 import GameObject.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public class Tile extends AnimatedSprite {
 
@@ -16,11 +19,16 @@ public class Tile extends AnimatedSprite {
         super(x, y, width, height, image);
     }
 
+    @Override
+    public HashMap<String, Frame[]> loadAnimations() {
+        return null;
+    }
+
     public void update() {
         super.update(null);
     }
 
-    public void draw(Graphics2D g) {
-        super.draw(g);
+    public void draw(Painter painter) {
+        super.draw(painter);
     }
 }

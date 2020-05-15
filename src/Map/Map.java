@@ -1,5 +1,6 @@
 package Map;
 
+import Engine.Painter;
 import GameObject.Rectangle;
 import GameObject.Sprite;
 
@@ -74,11 +75,11 @@ public abstract class Map {
         }
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Painter painter) {
         for (int i = camera.getY1() - 1; i < camera.getY2() + 1; i++) {
             for (int j = camera.getX1() - 1; j < camera.getX2() + 1; j++) {
                 if (isInBounds(j, i) && tiles[j + width * i] != null) {
-                    tiles[j + width * i].draw(g);
+                    tiles[j + width * i].draw(painter);
                 }
             }
         }

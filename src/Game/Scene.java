@@ -1,5 +1,6 @@
 package Game;
 
+import Engine.Painter;
 import Engine.Screen;
 import Engine.Keyboard;
 import GameObject.Rectangle;
@@ -31,10 +32,10 @@ public class Scene extends Screen {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Painter painter) {
 		//donkeyKong.draw(g);
-		testMap.draw(g);
-		kirby.draw(g);
+		testMap.draw(painter);
+		kirby.draw(painter);
 	}
 	
 }

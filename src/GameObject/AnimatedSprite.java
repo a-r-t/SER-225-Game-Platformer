@@ -1,12 +1,13 @@
 package GameObject;
 
 import Engine.Keyboard;
+import Engine.Painter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public class AnimatedSprite extends Sprite {
+public abstract class AnimatedSprite extends Sprite {
 
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
@@ -34,9 +35,7 @@ public class AnimatedSprite extends Sprite {
         this.bounds = new Rectangle(x, y, width, height);
     }
 
-    public HashMap<String, Frame[]> loadAnimations() {
-        return null;
-    }
+    public abstract HashMap<String, Frame[]> loadAnimations();
 
 	@Override
 	public void update(Keyboard keyboard) {
@@ -67,8 +66,8 @@ public class AnimatedSprite extends Sprite {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		super.draw(g);
+	public void draw(Painter painter) {
+		super.draw(painter);
 	}
 
 }

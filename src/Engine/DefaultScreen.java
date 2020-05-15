@@ -20,7 +20,7 @@ public class DefaultScreen extends Screen {
     }
 
     @Override
-    public void draw(Graphics2D g) {
+    public void draw(Painter painter) {
 
     }
 }

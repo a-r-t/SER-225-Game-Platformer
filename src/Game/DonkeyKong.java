@@ -2,6 +2,7 @@ package Game;
 
 import Engine.Key;
 import Engine.Keyboard;
+import Engine.Painter;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
@@ -43,7 +44,7 @@ public class DonkeyKong extends AnimatedSprite {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		super.draw(g);
+	public void draw(Painter painter) {
+		super.draw(painter);
 	}
 }

@@ -106,37 +106,4 @@ public class SpriteFont implements GameObject {
 			painter.paintString(text, getX(), getY(), font, color);
 		}
 	}
-
-	// https://stackoverflow.com/a/35222059 and https://stackoverflow.com/a/31831120
-	public void drawStringWithOutline(Graphics2D g) {
-		// remember original settings
-		Color originalColor = g.getColor();
-		Stroke originalStroke = g.getStroke();
-		RenderingHints originalHints = g.getRenderingHints();
-		g.setStroke(new BasicStroke(outlineThickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
-		// create a glyph vector from your text
-		GlyphVector glyphVector = font.createGlyphVector(g.getFontRenderContext(), text);
-		
-		// get the shape object
-		Shape textShape = glyphVector.getOutline();
-		AffineTransform at = new AffineTransform();
-		at.setToTranslation(Math.round(x), Math.round(y));
-		textShape = at.createTransformedShape(textShape);
-		
-		// activate anti aliasing for text rendering (if you want it to look nice)
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-
-		g.setColor(outlineColor);
-		g.draw(textShape); // draw outline
-
-		g.setColor(color);
-		g.fill(textShape); // fill the shape
-
-		// reset to original settings after painting
-		g.setColor(originalColor);
-		g.setStroke(originalStroke);
-		g.setRenderingHints(originalHints);
-	}
 }

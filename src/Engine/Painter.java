@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import GameObject.ImageEffect;
 
 public class Painter {
     private Graphics2D g;
@@ -21,12 +22,15 @@ public class Painter {
     }
 
     public void paintImage(BufferedImage image, int x, int y, int scale, ImageEffect imageEffect) {
-        if (imageEffect == ImageEffect.FLIP_HORIZONTAL) {
-            g.drawImage(image, x + image.getWidth(), y, -(image.getWidth() * scale), image.getHeight() * scale, null);
-        } else if (imageEffect == ImageEffect.FLIP_VERTICAL) {
-            g.drawImage(image, x, y + image.getHeight(), image.getWidth(), -(image.getHeight() * scale), null);
-        } else {
-            paintImage(image, x, y, scale);
+        switch (imageEffect) {
+            case NONE:
+                paintImage(image, x, y, scale);
+            case FLIP_HORIZONTAL:
+                g.drawImage(image, x + (image.getWidth() * scale), y, -(image.getWidth() * scale), image.getHeight() * scale, null);
+            case FLIP_VERTICAL:
+                g.drawImage(image, x, y + (image.getHeight() * scale), image.getWidth() * scale, -(image.getHeight() * scale), null);
+            case FLIP_H_AND_V:
+                g.drawImage(image, x + (image.getWidth() * scale), y + (image.getHeight() * scale), -(image.getWidth() * scale), -(image.getHeight() * scale), null);
         }
     }
 
@@ -39,22 +43,28 @@ public class Painter {
     }
 
     public void paintImage(BufferedImage image, int x, int y, int width, int height, ImageEffect imageEffect) {
-        if (imageEffect == ImageEffect.FLIP_HORIZONTAL) {
-            g.drawImage(image, x + width, y, -width, height, null);
-        } else if (imageEffect == ImageEffect.FLIP_VERTICAL) {
-            g.drawImage(image, x, y + height, width, -height, null);
-        } else {
-            paintImage(image, x, y, width, height);
+        switch (imageEffect) {
+            case NONE:
+                paintImage(image, x, y, width, height);
+            case FLIP_HORIZONTAL:
+                g.drawImage(image, x + width, y, -width, height, null);
+            case FLIP_VERTICAL:
+                g.drawImage(image, x, y + height, width, -height, null);
+            case FLIP_H_AND_V:
+                g.drawImage(image, x + width, y + height, -width, -height, null);
         }
     }
 
     public void paintImage(BufferedImage image, int x, int y, int width, int height, int scale, ImageEffect imageEffect) {
-        if (imageEffect == ImageEffect.FLIP_HORIZONTAL) {
-            g.drawImage(image, x + width, y, -(width * scale), height * scale, null);
-        } else if (imageEffect == ImageEffect.FLIP_VERTICAL) {
-            g.drawImage(image, x, y + height, width, -(height * scale), null);
-        } else {
-            paintImage(image, x, y, width, height, scale);
+        switch (imageEffect) {
+            case NONE:
+                paintImage(image, x, y, width, height, scale);
+            case FLIP_HORIZONTAL:
+                g.drawImage(image, x + (width * scale), y, -(width * scale), height * scale, null);
+            case FLIP_VERTICAL:
+                g.drawImage(image, x, y + (height * scale), width * scale, -(height * scale), null);
+            case FLIP_H_AND_V:
+                g.drawImage(image, x + (width * scale), y + (height * scale), -(width * scale), -(height * scale), null);
         }
     }
 
@@ -111,9 +121,5 @@ public class Painter {
         g.setColor(originalColor);
         g.setStroke(originalStroke);
         g.setRenderingHints(originalHints);
-    }
-
-    public enum ImageEffect {
-        NONE, FLIP_HORIZONTAL, FLIP_VERTICAL
     }
 }

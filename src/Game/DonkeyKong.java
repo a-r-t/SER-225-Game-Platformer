@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class DonkeyKong extends AnimatedSprite {
 	public DonkeyKong(float x, float y, int width, int height) {
-		super(x, y, width, height, new SpriteSheet("DonkeyKong.png", 46, 32));
+		super(new SpriteSheet("DonkeyKong.png", 46, 32), x, y, width, height);
 		loadAnimations();
 		currentAnimation = "STAND_STILL";
 		image = getCurrentFrame().getFrameImage();

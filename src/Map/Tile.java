@@ -5,18 +5,12 @@ import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Tile extends AnimatedSprite {
 
-    public Tile(float x, float y, int width, int height, SpriteSheet spriteSheet) {
-        super(x, y, width, height, spriteSheet);
-    }
-
-    public Tile(float x, float y, int width, int height, BufferedImage image) {
-        super(x, y, width, height, image);
+    public Tile(SpriteSheet spriteSheet, float x, float y) {
+        super(spriteSheet, x, y);
     }
 
     @Override
@@ -24,8 +18,13 @@ public class Tile extends AnimatedSprite {
         return null;
     }
 
+    @Override
+    public String getStartingAnimation() {
+        return "";
+    }
+
     public void update() {
-        super.update(null);
+        super.update();
     }
 
     public void draw(Painter painter) {

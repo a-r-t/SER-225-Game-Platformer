@@ -1,43 +1,60 @@
 package GameObject;
 
-import Engine.Config;
+import Engine.ImageLoader;
 import Engine.Keyboard;
 import Engine.Painter;
-import Utils.ImageUtils;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.nio.Buffer;
 
 public abstract class Sprite extends Rectangle {
 	protected BufferedImage image;
     protected Rectangle bounds;
+    protected int scale;
+    protected ImageEffect imageEffect;
 
-    public Sprite(float x, float y, int width, int height) {
-	    super(x, y, width, height);
-        this.bounds = new Rectangle(x, y, width, height);
+    public Sprite (BufferedImage image) {
+        super(0, 0, image.getWidth(), image.getHeight());
+        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.scale = 1;
+        this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite(float x, float y, String imageFile) {
-        super(x, y, 0, 0);
-        this.setImage(imageFile);
-        this.setWidth(image.getWidth());
-        this.setHeight(image.getHeight());
-        this.bounds = new Rectangle(x, y, this.getWidth(), this.getHeight());
+    public Sprite (BufferedImage image, int scale) {
+        super(0, 0, image.getWidth(), image.getHeight());
+        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.scale = scale;
+        this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite(float x, float y, int width, int height, String imageFile) {
-		super(x, y, width, height);
-		this.setImage(imageFile);
-        this.bounds = new Rectangle(x, y, width, height);
+    public Sprite (BufferedImage image, int scale, ImageEffect imageEffect) {
+        super(0, 0, image.getWidth(), image.getHeight());
+        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.scale = scale;
+        this.imageEffect = imageEffect;
     }
 
-    public Sprite(float x, float y, int width, int height, BufferedImage image) {
-        super(x, y, width, height);
-        this.setImage(image);
-        this.bounds = new Rectangle(x, y, width, height);
+    public Sprite(BufferedImage image, float x, float y) {
+        super(x, y, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.scale = 1;
+        this.imageEffect = ImageEffect.NONE;
+    }
+
+    public Sprite(BufferedImage image, float x, float y, int scale) {
+        super(x, y, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.scale = scale;
+        this.imageEffect = ImageEffect.NONE;
+    }
+
+    public Sprite(BufferedImage image, float x, float y, int scale, ImageEffect imageEffect) {
+        super(x, y, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.scale = scale;
+        this.imageEffect = imageEffect;
     }
 	
 	public BufferedImage getImage() {
@@ -45,19 +62,11 @@ public abstract class Sprite extends Rectangle {
 	}
 	
 	public void setImage(String imageFileName) {
-		try {
-			BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
-		    Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, Config.TRANSPARENT_COLOR);
-		    image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
-		} catch (IOException e) {
-			System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
-            throw new RuntimeException(e);
-        }
+		image = ImageLoader.load(imageFileName);
 	}
 
     public void setImage(BufferedImage image) {
-        Image transparentImage = ImageUtils.transformColorToTransparency(image, Config.TRANSPARENT_COLOR);
-        this.image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
+        this.image = image;
     }
 
     @Override
@@ -117,6 +126,16 @@ public abstract class Sprite extends Rectangle {
     }
 
     @Override
+    public int getWidth() {
+        return width * scale;
+    }
+
+    @Override
+    public int getHeight() {
+        return height * scale;
+    }
+
+    @Override
     public void setWidth(int width) {
         int oldWidth = getWidth();
         super.setWidth(width);
@@ -130,28 +149,36 @@ public abstract class Sprite extends Rectangle {
         bounds.setHeight(bounds.getHeight() + (height - oldHeight));
     }
 
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    public void setImageEffect(ImageEffect imageEffect) {
+        this.imageEffect = imageEffect;
+    }
+
     public int getBoundsX1() {
-        return Math.round(bounds.getX1());
+        return bounds.getX1();
     }
 
     public int getBoundsX2() {
-        return Math.round(bounds.getX2());
+        return bounds.getX1() + (bounds.getWidth() * scale);
     }
 
     public int getBoundsY1() {
-        return Math.round(bounds.getY1());
+        return bounds.getY1();
     }
 
     public int getBoundsY2() {
-        return Math.round(bounds.getY2());
+        return bounds.getY1() + (bounds.getHeight() * scale);
     }
 
     public Rectangle getBounds(Rectangle bounds) {
-        return bounds;
+        return new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth() * scale, bounds.getHeight() * scale);
     }
 
     public void setBounds(Rectangle bounds) {
-        this.bounds = bounds;
+        this.bounds = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
     }
 
     public void setBounds(float x, float y, int width, int height) {
@@ -170,13 +197,13 @@ public abstract class Sprite extends Rectangle {
     }
 
     @Override
-	public void update(Keyboard keyboard) {
-		super.update(keyboard);
+	public void update() {
+		super.update();
 	}
 	
 	@Override
 	public void draw(Painter painter) {
-		painter.paintImage(image, getX(), getY(), getWidth(), getHeight(), null);
+		painter.paintImage(image, getX(), getY(), getWidth(), getHeight());
 	}
 
 }

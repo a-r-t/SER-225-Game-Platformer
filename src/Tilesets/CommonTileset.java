@@ -14,11 +14,11 @@ public class CommonTileset extends Tileset {
     public Tile createTile(int tileNumber, int xIndex, int yIndex) {
         switch (tileNumber) {
             case 0:
-                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,0));
+                return new Tile(getSubImage(0,0), xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale);
             case 1:
-                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,1));
+                return new Tile(getSubImage(0,1), xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale);
             case 2:
-                return new Tile(xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale, getSubImage(0,2));
+                return new Tile(getSubImage(0,2), xIndex * spriteWidth * scale, yIndex * spriteHeight * scale, spriteWidth * scale, spriteHeight * scale);
             default:
                 return null;
         }

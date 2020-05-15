@@ -1,14 +1,12 @@
 package GameObject;
 
-import Engine.Keyboard;
 import Engine.Painter;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite extends Sprite {
+public abstract class AnimatedSprite {
 
+	protected float x, y;
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
 	protected String currentAnimation = "";
@@ -16,58 +14,45 @@ public abstract class AnimatedSprite extends Sprite {
 	protected int currentFrame;
 	protected long beforeTime = System.currentTimeMillis();
 	protected boolean hasAnimationFinished;
-	private boolean isAnimated = false;
 
-	public AnimatedSprite(float x, float y, int width, int height, SpriteSheet spriteSheet) {
-		super(x, y, width, height);
+	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y) {
+		this.x = x;
+		this.y = y;
 		this.spriteSheet = spriteSheet;
-		isAnimated = true;
 		animations = loadAnimations();
+		currentAnimation = getStartingAnimation();
 	}
-
-	public AnimatedSprite(float x, float y, int width, int height, String imageFile) {
-		super(x, y, width, height, imageFile);
-	}
-
-    public AnimatedSprite(float x, float y, int width, int height, BufferedImage image) {
-        super(x, y, width, height);
-        this.setImage(image);
-        this.bounds = new Rectangle(x, y, width, height);
-    }
 
     public abstract HashMap<String, Frame[]> loadAnimations();
 
-	@Override
-	public void update(Keyboard keyboard) {
-	    if (isAnimated) {
-            if (!previousAnimation.equals(currentAnimation)) {
-                currentFrame = 0;
-                beforeTime = System.currentTimeMillis();
-                hasAnimationFinished = false;
-            } else {
-                long currentMillis = System.currentTimeMillis() - beforeTime;
-                if (currentMillis > animations.get(currentAnimation)[currentFrame].getDelay()) {
-                    beforeTime = System.currentTimeMillis();
-                    currentFrame++;
-                    if (currentFrame >= animations.get(currentAnimation).length) {
-                        currentFrame = 0;
-                        hasAnimationFinished = true;
-                    }
+	public abstract String getStartingAnimation();
 
-                }
-            }
-            previousAnimation = currentAnimation;
-            image = getCurrentFrame().getFrameImage();
-        }
+	public void update() {
+		if (!previousAnimation.equals(currentAnimation)) {
+			currentFrame = 0;
+			beforeTime = System.currentTimeMillis();
+			hasAnimationFinished = false;
+		} else {
+			long currentMillis = System.currentTimeMillis() - beforeTime;
+			if (currentMillis > animations.get(currentAnimation)[currentFrame].getDelay()) {
+				beforeTime = System.currentTimeMillis();
+				currentFrame++;
+				if (currentFrame >= animations.get(currentAnimation).length) {
+					currentFrame = 0;
+					hasAnimationFinished = true;
+				}
+
+			}
+		}
+		previousAnimation = currentAnimation;
 	}
 	
 	public Frame getCurrentFrame() {
 		return animations.get(currentAnimation)[currentFrame];
 	}
 
-	@Override
 	public void draw(Painter painter) {
-		super.draw(painter);
+		animations.get(currentAnimation)[currentFrame].draw(painter);
 	}
 
 }

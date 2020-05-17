@@ -46,8 +46,8 @@ public abstract class Map {
     public void setMovementPermission(int x, int y, int movementPermission) { movementPermissions[x + width * y] = movementPermission; }
 
     public Tile getTileByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / (tileset.getSpriteWidth() * tileset.getScale());
-        int yIndex = yPosition / (tileset.getSpriteHeight() * tileset.getScale());
+        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
+        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
         if (isInBounds(xIndex, yIndex)) {
             return getTile(xIndex, yIndex);
         } else {
@@ -56,8 +56,8 @@ public abstract class Map {
     }
 
     public int getMovementPermissionByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / (tileset.getSpriteWidth() * tileset.getScale());
-        int yIndex = yPosition / (tileset.getSpriteHeight() * tileset.getScale());
+        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
+        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
         if (isInBounds(xIndex, yIndex)) {
             return getMovementPermission(xIndex, yIndex);
         } else {
@@ -71,7 +71,7 @@ public abstract class Map {
 
     public void update() {
         for (Tile tile : tiles) {
-            tile.update(null);
+            tile.update();
         }
     }
 

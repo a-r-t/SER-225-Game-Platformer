@@ -94,7 +94,7 @@ public class SpriteFont implements GameObject {
 	}
 	
 	@Override
-	public void update(Keyboard keyboard) {
+	public void update() {
 
 	}
 

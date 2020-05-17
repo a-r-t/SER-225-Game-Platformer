@@ -1,12 +1,12 @@
 package Game;
 
+import Engine.ImageLoader;
 import Engine.Key;
 import Engine.Keyboard;
 import Engine.Painter;
-import GameObject.AnimatedSprite;
+import GameObject.*;
 import GameObject.Frame;
 import GameObject.Rectangle;
-import GameObject.SpriteSheet;
 import Map.Map;
 import Map.Tile;
 import Utils.Direction;
@@ -33,19 +33,15 @@ public class Kirby extends AnimatedSprite {
     private float moveAmountX, moveAmountY;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
-        super(new SpriteSheet("Kirby.png", 24, 24), x, y, 48, 48);
+        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y);
         this.sceneBounds = sceneBounds;
-        currentAnimation = "STAND_RIGHT";
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
-        image = getCurrentFrame().getFrameImage();
         playerState = PlayerState.STANDING;
     }
 
     public void update(Keyboard keyboard) {
-        super.update(keyboard);
-
         moveAmountY += gravity + momentumY;
         momentumY += momentumYIncrease;
         if (momentumY > terminalVelocityY) {
@@ -125,15 +121,22 @@ public class Kirby extends AnimatedSprite {
             }
         }
 
+        super.update();
+
         if (moveAmountY > 0) {
             boolean hasCollided = false;
             for (int i = 0; i < Math.round(moveAmountY); i++) {
                 setY(getY() + 1);
-                int numberOfTilesToCheck = (int)Math.ceil(bounds.getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
-                for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getX() + (j * getWidth())), Math.round(getY2()));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getX() + (j * getWidth())), Math.round(getY2()));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                int numberOfTilesToCheck = (int)Math.ceil(getBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
+                for (int j = -1; j < numberOfTilesToCheck + 1; j++) {
+                    Tile tile = map.getTileByPosition(Math.round(getBounds().getX() + (j * getBounds().getWidth())), Math.round(getBounds().getY2()));
+                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getBounds().getX() + (j * getBounds().getWidth())), Math.round(getBounds().getY2()));
+//                    System.out.println("Number of tiles: " + numberOfTilesToCheck);
+//                    System.out.println("MP: " + movementPermission);
+//                    System.out.println("CURRENT FRAME REG -- X: " + getX() + ", Y: " + getY() + ", WIDTH: " + getWidth() + ", HEIGHT: " + getHeight());
+//                    System.out.println("CURRENT FRAME BOUNDS -- X: " + getBounds().getX() + ", Y: " + getBounds().getY() + ", WIDTH: " + getBounds().getWidth() + ", HEIGHT: " + getBounds().getHeight());
+//                    System.out.println("TILE FRAME -- X: " + tile.getBounds().getX() + ", Y: " + tile.getBounds().getY() + ", WIDTH: " + tile.getBounds().getWidth() + ", HEIGHT: " + tile.getBounds().getHeight());
+                    if (tile != null && movementPermission == 1 && intersects(tile.getCurrentFrame())) {
                         setY(getY() - 1);
                         momentumY = 0;
                         airGroundState = AirGroundState.GROUND;
@@ -150,11 +153,11 @@ public class Kirby extends AnimatedSprite {
             boolean hasCollided = false;
             for (int i = 0; i < Math.abs(Math.round(moveAmountY)); i++) {
                 setY(getY() - 1);
-                int numberOfTilesToCheck = (int)Math.ceil(bounds.getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
+                int numberOfTilesToCheck = (int)Math.ceil(getBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
                 for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getX() + (j * getWidth())), Math.round(getY()));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getX() + (j * getWidth())), Math.round(getY()));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                    Tile tile = map.getTileByPosition(Math.round(x + (j * getBounds().getWidth())), Math.round(getBounds().getY()));
+                    int movementPermission = map.getMovementPermissionByPosition(Math.round(x + (j * getBounds().getWidth())), Math.round(getBounds().getY()));
+                    if (tile != null && movementPermission == 1 && intersects(tile.getCurrentFrame())) {
                         setY(getY() + 1);
                         hasCollided = true;
                         break;
@@ -170,11 +173,11 @@ public class Kirby extends AnimatedSprite {
             boolean hasCollided = false;
             for (int i = 0; i < Math.round(moveAmountX); i++) {
                 setX(getX() + 1);
-                int numberOfTilesToCheck = (int)Math.ceil(bounds.getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
+                int numberOfTilesToCheck = (int)Math.ceil(getBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
                 for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getX2()), Math.round(getY() + (j * getHeight())));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getX2()), Math.round(getY() + (j * getHeight())));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                    Tile tile = map.getTileByPosition(Math.round(getBounds().getX2()), Math.round(y + (j * getBounds().getHeight())));
+                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getBounds().getX2()), Math.round(y + (j * getBounds().getHeight())));
+                    if (tile != null && movementPermission == 1 && intersects(tile.getCurrentFrame())) {
                         setX(getX() - 1);
                         hasCollided = true;
                         break;
@@ -188,11 +191,11 @@ public class Kirby extends AnimatedSprite {
             boolean hasCollided = false;
             for (int i = 0; i < Math.abs(Math.round(moveAmountX)); i++) {
                 setX(getX() - 1);
-                int numberOfTilesToCheck = (int)Math.ceil(bounds.getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
+                int numberOfTilesToCheck = (int)Math.ceil(getBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
                 for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getX()), Math.round(getY() + (j * getHeight())));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getX()), Math.round(getY() + (j * getHeight())));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                    Tile tile = map.getTileByPosition(Math.round(x), Math.round(y + (j * getBounds().getHeight())));
+                    int movementPermission = map.getMovementPermissionByPosition(Math.round(x), Math.round(y + (j * getBounds().getHeight())));
+                    if (tile != null && movementPermission == 1 && intersects(tile.getCurrentFrame())) {
                         setX(getX() + 1);
                         hasCollided = true;
                         break;
@@ -210,6 +213,7 @@ public class Kirby extends AnimatedSprite {
     }
 
     public void draw(Painter painter) {
+        //System.out.println(getWidth() + ", " + getHeight());
         super.draw(painter);
     }
 
@@ -229,50 +233,55 @@ public class Kirby extends AnimatedSprite {
     public HashMap<String, Frame[]> loadAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("STAND_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(0, 0, false), 0)
+                    new Frame(spriteSheet.getSprite(0, 0), 2,0)
             });
 
             put("STAND_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(0, 0, true), 0)
+                    new Frame(spriteSheet.getSprite(0, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
             });
 
             put("WALK_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(1, 0, false), 200),
-                    new Frame(spriteSheet.getSprite(1, 1, false), 200),
-                    new Frame(spriteSheet.getSprite(1, 2, false), 200),
-                    new Frame(spriteSheet.getSprite(1, 3, false), 200)
+                    new Frame(spriteSheet.getSprite(1, 0), 2, 200),
+                    new Frame(spriteSheet.getSprite(1, 1), 2, 200),
+                    new Frame(spriteSheet.getSprite(1, 2), 2, 200),
+                    new Frame(spriteSheet.getSprite(1, 3), 2, 200)
             });
 
             put("WALK_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(1, 0, true), 200),
-                    new Frame(spriteSheet.getSprite(1, 1, true), 200),
-                    new Frame(spriteSheet.getSprite(1, 2, true), 200),
-                    new Frame(spriteSheet.getSprite(1, 3, true), 200)
+                    new Frame(spriteSheet.getSprite(1, 0), 2, ImageEffect.FLIP_HORIZONTAL, 200),
+                    new Frame(spriteSheet.getSprite(1, 1), 2, ImageEffect.FLIP_HORIZONTAL, 200),
+                    new Frame(spriteSheet.getSprite(1, 2), 2, ImageEffect.FLIP_HORIZONTAL, 200),
+                    new Frame(spriteSheet.getSprite(1, 3), 2, ImageEffect.FLIP_HORIZONTAL, 200)
             });
 
             put("CROUCH_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(2, 0, false), 0)
+                    new Frame(spriteSheet.getSprite(2, 0), 2,0)
             });
 
             put("CROUCH_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(2, 0, true), 0)
+                    new Frame(spriteSheet.getSprite(2, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
             });
 
             put("JUMP_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(3, 0, false), 0)
+                    new Frame(spriteSheet.getSprite(3, 0), 2,0)
             });
 
             put("JUMP_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(3, 0, true), 0)
+                    new Frame(spriteSheet.getSprite(3, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
             });
 
             put("FALL_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(4, 0, false), 0)
+                    new Frame(spriteSheet.getSprite(4, 0), 2, 0)
             });
 
             put("FALL_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(4, 0, true), 0)
+                    new Frame(spriteSheet.getSprite(4, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
             });
         }};
+    }
+
+    @Override
+    public String getStartingAnimation() {
+        return "STAND_RIGHT";
     }
 }

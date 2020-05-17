@@ -27,13 +27,8 @@ public class SpriteSheet {
 		this.spriteHeight = spriteHeight;
 	}
 
-	public BufferedImage getSprite(int spriteNumber, int animationNumber, boolean flipHorizontal) {
-		BufferedImage subImage = image.getSubimage((animationNumber * spriteWidth) + animationNumber, (spriteNumber * spriteHeight) + spriteNumber, spriteWidth, spriteHeight);
-		if (!flipHorizontal) {
-			return subImage;
-		} else {
-			return ImageUtils.rotate(subImage, ImageUtils.Rotation.FLIP_HORZ);
-		}
+	public BufferedImage getSprite(int spriteNumber, int animationNumber) {
+		return image.getSubimage((animationNumber * spriteWidth) + animationNumber, (spriteNumber * spriteHeight) + spriteNumber, spriteWidth, spriteHeight);
 	}
 
 	public BufferedImage getImage() {

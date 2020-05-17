@@ -17,54 +17,24 @@ public class Painter {
         g.drawImage(image, x, y, null);
     }
 
-    public void paintImage(BufferedImage image, int x, int y, int scale) {
-        g.drawImage(image, x, y, image.getWidth() * scale, image.getHeight() * scale, null);
-    }
-
-    public void paintImage(BufferedImage image, int x, int y, int scale, ImageEffect imageEffect) {
-        switch (imageEffect) {
-            case NONE:
-                paintImage(image, x, y, scale);
-            case FLIP_HORIZONTAL:
-                g.drawImage(image, x + (image.getWidth() * scale), y, -(image.getWidth() * scale), image.getHeight() * scale, null);
-            case FLIP_VERTICAL:
-                g.drawImage(image, x, y + (image.getHeight() * scale), image.getWidth() * scale, -(image.getHeight() * scale), null);
-            case FLIP_H_AND_V:
-                g.drawImage(image, x + (image.getWidth() * scale), y + (image.getHeight() * scale), -(image.getWidth() * scale), -(image.getHeight() * scale), null);
-        }
-    }
-
     public void paintImage(BufferedImage image, int x, int y, int width, int height) {
         g.drawImage(image, x, y, width, height, null);
-    }
-
-    public void paintImage(BufferedImage image, int x, int y, int width, int height, int scale) {
-        g.drawImage(image, x, y, width * scale, height * scale, null);
     }
 
     public void paintImage(BufferedImage image, int x, int y, int width, int height, ImageEffect imageEffect) {
         switch (imageEffect) {
             case NONE:
                 paintImage(image, x, y, width, height);
+                break;
             case FLIP_HORIZONTAL:
                 g.drawImage(image, x + width, y, -width, height, null);
+                break;
             case FLIP_VERTICAL:
                 g.drawImage(image, x, y + height, width, -height, null);
+                break;
             case FLIP_H_AND_V:
                 g.drawImage(image, x + width, y + height, -width, -height, null);
-        }
-    }
-
-    public void paintImage(BufferedImage image, int x, int y, int width, int height, int scale, ImageEffect imageEffect) {
-        switch (imageEffect) {
-            case NONE:
-                paintImage(image, x, y, width, height, scale);
-            case FLIP_HORIZONTAL:
-                g.drawImage(image, x + (width * scale), y, -(width * scale), height * scale, null);
-            case FLIP_VERTICAL:
-                g.drawImage(image, x, y + (height * scale), width * scale, -(height * scale), null);
-            case FLIP_H_AND_V:
-                g.drawImage(image, x + (width * scale), y + (height * scale), -(width * scale), -(height * scale), null);
+                break;
         }
     }
 

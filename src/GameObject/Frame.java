@@ -10,12 +10,12 @@ public class Frame extends Sprite {
 		this.delay = delay;
 	}
 
-	public Frame(BufferedImage image, int scale, float delay) {
+	public Frame(BufferedImage image, float scale, float delay) {
 		super(image, scale);
 		this.delay = delay;
 	}
 
-	public Frame(BufferedImage image, int scale, ImageEffect imageEffect, float delay) {
+	public Frame(BufferedImage image, float scale, ImageEffect imageEffect, float delay) {
 		super(image, scale, imageEffect);
 		this.delay = delay;
 	}

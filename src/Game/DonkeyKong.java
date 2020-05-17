@@ -13,29 +13,31 @@ import java.util.HashMap;
 
 public class DonkeyKong extends AnimatedSprite {
 	public DonkeyKong(float x, float y, int width, int height) {
-		super(new SpriteSheet("DonkeyKong.png", 46, 32), x, y, width, height);
+		super(new SpriteSheet("DonkeyKong.png", 46, 32), x, y);
 		loadAnimations();
-		currentAnimation = "STAND_STILL";
-		image = getCurrentFrame().getFrameImage();
 	}
 
 	@Override
 	public HashMap<String, Frame[]> loadAnimations() {
 		return new HashMap<String, Frame[]>() {{
 			put("BEAT_CHEST", new Frame[] {
-					new Frame(spriteSheet.getSprite(0, 0, false), 200),
-					new Frame(spriteSheet.getSprite(0, 1, false), 200)
+					new Frame(spriteSheet.getSprite(0, 0), 200),
+					new Frame(spriteSheet.getSprite(0, 1), 200)
 			});
 
 			put("STAND_STILL", new Frame[] {
-					new Frame(spriteSheet.getSprite(1, 0, false), 0)
+					new Frame(spriteSheet.getSprite(1, 0), 0)
 			});
 		}};
 	}
 
 	@Override
+	public String getStartingAnimation() {
+		return "STAND_STILL";
+	}
+
 	public void update(Keyboard keyboard) {
-		super.update(keyboard);
+		super.update();
 		if (keyboard.isKeyDown(Key.SPACE)) {
 			currentAnimation = "BEAT_CHEST";
 		} else if (keyboard.isKeyUp(Key.SPACE)) {

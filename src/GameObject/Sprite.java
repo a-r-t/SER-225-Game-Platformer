@@ -9,26 +9,43 @@ import java.nio.Buffer;
 public abstract class Sprite extends Rectangle {
 	protected BufferedImage image;
     protected Rectangle bounds;
-    protected int scale;
+    protected float scale;
     protected ImageEffect imageEffect;
 
-    public Sprite (BufferedImage image) {
-        super(0, 0, image.getWidth(), image.getHeight());
-        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+    public Sprite(float x, float y) {
+        super(x, y, 0, 0);
+        this.bounds = new Rectangle(x, y, 0, 0);
         this.scale = 1;
         this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite (BufferedImage image, int scale) {
-        super(0, 0, image.getWidth(), image.getHeight());
-        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+    public Sprite(float x, float y, float scale) {
+        super(x, y, 0, 0);
+        this.bounds = new Rectangle(x, y, 0, 0);
         this.scale = scale;
         this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite (BufferedImage image, int scale, ImageEffect imageEffect) {
+    public Sprite (BufferedImage image) {
         super(0, 0, image.getWidth(), image.getHeight());
-        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
+        this.scale = 1;
+        this.imageEffect = ImageEffect.NONE;
+    }
+
+    public Sprite (BufferedImage image, float scale) {
+        super(0, 0, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
+        this.scale = scale;
+        this.imageEffect = ImageEffect.NONE;
+    }
+
+    public Sprite (BufferedImage image, float scale, ImageEffect imageEffect) {
+        super(0, 0, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
         this.scale = scale;
         this.imageEffect = imageEffect;
     }
@@ -36,23 +53,23 @@ public abstract class Sprite extends Rectangle {
     public Sprite(BufferedImage image, float x, float y) {
         super(x, y, image.getWidth(), image.getHeight());
         this.image = image;
-        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
         this.scale = 1;
         this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite(BufferedImage image, float x, float y, int scale) {
+    public Sprite(BufferedImage image, float x, float y, float scale) {
         super(x, y, image.getWidth(), image.getHeight());
         this.image = image;
-        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
         this.scale = scale;
         this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite(BufferedImage image, float x, float y, int scale, ImageEffect imageEffect) {
+    public Sprite(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
         super(x, y, image.getWidth(), image.getHeight());
         this.image = image;
-        this.bounds = new Rectangle(x, y, getWidth(), getHeight());
+        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
         this.scale = scale;
         this.imageEffect = imageEffect;
     }
@@ -127,12 +144,12 @@ public abstract class Sprite extends Rectangle {
 
     @Override
     public int getWidth() {
-        return width * scale;
+        return Math.round(width * scale);
     }
 
     @Override
     public int getHeight() {
-        return height * scale;
+        return Math.round(height * scale);
     }
 
     @Override
@@ -149,10 +166,11 @@ public abstract class Sprite extends Rectangle {
         bounds.setHeight(bounds.getHeight() + (height - oldHeight));
     }
 
-    public void setScale(int scale) {
+    public float getScale() { return scale; }
+    public void setScale(float scale) {
         this.scale = scale;
     }
-
+    public ImageEffect getImageEffect() { return imageEffect; }
     public void setImageEffect(ImageEffect imageEffect) {
         this.imageEffect = imageEffect;
     }
@@ -162,7 +180,7 @@ public abstract class Sprite extends Rectangle {
     }
 
     public int getBoundsX2() {
-        return bounds.getX1() + (bounds.getWidth() * scale);
+        return bounds.getX1() + Math.round(bounds.getWidth() * scale);
     }
 
     public int getBoundsY1() {
@@ -170,11 +188,11 @@ public abstract class Sprite extends Rectangle {
     }
 
     public int getBoundsY2() {
-        return bounds.getY1() + (bounds.getHeight() * scale);
+        return bounds.getY1() + Math.round(bounds.getHeight() * scale);
     }
 
-    public Rectangle getBounds(Rectangle bounds) {
-        return new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth() * scale, bounds.getHeight() * scale);
+    public Rectangle getBounds() {
+        return new Rectangle(bounds.getX(), bounds.getY(), Math.round(bounds.getWidth() * scale), Math.round(bounds.getHeight() * scale));
     }
 
     public void setBounds(Rectangle bounds) {
@@ -203,7 +221,7 @@ public abstract class Sprite extends Rectangle {
 	
 	@Override
 	public void draw(Painter painter) {
-		painter.paintImage(image, getX(), getY(), getWidth(), getHeight());
+		painter.paintImage(image, getX(), getY(), getWidth(), getHeight(), imageEffect);
 	}
 
 }

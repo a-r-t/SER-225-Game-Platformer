@@ -1,7 +1,7 @@
 package GameObject;
 
 import Engine.ImageLoader;
-import Engine.Painter;
+import Engine.Graphics;
 import java.awt.image.BufferedImage;
 
 public abstract class Sprite extends Rectangle {
@@ -9,20 +9,6 @@ public abstract class Sprite extends Rectangle {
     protected Rectangle bounds;
     protected float scale;
     protected ImageEffect imageEffect;
-
-    public Sprite(float x, float y) {
-        super(x, y, 0, 0);
-        this.bounds = new Rectangle(x, y, 0, 0);
-        this.scale = 1;
-        this.imageEffect = ImageEffect.NONE;
-    }
-
-    public Sprite(float x, float y, float scale) {
-        super(x, y, 0, 0);
-        this.bounds = new Rectangle(x, y, 0, 0);
-        this.scale = scale;
-        this.imageEffect = ImageEffect.NONE;
-    }
 
     public Sprite (BufferedImage image) {
         super(0, 0, image.getWidth(), image.getHeight());
@@ -231,8 +217,8 @@ public abstract class Sprite extends Rectangle {
 	}
 	
 	@Override
-	public void draw(Painter painter) {
-		painter.paintImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
+	public void draw(Graphics graphics) {
+		graphics.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
 }

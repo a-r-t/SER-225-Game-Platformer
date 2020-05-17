@@ -1,12 +1,13 @@
 package GameObject;
 
-import Engine.Painter;
+import Engine.Graphics;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite extends Sprite {
+public abstract class AnimatedSprite implements GameObject {
 
+	protected float x, y;
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
 	protected String currentAnimation = "";
@@ -14,10 +15,11 @@ public abstract class AnimatedSprite extends Sprite {
 	protected int currentFrameIndex;
 	protected long beforeTime = System.currentTimeMillis();
 	protected boolean hasAnimationFinished;
-	protected Frame currentFrame;
+	protected Sprite currentSprite;
 
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y) {
-		super(x, y);
+		this.x = x;
+		this.y = y;
 		this.spriteSheet = spriteSheet;
 		animations = loadAnimations();
 		currentAnimation = getStartingAnimation();
@@ -25,7 +27,8 @@ public abstract class AnimatedSprite extends Sprite {
 	}
 
 	public AnimatedSprite(BufferedImage image, float x, float y) {
-		super(image, x, y);
+		this.x = x;
+		this.y = y;
 		this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
 		animations = loadAnimations();
 		currentAnimation = getStartingAnimation();
@@ -58,22 +61,69 @@ public abstract class AnimatedSprite extends Sprite {
 	}
 
 	private void setCurrentSprite() {
-		currentFrame = getCurrentFrame();
-		this.image = currentFrame.getImage();
-		this.width = currentFrame.getWidth();
-		this.height = currentFrame.getHeight();
-		this.bounds = new Rectangle(getX() + currentFrame.getBounds().getX(), getY() + currentFrame.getBounds().getY(), currentFrame.getBounds().getWidth(), currentFrame.getBounds().getHeight());
-		this.scale = currentFrame.getScale();
-		this.imageEffect = currentFrame.getImageEffect();
+		currentSprite = getCurrentFrame();
+		currentSprite.setX(x);
+		currentSprite.setY(y);
 	}
 
-	public Frame getCurrentFrame() {
+	protected Frame getCurrentFrame() {
 		return animations.get(currentAnimation)[currentFrameIndex];
+	}
+	public Sprite getCurrentSprite() {
+		return currentSprite;
 	}
 
 	@Override
-	public void draw(Painter painter) {
-		super.draw(painter);
+	public void draw(Graphics graphics) {
+		currentSprite.draw(graphics);
+	}
+
+	public int getX() { return currentSprite.getX(); }
+	public int getY() { return currentSprite.getY(); }
+	public int getX1() { return currentSprite.getX1(); }
+	public int getY1() { return currentSprite.getY1(); }
+	public int getX2() { return currentSprite.getX2(); }
+	public int getY2() { return currentSprite.getY2(); }
+	public int getWidth() {
+		return currentSprite.getWidth();
+	}
+	public int getHeight() {
+		return currentSprite.getHeight();
+	}
+	public int getScaledWidth() {
+		return currentSprite.getScaledWidth();
+	}
+	public int getScaledHeight() {
+		return currentSprite.getScaledHeight();
+	}
+	public void setX(float x) {
+		this.x = x;
+		currentSprite.setX(x);
+	}
+	public void setY(float y) {
+		this.y = y;
+		currentSprite.setY(y);
+	}
+	public void setWidth(int width) {
+		currentSprite.setWidth(width);
+	}
+	public void setHeight(int height) {
+		currentSprite.setHeight(height);
+	}
+	public Rectangle getBounds() {
+		return currentSprite.getBounds();
+	}
+	public Rectangle getScaledBounds() {
+		return currentSprite.getScaledBounds();
+	}
+	public void setBounds(Rectangle bounds) {
+		currentSprite.setBounds(bounds);
+	}
+	public boolean intersects(AnimatedSprite other) {
+		return currentSprite.intersects(other.getCurrentSprite());
+	}
+	public boolean intersects(Rectangle other) {
+		return currentSprite.intersects(other);
 	}
 
 }

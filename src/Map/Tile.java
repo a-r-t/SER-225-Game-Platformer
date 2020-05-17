@@ -1,6 +1,6 @@
 package Map;
 
-import Engine.Painter;
+import Engine.Graphics;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
@@ -36,7 +36,7 @@ public class Tile extends AnimatedSprite {
         super.update();
     }
 
-    public void draw(Painter painter) {
-        super.draw(painter);
+    public void draw(Graphics graphics) {
+        super.draw(graphics);
     }
 }

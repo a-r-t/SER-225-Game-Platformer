@@ -6,25 +6,25 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import GameObject.ImageEffect;
 
-public class Painter {
+public class Graphics {
     private Graphics2D g;
 
     public void setGraphics(Graphics2D g) {
         this.g = g;
     }
 
-    public void paintImage(BufferedImage image, int x, int y) {
+    public void drawImage(BufferedImage image, int x, int y) {
         g.drawImage(image, x, y, null);
     }
 
-    public void paintImage(BufferedImage image, int x, int y, int width, int height) {
+    public void drawImage(BufferedImage image, int x, int y, int width, int height) {
         g.drawImage(image, x, y, width, height, null);
     }
 
-    public void paintImage(BufferedImage image, int x, int y, int width, int height, ImageEffect imageEffect) {
+    public void drawImage(BufferedImage image, int x, int y, int width, int height, ImageEffect imageEffect) {
         switch (imageEffect) {
             case NONE:
-                paintImage(image, x, y, width, height);
+                drawImage(image, x, y, width, height);
                 break;
             case FLIP_HORIZONTAL:
                 g.drawImage(image, x + width, y, -width, height, null);
@@ -38,30 +38,30 @@ public class Painter {
         }
     }
 
-    public void paintRectangle(int x, int y, int width, int height, Color color) {
+    public void drawRectangle(int x, int y, int width, int height, Color color) {
         g.setColor(color);
         g.drawRect(x, y, width, height);
     }
 
-    public void paintRectangle(int x, int y, int width, int height, Color color, int borderThickness) {
+    public void drawRectangle(int x, int y, int width, int height, Color color, int borderThickness) {
         g.setStroke(new BasicStroke(borderThickness));
         g.setColor(color);
         g.drawRect(x, y, width, height);
     }
 
-    public void paintFilledRectangle(int x, int y, int width, int height, Color color) {
+    public void drawFilledRectangle(int x, int y, int width, int height, Color color) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
     }
 
-    public void paintString(String text, int x, int y, Font font, Color color) {
+    public void drawString(String text, int x, int y, Font font, Color color) {
         g.setFont(font);
         g.setColor(color);
         g.drawString(text, x, y);
     }
 
     // https://stackoverflow.com/a/35222059 and https://stackoverflow.com/a/31831120
-    public void paintStringWithOutline(String text, int x, int y, Font font, Color textColor, Color outlineColor, float outlineThickness) {
+    public void drawStringWithOutline(String text, int x, int y, Font font, Color textColor, Color outlineColor, float outlineThickness) {
         // remember original settings
         Color originalColor = g.getColor();
         Stroke originalStroke = g.getStroke();

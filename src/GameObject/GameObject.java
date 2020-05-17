@@ -1,9 +1,9 @@
 package GameObject;
 
-import Engine.Painter;
+import Engine.Graphics;
 
 
 public interface GameObject {
 	public void update();
-	public void draw(Painter painter);
+	public void draw(Graphics graphics);
 }

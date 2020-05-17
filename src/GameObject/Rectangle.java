@@ -1,7 +1,6 @@
 package GameObject;
 
-import Engine.Keyboard;
-import Engine.Painter;
+import Engine.Graphics;
 
 import java.awt.*;
 
@@ -158,10 +157,10 @@ public class Rectangle implements GameObject {
 	public void update() { }
 
 	@Override
-	public void draw(Painter painter) {
-		painter.paintFilledRectangle(getX(), getY(), width, height, color);
+	public void draw(Graphics graphics) {
+		graphics.drawFilledRectangle(getX(), getY(), width, height, color);
 		if (borderColor != null && !borderColor.equals(color)) {
-			painter.paintRectangle(getX(), getY(), width, height, borderColor, borderThickness);
+			graphics.drawRectangle(getX(), getY(), width, height, borderColor, borderThickness);
 		}
 
 	}

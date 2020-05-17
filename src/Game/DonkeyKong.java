@@ -2,13 +2,11 @@ package Game;
 
 import Engine.Key;
 import Engine.Keyboard;
-import Engine.Painter;
+import Engine.Graphics;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.HashMap;
 
 public class DonkeyKong extends AnimatedSprite {
@@ -46,7 +44,7 @@ public class DonkeyKong extends AnimatedSprite {
 	}
 
 	@Override
-	public void draw(Painter painter) {
-		super.draw(painter);
+	public void draw(Graphics graphics) {
+		super.draw(graphics);
 	}
 }

@@ -3,7 +3,7 @@ package Game;
 import Engine.ImageLoader;
 import Engine.Key;
 import Engine.Keyboard;
-import Engine.Painter;
+import Engine.Graphics;
 import GameObject.*;
 import GameObject.Frame;
 import GameObject.Rectangle;
@@ -212,9 +212,9 @@ public class Kirby extends AnimatedSprite {
         previousAirGroundState = airGroundState;
     }
 
-    public void draw(Painter painter) {
+    public void draw(Graphics graphics) {
         //System.out.println(getWidth() + ", " + getHeight());
-        super.draw(painter);
+        super.draw(graphics);
     }
 
     public void setMap(Map map) {

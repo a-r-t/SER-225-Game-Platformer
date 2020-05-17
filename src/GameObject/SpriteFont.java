@@ -1,11 +1,8 @@
 package GameObject;
 
-import Engine.Keyboard;
-import Engine.Painter;
+import Engine.Graphics;
 
 import java.awt.*;
-import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
 
 public class SpriteFont implements GameObject {
 	protected String text;
@@ -99,11 +96,11 @@ public class SpriteFont implements GameObject {
 	}
 
 	@Override
-	public void draw(Painter painter) {
+	public void draw(Graphics graphics) {
 		if (outlineColor != null && !outlineColor.equals(color)) {
-			painter.paintStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
+			graphics.drawStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
 		} else {
-			painter.paintString(text, getX(), getY(), font, color);
+			graphics.drawString(text, getX(), getY(), font, color);
 		}
 	}
 }

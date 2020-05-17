@@ -171,10 +171,13 @@ public abstract class Sprite extends Rectangle {
     }
 
     public float getScale() { return scale; }
+
     public void setScale(float scale) {
         this.scale = scale;
     }
+
     public ImageEffect getImageEffect() { return imageEffect; }
+
     public void setImageEffect(ImageEffect imageEffect) {
         this.imageEffect = imageEffect;
     }

@@ -1,10 +1,8 @@
 package GameObject;
 
 import Engine.ImageLoader;
-import Engine.Keyboard;
 import Engine.Painter;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public abstract class Sprite extends Rectangle {
 	protected BufferedImage image;
@@ -72,6 +70,14 @@ public abstract class Sprite extends Rectangle {
         this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
         this.scale = scale;
         this.imageEffect = imageEffect;
+    }
+
+    public int getScaledX2() {
+        return Math.round((x + width) * scale);
+    }
+
+    public int getScaledY2() {
+        return Math.round((y + height) * scale);
     }
 	
 	public BufferedImage getImage() {
@@ -142,26 +148,24 @@ public abstract class Sprite extends Rectangle {
         this.setY(y);
     }
 
-    @Override
-    public int getWidth() {
+    public int getScaledWidth() {
         return Math.round(width * scale);
     }
 
-    @Override
-    public int getHeight() {
+    public int getScaledHeight() {
         return Math.round(height * scale);
     }
 
     @Override
     public void setWidth(int width) {
-        int oldWidth = getWidth();
+        int oldWidth = getScaledWidth();
         super.setWidth(width);
         bounds.setWidth(bounds.getWidth() + (width - oldWidth));
     }
 
     @Override
     public void setHeight(int height) {
-        int oldHeight = getHeight();
+        int oldHeight = getScaledHeight();
         super.setHeight(height);
         bounds.setHeight(bounds.getHeight() + (height - oldHeight));
     }
@@ -179,7 +183,7 @@ public abstract class Sprite extends Rectangle {
         return bounds.getX1();
     }
 
-    public int getBoundsX2() {
+    public int getScaledBoundsX2() {
         return bounds.getX1() + Math.round(bounds.getWidth() * scale);
     }
 
@@ -187,11 +191,15 @@ public abstract class Sprite extends Rectangle {
         return bounds.getY1();
     }
 
-    public int getBoundsY2() {
+    public int getScaledBoundsY2() {
         return bounds.getY1() + Math.round(bounds.getHeight() * scale);
     }
 
     public Rectangle getBounds() {
+        return bounds;
+    }
+
+    public Rectangle getScaledBounds() {
         return new Rectangle(bounds.getX(), bounds.getY(), Math.round(bounds.getWidth() * scale), Math.round(bounds.getHeight() * scale));
     }
 
@@ -207,8 +215,8 @@ public abstract class Sprite extends Rectangle {
     public boolean intersects(Rectangle other) {
         if (other instanceof Sprite) {
             Sprite otherSprite = (Sprite) other;
-            return getBoundsX1() < otherSprite.getBoundsX2() && getBoundsX2() > otherSprite.getBoundsX1() &&
-                    getBoundsY1() < otherSprite.getBoundsY2() && getBoundsY2() > otherSprite.getBoundsY1();
+            return getBoundsX1() < otherSprite.getScaledBoundsX2() && getScaledBoundsX2() > otherSprite.getBoundsX1() &&
+                    getBoundsY1() < otherSprite.getScaledBoundsY2() && getScaledBoundsY2() > otherSprite.getBoundsY1();
         } else {
             return super.intersects(other);
         }
@@ -221,7 +229,7 @@ public abstract class Sprite extends Rectangle {
 	
 	@Override
 	public void draw(Painter painter) {
-		painter.paintImage(image, getX(), getY(), getWidth(), getHeight(), imageEffect);
+		painter.paintImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
 }

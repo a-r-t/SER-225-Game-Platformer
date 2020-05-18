@@ -4,6 +4,7 @@ import Engine.Graphics;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
+import GameObject.Frame.FrameBuilder;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class Tile extends AnimatedSprite {
     public HashMap<String, Frame[]> loadAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("DEFAULT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(0, 0), 3,0)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0).withScale(3).build()
             });
         }};
     }

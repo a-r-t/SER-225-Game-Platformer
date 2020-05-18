@@ -5,6 +5,7 @@ import Engine.Keyboard;
 import Engine.Graphics;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
+import GameObject.Frame.FrameBuilder;
 import GameObject.SpriteSheet;
 
 import java.util.HashMap;
@@ -19,12 +20,12 @@ public class DonkeyKong extends AnimatedSprite {
 	public HashMap<String, Frame[]> loadAnimations() {
 		return new HashMap<String, Frame[]>() {{
 			put("BEAT_CHEST", new Frame[] {
-					new Frame(spriteSheet.getSprite(0, 0), 200),
-					new Frame(spriteSheet.getSprite(0, 1), 200)
+					new FrameBuilder(spriteSheet.getSprite(0, 0), 200).build(),
+					new FrameBuilder(spriteSheet.getSprite(0, 1), 200).build()
 			});
 
 			put("STAND_STILL", new Frame[] {
-					new Frame(spriteSheet.getSprite(1, 0), 0)
+					new FrameBuilder(spriteSheet.getSprite(1, 0), 0).build()
 			});
 		}};
 	}

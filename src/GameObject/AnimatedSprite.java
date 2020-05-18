@@ -69,6 +69,7 @@ public abstract class AnimatedSprite implements GameObject {
 	protected Frame getCurrentFrame() {
 		return animations.get(currentAnimation)[currentFrameIndex];
 	}
+
 	public Sprite getCurrentSprite() {
 		return currentSprite;
 	}

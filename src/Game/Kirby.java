@@ -6,6 +6,7 @@ import Engine.Keyboard;
 import Engine.Graphics;
 import GameObject.*;
 import GameObject.Frame;
+import GameObject.Frame.FrameBuilder;
 import GameObject.Rectangle;
 import Map.Map;
 import Map.Tile;
@@ -233,49 +234,49 @@ public class Kirby extends AnimatedSprite {
     public HashMap<String, Frame[]> loadAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("STAND_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(0, 0), 2,0)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2).withScale(2).build()
             });
 
             put("STAND_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(0, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
             });
 
             put("WALK_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(1, 0), 2, 200),
-                    new Frame(spriteSheet.getSprite(1, 1), 2, 200),
-                    new Frame(spriteSheet.getSprite(1, 2), 2, 200),
-                    new Frame(spriteSheet.getSprite(1, 3), 2, 200)
+                    new FrameBuilder(spriteSheet.getSprite(1, 0), 200).withScale(2).build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 1), 200).withScale(2).build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 2), 200).withScale(2).build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 3), 200).withScale(2).build()
             });
 
             put("WALK_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(1, 0), 2, ImageEffect.FLIP_HORIZONTAL, 200),
-                    new Frame(spriteSheet.getSprite(1, 1), 2, ImageEffect.FLIP_HORIZONTAL, 200),
-                    new Frame(spriteSheet.getSprite(1, 2), 2, ImageEffect.FLIP_HORIZONTAL, 200),
-                    new Frame(spriteSheet.getSprite(1, 3), 2, ImageEffect.FLIP_HORIZONTAL, 200)
+                    new FrameBuilder(spriteSheet.getSprite(1, 0), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 1), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 2), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 3), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
             });
 
             put("CROUCH_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(2, 0), 2,0)
+                    new FrameBuilder(spriteSheet.getSprite(2, 0), 0).withScale(2).build()
             });
 
             put("CROUCH_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(2, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
+                    new FrameBuilder(spriteSheet.getSprite(2, 0), 0).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
             });
 
             put("JUMP_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(3, 0), 2,0)
+                    new FrameBuilder(spriteSheet.getSprite(3, 0), 0).withScale(2).build()
             });
 
             put("JUMP_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(3, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
+                    new FrameBuilder(spriteSheet.getSprite(3, 0), 0).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
             });
 
             put("FALL_RIGHT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(4, 0), 2, 0)
+                    new FrameBuilder(spriteSheet.getSprite(4, 0), 0).withScale(2).build()
             });
 
             put("FALL_LEFT", new Frame[] {
-                    new Frame(spriteSheet.getSprite(4, 0), 2, ImageEffect.FLIP_HORIZONTAL, 0)
+                    new FrameBuilder(spriteSheet.getSprite(4, 0), 0).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
             });
         }};
     }

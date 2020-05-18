@@ -13,6 +13,7 @@ import Map.Tile;
 import Utils.Direction;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Kirby extends AnimatedSprite {
 
@@ -30,7 +31,12 @@ public class Kirby extends AnimatedSprite {
     private AirGroundState airGroundState;
     private AirGroundState previousAirGroundState;
     private Map map;
+    private HashSet<Key> lockedKeys = new HashSet<>();
     private float moveAmountX, moveAmountY;
+    private final Key JUMP_KEY = Key.W;
+    private final Key MOVE_LEFT_KEY = Key.A;
+    private final Key MOVE_RIGHT_KEY = Key.D;
+    private final Key CROUCH_KEY = Key.S;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
         super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y);
@@ -48,54 +54,59 @@ public class Kirby extends AnimatedSprite {
             momentumY = terminalVelocityY;
         }
 
-        if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
-            playerState = PlayerState.STANDING;
-        }
-
         if (playerState == PlayerState.STANDING) {
             currentAnimation = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-            if (keyboard.isKeyDown(Key.A) || keyboard.isKeyDown(Key.D)) {
+            if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
                 playerState = PlayerState.WALKING;
-            } else if (keyboard.isKeyDown(Key.W)) {
+            } else if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
+                lockedKeys.add(JUMP_KEY);
                 playerState = PlayerState.JUMPING;
-            } else if (keyboard.isKeyDown(Key.S)) {
+            } else if (keyboard.isKeyDown(CROUCH_KEY)) {
                 playerState = PlayerState.CROUCHING;
             }
         }
         if (playerState == PlayerState.WALKING) {
             currentAnimation = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-            if (keyboard.isKeyDown(Key.A)) {
+            if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
                 moveAmountX -= walkSpeed;
                 facingDirection = Direction.LEFT;
-            } else if (keyboard.isKeyDown(Key.D)) {
+            } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
                 moveAmountX += walkSpeed;
                 facingDirection = Direction.RIGHT;
-            } else if (keyboard.isKeyUp(Key.A) && keyboard.isKeyUp(Key.D)) {
+            } else if (keyboard.isKeyUp(MOVE_LEFT_KEY) && keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
                 playerState = PlayerState.STANDING;
             }
 
-            if (keyboard.isKeyDown(Key.W)) {
+            if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
+                lockedKeys.add(JUMP_KEY);
                 playerState = PlayerState.JUMPING;
-            } else if (keyboard.isKeyDown(Key.S)) {
+            } else if (keyboard.isKeyDown(CROUCH_KEY)) {
                 playerState = PlayerState.CROUCHING;
             }
         }
         if (playerState == PlayerState.CROUCHING) {
             currentAnimation = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
-            if (keyboard.isKeyUp(Key.S)) {
+            if (keyboard.isKeyUp(CROUCH_KEY)) {
                 playerState = PlayerState.STANDING;
             }
-            if (keyboard.isKeyDown(Key.W)) {
+            if (keyboard.isKeyDown(JUMP_KEY)) {
                 playerState = PlayerState.JUMPING;
             }
         }
         if (playerState == PlayerState.JUMPING) {
-            if (keyboard.isKeyDown(Key.W) && airGroundState == AirGroundState.GROUND) {
+            if (previousAirGroundState == AirGroundState.GROUND && airGroundState == AirGroundState.GROUND) {
                 currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
                 airGroundState = AirGroundState.AIR;
                 jumpForce = jumpHeight;
+                if (jumpForce > 0) {
+                    moveAmountY -= jumpForce;
+                    jumpForce -= jumpDegrade;
+                    if (jumpForce < 0) {
+                        jumpForce = 0;
+                    }
+                }
             }
-            if (airGroundState == AirGroundState.AIR) {
+            else if (airGroundState == AirGroundState.AIR) {
                 if (jumpForce > 0) {
                     moveAmountY -= jumpForce;
                     jumpForce -= jumpDegrade;
@@ -110,16 +121,20 @@ public class Kirby extends AnimatedSprite {
                     currentAnimation = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
                 }
 
-                if (keyboard.isKeyDown(Key.A)) {
+                if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
                     moveAmountX -= walkSpeed;
-                } else if (keyboard.isKeyDown(Key.D)) {
+                } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
                     moveAmountX += walkSpeed;
                 }
             }
-            if (airGroundState == AirGroundState.GROUND) {
+            else if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
                 playerState = PlayerState.STANDING;
             }
         }
+        if (keyboard.isKeyUp(JUMP_KEY)) {
+            lockedKeys.remove(JUMP_KEY);
+        }
+        previousAirGroundState = airGroundState;
 
         super.update();
 
@@ -165,6 +180,7 @@ public class Kirby extends AnimatedSprite {
                 }
                 if (hasCollided) {
                     setY(getY() + 1);
+                    jumpForce = 0;
                     break;
                 }
             }
@@ -210,7 +226,6 @@ public class Kirby extends AnimatedSprite {
 
         moveAmountX = 0;
         moveAmountY = 0;
-        previousAirGroundState = airGroundState;
     }
 
     public void draw(Graphics graphics) {
@@ -219,6 +234,10 @@ public class Kirby extends AnimatedSprite {
 
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public boolean isKeyLocked(Key key) {
+        return lockedKeys.contains(key);
     }
 
     private enum PlayerState {

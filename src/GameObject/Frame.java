@@ -25,6 +25,11 @@ public class Frame extends Sprite {
 			return this;
 		}
 
+		public FrameBuilder withBounds(float x, float y, int width, int height) {
+			this.bounds = new Rectangle(Math.round(x), Math.round(y), width, height);
+			return this;
+		}
+
 		public FrameBuilder withScale(float scale) {
 			this.scale = scale;
 			if (this.scale < 0) {

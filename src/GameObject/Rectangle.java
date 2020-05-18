@@ -1,18 +1,17 @@
 package GameObject;
 
-import Engine.Keyboard;
-import Engine.Painter;
+import Engine.Graphics;
 
 import java.awt.*;
 
 public class Rectangle implements GameObject {
-    private float x;
-    private float y;
-    private int width;
-    private int height;
-    private Color color;
-    private Color borderColor;
-    private int borderThickness;
+    protected float x;
+	protected float y;
+	protected int width;
+	protected int height;
+	protected Color color;
+	protected Color borderColor;
+	protected int borderThickness;
 
 	public Rectangle(float x, float y, int width, int height) {
 		this.x = x;
@@ -155,13 +154,13 @@ public class Rectangle implements GameObject {
 	
 
 	@Override
-	public void update(Keyboard keyboard) { }
+	public void update() { }
 
 	@Override
-	public void draw(Painter painter) {
-		painter.paintFilledRectangle(getX(), getY(), width, height, color);
+	public void draw(Graphics graphics) {
+		graphics.drawFilledRectangle(getX(), getY(), width, height, color);
 		if (borderColor != null && !borderColor.equals(color)) {
-			painter.paintRectangle(getX(), getY(), width, height, borderColor, borderThickness);
+			graphics.drawRectangle(getX(), getY(), width, height, borderColor, borderThickness);
 		}
 
 	}

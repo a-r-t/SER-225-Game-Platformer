@@ -1,13 +1,11 @@
 package Game;
 
-import Engine.Painter;
+import Engine.Graphics;
 import Engine.Screen;
 import Engine.Keyboard;
 import GameObject.Rectangle;
 import Map.Map;
 import Maps.TestMap;
-
-import java.awt.*;
 
 public class Scene extends Screen {
 	private Rectangle sceneBounds;
@@ -32,10 +30,10 @@ public class Scene extends Screen {
 	}
 
 	@Override
-	public void draw(Painter painter) {
+	public void draw(Graphics graphics) {
 		//donkeyKong.draw(g);
-		testMap.draw(painter);
-		kirby.draw(painter);
+		testMap.draw(graphics);
+		kirby.draw(graphics);
 	}
 	
 }

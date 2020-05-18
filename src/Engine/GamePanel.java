@@ -17,7 +17,7 @@ public class GamePanel extends JPanel {
 	private boolean isGamePaused = false;
 	private boolean canChangePauseStatus = true;
 	private SpriteFont pauseLabel;
-	private Painter painter;
+	private Graphics graphics;
 
 	public static final int FPS = 100;
 
@@ -28,7 +28,7 @@ public class GamePanel extends JPanel {
 		keyboard = new Keyboard();
 		this.addKeyListener(keyboard.getKeyListener());
 
-		painter = new Painter();
+		graphics = new Graphics();
 
 		screenManager = new ScreenManager();
 		
@@ -76,17 +76,17 @@ public class GamePanel extends JPanel {
 	}
 
 	public void draw() {
-		screenManager.draw(painter);
+		screenManager.draw(graphics);
 		if (isGamePaused) {
-			pauseLabel.draw(painter);
-			painter.paintFilledRectangle(windowBounds.getX(), windowBounds.getY(), windowBounds.getWidth(), windowBounds.getHeight(), new Color(0, 0, 0, 100));
+			pauseLabel.draw(graphics);
+			graphics.drawFilledRectangle(windowBounds.getX(), windowBounds.getY(), windowBounds.getWidth(), windowBounds.getHeight(), new Color(0, 0, 0, 100));
 		}
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(java.awt.Graphics g) {
 		super.paintComponent(g);
-		painter.setGraphics((Graphics2D) g);
+		graphics.setGraphics((Graphics2D) g);
 		if (doPaint) {
 			draw();
 		}

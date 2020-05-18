@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class Tileset extends SpriteSheet {
 
-    protected int scale = 1;
+    protected float scale = 1f;
 
     public Tileset(String imageFileName, int tileWidth, int tileHeight) {
         super(imageFileName, tileWidth, tileHeight);
@@ -23,11 +23,11 @@ public abstract class Tileset extends SpriteSheet {
 
     public abstract Tile createTile(int tileNumber, int xIndex, int yIndex);
 
-    public int getScale() {
+    public float getScale() {
         return scale;
     }
 
-    public void setScale(int scale) {
+    public void setScale(float scale) {
         this.scale = scale;
     }
 }

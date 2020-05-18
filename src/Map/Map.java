@@ -1,8 +1,7 @@
 package Map;
 
-import Engine.Painter;
+import Engine.Graphics;
 import GameObject.Rectangle;
-import GameObject.Sprite;
 
 import java.awt.*;
 
@@ -46,8 +45,8 @@ public abstract class Map {
     public void setMovementPermission(int x, int y, int movementPermission) { movementPermissions[x + width * y] = movementPermission; }
 
     public Tile getTileByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / (tileset.getSpriteWidth() * tileset.getScale());
-        int yIndex = yPosition / (tileset.getSpriteHeight() * tileset.getScale());
+        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
+        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
         if (isInBounds(xIndex, yIndex)) {
             return getTile(xIndex, yIndex);
         } else {
@@ -56,8 +55,8 @@ public abstract class Map {
     }
 
     public int getMovementPermissionByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / (tileset.getSpriteWidth() * tileset.getScale());
-        int yIndex = yPosition / (tileset.getSpriteHeight() * tileset.getScale());
+        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
+        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
         if (isInBounds(xIndex, yIndex)) {
             return getMovementPermission(xIndex, yIndex);
         } else {
@@ -71,15 +70,15 @@ public abstract class Map {
 
     public void update() {
         for (Tile tile : tiles) {
-            tile.update(null);
+            tile.update();
         }
     }
 
-    public void draw(Painter painter) {
+    public void draw(Graphics graphics) {
         for (int i = camera.getY1() - 1; i < camera.getY2() + 1; i++) {
             for (int j = camera.getX1() - 1; j < camera.getX2() + 1; j++) {
                 if (isInBounds(j, i) && tiles[j + width * i] != null) {
-                    tiles[j + width * i].draw(painter);
+                    tiles[j + width * i].draw(graphics);
                 }
             }
         }

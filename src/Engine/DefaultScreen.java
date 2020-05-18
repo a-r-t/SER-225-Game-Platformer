@@ -2,8 +2,6 @@ package Engine;
 
 import GameObject.Rectangle;
 
-import java.awt.*;
-
 public class DefaultScreen extends Screen {
     public DefaultScreen() {
 
@@ -20,7 +18,7 @@ public class DefaultScreen extends Screen {
     }
 
     @Override
-    public void draw(Painter painter) {
+    public void draw(Graphics graphics) {
 
     }
 }

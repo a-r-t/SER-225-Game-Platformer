@@ -3,8 +3,6 @@ package Engine;
 
 import GameObject.Rectangle;
 
-import java.awt.*;
-
 public class ScreenManager {
     private Screen currentScreen;
     private Rectangle windowBounds;
@@ -23,7 +21,7 @@ public class ScreenManager {
         currentScreen.update(keyboard);
     }
 
-    public void draw(Painter painter) {
-        currentScreen.draw(painter);
+    public void draw(Graphics graphics) {
+        currentScreen.draw(graphics);
     }
 }

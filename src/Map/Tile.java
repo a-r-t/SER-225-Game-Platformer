@@ -1,34 +1,43 @@
 package Map;
 
-import Engine.Painter;
+import Engine.Graphics;
 import GameObject.AnimatedSprite;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
+import GameObject.Frame.FrameBuilder;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class Tile extends AnimatedSprite {
 
-    public Tile(float x, float y, int width, int height, SpriteSheet spriteSheet) {
-        super(x, y, width, height, spriteSheet);
+    public Tile(SpriteSheet spriteSheet, float x, float y) {
+        super(spriteSheet, x, y);
     }
 
-    public Tile(float x, float y, int width, int height, BufferedImage image) {
-        super(x, y, width, height, image);
+    public Tile(BufferedImage image, float x, float y) {
+        super(image, x, y);
     }
 
     @Override
     public HashMap<String, Frame[]> loadAnimations() {
-        return null;
+        return new HashMap<String, Frame[]>() {{
+            put("DEFAULT", new Frame[] {
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0).withScale(3).build()
+            });
+        }};
+    }
+
+    @Override
+    public String getStartingAnimation() {
+        return "DEFAULT";
     }
 
     public void update() {
-        super.update(null);
+        super.update();
     }
 
-    public void draw(Painter painter) {
-        super.draw(painter);
+    public void draw(Graphics graphics) {
+        super.draw(graphics);
     }
 }

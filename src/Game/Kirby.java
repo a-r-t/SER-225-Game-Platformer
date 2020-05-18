@@ -131,21 +131,21 @@ public class Kirby extends AnimatedSprite {
                 for (int j = -1; j < numberOfTilesToCheck + 1; j++) {
                     Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY2()));
                     int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY2()));
-                    // System.out.println("CHECK NUMBER: " + (j + 2));
-                    // System.out.println("Number of tiles: " + numberOfTilesToCheck);
-                    // System.out.println("MP: " + movementPermission);
-                    // System.out.println("CURRENT FRAME REG -- X: " + getX() + ", Y: " + getY() + ", WIDTH: " + getScaledWidth() + ", HEIGHT: " + getScaledHeight());
-                    // System.out.println("CURRENT FRAME BOUNDS -- X: " + getScaledBounds().getX() + ", Y: " + getScaledBounds().getY() + ", WIDTH: " + getScaledBounds().getWidth() + ", HEIGHT: " + getScaledBounds().getHeight());
-                    // System.out.println("TILE FRAME -- X: " + tile.getScaledBounds().getX() + ", Y: " + tile.getScaledBounds().getY() + ", WIDTH: " + tile.getScaledBounds().getWidth() + ", HEIGHT: " + tile.getScaledBounds().getHeight());
+//                     System.out.println("CHECK NUMBER: " + (j + 2));
+//                     System.out.println("Number of tiles: " + numberOfTilesToCheck);
+//                     System.out.println("MP: " + movementPermission);
+//                     System.out.println("CURRENT FRAME REG -- X: " + getX() + ", Y: " + getY() + ", WIDTH: " + getScaledWidth() + ", HEIGHT: " + getScaledHeight());
+//                     System.out.println("CURRENT FRAME BOUNDS -- X: " + getScaledBounds().getX() + ", Y: " + getScaledBounds().getY() + ", WIDTH: " + getScaledBounds().getWidth() + ", HEIGHT: " + getScaledBounds().getHeight());
+//                     System.out.println("TILE FRAME -- X: " + tile.getScaledBounds().getX() + ", Y: " + tile.getScaledBounds().getY() + ", WIDTH: " + tile.getScaledBounds().getWidth() + ", HEIGHT: " + tile.getScaledBounds().getHeight());
                     if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        setY(getY() - 1);
-                        momentumY = 0;
-                        airGroundState = AirGroundState.GROUND;
                         hasCollided = true;
                         break;
                     }
                 }
                 if (hasCollided) {
+                    setY(getY() - 1);
+                    momentumY = 0;
+                    airGroundState = AirGroundState.GROUND;
                     break;
                 }
                 airGroundState = AirGroundState.AIR;
@@ -156,15 +156,15 @@ public class Kirby extends AnimatedSprite {
                 setY(getY() - 1);
                 int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
                 for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(x + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(x + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
+                    Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
+                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
                     if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        setY(getY() + 1);
                         hasCollided = true;
                         break;
                     }
                 }
                 if (hasCollided) {
+                    setY(getY() + 1);
                     break;
                 }
             }
@@ -176,15 +176,15 @@ public class Kirby extends AnimatedSprite {
                 setX(getX() + 1);
                 int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
                 for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX2()), Math.round(y + (j * getScaledBounds().getHeight())));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX2()), Math.round(y + (j * getScaledBounds().getHeight())));
+                    Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX2()), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
+                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX2()), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
                     if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        setX(getX() - 1);
                         hasCollided = true;
                         break;
                     }
                 }
                 if (hasCollided) {
+                    setX(getX() - 1);
                     break;
                 }
             }
@@ -194,15 +194,15 @@ public class Kirby extends AnimatedSprite {
                 setX(getX() - 1);
                 int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
                 for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(x), Math.round(y + (j * getScaledBounds().getHeight())));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(x), Math.round(y + (j * getScaledBounds().getHeight())));
+                    Tile tile = map.getTileByPosition(getScaledBounds().getX(), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
+                    int movementPermission = map.getMovementPermissionByPosition(getScaledBounds().getX(), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
                     if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        setX(getX() + 1);
                         hasCollided = true;
                         break;
                     }
                 }
                 if (hasCollided) {
+                    setX(getX() + 1);
                     break;
                 }
             }
@@ -214,7 +214,6 @@ public class Kirby extends AnimatedSprite {
     }
 
     public void draw(Graphics graphics) {
-        //System.out.println(getWidth() + ", " + getHeight());
         super.draw(graphics);
     }
 
@@ -234,49 +233,105 @@ public class Kirby extends AnimatedSprite {
     public HashMap<String, Frame[]> loadAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("STAND_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2).withScale(2).build()
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("STAND_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("WALK_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(1, 0), 200).withScale(2).build(),
-                    new FrameBuilder(spriteSheet.getSprite(1, 1), 200).withScale(2).build(),
-                    new FrameBuilder(spriteSheet.getSprite(1, 2), 200).withScale(2).build(),
-                    new FrameBuilder(spriteSheet.getSprite(1, 3), 200).withScale(2).build()
+                    new FrameBuilder(spriteSheet.getSprite(1, 0), 200)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 1), 200)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 2), 200)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 3), 200)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("WALK_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(1, 0), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build(),
-                    new FrameBuilder(spriteSheet.getSprite(1, 1), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build(),
-                    new FrameBuilder(spriteSheet.getSprite(1, 2), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build(),
-                    new FrameBuilder(spriteSheet.getSprite(1, 3), 200).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
+                    new FrameBuilder(spriteSheet.getSprite(1, 0), 200)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 1), 200)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 2), 200)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build(),
+                    new FrameBuilder(spriteSheet.getSprite(1, 3), 200)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("CROUCH_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(2, 0), 0).withScale(2).build()
+                    new FrameBuilder(spriteSheet.getSprite(2, 0), 0)
+                            .withScale(2)
+                            .withBounds(6, 12, 12, 7)
+                            .build()
             });
 
             put("CROUCH_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(2, 0), 0).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
+                    new FrameBuilder(spriteSheet.getSprite(2, 0), 0)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 12, 12, 7)
+                            .build()
             });
 
             put("JUMP_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(3, 0), 0).withScale(2).build()
+                    new FrameBuilder(spriteSheet.getSprite(3, 0), 0)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("JUMP_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(3, 0), 0).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
+                    new FrameBuilder(spriteSheet.getSprite(3, 0), 0)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("FALL_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(4, 0), 0).withScale(2).build()
+                    new FrameBuilder(spriteSheet.getSprite(4, 0), 0)
+                            .withScale(2)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
 
             put("FALL_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(4, 0), 0).withScale(2).withImageEffect(ImageEffect.FLIP_HORIZONTAL).build()
+                    new FrameBuilder(spriteSheet.getSprite(4, 0), 0)
+                            .withScale(2)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                            .withBounds(6, 5, 12, 14)
+                            .build()
             });
         }};
     }

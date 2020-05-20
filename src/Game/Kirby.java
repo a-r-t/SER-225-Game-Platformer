@@ -86,7 +86,7 @@ public class Kirby extends AnimatedSprite {
 
         moveAmountX = 0;
         moveAmountY = 0;
-        handleLockedKeys(keyboard);
+        updateLockedKeys(keyboard);
     }
 
     protected void playerStanding(Keyboard keyboard) {
@@ -178,10 +178,16 @@ public class Kirby extends AnimatedSprite {
         }
     }
 
-    protected void handleLockedKeys(Keyboard keyboard) {
+    protected void updateLockedKeys(Keyboard keyboard) {
         if (keyboard.isKeyUp(JUMP_KEY)) {
             lockedKeys.remove(JUMP_KEY);
         }
+    }
+
+    private boolean hasCollidedWithTile(int xTileIndex, int yTileIndex) {
+        Tile tile = map.getTile(xTileIndex, yTileIndex);
+        int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
+        return tile != null && movementPermission == 1 && intersects(tile);
     }
 
     protected void handleCollisionX() {
@@ -195,9 +201,7 @@ public class Kirby extends AnimatedSprite {
                 int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX() : getScaledBounds().getX2();
                 Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY());
                 for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTile(tileIndex.x, tileIndex.y + j);
-                    int movementPermission = map.getMovementPermission(tileIndex.x, tileIndex.y + j);
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                    if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
                         hasCollided = true;
                         break;
                     }
@@ -221,9 +225,7 @@ public class Kirby extends AnimatedSprite {
                 int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
                 Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
                 for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTile(tileIndex.x + j, tileIndex.y);
-                    int movementPermission = map.getMovementPermission(tileIndex.x + j, tileIndex.y);
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                    if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
                         hasCollided = true;
                         break;
                     }

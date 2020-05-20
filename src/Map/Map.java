@@ -35,13 +35,43 @@ public abstract class Map {
     public abstract int[] createMovementPermissions();
 
     public Tile getTile(int x, int y) {
-        return tiles[x + width * y];
+        if (isInBounds(x, y)) {
+            return tiles[x + width * y];
+        } else {
+            return null;
+        }
     }
+
+    public Tile getTile(Point index) {
+        if (isInBounds(index.x, index.y)) {
+            return tiles[index.x + width * index.y];
+        } else {
+            return null;
+        }
+    }
+
     public void setTile(int x, int y, Tile tile) {
         tiles[x + width * y] = tile;
     }
 
-    public int getMovementPermission(int x, int y) { return movementPermissions[x + width * y]; }
+    public void setTile(Point index, Tile tile) {
+        tiles[index.x + width * index.y] = tile;
+    }
+
+    public int getTileWidth() {
+        return tileset.getScaledSpriteWidth();
+    }
+    public int getTileHeight() {
+        return tileset.getScaledSpriteHeight();
+    }
+
+    public int getMovementPermission(int x, int y) {
+        if (isInBounds(x, y)) {
+            return movementPermissions[x + width * y];
+        } else {
+            return -1;
+        }
+    }
     public void setMovementPermission(int x, int y, int movementPermission) { movementPermissions[x + width * y] = movementPermission; }
 
     public Tile getTileByPosition(int xPosition, int yPosition) {
@@ -63,6 +93,13 @@ public abstract class Map {
             return -1;
         }
     }
+
+    public Point getTileIndexByPosition(int xPosition, int yPosition) {
+        int xIndex = xPosition / Math.round(tileset.getScaledSpriteWidth());
+        int yIndex = yPosition / Math.round(tileset.getScaledSpriteHeight());
+        return new Point(xIndex, yIndex);
+    }
+
     private boolean isInBounds(int x, int y) {
         int index = x + width * y;
         return index >= 0 && index < tiles.length;

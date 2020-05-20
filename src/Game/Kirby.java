@@ -12,6 +12,7 @@ import Map.Map;
 import Map.Tile;
 import Utils.Direction;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -69,17 +70,19 @@ public class Kirby extends AnimatedSprite {
 
         super.update();
 
-        if (moveAmountY > 0) {
-            handleCollisionDown();
-        } else if (moveAmountY < 0) {
-            handleCollisionUp();
-        }
+        handleCollisionY();
+        handleCollisionX();
+//        if (moveAmountY < 0) {
+//            handleCollisionUp();
+//        } else if (moveAmountY > 0) {
+//            handleCollisionDown();
+//        }
 
-        if (moveAmountX > 0) {
-            handleCollisionRight();
-        } else if (moveAmountX < 0) {
-            handleCollisionLeft();
-        }
+//        if (moveAmountX < 0) {
+//            handleCollisionLeft();
+//        } else if (moveAmountX > 0) {
+//            handleCollisionRight();
+//        }
 
         moveAmountX = 0;
         moveAmountY = 0;
@@ -181,87 +184,68 @@ public class Kirby extends AnimatedSprite {
         }
     }
 
-    protected void handleCollisionLeft() {
-        boolean hasCollided = false;
-        for (int i = 0; i < Math.abs(Math.round(moveAmountX)); i++) {
-            setX(getX() - 1);
-            int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
-            for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                Tile tile = map.getTileByPosition(getScaledBounds().getX(), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                int movementPermission = map.getMovementPermissionByPosition(getScaledBounds().getX(), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                if (tile != null && movementPermission == 1 && intersects(tile)) {
-                    hasCollided = true;
+    protected void handleCollisionX() {
+        int amountToMove = Math.abs(Math.round(moveAmountX));
+        if (amountToMove != 0) {
+            boolean hasCollided = false;
+            int direction = moveAmountX < 0 ? -1 : 1;
+            for (int i = 0; i < amountToMove; i++) {
+                setX(getX() + direction);
+                int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
+                int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX() : getScaledBounds().getX2();
+                Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY());
+                for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+                    Tile tile = map.getTile(tileIndex.x, tileIndex.y + j);
+                    int movementPermission = map.getMovementPermission(tileIndex.x, tileIndex.y + j);
+                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                        hasCollided = true;
+                        break;
+                    }
+                }
+                if (hasCollided) {
+                    setX(getX() - direction);
                     break;
                 }
-            }
-            if (hasCollided) {
-                setX(getX() + 1);
-                break;
             }
         }
     }
 
-    protected void handleCollisionRight() {
-        boolean hasCollided = false;
-        for (int i = 0; i < Math.round(moveAmountX); i++) {
-            setX(getX() + 1);
-            int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
-            for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX2()), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX2()), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                if (tile != null && movementPermission == 1 && intersects(tile)) {
-                    hasCollided = true;
+    protected void handleCollisionY() {
+        int amountToMove = Math.abs(Math.round(moveAmountY));
+        if (amountToMove != 0) {
+            boolean hasCollided = false;
+            int direction = moveAmountY < 0 ? -1 : 1;
+            for (int i = 0; i < amountToMove; i++) {
+                setY(getY() + direction);
+                int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
+                int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
+                Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
+                for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+                    Tile tile = map.getTile(tileIndex.x + j, tileIndex.y);
+                    int movementPermission = map.getMovementPermission(tileIndex.x + j, tileIndex.y);
+                    if (tile != null && movementPermission == 1 && intersects(tile)) {
+                        hasCollided = true;
+                        break;
+                    }
+                }
+                if (hasCollided) {
+                    setY(getY() - direction);
                     break;
                 }
             }
-            if (hasCollided) {
-                setX(getX() - 1);
-                break;
-            }
-        }
-    }
-
-    protected void handleCollisionUp() {
-        boolean hasCollided = false;
-        for (int i = 0; i < Math.abs(Math.round(moveAmountY)); i++) {
-            setY(getY() - 1);
-            int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
-            for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
-                int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
-                if (tile != null && movementPermission == 1 && intersects(tile)) {
-                    hasCollided = true;
-                    break;
+            if (moveAmountY > 0) {
+                if (hasCollided) {
+                    momentumY = 0;
+                    airGroundState = AirGroundState.GROUND;
+                } else {
+                    playerState = playerState.JUMPING;
+                    airGroundState = AirGroundState.AIR;
+                }
+            } else if (moveAmountY < 0) {
+                if (hasCollided) {
+                    jumpForce = 0;
                 }
             }
-            if (hasCollided) {
-                setY(getY() + 1);
-                jumpForce = 0;
-                break;
-            }
-        }
-    }
-
-    protected void handleCollisionDown() {
-        boolean hasCollided = false;
-        for (int i = 0; i < Math.round(moveAmountY); i++) {
-            setY(getY() + 1);
-            int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
-            for (int j = -1; j < numberOfTilesToCheck + 1; j++) {
-                Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY2()));
-                int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY2()));
-                if (tile != null && movementPermission == 1 && intersects(tile)) {
-                    hasCollided = true;
-                    break;
-                }
-            }
-            if (hasCollided) {
-                setY(getY() - 1);
-                momentumY = 0;
-                airGroundState = AirGroundState.GROUND;
-                break;
-            }
-            airGroundState = AirGroundState.AIR;
         }
     }
 

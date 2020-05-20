@@ -30,4 +30,12 @@ public abstract class Tileset extends SpriteSheet {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
+    public int getScaledSpriteWidth() {
+        return Math.round(spriteWidth * scale);
+    }
+
+    public int getScaledSpriteHeight() {
+        return Math.round(spriteHeight * scale);
+    }
 }

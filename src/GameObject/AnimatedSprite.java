@@ -126,5 +126,7 @@ public abstract class AnimatedSprite implements GameObject {
 	public boolean intersects(Rectangle other) {
 		return currentSprite.intersects(other);
 	}
-
+    public float getScale() {
+	    return currentSprite.getScale();
+    }
 }

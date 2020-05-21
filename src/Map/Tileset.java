@@ -1,12 +1,14 @@
 package Map;
 
 import GameObject.SpriteSheet;
-
+import Map.Tile.TileBuilder;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public abstract class Tileset extends SpriteSheet {
 
     protected float scale = 1f;
+    protected HashMap<Integer, TileBuilder> tiles = createTiles();
 
     public Tileset(String imageFileName, int tileWidth, int tileHeight) {
         super(imageFileName, tileWidth, tileHeight);
@@ -38,4 +40,6 @@ public abstract class Tileset extends SpriteSheet {
     public int getScaledSpriteHeight() {
         return Math.round(spriteHeight * scale);
     }
+
+    public abstract HashMap<Integer, TileBuilder> createTiles();
 }

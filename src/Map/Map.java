@@ -16,7 +16,7 @@ public abstract class Map {
 
     public Map(int width, int height, Tileset tileset, Rectangle screenBounds, Point playerStart) {
         this.tileset = tileset;
-        tiles = new Tile[height * width];
+        tiles = new MapTile[height * width];
         camera = new Rectangle(0, 0, screenBounds.getWidth() / tileset.getSpriteWidth(), screenBounds.getHeight() / tileset.getSpriteHeight());
         this.width = width;
         this.height = height;
@@ -24,7 +24,8 @@ public abstract class Map {
         int[] map = createMap();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Tile tile = tileset.createTile(map[j + width * i], j, i);
+                Tile tile = tileset.getTileBuilder(map[j + width * i])
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight(), tileset.getScale());
                 setTile(j, i, tile);
             }
         }
@@ -107,7 +108,7 @@ public abstract class Map {
 
     public void update() {
         for (Tile tile : tiles) {
-            tile.update();
+            tile.update(this, null);
         }
     }
 

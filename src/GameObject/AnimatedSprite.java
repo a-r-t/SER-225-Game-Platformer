@@ -5,7 +5,7 @@ import Engine.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite implements GameObject, Intersectable {
+public abstract class AnimatedSprite implements GameObject, IntersectableRectangle {
 	protected float x, y;
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
@@ -156,11 +156,11 @@ public abstract class AnimatedSprite implements GameObject, Intersectable {
     }
 
     @Override
-    public boolean intersects(Intersectable other) {
+    public boolean intersects(IntersectableRectangle other) {
         return currentSprite.intersects(other);
     }
 
-    public void setBounds(Bounds bounds) {
+    public void setBounds(Rectangle bounds) {
 		currentSprite.setBounds(bounds);
 	}
 

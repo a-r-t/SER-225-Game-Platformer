@@ -4,7 +4,7 @@ import Engine.Graphics;
 
 import java.awt.*;
 
-public class Rectangle implements GameObject, Intersectable {
+public class Rectangle implements GameObject, IntersectableRectangle {
     protected float x;
 	protected float y;
 	protected int width;
@@ -89,14 +89,6 @@ public class Rectangle implements GameObject, Intersectable {
 
     public void setY(float y) {
 		this.y = y;
-	}
-
-	public int getScaledX2() {
-		return getX1() + getScaledWidth();
-	}
-
-	public int getScaledY2() {
-		return getY2() + getScaledHeight();
 	}
 	
 	public void moveY(float dy) {
@@ -184,7 +176,7 @@ public class Rectangle implements GameObject, Intersectable {
 	}
 
 	@Override
-	public boolean intersects(Intersectable other) {
+	public boolean intersects(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
 		return intersectRectangle.getX1() < otherIntersectRectangle.getX2() && intersectRectangle.getX2() > otherIntersectRectangle.getX1() &&

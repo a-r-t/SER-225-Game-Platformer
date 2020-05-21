@@ -9,8 +9,8 @@ import GameObject.Frame;
 import GameObject.Frame.FrameBuilder;
 import GameObject.Rectangle;
 import Map.Map;
-import Map.Tile;
 import Utils.Direction;
+import Map.Tile;
 
 import java.awt.*;
 import java.util.HashMap;

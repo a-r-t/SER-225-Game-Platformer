@@ -4,6 +4,6 @@ import Engine.Graphics;
 
 
 public interface GameObject {
-	public void update();
-	public void draw(Graphics graphics);
+	void update();
+	void draw(Graphics graphics);
 }

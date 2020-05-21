@@ -198,8 +198,8 @@ public class Kirby extends AnimatedSprite {
             for (int i = 0; i < amountToMove; i++) {
                 setX(getX() + direction);
                 int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-                int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX() : getScaledBounds().getX2();
-                Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY());
+                int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
+                Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
                 for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
                     if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
                         hasCollided = true;
@@ -253,6 +253,7 @@ public class Kirby extends AnimatedSprite {
 
     public void draw(Graphics graphics) {
         super.draw(graphics);
+        // getIntersectRectangle().draw(graphics);
     }
 
     public void setMap(Map map) {

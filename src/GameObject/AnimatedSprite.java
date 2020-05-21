@@ -5,8 +5,7 @@ import Engine.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite implements GameObject {
-
+public abstract class AnimatedSprite implements GameObject, Intersectable {
 	protected float x, y;
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
@@ -111,21 +110,60 @@ public abstract class AnimatedSprite implements GameObject {
 	public void setHeight(int height) {
 		currentSprite.setHeight(height);
 	}
-	public Rectangle getBounds() {
+
+    public int getBoundsX1() {
+        return currentSprite.getBoundsX1();
+    }
+
+    public int getScaledBoundsX1() {
+        return currentSprite.getScaledBoundsX1();
+    }
+
+    public int getBoundsX2() {
+        return currentSprite.getBoundsX2();
+    }
+
+    public int getScaledBoundsX2() {
+        return currentSprite.getScaledBoundsX2();
+    }
+
+    public int getBoundsY1() {
+        return currentSprite.getBoundsY1();
+    }
+
+    public int getScaledBoundsY1() {
+        return currentSprite.getScaledBoundsY1();
+    }
+
+    public int getBoundsY2() {
+        return currentSprite.getBoundsY2();
+    }
+
+    public int getScaledBoundsY2() {
+        return currentSprite.getScaledBoundsY2();
+    }
+
+    public Rectangle getBounds() {
 		return currentSprite.getBounds();
 	}
 	public Rectangle getScaledBounds() {
 		return currentSprite.getScaledBounds();
 	}
-	public void setBounds(Rectangle bounds) {
+
+	@Override
+    public Rectangle getIntersectRectangle() {
+	    return currentSprite.getIntersectRectangle();
+    }
+
+    @Override
+    public boolean intersects(Intersectable other) {
+        return currentSprite.intersects(other);
+    }
+
+    public void setBounds(Bounds bounds) {
 		currentSprite.setBounds(bounds);
 	}
-	public boolean intersects(AnimatedSprite other) {
-		return currentSprite.intersects(other.getCurrentSprite());
-	}
-	public boolean intersects(Rectangle other) {
-		return currentSprite.intersects(other);
-	}
+
     public float getScale() {
 	    return currentSprite.getScale();
     }

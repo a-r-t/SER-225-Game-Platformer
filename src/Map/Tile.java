@@ -1,10 +1,17 @@
 package Map;
 
 import Engine.Graphics;
+import Game.Kirby;
+import GameObject.AnimatedSprite;
+import GameObject.Frame;
+import GameObject.Frame.FrameBuilder;
 import GameObject.Sprite;
-import java.awt.image.BufferedImage;
+import GameObject.SpriteSheet;
 
-public class Tile extends Sprite {
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+
+public class Tile extends AnimatedSprite {
     private boolean hasCollision = false;
 
     public static class TileBuilder {
@@ -24,11 +31,24 @@ public class Tile extends Sprite {
         public Tile build(float x, float y) {
             return new Tile(image, x, y, hasCollision);
         }
-
     }
 
     public Tile(BufferedImage image, float x, float y) {
         super(image, x, y);
+    }
+
+    @Override
+    public HashMap<String, Frame[]> loadAnimations() {
+        return new HashMap<String, Frame[]>() {{
+            put("DEFAULT", new Frame[] {
+                    new FrameBuilder(spriteSheet.getSprite(0,0), 0).withScale(3).build()
+            });
+        }};
+    }
+
+    @Override
+    public String getStartingAnimation() {
+        return "DEFAULT";
     }
 
     public Tile(BufferedImage image, float x, float y, boolean hasCollision) {
@@ -36,7 +56,7 @@ public class Tile extends Sprite {
         this.hasCollision = hasCollision;
     }
 
-    public void update() {
+    public void update(Map map, Kirby kirby) {
         super.update();
     }
 

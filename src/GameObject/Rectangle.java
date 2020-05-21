@@ -4,11 +4,12 @@ import Engine.Graphics;
 
 import java.awt.*;
 
-public class Rectangle implements GameObject {
+public class Rectangle implements GameObject, Intersectable {
     protected float x;
 	protected float y;
 	protected int width;
 	protected int height;
+	protected float scale;
 	protected Color color;
 	protected Color borderColor;
 	protected int borderThickness;
@@ -18,6 +19,18 @@ public class Rectangle implements GameObject {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.scale = 1;
+		this.color = Color.white;
+		this.borderColor = null;
+		this.borderThickness = 0;
+	}
+
+	public Rectangle(float x, float y, int width, int height, float scale) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.scale = scale;
 		this.color = Color.white;
 		this.borderColor = null;
 		this.borderThickness = 0;
@@ -28,6 +41,7 @@ public class Rectangle implements GameObject {
 		this.y = 0;
 		this.width = 0;
 		this.height = 0;
+		this.scale = 1;
 		this.color = Color.white;
 		this.borderColor = null;
 		this.borderThickness = 0;
@@ -76,6 +90,14 @@ public class Rectangle implements GameObject {
     public void setY(float y) {
 		this.y = y;
 	}
+
+	public int getScaledX2() {
+		return getX1() + getScaledWidth();
+	}
+
+	public int getScaledY2() {
+		return getY2() + getScaledHeight();
+	}
 	
 	public void moveY(float dy) {
 		this.y += dy;
@@ -109,6 +131,20 @@ public class Rectangle implements GameObject {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+
+	public int getScaledWidth() {
+		return Math.round(width * scale);
+	}
+
+	public int getScaledHeight() {
+		return Math.round(height * scale);
+	}
+
+	public float getScale() { return scale; }
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
 	
 	public Color getColor() {
 		return color;
@@ -126,42 +162,32 @@ public class Rectangle implements GameObject {
 		this.borderThickness = borderThickness;
 	}
 
-    public Point getTopLeftPoint() {
-        return new Point(getX(), getY());
-    }
-
-    public Point getTopRightPoint() {
-        return new Point(getX2(), Math.round(y + width));
-    }
-
-    public Point getBottomLeftPoint() {
-        return new Point(Math.round(x + height), getY2());
-    }
-
-    public Point getBottomRightPoint() {
-        return new Point(Math.round(x + width + height), Math.round(y + width + height));
-    }
-
-	public boolean intersects(Rectangle other) {
-        return getX1() < other.getX2() && getX2() > other.getX1() &&
-                getY1() < other.getY2() && getY2() > other.getY1();
-	}
-
 	@Override
 	public String toString() {
-		return String.format("GameObject.Rectangle: x=%s y=%s width=%s height=%s", getX(), getY(), width, height);
+		return String.format("Rectangle: x=%s y=%s width=%s height=%s", getX(), getY(), getScaledWidth(), getScaledHeight());
 	}
-	
 
 	@Override
 	public void update() { }
 
 	@Override
 	public void draw(Graphics graphics) {
-		graphics.drawFilledRectangle(getX(), getY(), width, height, color);
+		graphics.drawFilledRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), color);
 		if (borderColor != null && !borderColor.equals(color)) {
-			graphics.drawRectangle(getX(), getY(), width, height, borderColor, borderThickness);
+			graphics.drawRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), borderColor, borderThickness);
 		}
+	}
 
+	@Override
+	public Rectangle getIntersectRectangle() {
+		return new Rectangle(getX(), getY(), getScaledWidth(), getScaledHeight());
+	}
+
+	@Override
+	public boolean intersects(Intersectable other) {
+		Rectangle intersectRectangle = getIntersectRectangle();
+		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
+		return intersectRectangle.getX1() < otherIntersectRectangle.getX2() && intersectRectangle.getX2() > otherIntersectRectangle.getX1() &&
+				intersectRectangle.getY1() < otherIntersectRectangle.getY2() && intersectRectangle.getY2() > otherIntersectRectangle.getY1();
 	}
 }

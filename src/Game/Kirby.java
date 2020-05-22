@@ -72,17 +72,6 @@ public class Kirby extends AnimatedSprite {
 
         handleCollisionY();
         handleCollisionX();
-//        if (moveAmountY < 0) {
-//            handleCollisionUp();
-//        } else if (moveAmountY > 0) {
-//            handleCollisionDown();
-//        }
-
-//        if (moveAmountX < 0) {
-//            handleCollisionLeft();
-//        } else if (moveAmountX > 0) {
-//            handleCollisionRight();
-//        }
 
         moveAmountX = 0;
         moveAmountY = 0;
@@ -253,7 +242,7 @@ public class Kirby extends AnimatedSprite {
 
     public void draw(Graphics graphics) {
         super.draw(graphics);
-        // getIntersectRectangle().draw(graphics);
+        // drawBounds(graphics, new Color(255,0,0, 170));
     }
 
     public void setMap(Map map) {
@@ -276,14 +265,14 @@ public class Kirby extends AnimatedSprite {
     public HashMap<String, Frame[]> getAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("STAND_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)
                             .withScale(2)
                             .withBounds(6, 5, 12, 14)
                             .build()
             });
 
             put("STAND_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)
                             .withScale(2)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(6, 5, 12, 14)

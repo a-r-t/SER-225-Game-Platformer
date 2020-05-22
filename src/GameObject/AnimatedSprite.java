@@ -2,6 +2,7 @@ package GameObject;
 
 import Engine.Graphics;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected String previousAnimationName = "";
 	protected int currentFrameIndex;
 	protected long beforeTime = System.currentTimeMillis();
-	protected boolean hasAnimationFinished;
+	protected boolean hasAnimationLooped;
 	protected Sprite currentSprite;
 
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
@@ -65,7 +66,7 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 			currentFrameIndex = 0;
 			setCurrentSprite();
 			beforeTime = System.currentTimeMillis();
-			hasAnimationFinished = false;
+			hasAnimationLooped = false;
 		} else {
 			if (getCurrentAnimation().length > 1) {
 				long currentMillis = System.currentTimeMillis() - beforeTime;
@@ -74,7 +75,7 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 					currentFrameIndex++;
 					if (currentFrameIndex >= animations.get(currentAnimationName).length) {
 						currentFrameIndex = 0;
-						hasAnimationFinished = true;
+						hasAnimationLooped = true;
 					}
 					setCurrentSprite();
 				}
@@ -106,8 +107,8 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 		currentSprite.draw(graphics);
 	}
 
-    public void drawBounds(Graphics graphics) {
-        graphics.drawFilledRectangle(getScaledBoundsX1(), getScaledBoundsY1(), getScaledBounds().getWidth(), getScaledBounds().getHeight(), getScaledBounds().getColor());
+    public void drawBounds(Graphics graphics, Color color) {
+		currentSprite.drawBounds(graphics, color);
     }
 
 	public int getX() { return currentSprite.getX(); }

@@ -3,6 +3,7 @@ package GameObject;
 import Engine.ImageLoader;
 import Engine.Graphics;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Sprite extends Rectangle implements IntersectableRectangle {
@@ -132,7 +133,9 @@ public abstract class Sprite extends Rectangle implements IntersectableRectangle
 		graphics.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
-	public void drawBounds(Graphics graphics) {
-        graphics.drawFilledRectangle(getScaledBoundsX1(), getScaledBoundsY1(), bounds.getScaledWidth(), bounds.getScaledHeight(), color);
+	public void drawBounds(Graphics graphics, Color color) {
+        Rectangle scaledBounds = getScaledBounds();
+        scaledBounds.setColor(color);
+        scaledBounds.draw(graphics);
     }
 }

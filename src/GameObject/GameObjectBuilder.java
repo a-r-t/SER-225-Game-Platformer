@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class GameObjectBuilder {
     protected SpriteSheet spriteSheet;
     protected HashMap<String, Frame[]> animations = new HashMap<>();
-    protected String startingAnimation = "DEFAULT";
+    protected String startingAnimationName = "DEFAULT";
 
     public GameObjectBuilder(BufferedImage image) {
         this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
@@ -37,8 +37,8 @@ public class GameObjectBuilder {
         return this;
     }
 
-    public GameObjectBuilder withStartingAnimation(String startingAnimation) {
-        this.startingAnimation = startingAnimation;
+    public GameObjectBuilder withStartingAnimation(String startingAnimationName) {
+        this.startingAnimationName = startingAnimationName;
         return this;
     }
 
@@ -52,6 +52,6 @@ public class GameObjectBuilder {
     }
 
     public GameObject build(float x, float y) {
-        return new GameObject(spriteSheet, x, y, cloneAnimations(), startingAnimation);
+        return new GameObject(spriteSheet, x, y, cloneAnimations(), startingAnimationName);
     }
 }

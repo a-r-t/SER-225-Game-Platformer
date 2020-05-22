@@ -9,46 +9,46 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected float x, y;
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
-	protected String currentAnimation = "";
-	protected String previousAnimation = "";
+	protected String currentAnimationName = "";
+	protected String previousAnimationName = "";
 	protected int currentFrameIndex;
 	protected long beforeTime = System.currentTimeMillis();
 	protected boolean hasAnimationFinished;
 	protected Sprite currentSprite;
 
-	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimation) {
+	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		this.x = x;
 		this.y = y;
 		this.spriteSheet = spriteSheet;
 		this.animations = getAnimations();
-		this.currentAnimation = startingAnimation;
+		this.currentAnimationName = startingAnimationName;
 		setCurrentSprite();
 	}
 
-    public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+    public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, HashMap<String, Frame[]> animations, String startingAnimationName) {
         this.x = x;
         this.y = y;
         this.spriteSheet = spriteSheet;
         this.animations = animations;
-        this.currentAnimation = startingAnimation;
+        this.currentAnimationName = startingAnimationName;
         setCurrentSprite();
     }
 
-	public AnimatedSprite(BufferedImage image, float x, float y, String startingAnimation) {
+	public AnimatedSprite(BufferedImage image, float x, float y, String startingAnimationName) {
 		this.x = x;
 		this.y = y;
 		this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
         this.animations = getAnimations();
-        this.currentAnimation = startingAnimation;
+        this.currentAnimationName = startingAnimationName;
 		setCurrentSprite();
 	}
 
-    public AnimatedSprite(BufferedImage image, float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+    public AnimatedSprite(BufferedImage image, float x, float y, HashMap<String, Frame[]> animations, String startingAnimationName) {
         this.x = x;
         this.y = y;
         this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
         this.animations = animations;
-        this.currentAnimation = startingAnimation;
+        this.currentAnimationName = startingAnimationName;
         setCurrentSprite();
     }
 
@@ -57,28 +57,30 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
         this.y = y;
         this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
         this.animations = new HashMap<>();
-        this.currentAnimation = "";
+        this.currentAnimationName = "";
     }
 
 	public void update() {
-		if (!previousAnimation.equals(currentAnimation)) {
+		if (!previousAnimationName.equals(currentAnimationName)) {
 			currentFrameIndex = 0;
 			setCurrentSprite();
 			beforeTime = System.currentTimeMillis();
 			hasAnimationFinished = false;
 		} else {
-			long currentMillis = System.currentTimeMillis() - beforeTime;
-			if (currentMillis > animations.get(currentAnimation)[currentFrameIndex].getDelay()) {
-				beforeTime = System.currentTimeMillis();
-				currentFrameIndex++;
-				if (currentFrameIndex >= animations.get(currentAnimation).length) {
-					currentFrameIndex = 0;
-					hasAnimationFinished = true;
+			if (getCurrentAnimation().length > 1) {
+				long currentMillis = System.currentTimeMillis() - beforeTime;
+				if (currentMillis > animations.get(currentAnimationName)[currentFrameIndex].getDelay()) {
+					beforeTime = System.currentTimeMillis();
+					currentFrameIndex++;
+					if (currentFrameIndex >= animations.get(currentAnimationName).length) {
+						currentFrameIndex = 0;
+						hasAnimationFinished = true;
+					}
+					setCurrentSprite();
 				}
-				setCurrentSprite();
 			}
 		}
-		previousAnimation = currentAnimation;
+		previousAnimationName = currentAnimationName;
 	}
 
 	public HashMap<String, Frame[]> getAnimations() {
@@ -92,8 +94,9 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	}
 
 	protected Frame getCurrentFrame() {
-		return animations.get(currentAnimation)[currentFrameIndex];
+		return animations.get(currentAnimationName)[currentFrameIndex];
 	}
+	protected Frame[] getCurrentAnimation() { return animations.get(currentAnimationName); }
 
 	public Sprite getCurrentSprite() {
 		return currentSprite;
@@ -201,12 +204,12 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	    currentSprite.setScale(scale);
     }
 
-    public String getCurrentAnimation() {
-	    return currentAnimation;
+    public String getCurrentAnimationName() {
+	    return currentAnimationName;
     }
 
-    public void setCurrentAnimation() {
-	    this.currentAnimation = currentAnimation;
+    public void setCurrentAnimationName() {
+	    this.currentAnimationName = currentAnimationName;
     }
 
     public void setAnimations(HashMap<String, Frame[]> animations) {

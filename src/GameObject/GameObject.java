@@ -1,6 +1,5 @@
 package GameObject;
 
-import GameObject.FrameBuilder;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -30,7 +29,7 @@ public class GameObject extends AnimatedSprite {
 					new FrameBuilder(image, 0).build()
 			});
 		}};
-		this.currentAnimation = "DEFAULT";
+		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
 	}
 
@@ -43,7 +42,7 @@ public class GameObject extends AnimatedSprite {
 							.build()
 			});
 		}};
-		this.currentAnimation = "DEFAULT";
+		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
 	}
 
@@ -57,7 +56,7 @@ public class GameObject extends AnimatedSprite {
 							.build()
 			});
 		}};
-		this.currentAnimation = "DEFAULT";
+		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
 	}
 
@@ -72,7 +71,7 @@ public class GameObject extends AnimatedSprite {
 							.build()
 			});
 		}};
-		this.currentAnimation = "DEFAULT";
+		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
 	}
 }

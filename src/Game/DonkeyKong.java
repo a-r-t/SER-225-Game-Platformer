@@ -32,9 +32,9 @@ public class DonkeyKong extends AnimatedSprite {
 	public void update(Keyboard keyboard) {
 		super.update();
 		if (keyboard.isKeyDown(Key.SPACE)) {
-			currentAnimation = "BEAT_CHEST";
+			currentAnimationName = "BEAT_CHEST";
 		} else if (keyboard.isKeyUp(Key.SPACE)) {
-			currentAnimation = "STAND_STILL";
+			currentAnimationName = "STAND_STILL";
 		}
 	}
 

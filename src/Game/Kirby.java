@@ -90,7 +90,7 @@ public class Kirby extends AnimatedSprite {
     }
 
     protected void playerStanding(Keyboard keyboard) {
-        currentAnimation = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+        currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
         if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
         } else if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
@@ -102,7 +102,7 @@ public class Kirby extends AnimatedSprite {
     }
 
     protected void playerWalking(Keyboard keyboard) {
-        currentAnimation = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+        currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
         if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
             moveAmountX -= walkSpeed;
             facingDirection = Direction.LEFT;
@@ -122,7 +122,7 @@ public class Kirby extends AnimatedSprite {
     }
 
     protected void playerCrouching(Keyboard keyboard) {
-        currentAnimation = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+        currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
         if (keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
         }
@@ -133,7 +133,7 @@ public class Kirby extends AnimatedSprite {
 
     protected void playerJumping(Keyboard keyboard) {
         if (previousAirGroundState == AirGroundState.GROUND && airGroundState == AirGroundState.GROUND) {
-            currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             airGroundState = AirGroundState.AIR;
             jumpForce = jumpHeight;
             if (jumpForce > 0) {
@@ -154,9 +154,9 @@ public class Kirby extends AnimatedSprite {
             }
 
             if (jumpForce >= gravity + momentumY) {
-                currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             } else {
-                currentAnimation = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
             }
 
             if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {

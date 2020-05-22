@@ -17,6 +17,6 @@ public class MapTileBuilder extends GameObjectBuilder {
 
     @Override
     public MapTile build(float x, float y) {
-        return new MapTile(spriteSheet, x, y, cloneAnimations(), startingAnimation);
+        return new MapTile(spriteSheet, x, y, cloneAnimations(), startingAnimationName);
     }
 }

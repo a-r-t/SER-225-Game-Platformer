@@ -4,15 +4,22 @@ import GameObject.SpriteSheet;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import Map.MapTile.MapTileBuilder;
+import Map.MapTileBuilder;
 
 public abstract class Tileset extends SpriteSheet {
 
     protected float scale = 1f;
-    protected HashMap<Integer, MapTileBuilder> tiles = createTiles();
+    protected HashMap<Integer, MapTileBuilder> tiles;
 
     public Tileset(String imageFileName, int tileWidth, int tileHeight) {
         super(imageFileName, tileWidth, tileHeight);
+        this.tiles = createTiles();
+    }
+
+    public Tileset(String imageFileName, int tileWidth, int tileHeight, int scale) {
+        super(imageFileName, tileWidth, tileHeight);
+        this.scale = scale;
+        this.tiles = createTiles();
     }
 
     public BufferedImage getSubImage(int row, int column) {
@@ -24,7 +31,9 @@ public abstract class Tileset extends SpriteSheet {
         return new SpriteSheet(subImage, spriteWidth, spriteHeight);
     }
 
-    public abstract MapTileBuilder getTileBuilder(int tileNumber);
+    public MapTileBuilder getTile(int tileNumber) {
+        return tiles.getOrDefault(tileNumber, null);
+    }
 
     public float getScale() {
         return scale;

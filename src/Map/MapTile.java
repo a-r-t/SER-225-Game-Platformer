@@ -3,48 +3,15 @@ package Map;
 import Engine.Graphics;
 import Game.Kirby;
 
-import GameObject.Sprite;
+import GameObject.*;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
-public class MapTile extends Sprite implements Tile {
-    private boolean hasCollision = false;
+public class MapTile extends GameObject {
 
-    public static class MapTileBuilder {
-        private BufferedImage image;
-        private boolean hasCollision;
-
-        public MapTileBuilder(BufferedImage image) {
-            this.image = image;
-            hasCollision = false;
-        }
-
-        public MapTileBuilder hasCollision(boolean hasCollision) {
-            this.hasCollision = hasCollision;
-            return this;
-        }
-
-        public MapTile build(float x, float y, float scale) {
-            return new MapTile(image, x, y, scale, hasCollision);
-        }
-    }
-
-    private MapTile(BufferedImage image, float x, float y) {
-        super(image, x, y);
-    }
-
-    private MapTile(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale);
-    }
-
-    private MapTile(BufferedImage image, float x, float y, boolean hasCollision) {
-        super(image, x, y);
-        this.hasCollision = hasCollision;
-    }
-
-    private MapTile(BufferedImage image, float x, float y, float scale, boolean hasCollision) {
-        super(image, x, y, scale);
-        this.hasCollision = hasCollision;
+    public MapTile(SpriteSheet image, float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+        super(image, x, y, animations, startingAnimation);
     }
 
     public void update(Map map, Kirby kirby) {

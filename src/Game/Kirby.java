@@ -6,11 +6,11 @@ import Engine.Keyboard;
 import Engine.Graphics;
 import GameObject.*;
 import GameObject.Frame;
-import GameObject.Frame.FrameBuilder;
+import GameObject.FrameBuilder;
 import GameObject.Rectangle;
 import Map.Map;
+import Map.MapTile;
 import Utils.Direction;
-import Map.Tile;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class Kirby extends AnimatedSprite {
     private final Key CROUCH_KEY = Key.S;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
-        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y);
+        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT");
         this.sceneBounds = sceneBounds;
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
@@ -185,7 +185,7 @@ public class Kirby extends AnimatedSprite {
     }
 
     private boolean hasCollidedWithTile(int xTileIndex, int yTileIndex) {
-        Tile tile = map.getTile(xTileIndex, yTileIndex);
+        MapTile tile = map.getTile(xTileIndex, yTileIndex);
         int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
         return tile != null && movementPermission == 1 && intersects(tile);
     }
@@ -273,7 +273,7 @@ public class Kirby extends AnimatedSprite {
     }
 
     @Override
-    public HashMap<String, Frame[]> loadAnimations() {
+    public HashMap<String, Frame[]> getAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("STAND_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
@@ -377,10 +377,5 @@ public class Kirby extends AnimatedSprite {
                             .build()
             });
         }};
-    }
-
-    @Override
-    public String getStartingAnimation() {
-        return "STAND_RIGHT";
     }
 }

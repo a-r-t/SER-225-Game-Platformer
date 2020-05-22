@@ -5,7 +5,7 @@ import Engine.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite implements GameObject, IntersectableRectangle {
+public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected float x, y;
 	protected SpriteSheet spriteSheet;
 	protected HashMap<String, Frame[]> animations;
@@ -16,27 +16,49 @@ public abstract class AnimatedSprite implements GameObject, IntersectableRectang
 	protected boolean hasAnimationFinished;
 	protected Sprite currentSprite;
 
-	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y) {
+	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimation) {
 		this.x = x;
 		this.y = y;
 		this.spriteSheet = spriteSheet;
-		animations = loadAnimations();
-		currentAnimation = getStartingAnimation();
+		this.animations = getAnimations();
+		this.currentAnimation = startingAnimation;
 		setCurrentSprite();
 	}
 
-	public AnimatedSprite(BufferedImage image, float x, float y) {
+    public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+        this.x = x;
+        this.y = y;
+        this.spriteSheet = spriteSheet;
+        this.animations = animations;
+        this.currentAnimation = startingAnimation;
+        setCurrentSprite();
+    }
+
+	public AnimatedSprite(BufferedImage image, float x, float y, String startingAnimation) {
 		this.x = x;
 		this.y = y;
 		this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
-		animations = loadAnimations();
-		currentAnimation = getStartingAnimation();
+        this.animations = getAnimations();
+        this.currentAnimation = startingAnimation;
 		setCurrentSprite();
 	}
 
-    public abstract HashMap<String, Frame[]> loadAnimations();
+    public AnimatedSprite(BufferedImage image, float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+        this.x = x;
+        this.y = y;
+        this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
+        this.animations = animations;
+        this.currentAnimation = startingAnimation;
+        setCurrentSprite();
+    }
 
-	public abstract String getStartingAnimation();
+    public AnimatedSprite(BufferedImage image, float x, float y) {
+        this.x = x;
+        this.y = y;
+        this.spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
+        this.animations = new HashMap<>();
+        this.currentAnimation = "";
+    }
 
 	public void update() {
 		if (!previousAnimation.equals(currentAnimation)) {
@@ -59,7 +81,11 @@ public abstract class AnimatedSprite implements GameObject, IntersectableRectang
 		previousAnimation = currentAnimation;
 	}
 
-	private void setCurrentSprite() {
+	public HashMap<String, Frame[]> getAnimations() {
+	    return null;
+    }
+
+	protected void setCurrentSprite() {
 		currentSprite = getCurrentFrame();
 		currentSprite.setX(x);
 		currentSprite.setY(y);
@@ -73,10 +99,13 @@ public abstract class AnimatedSprite implements GameObject, IntersectableRectang
 		return currentSprite;
 	}
 
-	@Override
 	public void draw(Graphics graphics) {
 		currentSprite.draw(graphics);
 	}
+
+    public void drawBounds(Graphics graphics) {
+        graphics.drawFilledRectangle(getScaledBoundsX1(), getScaledBoundsY1(), getScaledBounds().getWidth(), getScaledBounds().getHeight(), getScaledBounds().getColor());
+    }
 
 	public int getX() { return currentSprite.getX(); }
 	public int getY() { return currentSprite.getY(); }
@@ -166,5 +195,25 @@ public abstract class AnimatedSprite implements GameObject, IntersectableRectang
 
     public float getScale() {
 	    return currentSprite.getScale();
+    }
+
+    public void setScale(float scale) {
+	    currentSprite.setScale(scale);
+    }
+
+    public String getCurrentAnimation() {
+	    return currentAnimation;
+    }
+
+    public void setCurrentAnimation() {
+	    this.currentAnimation = currentAnimation;
+    }
+
+    public void setAnimations(HashMap<String, Frame[]> animations) {
+	    this.animations = animations;
+    }
+
+    public void addAnimation(String animationName, Frame[] frame) {
+	    animations.put(animationName, frame);
     }
 }

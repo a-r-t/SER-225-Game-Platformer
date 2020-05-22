@@ -6,7 +6,7 @@ import GameObject.Rectangle;
 import java.awt.*;
 
 public abstract class Map {
-    protected Tile[] tiles;
+    protected MapTile[] tiles;
     protected int[] movementPermissions;
     protected int width;
     protected int height;
@@ -24,8 +24,8 @@ public abstract class Map {
         int[] map = createMap();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Tile tile = tileset.getTileBuilder(map[j + width * i])
-                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight(), tileset.getScale());
+                MapTile tile = tileset.getTile(map[j + width * i])
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
                 setTile(j, i, tile);
             }
         }
@@ -35,7 +35,7 @@ public abstract class Map {
     public abstract int[] createMap();
     public abstract int[] createMovementPermissions();
 
-    public Tile getTile(int x, int y) {
+    public MapTile getTile(int x, int y) {
         if (isInBounds(x, y)) {
             return tiles[x + width * y];
         } else {
@@ -43,7 +43,7 @@ public abstract class Map {
         }
     }
 
-    public Tile getTile(Point index) {
+    public MapTile getTile(Point index) {
         if (isInBounds(index.x, index.y)) {
             return tiles[index.x + width * index.y];
         } else {
@@ -51,11 +51,11 @@ public abstract class Map {
         }
     }
 
-    public void setTile(int x, int y, Tile tile) {
+    public void setTile(int x, int y, MapTile tile) {
         tiles[x + width * y] = tile;
     }
 
-    public void setTile(Point index, Tile tile) {
+    public void setTile(Point index, MapTile tile) {
         tiles[index.x + width * index.y] = tile;
     }
 
@@ -75,7 +75,7 @@ public abstract class Map {
     }
     public void setMovementPermission(int x, int y, int movementPermission) { movementPermissions[x + width * y] = movementPermission; }
 
-    public Tile getTileByPosition(int xPosition, int yPosition) {
+    public MapTile getTileByPosition(int xPosition, int yPosition) {
         int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
         int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
         if (isInBounds(xIndex, yIndex)) {
@@ -107,7 +107,7 @@ public abstract class Map {
     }
 
     public void update() {
-        for (Tile tile : tiles) {
+        for (MapTile tile : tiles) {
             tile.update(this, null);
         }
     }
@@ -116,7 +116,7 @@ public abstract class Map {
         for (int i = camera.getY1() - 1; i < camera.getY2() + 1; i++) {
             for (int j = camera.getX1() - 1; j < camera.getX2() + 1; j++) {
                 if (isInBounds(j, i) && tiles[j + width * i] != null) {
-                    tiles[j + width * i].draw(graphics);
+                    getTile(j, i).draw(graphics);
                 }
             }
         }

@@ -4,7 +4,7 @@ import Engine.Graphics;
 
 import java.awt.*;
 
-public class Rectangle implements GameObject, IntersectableRectangle {
+public class Rectangle implements IntersectableRectangle {
     protected float x;
 	protected float y;
 	protected int width;
@@ -159,10 +159,8 @@ public class Rectangle implements GameObject, IntersectableRectangle {
 		return String.format("Rectangle: x=%s y=%s width=%s height=%s", getX(), getY(), getScaledWidth(), getScaledHeight());
 	}
 
-	@Override
 	public void update() { }
 
-	@Override
 	public void draw(Graphics graphics) {
 		graphics.drawFilledRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), color);
 		if (borderColor != null && !borderColor.equals(color)) {

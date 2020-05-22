@@ -4,7 +4,7 @@ import Engine.Graphics;
 
 import java.awt.*;
 
-public class SpriteFont implements GameObject {
+public class SpriteFont {
 	protected String text;
 	protected Font font;
 	protected float x;
@@ -89,13 +89,7 @@ public class SpriteFont implements GameObject {
 	public void moveUp(float dy) {
 		y -= dy;
 	}
-	
-	@Override
-	public void update() {
 
-	}
-
-	@Override
 	public void draw(Graphics graphics) {
 		if (outlineColor != null && !outlineColor.equals(color)) {
 			graphics.drawStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);

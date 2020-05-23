@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 public class MapTile extends GameObject {
 
-    public MapTile(SpriteSheet image, float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
-        super(image, x, y, animations, startingAnimation);
+    public MapTile(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+        super(x, y, animations, startingAnimation);
     }
 
     public void update(Map map, Kirby kirby) {

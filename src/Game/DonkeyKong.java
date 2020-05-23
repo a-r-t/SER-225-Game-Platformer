@@ -16,7 +16,7 @@ public class DonkeyKong extends AnimatedSprite {
 	}
 
 	@Override
-	public HashMap<String, Frame[]> getAnimations() {
+	public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
 		return new HashMap<String, Frame[]>() {{
 			put("BEAT_CHEST", new Frame[] {
 					new FrameBuilder(spriteSheet.getSprite(0, 0), 200).build(),

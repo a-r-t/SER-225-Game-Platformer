@@ -26,7 +26,7 @@ public abstract class Map {
         this.endBoundX = width * tileset.getScaledSpriteWidth();
         this.endBoundY = height * tileset.getScaledSpriteHeight();
         this.xMidPoint = screenBounds.getWidth() / 2;
-        this.yMidPoint = screenBounds.getHeight() / 2;
+        this.yMidPoint = (screenBounds.getHeight() / 2);
         this.width = width;
         this.height = height;
         this.playerStart = playerStart;
@@ -113,12 +113,37 @@ public abstract class Map {
         return new Point(xIndex, yIndex);
     }
 
+    public Point getTileIndexByCameraPosition() {
+        int xIndex = camera.getX() / Math.round(tileset.getScaledSpriteWidth());
+        int yIndex = camera.getY() / Math.round(tileset.getScaledSpriteHeight());
+        return new Point(xIndex, yIndex);
+    }
+
     private boolean isInBounds(int x, int y) {
         int index = x + width * y;
         return x >= 0 && y >= 0 && x < width && y < height && index >= 0 && index < tiles.length;
     }
 
     public void update(Kirby player) {
+        adjustCameraY(player);
+        adjustCameraX(player);
+
+        Point tileIndex = getTileIndexByCameraPosition();
+        for (int i = tileIndex.y - 1; i <= tileIndex.y + camera.getHeight() + 1; i++) {
+            for (int j = tileIndex.x - 1; j <= tileIndex.x + camera.getWidth() + 1; j++) {
+                MapTile tile = getTile(j, i);
+                if (tile != null) {
+                    int tileStartX = j * tile.getScaledWidth();
+                    int tileStartY = i * tile.getScaledHeight();
+                    tile.setX(tileStartX - camera.getX());
+                    tile.setY(tileStartY - camera.getY());
+                    tile.update(this, player);
+                }
+            }
+        }
+    }
+
+    private void adjustCameraX(Kirby player) {
         int xMidPointDifference = 0;
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
@@ -139,24 +164,33 @@ public abstract class Map {
                 camera.moveX(cameraDifference);
             }
         }
+    }
 
-        Point tileIndex = getTileIndexByPosition(0, 0);
-        for (int i = tileIndex.y - 1; i <= tileIndex.y + camera.getHeight() + 1; i++) {
-            for (int j = tileIndex.x - 1; j <= tileIndex.x + camera.getWidth() + 1; j++) {
-                MapTile tile = getTile(j, i);
-                if (tile != null) {
-                    int tileStartX = j * tile.getScaledWidth();
-                    int tileStartY = i * tile.getScaledHeight();
-                    tile.setX(tileStartX - camera.getX());
-                    tile.setY(tileStartY - camera.getY());
-                    tile.update(this, player);
-                }
+    private void adjustCameraY(Kirby player) {
+        int yMidPointDifference = 0;
+        if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
+            yMidPointDifference = yMidPoint - player.getY();
+            player.moveY(yMidPointDifference);
+            camera.moveY(-yMidPointDifference);
+            if (camera.getEndBoundY() > endBoundY) {
+                int cameraDifference = camera.getEndBoundY() - endBoundY;
+                player.moveY(cameraDifference);
+                camera.moveY(-cameraDifference);
+            }
+        } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
+            yMidPointDifference = yMidPoint - player.getY();
+            player.moveY(yMidPointDifference);
+            camera.moveY(-yMidPointDifference);
+            if (camera.getY() < startBoundY) {
+                int cameraDifference = startBoundY - camera.getY();
+                player.moveY(-cameraDifference);
+                camera.moveY(cameraDifference);
             }
         }
     }
 
     public void draw(Graphics graphics) {
-        Point tileIndex = getTileIndexByPosition(0, 0);
+        Point tileIndex = getTileIndexByCameraPosition();
         for (int i = tileIndex.y - 1; i <= tileIndex.y + camera.getHeight() + 1; i++) {
             for (int j = tileIndex.x - 1; j <= tileIndex.x + camera.getWidth() + 1; j++) {
                 MapTile tile = getTile(j, i);

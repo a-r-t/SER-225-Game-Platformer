@@ -14,11 +14,15 @@ public class SpriteSheet {
 	protected BufferedImage image;
 	protected int spriteWidth;
 	protected int spriteHeight;
+	protected int rowLength;
+	protected int columnLength;
 
 	public SpriteSheet(String imageFileName, int spriteWidth, int spriteHeight) {
 		loadImage(imageFileName);
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
+		this.rowLength = image.getHeight() / spriteHeight;
+		this.columnLength = image.getWidth() / spriteWidth;
 	}
 
 	public SpriteSheet(BufferedImage image, int spriteWidth, int spriteHeight) {

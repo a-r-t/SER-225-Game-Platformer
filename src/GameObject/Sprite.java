@@ -2,70 +2,55 @@ package GameObject;
 
 import Engine.ImageLoader;
 import Engine.Graphics;
-import Game.Kirby;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Sprite extends Rectangle {
+public abstract class Sprite extends Rectangle implements IntersectableRectangle {
 	protected BufferedImage image;
     protected Rectangle bounds;
-    protected float scale;
     protected ImageEffect imageEffect;
 
     public Sprite (BufferedImage image) {
         super(0, 0, image.getWidth(), image.getHeight());
         this.image = image;
-        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-        this.scale = 1;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight());
         this.imageEffect = ImageEffect.NONE;
     }
 
     public Sprite (BufferedImage image, float scale) {
-        super(0, 0, image.getWidth(), image.getHeight());
+        super(0, 0, image.getWidth(), image.getHeight(), scale);
         this.image = image;
-        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-        this.scale = scale;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
         this.imageEffect = ImageEffect.NONE;
     }
 
     public Sprite (BufferedImage image, float scale, ImageEffect imageEffect) {
-        super(0, 0, image.getWidth(), image.getHeight());
+        super(0, 0, image.getWidth(), image.getHeight(), scale);
         this.image = image;
-        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-        this.scale = scale;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
         this.imageEffect = imageEffect;
     }
 
     public Sprite(BufferedImage image, float x, float y) {
         super(x, y, image.getWidth(), image.getHeight());
         this.image = image;
-        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-        this.scale = 1;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight());
         this.imageEffect = ImageEffect.NONE;
     }
 
     public Sprite(BufferedImage image, float x, float y, float scale) {
-        super(x, y, image.getWidth(), image.getHeight());
+        super(x, y, image.getWidth(), image.getHeight(), scale);
         this.image = image;
-        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-        this.scale = scale;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
         this.imageEffect = ImageEffect.NONE;
     }
 
     public Sprite(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(x, y, image.getWidth(), image.getHeight());
+        super(x, y, image.getWidth(), image.getHeight(), scale);
         this.image = image;
-        this.bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-        this.scale = scale;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
         this.imageEffect = imageEffect;
-    }
-
-    public int getScaledX2() {
-        return Math.round((x + width) * scale);
-    }
-
-    public int getScaledY2() {
-        return Math.round((y + height) * scale);
     }
 	
 	public BufferedImage getImage() {
@@ -80,80 +65,30 @@ public abstract class Sprite extends Rectangle {
         this.image = image;
     }
 
-    @Override
-    public void setX(float x) {
-        super.setX(x);
-    }
-
-    @Override
-    public void moveX(float dx) {
-        super.moveX(dx);
-    }
-
-    @Override
-    public void moveRight(float dx) {
-        super.moveRight(dx);
-    }
-
-    @Override
-    public void moveLeft(float dx) {
-        super.moveLeft(dx);
-    }
-
-    @Override
-    public void setY(float y) {
-        super.setY(y);
-    }
-
-    @Override
-    public void moveY(float dy) {
-        super.moveY(dy);
-    }
-
-    @Override
-    public void moveDown(float dy) {
-        super.moveDown(dy);
-    }
-
-    @Override
-    public void moveUp(float dy) {
-        super.moveUp(dy);
-    }
-
-    @Override
-    public void setLocation(float x, float y) {
-        this.setX(x);
-        this.setY(y);
-    }
-
-    public int getScaledWidth() {
-        return Math.round(width * scale);
-    }
-
-    public int getScaledHeight() {
-        return Math.round(height * scale);
-    }
-
-    @Override
-    public void setWidth(int width) {
-        super.setWidth(width);
-    }
-
-    @Override
-    public void setHeight(int height) {
-        super.setHeight(height);
-    }
-
-    public float getScale() { return scale; }
-
-    public void setScale(float scale) {
-        this.scale = scale;
-    }
-
     public ImageEffect getImageEffect() { return imageEffect; }
 
     public void setImageEffect(ImageEffect imageEffect) {
         this.imageEffect = imageEffect;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(getBoundsX1(), getBoundsY1(), bounds.getWidth(), bounds.getHeight(), scale);
+    }
+
+    public int getBoundsX1() {
+        return getX() + bounds.getX1();
+    }
+
+    public int getBoundsX2() {
+        return getX() + bounds.getX2();
+    }
+
+    public int getBoundsY1() {
+        return getY() + bounds.getY1();
+    }
+
+    public int getBoundsY2() {
+        return getY() + bounds.getY2();
     }
 
     public int getScaledBoundsX1() {
@@ -161,7 +96,7 @@ public abstract class Sprite extends Rectangle {
     }
 
     public int getScaledBoundsX2() {
-        return getScaledBoundsX1() + Math.round(bounds.getWidth() * scale);
+        return getScaledBoundsX1() + bounds.getScaledWidth();
     }
 
     public int getScaledBoundsY1() {
@@ -169,34 +104,23 @@ public abstract class Sprite extends Rectangle {
     }
 
     public int getScaledBoundsY2() {
-        return getScaledBoundsY1() + Math.round(bounds.getHeight() * scale);
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(getX() + bounds.getX(), getY() + bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        return getScaledBoundsY1() + bounds.getScaledHeight();
     }
 
     public Rectangle getScaledBounds() {
-        return new Rectangle(getScaledBoundsX1(), getScaledBoundsY1(), Math.round(bounds.getWidth() * scale), Math.round(bounds.getHeight() * scale));
+        return new Rectangle(getScaledBoundsX1(), getScaledBoundsY1(), bounds.getScaledWidth(), bounds.getScaledHeight());
     }
 
     public void setBounds(Rectangle bounds) {
-        this.bounds = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+        this.bounds = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
     public void setBounds(float x, float y, int width, int height) {
-        this.bounds = new Rectangle(x, y, width, height);
+        this.bounds = new Rectangle(x, y, width, height, scale);
     }
 
-    @Override
-    public boolean intersects(Rectangle other) {
-        if (other instanceof Sprite) {
-            Sprite otherSprite = (Sprite) other;
-            return getScaledBoundsX1() < otherSprite.getScaledBoundsX2() && getScaledBoundsX2() > otherSprite.getScaledBoundsX1() &&
-                    getScaledBoundsY1() < otherSprite.getScaledBoundsY2() && getScaledBoundsY2() > otherSprite.getScaledBoundsY1();
-        } else {
-            return super.intersects(other);
-        }
+    public Rectangle getIntersectRectangle() {
+        return getScaledBounds();
     }
 
     @Override
@@ -209,4 +133,9 @@ public abstract class Sprite extends Rectangle {
 		graphics.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
+	public void drawBounds(Graphics graphics, Color color) {
+        Rectangle scaledBounds = getScaledBounds();
+        scaledBounds.setColor(color);
+        scaledBounds.draw(graphics);
+    }
 }

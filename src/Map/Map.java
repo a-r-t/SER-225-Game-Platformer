@@ -6,7 +6,7 @@ import GameObject.Rectangle;
 import java.awt.*;
 
 public abstract class Map {
-    protected Tile[] tiles;
+    protected MapTile[] tiles;
     protected int[] movementPermissions;
     protected int width;
     protected int height;
@@ -16,7 +16,7 @@ public abstract class Map {
 
     public Map(int width, int height, Tileset tileset, Rectangle screenBounds, Point playerStart) {
         this.tileset = tileset;
-        tiles = new Tile[height * width];
+        tiles = new MapTile[height * width];
         camera = new Rectangle(0, 0, screenBounds.getWidth() / tileset.getSpriteWidth(), screenBounds.getHeight() / tileset.getSpriteHeight());
         this.width = width;
         this.height = height;
@@ -24,7 +24,8 @@ public abstract class Map {
         int[] map = createMap();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Tile tile = tileset.createTile(map[j + width * i], j, i);
+                MapTile tile = tileset.getTile(map[j + width * i])
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
                 setTile(j, i, tile);
             }
         }
@@ -34,17 +35,47 @@ public abstract class Map {
     public abstract int[] createMap();
     public abstract int[] createMovementPermissions();
 
-    public Tile getTile(int x, int y) {
-        return tiles[x + width * y];
+    public MapTile getTile(int x, int y) {
+        if (isInBounds(x, y)) {
+            return tiles[x + width * y];
+        } else {
+            return null;
+        }
     }
-    public void setTile(int x, int y, Tile tile) {
+
+    public MapTile getTile(Point index) {
+        if (isInBounds(index.x, index.y)) {
+            return tiles[index.x + width * index.y];
+        } else {
+            return null;
+        }
+    }
+
+    public void setTile(int x, int y, MapTile tile) {
         tiles[x + width * y] = tile;
     }
 
-    public int getMovementPermission(int x, int y) { return movementPermissions[x + width * y]; }
+    public void setTile(Point index, MapTile tile) {
+        tiles[index.x + width * index.y] = tile;
+    }
+
+    public int getTileWidth() {
+        return tileset.getScaledSpriteWidth();
+    }
+    public int getTileHeight() {
+        return tileset.getScaledSpriteHeight();
+    }
+
+    public int getMovementPermission(int x, int y) {
+        if (isInBounds(x, y)) {
+            return movementPermissions[x + width * y];
+        } else {
+            return -1;
+        }
+    }
     public void setMovementPermission(int x, int y, int movementPermission) { movementPermissions[x + width * y] = movementPermission; }
 
-    public Tile getTileByPosition(int xPosition, int yPosition) {
+    public MapTile getTileByPosition(int xPosition, int yPosition) {
         int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
         int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
         if (isInBounds(xIndex, yIndex)) {
@@ -63,14 +94,21 @@ public abstract class Map {
             return -1;
         }
     }
+
+    public Point getTileIndexByPosition(int xPosition, int yPosition) {
+        int xIndex = xPosition / Math.round(tileset.getScaledSpriteWidth());
+        int yIndex = yPosition / Math.round(tileset.getScaledSpriteHeight());
+        return new Point(xIndex, yIndex);
+    }
+
     private boolean isInBounds(int x, int y) {
         int index = x + width * y;
         return index >= 0 && index < tiles.length;
     }
 
     public void update() {
-        for (Tile tile : tiles) {
-            tile.update();
+        for (MapTile tile : tiles) {
+            tile.update(this, null);
         }
     }
 
@@ -78,7 +116,7 @@ public abstract class Map {
         for (int i = camera.getY1() - 1; i < camera.getY2() + 1; i++) {
             for (int j = camera.getX1() - 1; j < camera.getX2() + 1; j++) {
                 if (isInBounds(j, i) && tiles[j + width * i] != null) {
-                    tiles[j + width * i].draw(graphics);
+                    getTile(j, i).draw(graphics);
                 }
             }
         }

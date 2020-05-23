@@ -6,12 +6,13 @@ import Engine.Keyboard;
 import Engine.Graphics;
 import GameObject.*;
 import GameObject.Frame;
-import GameObject.Frame.FrameBuilder;
+import GameObject.FrameBuilder;
 import GameObject.Rectangle;
 import Map.Map;
-import Map.Tile;
+import Map.MapTile;
 import Utils.Direction;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -39,7 +40,7 @@ public class Kirby extends AnimatedSprite {
     private final Key CROUCH_KEY = Key.S;
 
     public Kirby(float x, float y, Rectangle sceneBounds) {
-        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y);
+        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT");
         this.sceneBounds = sceneBounds;
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
@@ -48,188 +49,208 @@ public class Kirby extends AnimatedSprite {
     }
 
     public void update(Keyboard keyboard) {
+        moveAmountX = 0;
+        moveAmountY = 0;
+
+        applyGravity();
+
+        switch (playerState) {
+            case STANDING:
+                playerStanding(keyboard);
+                break;
+            case WALKING:
+                playerWalking(keyboard);
+                break;
+            case CROUCHING:
+                playerCrouching(keyboard);
+                break;
+            case JUMPING:
+                playerJumping(keyboard);
+                break;
+        }
+
+        previousAirGroundState = airGroundState;
+
+        super.update();
+
+        handleCollisionY();
+        handleCollisionX();
+        updateLockedKeys(keyboard);
+    }
+
+    protected void playerStanding(Keyboard keyboard) {
+        currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+        if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+            playerState = PlayerState.WALKING;
+        } else if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
+            lockedKeys.add(JUMP_KEY);
+            playerState = PlayerState.JUMPING;
+        } else if (keyboard.isKeyDown(CROUCH_KEY)) {
+            playerState = PlayerState.CROUCHING;
+        }
+    }
+
+    protected void playerWalking(Keyboard keyboard) {
+        currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+        if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
+            moveAmountX -= walkSpeed;
+            facingDirection = Direction.LEFT;
+        } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+            moveAmountX += walkSpeed;
+            facingDirection = Direction.RIGHT;
+        } else if (keyboard.isKeyUp(MOVE_LEFT_KEY) && keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
+            playerState = PlayerState.STANDING;
+        }
+
+        if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
+            lockedKeys.add(JUMP_KEY);
+            playerState = PlayerState.JUMPING;
+        } else if (keyboard.isKeyDown(CROUCH_KEY)) {
+            playerState = PlayerState.CROUCHING;
+        }
+    }
+
+    protected void playerCrouching(Keyboard keyboard) {
+        currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+        if (keyboard.isKeyUp(CROUCH_KEY)) {
+            playerState = PlayerState.STANDING;
+        }
+        if (keyboard.isKeyDown(JUMP_KEY)) {
+            playerState = PlayerState.JUMPING;
+        }
+    }
+
+    protected void playerJumping(Keyboard keyboard) {
+        if (previousAirGroundState == AirGroundState.GROUND && airGroundState == AirGroundState.GROUND) {
+            currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            airGroundState = AirGroundState.AIR;
+            jumpForce = jumpHeight;
+            if (jumpForce > 0) {
+                moveAmountY -= jumpForce;
+                jumpForce -= jumpDegrade;
+                if (jumpForce < 0) {
+                    jumpForce = 0;
+                }
+            }
+        }
+        else if (airGroundState == AirGroundState.AIR) {
+            if (jumpForce > 0) {
+                moveAmountY -= jumpForce;
+                jumpForce -= jumpDegrade;
+                if (jumpForce < 0) {
+                    jumpForce = 0;
+                }
+            }
+
+            if (jumpForce >= gravity + momentumY) {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            } else {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+            }
+
+            if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
+                moveAmountX -= walkSpeed;
+            } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+                moveAmountX += walkSpeed;
+            }
+        }
+        else if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
+            playerState = PlayerState.STANDING;
+        }
+    }
+
+    protected void applyGravity() {
         moveAmountY += gravity + momentumY;
         momentumY += momentumYIncrease;
         if (momentumY > terminalVelocityY) {
             momentumY = terminalVelocityY;
         }
+    }
 
-        if (playerState == PlayerState.STANDING) {
-            currentAnimation = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-            if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
-                playerState = PlayerState.WALKING;
-            } else if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
-                lockedKeys.add(JUMP_KEY);
-                playerState = PlayerState.JUMPING;
-            } else if (keyboard.isKeyDown(CROUCH_KEY)) {
-                playerState = PlayerState.CROUCHING;
-            }
-        }
-        if (playerState == PlayerState.WALKING) {
-            currentAnimation = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-            if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
-                moveAmountX -= walkSpeed;
-                facingDirection = Direction.LEFT;
-            } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
-                moveAmountX += walkSpeed;
-                facingDirection = Direction.RIGHT;
-            } else if (keyboard.isKeyUp(MOVE_LEFT_KEY) && keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
-                playerState = PlayerState.STANDING;
-            }
-
-            if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
-                lockedKeys.add(JUMP_KEY);
-                playerState = PlayerState.JUMPING;
-            } else if (keyboard.isKeyDown(CROUCH_KEY)) {
-                playerState = PlayerState.CROUCHING;
-            }
-        }
-        if (playerState == PlayerState.CROUCHING) {
-            currentAnimation = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
-            if (keyboard.isKeyUp(CROUCH_KEY)) {
-                playerState = PlayerState.STANDING;
-            }
-            if (keyboard.isKeyDown(JUMP_KEY)) {
-                playerState = PlayerState.JUMPING;
-            }
-        }
-        if (playerState == PlayerState.JUMPING) {
-            if (previousAirGroundState == AirGroundState.GROUND && airGroundState == AirGroundState.GROUND) {
-                currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
-                airGroundState = AirGroundState.AIR;
-                jumpForce = jumpHeight;
-                if (jumpForce > 0) {
-                    moveAmountY -= jumpForce;
-                    jumpForce -= jumpDegrade;
-                    if (jumpForce < 0) {
-                        jumpForce = 0;
-                    }
-                }
-            }
-            else if (airGroundState == AirGroundState.AIR) {
-                if (jumpForce > 0) {
-                    moveAmountY -= jumpForce;
-                    jumpForce -= jumpDegrade;
-                    if (jumpForce < 0) {
-                        jumpForce = 0;
-                    }
-                }
-
-                if (jumpForce >= gravity + momentumY) {
-                    currentAnimation = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
-                } else {
-                    currentAnimation = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
-                }
-
-                if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
-                    moveAmountX -= walkSpeed;
-                } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
-                    moveAmountX += walkSpeed;
-                }
-            }
-            else if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
-                playerState = PlayerState.STANDING;
-            }
-        }
+    protected void updateLockedKeys(Keyboard keyboard) {
         if (keyboard.isKeyUp(JUMP_KEY)) {
             lockedKeys.remove(JUMP_KEY);
         }
-        previousAirGroundState = airGroundState;
-
-        super.update();
-
-        if (moveAmountY > 0) {
-            boolean hasCollided = false;
-            for (int i = 0; i < Math.round(moveAmountY); i++) {
-                setY(getY() + 1);
-                int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
-                for (int j = -1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY2()));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY2()));
-//                     System.out.println("CHECK NUMBER: " + (j + 2));
-//                     System.out.println("Number of tiles: " + numberOfTilesToCheck);
-//                     System.out.println("MP: " + movementPermission);
-//                     System.out.println("CURRENT FRAME REG -- X: " + getX() + ", Y: " + getY() + ", WIDTH: " + getScaledWidth() + ", HEIGHT: " + getScaledHeight());
-//                     System.out.println("CURRENT FRAME BOUNDS -- X: " + getScaledBounds().getX() + ", Y: " + getScaledBounds().getY() + ", WIDTH: " + getScaledBounds().getWidth() + ", HEIGHT: " + getScaledBounds().getHeight());
-//                     System.out.println("TILE FRAME -- X: " + tile.getScaledBounds().getX() + ", Y: " + tile.getScaledBounds().getY() + ", WIDTH: " + tile.getScaledBounds().getWidth() + ", HEIGHT: " + tile.getScaledBounds().getHeight());
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        hasCollided = true;
-                        break;
-                    }
-                }
-                if (hasCollided) {
-                    setY(getY() - 1);
-                    momentumY = 0;
-                    airGroundState = AirGroundState.GROUND;
-                    break;
-                }
-                airGroundState = AirGroundState.AIR;
-            }
-        } else if (moveAmountY < 0) {
-            boolean hasCollided = false;
-            for (int i = 0; i < Math.abs(Math.round(moveAmountY)); i++) {
-                setY(getY() - 1);
-                int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getWidth() / ((float) map.getTileset().getSpriteWidth() * map.getTileset().getScale()));
-                for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX() + (j * getScaledBounds().getWidth())), Math.round(getScaledBounds().getY()));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        hasCollided = true;
-                        break;
-                    }
-                }
-                if (hasCollided) {
-                    setY(getY() + 1);
-                    jumpForce = 0;
-                    break;
-                }
-            }
-        }
-
-        if (moveAmountX > 0) {
-            boolean hasCollided = false;
-            for (int i = 0; i < Math.round(moveAmountX); i++) {
-                setX(getX() + 1);
-                int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
-                for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(Math.round(getScaledBounds().getX2()), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                    int movementPermission = map.getMovementPermissionByPosition(Math.round(getScaledBounds().getX2()), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        hasCollided = true;
-                        break;
-                    }
-                }
-                if (hasCollided) {
-                    setX(getX() - 1);
-                    break;
-                }
-            }
-        } else if (moveAmountX < 0) {
-            boolean hasCollided = false;
-            for (int i = 0; i < Math.abs(Math.round(moveAmountX)); i++) {
-                setX(getX() - 1);
-                int numberOfTilesToCheck = (int)Math.ceil(getScaledBounds().getHeight() / ((float) map.getTileset().getSpriteHeight() * map.getTileset().getScale()));
-                for (int j = - 1; j < numberOfTilesToCheck + 1; j++) {
-                    Tile tile = map.getTileByPosition(getScaledBounds().getX(), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                    int movementPermission = map.getMovementPermissionByPosition(getScaledBounds().getX(), Math.round(getScaledBounds().getY() + (j * getScaledBounds().getHeight())));
-                    if (tile != null && movementPermission == 1 && intersects(tile)) {
-                        hasCollided = true;
-                        break;
-                    }
-                }
-                if (hasCollided) {
-                    setX(getX() + 1);
-                    break;
-                }
-            }
-        }
-
-        moveAmountX = 0;
-        moveAmountY = 0;
     }
 
+    protected void handleCollisionX() {
+        int amountToMove = Math.abs(Math.round(moveAmountX));
+        if (amountToMove != 0) {
+            boolean hasCollided = false;
+            int direction = moveAmountX < 0 ? -1 : 1;
+            for (int i = 0; i < amountToMove; i++) {
+                moveX(direction);
+                hasCollided = hasCollidedWithTilesX();
+                if (hasCollided) {
+                    moveX(-direction);
+                    break;
+                }
+            }
+        }
+    }
+
+    protected void handleCollisionY() {
+        int amountToMove = Math.abs(Math.round(moveAmountY));
+        if (amountToMove != 0) {
+            boolean hasCollided = false;
+            int direction = moveAmountY < 0 ? -1 : 1;
+            for (int i = 0; i < amountToMove; i++) {
+                moveY(direction);
+                hasCollided = hasCollidedWithTilesY();
+                if (hasCollided) {
+                    moveY(-direction);
+                    break;
+                }
+            }
+            if (moveAmountY > 0) {
+                if (hasCollided) {
+                    momentumY = 0;
+                    airGroundState = AirGroundState.GROUND;
+                } else {
+                    playerState = PlayerState.JUMPING;
+                    airGroundState = AirGroundState.AIR;
+                }
+            } else if (moveAmountY < 0) {
+                if (hasCollided) {
+                    jumpForce = 0;
+                }
+            }
+        }
+    }
+
+    private boolean hasCollidedWithTilesX() {
+        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
+        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
+        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCollidedWithTilesY() {
+        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
+        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
+        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCollidedWithTile(int xTileIndex, int yTileIndex) {
+        MapTile tile = map.getTile(xTileIndex, yTileIndex);
+        int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
+        return tile != null && movementPermission == 1 && intersects(tile);
+    }
+    
     public void draw(Graphics graphics) {
         super.draw(graphics);
+        // drawBounds(graphics, new Color(255,0,0, 170));
     }
 
     public void setMap(Map map) {
@@ -249,17 +270,17 @@ public class Kirby extends AnimatedSprite {
     }
 
     @Override
-    public HashMap<String, Frame[]> loadAnimations() {
+    public HashMap<String, Frame[]> getAnimations() {
         return new HashMap<String, Frame[]>() {{
             put("STAND_RIGHT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)
                             .withScale(2)
                             .withBounds(6, 5, 12, 14)
                             .build()
             });
 
             put("STAND_LEFT", new Frame[] {
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 2)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)
                             .withScale(2)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(6, 5, 12, 14)
@@ -353,10 +374,5 @@ public class Kirby extends AnimatedSprite {
                             .build()
             });
         }};
-    }
-
-    @Override
-    public String getStartingAnimation() {
-        return "STAND_RIGHT";
     }
 }

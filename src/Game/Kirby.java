@@ -173,36 +173,6 @@ public class Kirby extends AnimatedSprite {
         }
     }
 
-    private boolean hasCollidedWithTile(int xTileIndex, int yTileIndex) {
-        MapTile tile = map.getTile(xTileIndex, yTileIndex);
-        int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
-        return tile != null && movementPermission == 1 && intersects(tile);
-    }
-
-    private boolean hasCollidedWithTilesX() {
-        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
-        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasCollidedWithTilesY() {
-        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
-        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
-        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     protected void handleCollisionX() {
         int amountToMove = Math.abs(Math.round(moveAmountX));
         if (amountToMove != 0) {
@@ -248,6 +218,36 @@ public class Kirby extends AnimatedSprite {
         }
     }
 
+    private boolean hasCollidedWithTilesX() {
+        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
+        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
+        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCollidedWithTilesY() {
+        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
+        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
+        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCollidedWithTile(int xTileIndex, int yTileIndex) {
+        MapTile tile = map.getTile(xTileIndex, yTileIndex);
+        int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
+        return tile != null && movementPermission == 1 && intersects(tile);
+    }
+    
     public void draw(Graphics graphics) {
         super.draw(graphics);
         // drawBounds(graphics, new Color(255,0,0, 170));

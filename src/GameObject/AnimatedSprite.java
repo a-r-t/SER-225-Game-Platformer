@@ -97,11 +97,8 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected Frame getCurrentFrame() {
 		return animations.get(currentAnimationName)[currentFrameIndex];
 	}
-	protected Frame[] getCurrentAnimation() { return animations.get(currentAnimationName); }
 
-	public Sprite getCurrentSprite() {
-		return currentSprite;
-	}
+	protected Frame[] getCurrentAnimation() { return animations.get(currentAnimationName); }
 
 	public void draw(Graphics graphics) {
 		currentSprite.draw(graphics);
@@ -117,18 +114,7 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	public int getY1() { return currentSprite.getY1(); }
 	public int getX2() { return currentSprite.getX2(); }
 	public int getY2() { return currentSprite.getY2(); }
-	public int getWidth() {
-		return currentSprite.getWidth();
-	}
-	public int getHeight() {
-		return currentSprite.getHeight();
-	}
-	public int getScaledWidth() {
-		return currentSprite.getScaledWidth();
-	}
-	public int getScaledHeight() {
-		return currentSprite.getScaledHeight();
-	}
+
 	public void setX(float x) {
 		this.x = x;
 		currentSprite.setX(x);
@@ -137,11 +123,69 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 		this.y = y;
 		currentSprite.setY(y);
 	}
+
+	public void setLocation(float x, float y) {
+		setX(x);
+		setY(y);
+	}
+
+	public void moveX(float dx) {
+		setX(x + dx);
+	}
+
+	public void moveRight(float dx) {
+		setX(x + dx);
+	}
+
+	public void moveLeft(float dx) {
+		setX(x - dx);
+	}
+
+	public void moveY(float dy) {
+		setY(y + dy);
+	}
+
+	public void moveDown(float dy) {
+		setY(y + dy);
+	}
+
+	public void moveUp(float dy) {
+		setY(y - dy);
+	}
+
+	public float getScale() {
+		return currentSprite.getScale();
+	}
+
+	public void setScale(float scale) {
+		currentSprite.setScale(scale);
+	}
+
+	public int getWidth() {
+		return currentSprite.getWidth();
+	}
+	public int getHeight() {
+		return currentSprite.getHeight();
+	}
 	public void setWidth(int width) {
 		currentSprite.setWidth(width);
 	}
 	public void setHeight(int height) {
 		currentSprite.setHeight(height);
+	}
+	public int getScaledWidth() {
+		return currentSprite.getScaledWidth();
+	}
+	public int getScaledHeight() {
+		return currentSprite.getScaledHeight();
+	}
+
+	public Rectangle getBounds() {
+		return currentSprite.getBounds();
+	}
+
+	public Rectangle getScaledBounds() {
+		return currentSprite.getScaledBounds();
 	}
 
     public int getBoundsX1() {
@@ -176,11 +220,8 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
         return currentSprite.getScaledBoundsY2();
     }
 
-    public Rectangle getBounds() {
-		return currentSprite.getBounds();
-	}
-	public Rectangle getScaledBounds() {
-		return currentSprite.getScaledBounds();
+	public void setBounds(Rectangle bounds) {
+		currentSprite.setBounds(bounds);
 	}
 
 	@Override
@@ -193,60 +234,23 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
         return currentSprite.intersects(other);
     }
 
-    public void setBounds(Rectangle bounds) {
-		currentSprite.setBounds(bounds);
+	public Sprite getCurrentSprite() {
+		return currentSprite;
 	}
 
-    public float getScale() {
-	    return currentSprite.getScale();
-    }
-
-    public void setScale(float scale) {
-	    currentSprite.setScale(scale);
-    }
-
-    public String getCurrentAnimationName() {
-	    return currentAnimationName;
-    }
-
-    public void setCurrentAnimationName() {
-	    this.currentAnimationName = currentAnimationName;
-    }
-
-    public void setAnimations(HashMap<String, Frame[]> animations) {
-	    this.animations = animations;
-    }
-
-    public void addAnimation(String animationName, Frame[] frame) {
-	    animations.put(animationName, frame);
-    }
-
-	public void moveX(float dx) {
-		setX(x + dx);
+	public String getCurrentAnimationName() {
+		return currentAnimationName;
 	}
 
-	public void moveRight(float dx) {
-		setX(x + dx);
+	public void setCurrentAnimationName() {
+		this.currentAnimationName = currentAnimationName;
 	}
 
-	public void moveLeft(float dx) {
-		setX(x - dx);
+	public void setAnimations(HashMap<String, Frame[]> animations) {
+		this.animations = animations;
 	}
 
-	public void moveY(float dy) {
-		setY(y + dy);
-	}
-
-	public void moveDown(float dy) {
-		setY(y + dy);
-	}
-
-	public void moveUp(float dy) {
-		setY(y - dy);
-	}
-
-	public void setLocation(float x, float y) {
-		setX(x);
-		setY(y);
+	public void addAnimation(String animationName, Frame[] frame) {
+		animations.put(animationName, frame);
 	}
 }

@@ -220,4 +220,33 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
     public void addAnimation(String animationName, Frame[] frame) {
 	    animations.put(animationName, frame);
     }
+
+	public void moveX(float dx) {
+		setX(x + dx);
+	}
+
+	public void moveRight(float dx) {
+		setX(x + dx);
+	}
+
+	public void moveLeft(float dx) {
+		setX(x - dx);
+	}
+
+	public void moveY(float dy) {
+		setY(y + dy);
+	}
+
+	public void moveDown(float dy) {
+		setY(y + dy);
+	}
+
+	public void moveUp(float dy) {
+		setY(y - dy);
+	}
+
+	public void setLocation(float x, float y) {
+		setX(x);
+		setY(y);
+	}
 }

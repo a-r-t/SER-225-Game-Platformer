@@ -20,6 +20,10 @@ public class CommonTileset extends Tileset {
            put(0, new MapTileBuilder(new FrameBuilder(getSubImage(0, 0), 0).withScale(scale).build()));
            put(1, new MapTileBuilder(new FrameBuilder(getSubImage(0, 1), 0).withScale(scale).build()));
            put(2, new MapTileBuilder(new FrameBuilder(getSubImage(0, 2), 0).withScale(scale).build()));
+           put(3, new MapTileBuilder(createAnimatedTileSpriteSheet(2, 0, 2), new Frame[] {
+                   new FrameBuilder(getSubImage(2, 0), 400).withScale(scale).build(),
+                   new FrameBuilder(getSubImage(2, 1), 400).withScale(scale).build(),
+           }));
            put(6, new MapTileBuilder(new FrameBuilder(getSubImage(1, 0), 0).withScale(scale).build()));
            put(7, new MapTileBuilder(new FrameBuilder(getSubImage(1, 1), 0).withScale(scale).build()));
            put(8, new MapTileBuilder(createAnimatedTileSpriteSheet(1, 2, 3), new Frame[] {

@@ -185,7 +185,7 @@ public class Kirby extends AnimatedSprite {
             boolean hasCollided = false;
             int direction = moveAmountX < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
-                setX(getX() + direction);
+                moveX(direction);
                 int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
                 int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
                 Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
@@ -196,7 +196,7 @@ public class Kirby extends AnimatedSprite {
                     }
                 }
                 if (hasCollided) {
-                    setX(getX() - direction);
+                    moveX(-direction);
                     break;
                 }
             }
@@ -209,7 +209,7 @@ public class Kirby extends AnimatedSprite {
             boolean hasCollided = false;
             int direction = moveAmountY < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
-                setY(getY() + direction);
+                moveY(direction);
                 int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
                 int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
                 Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
@@ -220,7 +220,7 @@ public class Kirby extends AnimatedSprite {
                     }
                 }
                 if (hasCollided) {
-                    setY(getY() - direction);
+                    moveY(-direction);
                     break;
                 }
             }

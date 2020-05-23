@@ -4,7 +4,7 @@ import GameObject.Rectangle;
 
 public class Camera extends Rectangle {
 
-    public Camera(float x, float y, int width, int height) {
-        super(x, y, width, height);
+    public Camera(Rectangle screenBounds, int tileSizeX, int tileSizeY) {
+        super(0, 0, 0, 0);
     }
 }

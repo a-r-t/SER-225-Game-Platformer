@@ -162,9 +162,9 @@ public abstract class Map {
                 MapTile tile = getTile(j, i);
                 if (tile != null) {
                     tile.draw(graphics);
-                    if (getMovementPermission(j, i) == 1) {
-                        tile.drawBounds(graphics, new Color(0, 0, 255, 170));
-                    }
+//                    if (getMovementPermission(j, i) == 1) {
+//                        tile.drawBounds(graphics, new Color(0, 0, 255, 170));
+//                    }
                 }
             }
         }

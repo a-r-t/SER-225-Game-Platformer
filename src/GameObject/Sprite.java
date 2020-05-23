@@ -133,10 +133,6 @@ public abstract class Sprite extends Rectangle implements IntersectableRectangle
 		graphics.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
-    public void draw(Graphics graphics, int offsetX, int offsetY) {
-        graphics.drawImage(image, getX() + offsetX, getY() + offsetY, getScaledWidth(), getScaledHeight(), imageEffect);
-    }
-
 	public void drawBounds(Graphics graphics, Color color) {
         Rectangle scaledBounds = getScaledBounds();
         scaledBounds.setColor(color);

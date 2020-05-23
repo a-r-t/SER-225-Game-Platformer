@@ -22,6 +22,5 @@ public class MapTile extends GameObject {
 
     public void draw(Graphics graphics) {
         super.draw(graphics);
-        //drawBounds(graphics, new Color(0,0,255, 170));
     }
 }

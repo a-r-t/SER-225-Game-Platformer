@@ -19,14 +19,13 @@ public class Scene extends Screen {
 		donkeyKong = new DonkeyKong(100, 100, 100, 100);
 		testMap = new TestMap(sceneBounds);
 		kirby = new Kirby(testMap.getPlayerStart().x, testMap.getPlayerStart().y, sceneBounds);
-		kirby.setMap(testMap);
 	}
 
 	@Override
 	public void update(Keyboard keyboard) {
 		//donkeyKong.update(keyboard);
 		testMap.update();
-		kirby.update(keyboard);
+		kirby.update(keyboard, testMap);
 	}
 
 	@Override

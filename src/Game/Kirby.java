@@ -31,7 +31,6 @@ public class Kirby extends AnimatedSprite {
     private Direction facingDirection;
     private AirGroundState airGroundState;
     private AirGroundState previousAirGroundState;
-    private Map map;
     private HashSet<Key> lockedKeys = new HashSet<>();
     private float moveAmountX, moveAmountY;
     private final Key JUMP_KEY = Key.W;
@@ -48,7 +47,7 @@ public class Kirby extends AnimatedSprite {
         playerState = PlayerState.STANDING;
     }
 
-    public void update(Keyboard keyboard) {
+    public void update(Keyboard keyboard, Map map) {
         moveAmountX = 0;
         moveAmountY = 0;
 
@@ -73,8 +72,8 @@ public class Kirby extends AnimatedSprite {
 
         super.update();
 
-        handleCollisionY();
-        handleCollisionX();
+        handleCollisionY(map);
+        handleCollisionX(map);
         updateLockedKeys(keyboard);
     }
 
@@ -173,36 +172,38 @@ public class Kirby extends AnimatedSprite {
         }
     }
 
-    protected void handleCollisionX() {
+    protected void handleCollisionX(Map map) {
         int amountToMove = Math.abs(Math.round(moveAmountX));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountX < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
                 moveX(direction);
-                hasCollided = hasCollidedWithTilesX();
+                hasCollided = hasCollidedWithTilesX(map);
                 if (hasCollided) {
                     moveX(-direction);
+                    moveAmountX = i;
                     break;
                 }
             }
         }
     }
 
-    protected void handleCollisionY() {
+    protected void handleCollisionY(Map map) {
         int amountToMove = Math.abs(Math.round(moveAmountY));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountY < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
                 moveY(direction);
-                hasCollided = hasCollidedWithTilesY();
+                hasCollided = hasCollidedWithTilesY(map);
                 if (hasCollided) {
                     moveY(-direction);
+                    moveAmountY = i;
                     break;
                 }
             }
-            if (moveAmountY > 0) {
+            if (direction == 1) {
                 if (hasCollided) {
                     momentumY = 0;
                     airGroundState = AirGroundState.GROUND;
@@ -210,7 +211,7 @@ public class Kirby extends AnimatedSprite {
                     playerState = PlayerState.JUMPING;
                     airGroundState = AirGroundState.AIR;
                 }
-            } else if (moveAmountY < 0) {
+            } else if (direction == -1) {
                 if (hasCollided) {
                     jumpForce = 0;
                 }
@@ -218,43 +219,47 @@ public class Kirby extends AnimatedSprite {
         }
     }
 
-    private boolean hasCollidedWithTilesX() {
+    private boolean hasCollidedWithTilesX(Map map) {
         int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
         int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
         Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
+            if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean hasCollidedWithTilesY() {
+    private boolean hasCollidedWithTilesY(Map map) {
         int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
         int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
         Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
+            if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean hasCollidedWithTile(int xTileIndex, int yTileIndex) {
+    private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
         MapTile tile = map.getTile(xTileIndex, yTileIndex);
         int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
         return tile != null && movementPermission == 1 && intersects(tile);
+    }
+
+    public int getMoveAmountX() {
+        return Math.round(moveAmountX);
+    }
+
+    public int getMoveAmountY() {
+        return Math.round(moveAmountY);
     }
     
     public void draw(Graphics graphics) {
         super.draw(graphics);
         // drawBounds(graphics, new Color(255,0,0, 170));
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
     }
 
     public boolean isKeyLocked(Key key) {

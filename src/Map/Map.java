@@ -12,18 +12,19 @@ public abstract class Map {
     protected int width;
     protected int height;
     protected Tileset tileset;
-    protected Rectangle camera;
+    protected Camera camera;
     protected Point playerStart;
     protected int xMidPoint, yMidPoint;
-    private int leftoverCameraX, leftoverCameraY;
+    protected int startBoundX, startBoundY, endBoundX, endBoundY;
 
     public Map(int width, int height, Tileset tileset, Rectangle screenBounds, Point playerStart) {
         this.tileset = tileset;
         tiles = new MapTile[height * width];
-        System.out.println(screenBounds.getWidth() % tileset.getScaledSpriteWidth());
-        camera = new Rectangle(0, 0, screenBounds.getWidth() / tileset.getScaledSpriteWidth(), screenBounds.getHeight() / tileset.getScaledSpriteHeight());
-        leftoverCameraX = screenBounds.getWidth() % tileset.getScaledSpriteWidth();
-        leftoverCameraY = screenBounds.getHeight() % tileset.getScaledSpriteHeight();
+        camera = new Camera(0, 0, screenBounds, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight());
+        this.startBoundX = 0;
+        this.startBoundY = 0;
+        this.endBoundX = width * tileset.getScaledSpriteWidth();
+        this.endBoundY = height * tileset.getScaledSpriteHeight();
         this.xMidPoint = screenBounds.getWidth() / 2;
         this.yMidPoint = screenBounds.getHeight() / 2;
         this.width = width;
@@ -117,29 +118,23 @@ public abstract class Map {
         return x >= 0 && y >= 0 && x < width && y < height && index >= 0 && index < tiles.length;
     }
 
-    private int getCameraEndPosition() {
-        return camera.getX() + (camera.getWidth() * tileset.getScaledSpriteWidth()) + leftoverCameraX;
-    }
-
     public void update(Kirby player) {
         int xMidPointDifference = 0;
-        System.out.println(camera);
-        System.out.println(getCameraEndPosition());
-        if (player.getX() > xMidPoint && getCameraEndPosition() < width * tileset.getScaledSpriteWidth()) {
+        if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
-            if (getCameraEndPosition() > width * tileset.getScaledSpriteWidth()) {
-                int cameraDifference = getCameraEndPosition() - (width * tileset.getScaledSpriteWidth());
+            if (camera.getEndBoundX() > endBoundX) {
+                int cameraDifference = camera.getEndBoundX() - endBoundX;
                 player.moveX(cameraDifference);
                 camera.moveX(-cameraDifference);
             }
-        } else if (player.getX() < xMidPoint && camera.getX() > 0) {
+        } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
-            if (camera.getX() < 0) {
-                int cameraDifference = 0 - camera.getX();
+            if (camera.getX() < startBoundX) {
+                int cameraDifference = startBoundX - camera.getX();
                 player.moveX(-cameraDifference);
                 camera.moveX(cameraDifference);
             }

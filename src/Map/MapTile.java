@@ -4,7 +4,9 @@ import Engine.Graphics;
 import Game.Kirby;
 
 import GameObject.*;
+import GameObject.Frame;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -14,7 +16,7 @@ public class MapTile extends GameObject {
         super(x, y, animations, startingAnimation);
     }
 
-    public void update(Map map, Kirby kirby) {
+    public void update(Map map, Kirby player) {
         super.update();
     }
 

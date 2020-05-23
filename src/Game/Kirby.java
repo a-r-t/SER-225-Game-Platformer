@@ -49,6 +49,9 @@ public class Kirby extends AnimatedSprite {
     }
 
     public void update(Keyboard keyboard) {
+        moveAmountX = 0;
+        moveAmountY = 0;
+
         applyGravity();
 
         switch (playerState) {
@@ -72,9 +75,6 @@ public class Kirby extends AnimatedSprite {
 
         handleCollisionY();
         handleCollisionX();
-
-        moveAmountX = 0;
-        moveAmountY = 0;
         updateLockedKeys(keyboard);
     }
 
@@ -179,6 +179,30 @@ public class Kirby extends AnimatedSprite {
         return tile != null && movementPermission == 1 && intersects(tile);
     }
 
+    private boolean hasCollidedWithTilesX() {
+        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
+        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
+        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasCollidedWithTilesY() {
+        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
+        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
+        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected void handleCollisionX() {
         int amountToMove = Math.abs(Math.round(moveAmountX));
         if (amountToMove != 0) {
@@ -186,15 +210,7 @@ public class Kirby extends AnimatedSprite {
             int direction = moveAmountX < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
                 moveX(direction);
-                int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-                int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
-                Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
-                for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-                    if (hasCollidedWithTile(tileIndex.x, tileIndex.y + j)) {
-                        hasCollided = true;
-                        break;
-                    }
-                }
+                hasCollided = hasCollidedWithTilesX();
                 if (hasCollided) {
                     moveX(-direction);
                     break;
@@ -210,15 +226,7 @@ public class Kirby extends AnimatedSprite {
             int direction = moveAmountY < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
                 moveY(direction);
-                int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
-                int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
-                Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
-                for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-                    if (hasCollidedWithTile(tileIndex.x + j, tileIndex.y)) {
-                        hasCollided = true;
-                        break;
-                    }
-                }
+                hasCollided = hasCollidedWithTilesY();
                 if (hasCollided) {
                     moveY(-direction);
                     break;
@@ -229,7 +237,7 @@ public class Kirby extends AnimatedSprite {
                     momentumY = 0;
                     airGroundState = AirGroundState.GROUND;
                 } else {
-                    playerState = playerState.JUMPING;
+                    playerState = PlayerState.JUMPING;
                     airGroundState = AirGroundState.AIR;
                 }
             } else if (moveAmountY < 0) {

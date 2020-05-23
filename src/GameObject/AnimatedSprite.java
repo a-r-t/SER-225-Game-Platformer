@@ -91,6 +91,10 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 		currentSprite.draw(graphics);
 	}
 
+	public void draw(Graphics graphics, int offsetX, int offsetY) {
+		currentSprite.draw(graphics, offsetX, offsetY);
+	}
+
     public void drawBounds(Graphics graphics, Color color) {
 		currentSprite.drawBounds(graphics, color);
     }

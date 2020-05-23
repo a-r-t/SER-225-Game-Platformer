@@ -24,7 +24,7 @@ public class Scene extends Screen {
 	@Override
 	public void update(Keyboard keyboard) {
 		//donkeyKong.update(keyboard);
-		testMap.update();
+		testMap.update(kirby);
 		kirby.update(keyboard, testMap);
 	}
 

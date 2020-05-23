@@ -259,7 +259,12 @@ public class Kirby extends AnimatedSprite {
     
     public void draw(Graphics graphics) {
         super.draw(graphics);
-        // drawBounds(graphics, new Color(255,0,0, 170));
+        drawBounds(graphics, new Color(255,0,0, 170));
+    }
+
+    public void draw(Graphics graphics, int offsetX, int offsetY) {
+        super.draw(graphics, offsetX, offsetY);
+        drawBounds(graphics, new Color(255,0,0, 170));
     }
 
     public boolean isKeyLocked(Key key) {

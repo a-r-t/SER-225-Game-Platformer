@@ -13,11 +13,11 @@ public abstract class Map {
     protected int height;
     protected Tileset tileset;
     protected Camera camera;
-    protected Point playerStart;
+    protected Point playerStartTile;
     protected int xMidPoint, yMidPoint;
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
 
-    public Map(int width, int height, Tileset tileset, Rectangle screenBounds, Point playerStart) {
+    public Map(int width, int height, Tileset tileset, Rectangle screenBounds, Point playerStartTile) {
         this.tileset = tileset;
         tiles = new MapTile[height * width];
         camera = new Camera(0, 0, screenBounds, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight());
@@ -29,7 +29,7 @@ public abstract class Map {
         this.yMidPoint = (screenBounds.getHeight() / 2);
         this.width = width;
         this.height = height;
-        this.playerStart = playerStart;
+        this.playerStartTile = playerStartTile;
         int[] map = createMap();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -204,8 +204,9 @@ public abstract class Map {
         }
     }
 
-    public Point getPlayerStart() {
-        return playerStart;
+    public Point getPlayerStartPosition() {
+        MapTile tile = getTile(playerStartTile.x, playerStartTile.y);
+        return new Point(tile.getX(), tile.getY());
     }
     public Tileset getTileset() {
         return tileset;

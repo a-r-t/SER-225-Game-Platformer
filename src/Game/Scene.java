@@ -18,7 +18,7 @@ public class Scene extends Screen {
 		this.sceneBounds = sceneBounds;
 		donkeyKong = new DonkeyKong(100, 100, 100, 100);
 		testMap = new TestMap(sceneBounds);
-		kirby = new Kirby(testMap.getPlayerStart().x, testMap.getPlayerStart().y, sceneBounds);
+		kirby = new Kirby(testMap.getPlayerStartPosition().x, testMap.getPlayerStartPosition().y, sceneBounds);
 	}
 
 	@Override

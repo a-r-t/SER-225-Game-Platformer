@@ -30,7 +30,7 @@ public abstract class Map {
         this.width = width;
         this.height = height;
         this.playerStartTile = playerStartTile;
-        int[] map = createMap();
+        int[] map = getMap();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 MapTile tile = tileset.getTile(map[j + width * i])
@@ -38,11 +38,11 @@ public abstract class Map {
                 setTile(j, i, tile);
             }
         }
-        movementPermissions = createMovementPermissions();
+        movementPermissions = getMovementPermissions();
     }
 
-    public abstract int[] createMap();
-    public abstract int[] createMovementPermissions();
+    public abstract int[] getMap();
+    public abstract int[] getMovementPermissions();
     public Rectangle getCamera() {
         return camera;
     }

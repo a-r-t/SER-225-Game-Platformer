@@ -13,7 +13,7 @@ public class TestMap extends Map {
     }
 
     @Override
-    public int[] createMap() {
+    public int[] getMap() {
         return new int[] {
                 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
                 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
@@ -33,7 +33,7 @@ public class TestMap extends Map {
     }
 
     @Override
-    public int[] createMovementPermissions() {
+    public int[] getMovementPermissions() {
         return new int[]{
                 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
                 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,

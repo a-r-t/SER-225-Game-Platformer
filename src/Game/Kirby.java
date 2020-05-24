@@ -35,7 +35,7 @@ public class Kirby extends Player {
 
     public void draw(Graphics graphics) {
         super.draw(graphics);
-        //drawBounds(graphics, new Color(255,0,0, 170));
+        //drawBounds(graphics, new Color(255, 0, 0, 170));
     }
 
     @Override

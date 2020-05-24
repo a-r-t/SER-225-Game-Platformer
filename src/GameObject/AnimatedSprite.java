@@ -14,7 +14,7 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected int currentFrameIndex;
 	protected long beforeTime = System.currentTimeMillis();
 	protected boolean hasAnimationLooped;
-	protected Sprite currentSprite;
+	protected Frame currentFrame;
 
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		this.x = x;
@@ -76,9 +76,9 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
     }
 
 	protected void setCurrentSprite() {
-		currentSprite = getCurrentFrame();
-		currentSprite.setX(x);
-		currentSprite.setY(y);
+		currentFrame = getCurrentFrame();
+		currentFrame.setX(x);
+		currentFrame.setY(y);
 	}
 
 	protected Frame getCurrentFrame() {
@@ -88,27 +88,27 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected Frame[] getCurrentAnimation() { return animations.get(currentAnimationName); }
 
 	public void draw(Graphics graphics) {
-		currentSprite.draw(graphics);
+		currentFrame.draw(graphics);
 	}
 
     public void drawBounds(Graphics graphics, Color color) {
-		currentSprite.drawBounds(graphics, color);
+		currentFrame.drawBounds(graphics, color);
     }
 
-	public int getX() { return currentSprite.getX(); }
-	public int getY() { return currentSprite.getY(); }
-	public int getX1() { return currentSprite.getX1(); }
-	public int getY1() { return currentSprite.getY1(); }
-	public int getX2() { return currentSprite.getX2(); }
-	public int getY2() { return currentSprite.getY2(); }
+	public int getX() { return currentFrame.getX(); }
+	public int getY() { return currentFrame.getY(); }
+	public int getX1() { return currentFrame.getX1(); }
+	public int getY1() { return currentFrame.getY1(); }
+	public int getX2() { return currentFrame.getX2(); }
+	public int getY2() { return currentFrame.getY2(); }
 
 	public void setX(float x) {
 		this.x = x;
-		currentSprite.setX(x);
+		currentFrame.setX(x);
 	}
 	public void setY(float y) {
 		this.y = y;
-		currentSprite.setY(y);
+		currentFrame.setY(y);
 	}
 
 	public void setLocation(float x, float y) {
@@ -141,89 +141,85 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	}
 
 	public float getScale() {
-		return currentSprite.getScale();
+		return currentFrame.getScale();
 	}
 
 	public void setScale(float scale) {
-		currentSprite.setScale(scale);
+		currentFrame.setScale(scale);
 	}
 
 	public int getWidth() {
-		return currentSprite.getWidth();
+		return currentFrame.getWidth();
 	}
 	public int getHeight() {
-		return currentSprite.getHeight();
+		return currentFrame.getHeight();
 	}
 	public void setWidth(int width) {
-		currentSprite.setWidth(width);
+		currentFrame.setWidth(width);
 	}
 	public void setHeight(int height) {
-		currentSprite.setHeight(height);
+		currentFrame.setHeight(height);
 	}
 	public int getScaledWidth() {
-		return currentSprite.getScaledWidth();
+		return currentFrame.getScaledWidth();
 	}
 	public int getScaledHeight() {
-		return currentSprite.getScaledHeight();
+		return currentFrame.getScaledHeight();
 	}
 
 	public Rectangle getBounds() {
-		return currentSprite.getBounds();
+		return currentFrame.getBounds();
 	}
 
 	public Rectangle getScaledBounds() {
-		return currentSprite.getScaledBounds();
+		return currentFrame.getScaledBounds();
 	}
 
     public int getBoundsX1() {
-        return currentSprite.getBoundsX1();
+        return currentFrame.getBoundsX1();
     }
 
     public int getScaledBoundsX1() {
-        return currentSprite.getScaledBoundsX1();
+        return currentFrame.getScaledBoundsX1();
     }
 
     public int getBoundsX2() {
-        return currentSprite.getBoundsX2();
+        return currentFrame.getBoundsX2();
     }
 
     public int getScaledBoundsX2() {
-        return currentSprite.getScaledBoundsX2();
+        return currentFrame.getScaledBoundsX2();
     }
 
     public int getBoundsY1() {
-        return currentSprite.getBoundsY1();
+        return currentFrame.getBoundsY1();
     }
 
     public int getScaledBoundsY1() {
-        return currentSprite.getScaledBoundsY1();
+        return currentFrame.getScaledBoundsY1();
     }
 
     public int getBoundsY2() {
-        return currentSprite.getBoundsY2();
+        return currentFrame.getBoundsY2();
     }
 
     public int getScaledBoundsY2() {
-        return currentSprite.getScaledBoundsY2();
+        return currentFrame.getScaledBoundsY2();
     }
 
 	public void setBounds(Rectangle bounds) {
-		currentSprite.setBounds(bounds);
+		currentFrame.setBounds(bounds);
 	}
 
 	@Override
     public Rectangle getIntersectRectangle() {
-	    return currentSprite.getIntersectRectangle();
+	    return currentFrame.getIntersectRectangle();
     }
 
     @Override
     public boolean intersects(IntersectableRectangle other) {
-        return currentSprite.intersects(other);
+        return currentFrame.intersects(other);
     }
-
-	public Sprite getCurrentSprite() {
-		return currentSprite;
-	}
 
 	public String getCurrentAnimationName() {
 		return currentAnimationName;

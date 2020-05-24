@@ -262,10 +262,6 @@ public abstract class Player extends GameObject {
         return lockedKeys.contains(key);
     }
 
-    protected enum PlayerState {
-        STANDING, WALKING, JUMPING, CROUCHING
-    }
-
     protected enum AirGroundState {
         AIR, GROUND
     }

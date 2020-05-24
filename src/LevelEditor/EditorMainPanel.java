@@ -10,9 +10,10 @@ public class EditorMainPanel extends JPanel {
     public EditorMainPanel() {
         setLayout(null);
         setBackground(Color.BLACK);
-        editorControlPanel = new EditorControlPanel();
+        ControlPanelHolder controlPanelHolder = new ControlPanelHolder();
+        editorControlPanel = new EditorControlPanel(controlPanelHolder);
         add(editorControlPanel);
-        mapBuilder = new MapBuilder();
+        mapBuilder = new MapBuilder(editorControlPanel.getSelectedMap(), controlPanelHolder);
         add(mapBuilder);
     }
 }

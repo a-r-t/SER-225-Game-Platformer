@@ -14,8 +14,10 @@ import java.util.HashMap;
 public class EditorControlPanel extends JPanel {
 
     private HashMap<String, Map> maps;
+    private ControlPanelHolder controlPanelHolder;
+    private JComboBox mapNamesComboBox;
 
-    public EditorControlPanel() {
+    public EditorControlPanel(ControlPanelHolder controlPanelHolder) {
         setLayout(null);
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(0, 0);
@@ -28,14 +30,19 @@ public class EditorControlPanel extends JPanel {
         mapLabel.setSize(100, 40);
         add(mapLabel);
 
-        JComboBox mapNamesComboBox = new JComboBox();
+        mapNamesComboBox = new JComboBox();
         mapNamesComboBox.setSize(190, 40);
         mapNamesComboBox.setLocation(5, 30);
         maps.keySet().stream().forEach(tilesetName -> mapNamesComboBox.addItem(tilesetName));
         add(mapNamesComboBox);
 
         TilePicker tilePicker = new TilePicker();
-        add(tilePicker);
+        JScrollPane tilePickerScroll = new JScrollPane();
+        tilePickerScroll.setViewportView(tilePicker);
+        tilePickerScroll.setLocation(5, 78);
+        tilePickerScroll.setSize(190, 440);
+        add(tilePickerScroll);
+        tilePicker.setTileset(getSelectedMap().getTileset());
 
         JButton saveMapButton = new JButton();
         saveMapButton.setSize(190, 40);
@@ -44,11 +51,16 @@ public class EditorControlPanel extends JPanel {
         add(saveMapButton);
 
         JCheckBox autoSave = new JCheckBox();
+        this.controlPanelHolder = controlPanelHolder;
     }
 
     public HashMap<String, Map> loadMaps() {
         HashMap<String, Map> maps = new HashMap<>();
         maps.put("TestMap", new TestMap(new Rectangle(0,0,0,0)));
         return maps;
+    }
+
+    public Map getSelectedMap() {
+        return maps.get(mapNamesComboBox.getSelectedItem());
     }
 }

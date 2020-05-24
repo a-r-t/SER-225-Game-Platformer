@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.Graphics;
+import Utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,9 +13,9 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	protected String currentAnimationName = "";
 	protected String previousAnimationName = "";
 	protected int currentFrameIndex;
-	protected long beforeTime = System.currentTimeMillis();
 	protected boolean hasAnimationLooped;
 	protected Frame currentFrame;
+	private Timer timer = new Timer();
 
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		this.x = x;
@@ -52,18 +53,17 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 		if (!previousAnimationName.equals(currentAnimationName)) {
 			currentFrameIndex = 0;
 			setCurrentSprite();
-			beforeTime = System.currentTimeMillis();
+			timer.setWaitTime(getCurrentFrame().getDelay());
 			hasAnimationLooped = false;
 		} else {
 			if (getCurrentAnimation().length > 1) {
-				long currentMillis = System.currentTimeMillis() - beforeTime;
-				if (currentMillis > animations.get(currentAnimationName)[currentFrameIndex].getDelay()) {
-					beforeTime = System.currentTimeMillis();
+				if (timer.isTimeUp()) {
 					currentFrameIndex++;
 					if (currentFrameIndex >= animations.get(currentAnimationName).length) {
 						currentFrameIndex = 0;
 						hasAnimationLooped = true;
 					}
+					timer.setWaitTime(getCurrentFrame().getDelay());
 					setCurrentSprite();
 				}
 			}

@@ -3,9 +3,9 @@ package GameObject;
 import java.awt.image.BufferedImage;
 
 public class Frame extends Sprite {
-	private float delay;
+	private int delay;
 
-	public Frame(BufferedImage image, float scale, ImageEffect imageEffect, Rectangle bounds, float delay) {
+	public Frame(BufferedImage image, float scale, ImageEffect imageEffect, Rectangle bounds, int delay) {
 		super(image, scale, imageEffect);
 		if (bounds != null) {
 			this.bounds = bounds;
@@ -14,7 +14,7 @@ public class Frame extends Sprite {
 		this.delay = delay;
 	}
 
-	public float getDelay() {
+	public int getDelay() {
 		return delay;
 	}
 

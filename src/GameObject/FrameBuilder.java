@@ -4,12 +4,12 @@ import java.awt.image.BufferedImage;
 
 public class FrameBuilder {
     private BufferedImage image;
-    private float delay;
+    private int delay;
     private Rectangle bounds;
     private float scale;
     private ImageEffect imageEffect;
 
-    public FrameBuilder(BufferedImage image, float delay) {
+    public FrameBuilder(BufferedImage image, int delay) {
         this.image = image;
         this.delay = delay;
         if (this.delay < 0) {

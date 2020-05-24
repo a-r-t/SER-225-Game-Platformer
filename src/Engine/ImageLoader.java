@@ -19,4 +19,15 @@ public class ImageLoader {
             throw new RuntimeException(e);
         }
     }
+
+    public static BufferedImage load(String imageFileName, Color transparentColor) {
+        try {
+            BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
+            Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, transparentColor);
+            return ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
+        } catch (IOException e) {
+            System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
+            throw new RuntimeException(e);
+        }
+    }
 }

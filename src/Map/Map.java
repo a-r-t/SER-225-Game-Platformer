@@ -166,7 +166,7 @@ public abstract class Map {
         }
     }
 
-    private void adjustCameraY(Kirby player) {
+    private void adjustCameraY(Player player) {
         int yMidPointDifference = 0;
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
             yMidPointDifference = yMidPoint - player.getY();

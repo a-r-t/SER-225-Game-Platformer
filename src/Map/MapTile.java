@@ -16,7 +16,7 @@ public class MapTile extends GameObject {
         super(x, y, animations, startingAnimation);
     }
 
-    public void update(Map map, Kirby player) {
+    public void update(Map map, Player player) {
         super.update();
     }
 

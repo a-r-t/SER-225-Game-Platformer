@@ -1,6 +1,7 @@
 package Map;
 
 import Engine.Key;
+import Engine.KeyLocker;
 import Engine.Keyboard;
 import Engine.Graphics;
 import GameObject.*;
@@ -25,7 +26,7 @@ public abstract class Player extends GameObject {
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
     protected AirGroundState previousAirGroundState;
-    protected HashSet<Key> lockedKeys = new HashSet<>();
+    protected KeyLocker keyLocker = new KeyLocker();
     protected Key JUMP_KEY = Key.W;
     protected Key MOVE_LEFT_KEY = Key.A;
     protected Key MOVE_RIGHT_KEY = Key.D;
@@ -77,8 +78,8 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
         if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
-        } else if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
-            lockedKeys.add(JUMP_KEY);
+        } else if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+            keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         } else if (keyboard.isKeyDown(CROUCH_KEY)) {
             playerState = PlayerState.CROUCHING;
@@ -97,8 +98,8 @@ public abstract class Player extends GameObject {
             playerState = PlayerState.STANDING;
         }
 
-        if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
-            lockedKeys.add(JUMP_KEY);
+        if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+            keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         } else if (keyboard.isKeyDown(CROUCH_KEY)) {
             playerState = PlayerState.CROUCHING;
@@ -110,8 +111,8 @@ public abstract class Player extends GameObject {
         if (keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
         }
-        if (keyboard.isKeyDown(JUMP_KEY) && !isKeyLocked(JUMP_KEY)) {
-            lockedKeys.add(JUMP_KEY);
+        if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+            keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
     }
@@ -165,7 +166,7 @@ public abstract class Player extends GameObject {
 
     protected void updateLockedKeys(Keyboard keyboard) {
         if (keyboard.isKeyUp(JUMP_KEY)) {
-            lockedKeys.remove(JUMP_KEY);
+            keyLocker.unlockKey(JUMP_KEY);
         }
     }
 
@@ -256,10 +257,6 @@ public abstract class Player extends GameObject {
 
     public void draw(Graphics graphics) {
         super.draw(graphics);
-    }
-
-    public boolean isKeyLocked(Key key) {
-        return lockedKeys.contains(key);
     }
 
     protected enum AirGroundState {

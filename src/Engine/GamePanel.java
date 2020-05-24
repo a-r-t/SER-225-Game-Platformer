@@ -15,9 +15,10 @@ public class GamePanel extends JPanel {
 	private Keyboard keyboard;
 	private boolean doPaint = false;
 	private boolean isGamePaused = false;
-	private boolean canChangePauseStatus = true;
 	private SpriteFont pauseLabel;
 	private Graphics graphics;
+	private KeyLocker keyLocker = new KeyLocker();
+	private final Key pauseKey = Key.P;
 
 	public static final int FPS = 100;
 
@@ -61,13 +62,13 @@ public class GamePanel extends JPanel {
 	}
 
 	public void update(Keyboard keyboard) {
-		if (keyboard.isKeyDown(Key.P) && canChangePauseStatus) {
+		if (keyboard.isKeyDown(pauseKey) && !keyLocker.isKeyLocked(pauseKey)) {
 			isGamePaused = !isGamePaused;
-			canChangePauseStatus = false;
+			keyLocker.lockKey(pauseKey);
 		}
 		
-		if (keyboard.isKeyUp(Key.P)) {
-			canChangePauseStatus = true;
+		if (keyboard.isKeyUp(pauseKey)) {
+			keyLocker.unlockKey(pauseKey);
 		}
 		
 		if (!isGamePaused) {

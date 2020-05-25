@@ -1,13 +1,19 @@
 package Map;
 
+import Engine.Config;
 import Engine.Graphics;
 import Game.Kirby;
 import GameObject.Rectangle;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public abstract class Map {
     protected MapTile[] tiles;
+    protected int[] tileIndexes;
     protected int[] movementPermissions;
     protected int width;
     protected int height;
@@ -17,9 +23,9 @@ public abstract class Map {
     protected int xMidPoint, yMidPoint;
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
 
-    public Map(int width, int height, Tileset tileset, Rectangle screenBounds, Point playerStartTile) {
+    public Map(String mapFileName, Tileset tileset, Rectangle screenBounds, Point playerStartTile) {
         this.tileset = tileset;
-        tiles = new MapTile[height * width];
+        loadMapFile(mapFileName);
         camera = new Camera(0, 0, screenBounds, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight());
         this.startBoundX = 0;
         this.startBoundY = 0;
@@ -27,22 +33,60 @@ public abstract class Map {
         this.endBoundY = height * tileset.getScaledSpriteHeight();
         this.xMidPoint = screenBounds.getWidth() / 2;
         this.yMidPoint = (screenBounds.getHeight() / 2);
-        this.width = width;
-        this.height = height;
         this.playerStartTile = playerStartTile;
-        int[] map = getMap();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                MapTile tile = tileset.getTile(map[j + width * i])
-                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
-                setTile(j, i, tile);
-            }
-        }
-        movementPermissions = getMovementPermissions();
     }
 
-    public abstract int[] getMap();
-    public abstract int[] getMovementPermissions();
+    private void loadMapFile(String mapFileName) {
+        Scanner fileInput;
+        try {
+            fileInput = new Scanner(new File(Config.MAP_FILES_PATH + mapFileName));
+        } catch(FileNotFoundException ex) {
+            ex.printStackTrace();
+            System.out.println("Map file not found!");
+            throw new RuntimeException();
+        }
+        this.width = fileInput.nextInt();
+        this.height = fileInput.nextInt();
+        this.tiles = new MapTile[this.height * this.width];
+        this.tileIndexes = new int[this.height * this.width];
+        fileInput.nextLine();
+        fileInput.nextLine();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int tileIndex = fileInput.nextInt();
+                MapTile tile = tileset.getTile(tileIndex)
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                setTile(j, i, tile);
+                this.tileIndexes[j + this.width * i] = tileIndex;
+            }
+        }
+        fileInput.nextLine();
+        fileInput.nextLine();
+
+        this.movementPermissions = new int[this.height * this.width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int movementPermissionIndex = fileInput.nextInt();
+                setMovementPermission(j, i, movementPermissionIndex);
+            }
+        }
+
+        fileInput.close();
+    }
+
+    public MapTile[] getMapTiles() {
+        return tiles;
+    }
+
+    public int[] getMapTileIndexes() {
+        return tileIndexes;
+    }
+
+    public int[] getMovementPermissions() {
+        return movementPermissions;
+    }
+
     public Rectangle getCamera() {
         return camera;
     }

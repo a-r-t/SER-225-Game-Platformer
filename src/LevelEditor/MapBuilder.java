@@ -50,7 +50,7 @@ public class MapBuilder extends JPanel {
 
     public void setMap(Map map) {
         this.map = map;
-        tiles = map.getMap();
+        tiles = map.getMapTileIndexes();
         movementPermissions = map.getMovementPermissions();
         tileset = map.getTileset();
         tileBuilder.setMap(map);

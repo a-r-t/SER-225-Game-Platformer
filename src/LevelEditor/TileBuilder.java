@@ -24,7 +24,7 @@ public class TileBuilder extends JPanel {
 
     public void setMap(Map map) {
         this.map = map;
-        tiles = map.getMap();
+        tiles = map.getMapTileIndexes();
         setPreferredSize(new Dimension(map.getWidthPixels(), map.getHeightPixels()));
         repaint();
     }

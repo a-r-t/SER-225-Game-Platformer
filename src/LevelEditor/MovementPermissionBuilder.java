@@ -13,13 +13,11 @@ public class MovementPermissionBuilder extends JPanel {
     private ControlPanelHolder controlPanelHolder;
     private Graphics graphics = new Graphics();
 
-    public MovementPermissionBuilder(Map map, ControlPanelHolder controlPanelHolder) {
+    public MovementPermissionBuilder(ControlPanelHolder controlPanelHolder) {
         setBackground(Colors.MAGENTA);
         setLocation(0, 0);
         setSize(585, 562);
         setAutoscrolls(true);
-        this.tiles = map.getMap();
-        this.movementPermissions = map.getMovementPermissions();
         this.controlPanelHolder = controlPanelHolder;
     }
 

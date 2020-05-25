@@ -211,4 +211,16 @@ public abstract class Map {
     public Tileset getTileset() {
         return tileset;
     }
+
+    public MapTile[] getTiles() {
+        return tiles;
+    }
+
+    public int getWidth() {
+        return width * tileset.getScaledSpriteWidth();
+    }
+
+    public int getHeight() {
+        return height * tileset.getScaledSpriteHeight();
+    }
 }

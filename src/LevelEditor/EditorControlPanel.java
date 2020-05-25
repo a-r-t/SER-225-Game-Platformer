@@ -18,7 +18,7 @@ public class EditorControlPanel extends JPanel {
     JTextField widthTextField;
     JTextField heightTextField;
 
-    public EditorControlPanel(SelectedTileIndexHolder selectedTileIndexHolder) {
+    public EditorControlPanel(SelectedTileIndexHolder selectedTileIndexHolder, MapBuilder mapBuilder) {
         setLayout(null);
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(0, 0);
@@ -69,6 +69,7 @@ public class EditorControlPanel extends JPanel {
                 try {
                     int newWidth = Integer.parseInt(widthTextField.getText());
                     getSelectedMap().setWidth(newWidth);
+                    mapBuilder.refreshBuilders();
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                     System.out.println("Nothing is broken, don't let the red error text scare you, just put in a valid int next time please!");
@@ -99,6 +100,7 @@ public class EditorControlPanel extends JPanel {
                 try {
                     int newHeight = Integer.parseInt(heightTextField.getText());
                     getSelectedMap().setHeight(newHeight);
+                    mapBuilder.refreshBuilders();
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                     System.out.println("Nothing is broken, don't let the red error text scare you, just put in a valid int next time please!");

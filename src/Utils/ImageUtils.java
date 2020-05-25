@@ -46,6 +46,18 @@ public class ImageUtils {
 		return dest;
 	}
 
+	// https://stackoverflow.com/a/4216315
+	public static BufferedImage resizeImage(BufferedImage image, int newWidth, int newHeight) {
+		BufferedImage resized = new BufferedImage(newWidth, newHeight, image.getType());
+		Graphics2D g = resized.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.drawImage(image, 0, 0, newWidth, newHeight, 0, 0, image.getWidth(),
+				image.getHeight(), null);
+		g.dispose();
+		return resized;
+	}
+
 	/******************************************************************************************
 	 * The below methods taken from the ImgScalr Library                                      *
 	 * https://github.com/rkalla/imgscalr/blob/master/src/main/java/org/imgscalr/Scalr.java   *                 

@@ -26,30 +26,23 @@ public class TileBuilder extends JPanel {
         this.controlPanelHolder = controlPanelHolder;
         addMouseListener(new MouseListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-
+            public void mouseExited(MouseEvent e) {
+                hoveredMapTile = null;
+                repaint();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
                 tileSelected(e.getPoint());
             }
+            @Override
+            public void mouseClicked(MouseEvent e) { }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) { }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                hoveredMapTile = null;
-                repaint();
-            }
+            public void mouseEntered(MouseEvent e) { }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override

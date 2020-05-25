@@ -28,7 +28,7 @@ public class TilePicker extends JPanel {
     public TilePicker() {
         setBackground(Colors.MAGENTA);
         setLocation(0, 0);
-        setPreferredSize(new Dimension(187, 420));
+        setPreferredSize(new Dimension(187, 387));
         setBorder(BorderFactory.createLineBorder(Color.black, 2));
         setLayout(null);
         addMouseListener(new MouseAdapter() {
@@ -51,7 +51,7 @@ public class TilePicker extends JPanel {
 
         int width = (int)this.getPreferredSize().getWidth() / this.tileset.getScaledSpriteWidth();
         int height = (int)Math.ceil(mapTileBuilders.keySet().size() / (double)width);
-        setPreferredSize(new Dimension(144, Math.max(420, height * tileset.getScaledSpriteHeight())));
+        setPreferredSize(new Dimension(144, Math.max(387, height * tileset.getScaledSpriteHeight())));
 
         Integer[] tileKeys = mapTileBuilders.keySet().toArray(new Integer[mapTileBuilders.keySet().size()]);
         Arrays.sort(tileKeys);

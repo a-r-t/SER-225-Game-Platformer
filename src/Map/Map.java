@@ -216,11 +216,28 @@ public abstract class Map {
         return tiles;
     }
 
-    public int getWidth() {
+    public int getWidthPixels() {
         return width * tileset.getScaledSpriteWidth();
     }
 
-    public int getHeight() {
+    public int getHeightPixels() {
         return height * tileset.getScaledSpriteHeight();
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
 }

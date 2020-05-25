@@ -2,13 +2,14 @@ package LevelEditor;
 
 import GameObject.Rectangle;
 import Map.Map;
-import Map.Tileset;
 import Maps.TestMap;
-import Tilesets.CommonTileset;
 import Utils.Colors;
 
 import javax.swing.*;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public class EditorControlPanel extends JPanel {
@@ -16,6 +17,8 @@ public class EditorControlPanel extends JPanel {
     private HashMap<String, Map> maps;
     private ControlPanelHolder controlPanelHolder;
     private JComboBox mapNamesComboBox;
+    JTextField widthTextField;
+    JTextField heightTextField;
 
     public EditorControlPanel(ControlPanelHolder controlPanelHolder) {
         setLayout(null);
@@ -40,9 +43,69 @@ public class EditorControlPanel extends JPanel {
         JScrollPane tilePickerScroll = new JScrollPane();
         tilePickerScroll.setViewportView(tilePicker);
         tilePickerScroll.setLocation(5, 78);
-        tilePickerScroll.setSize(190, 440);
+        tilePickerScroll.setSize(190, 390);
         add(tilePickerScroll);
         tilePicker.setTileset(getSelectedMap().getTileset());
+
+        JLabel widthLabel = new JLabel("Width: ");
+        widthLabel.setSize(50, 20);
+        widthLabel.setLocation(5, 472);
+        add(widthLabel);
+
+        widthTextField = new JTextField();
+        widthTextField.setLocation(55, 472);
+        widthTextField.setSize(50, 20);
+        add(widthTextField);
+        widthTextField.setText(String.valueOf(getSelectedMap().getWidth()));
+
+        JButton changeWidth = new JButton();
+        changeWidth.setText("Change");
+        changeWidth.setLocation(110, 472);
+        changeWidth.setSize(80, 20);
+        add(changeWidth);
+        changeWidth.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int newWidth = Integer.parseInt(widthTextField.getText());
+                    getSelectedMap().setWidth(newWidth);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                    System.out.println("Nothing is broken, don't let the red error text scare you, just put in a valid int next time please!");
+                    widthTextField.setText(String.valueOf(getSelectedMap().getWidth()));
+                }
+            }
+        });
+
+        JLabel heightLabel = new JLabel("Height: ");
+        heightLabel.setSize(50, 20);
+        heightLabel.setLocation(5, 496);
+        add(heightLabel);
+
+        heightTextField = new JTextField();
+        heightTextField.setLocation(55, 496);
+        heightTextField.setSize(50, 20);
+        add(heightTextField);
+        heightTextField.setText(String.valueOf(getSelectedMap().getHeight()));
+
+        JButton changeHeight = new JButton();
+        changeHeight.setText("Change");
+        changeHeight.setLocation(110, 496);
+        changeHeight.setSize(80, 20);
+        add(changeHeight);
+        changeHeight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int newHeight = Integer.parseInt(heightTextField.getText());
+                    getSelectedMap().setHeight(newHeight);
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                    System.out.println("Nothing is broken, don't let the red error text scare you, just put in a valid int next time please!");
+                    heightTextField.setText(String.valueOf(getSelectedMap().getHeight()));
+                }
+            }
+        });
 
         JButton saveMapButton = new JButton();
         saveMapButton.setSize(190, 40);
@@ -50,7 +113,6 @@ public class EditorControlPanel extends JPanel {
         saveMapButton.setText("Save Map");
         add(saveMapButton);
 
-        JCheckBox autoSave = new JCheckBox();
         this.controlPanelHolder = controlPanelHolder;
     }
 

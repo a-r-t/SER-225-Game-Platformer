@@ -68,7 +68,7 @@ public class EditorControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int newWidth = Integer.parseInt(widthTextField.getText());
-                    if (newWidth > 0) {
+                    if (newWidth >= 0) {
                         getSelectedMap().setWidth(newWidth);
                         mapBuilder.refreshBuilders();
                     } else {
@@ -104,7 +104,7 @@ public class EditorControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int newHeight = Integer.parseInt(heightTextField.getText());
-                    if (newHeight > 0) {
+                    if (newHeight >= 0) {
                         getSelectedMap().setHeight(newHeight);
                         mapBuilder.refreshBuilders();
                     } else {

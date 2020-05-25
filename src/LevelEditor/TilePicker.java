@@ -1,7 +1,5 @@
 package LevelEditor;
 
-import GameObject.IntersectableRectangle;
-import GameObject.Rectangle;
 import Map.MapTile;
 import Map.Tileset;
 
@@ -10,7 +8,6 @@ import Map.MapTileBuilder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.*;
 import java.util.Map.Entry;
@@ -24,13 +21,15 @@ public class TilePicker extends JPanel {
     private Graphics graphics = new Graphics();
     private HashMap<Integer, MapTile> mapTiles = new HashMap<>();
     private int selectedTileIndex = 0;
+    private SelectedTileIndexHolder selectedTileIndexHolder;
 
-    public TilePicker() {
+    public TilePicker(SelectedTileIndexHolder selectedTileIndexHolder) {
         setBackground(Colors.MAGENTA);
         setLocation(0, 0);
         setPreferredSize(new Dimension(187, 387));
         setBorder(BorderFactory.createLineBorder(Color.black, 2));
         setLayout(null);
+        this.selectedTileIndexHolder = selectedTileIndexHolder;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -100,6 +99,7 @@ public class TilePicker extends JPanel {
         int selectedTileIndex = getClickedTileIndex(clickedPoint);
         if (selectedTileIndex >= 0) {
             this.selectedTileIndex = selectedTileIndex;
+            selectedTileIndexHolder.setSelectedTileIndex(selectedTileIndex);
             repaint();
         }
     }

@@ -256,10 +256,6 @@ public abstract class Map {
         return tileset;
     }
 
-    public MapTile[] getTiles() {
-        return tiles;
-    }
-
     public int getWidthPixels() {
         return width * tileset.getScaledSpriteWidth();
     }

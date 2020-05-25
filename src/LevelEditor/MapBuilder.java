@@ -5,11 +5,8 @@ import Map.Map;
 import Utils.Colors;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import Map.MapTile;
-import Map.MapTileBuilder;
 import Map.Tileset;
 
 public class MapBuilder extends JPanel {
@@ -22,7 +19,7 @@ public class MapBuilder extends JPanel {
     private TileBuilder tileBuilder;
     private MovementPermissionBuilder movementPermissionBuilder;
 
-    public MapBuilder(Map map, ControlPanelHolder controlPanelHolder) {
+    public MapBuilder(Map map, SelectedTileIndexHolder controlPanelHolder) {
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(205, 5);
         setSize(585, 562);

@@ -8,24 +8,24 @@ import Utils.Colors;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public class EditorControlPanel extends JPanel {
 
     private HashMap<String, Map> maps;
-    private ControlPanelHolder controlPanelHolder;
+    private SelectedTileIndexHolder selectedTileIndexHolder;
     private JComboBox mapNamesComboBox;
     JTextField widthTextField;
     JTextField heightTextField;
 
-    public EditorControlPanel(ControlPanelHolder controlPanelHolder) {
+    public EditorControlPanel(SelectedTileIndexHolder selectedTileIndexHolder) {
         setLayout(null);
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(0, 0);
         setSize(200, 600);
         maps = loadMaps();
+
+        this.selectedTileIndexHolder = selectedTileIndexHolder;
 
         JLabel mapLabel = new JLabel();
         mapLabel.setLocation(5, 0);
@@ -39,7 +39,7 @@ public class EditorControlPanel extends JPanel {
         maps.keySet().stream().forEach(tilesetName -> mapNamesComboBox.addItem(tilesetName));
         add(mapNamesComboBox);
 
-        TilePicker tilePicker = new TilePicker();
+        TilePicker tilePicker = new TilePicker(selectedTileIndexHolder);
         JScrollPane tilePickerScroll = new JScrollPane();
         tilePickerScroll.setViewportView(tilePicker);
         tilePickerScroll.setLocation(5, 78);
@@ -112,8 +112,6 @@ public class EditorControlPanel extends JPanel {
         saveMapButton.setLocation(5, 525);
         saveMapButton.setText("Save Map");
         add(saveMapButton);
-
-        this.controlPanelHolder = controlPanelHolder;
     }
 
     public HashMap<String, Map> loadMaps() {

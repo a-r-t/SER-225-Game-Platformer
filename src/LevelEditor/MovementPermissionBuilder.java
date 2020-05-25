@@ -1,6 +1,5 @@
 package LevelEditor;
 
-import Map.Map;
 import Utils.Colors;
 
 import javax.swing.*;
@@ -10,10 +9,10 @@ import Engine.Graphics;
 public class MovementPermissionBuilder extends JPanel {
     private int[] tiles;
     private int[] movementPermissions;
-    private ControlPanelHolder controlPanelHolder;
+    private SelectedTileIndexHolder controlPanelHolder;
     private Graphics graphics = new Graphics();
 
-    public MovementPermissionBuilder(ControlPanelHolder controlPanelHolder) {
+    public MovementPermissionBuilder(SelectedTileIndexHolder controlPanelHolder) {
         setBackground(Colors.MAGENTA);
         setLocation(0, 0);
         setSize(585, 562);

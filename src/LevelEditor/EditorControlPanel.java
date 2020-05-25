@@ -68,8 +68,13 @@ public class EditorControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int newWidth = Integer.parseInt(widthTextField.getText());
-                    getSelectedMap().setWidth(newWidth);
-                    mapBuilder.refreshBuilders();
+                    if (newWidth > 0) {
+                        getSelectedMap().setWidth(newWidth);
+                        mapBuilder.refreshBuilders();
+                    } else {
+                        widthTextField.setText(String.valueOf(getSelectedMap().getWidth()));
+                        System.out.println("Can't have a negative width value!");
+                    }
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                     System.out.println("Nothing is broken, don't let the red error text scare you, just put in a valid int next time please!");
@@ -99,8 +104,13 @@ public class EditorControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int newHeight = Integer.parseInt(heightTextField.getText());
-                    getSelectedMap().setHeight(newHeight);
-                    mapBuilder.refreshBuilders();
+                    if (newHeight > 0) {
+                        getSelectedMap().setHeight(newHeight);
+                        mapBuilder.refreshBuilders();
+                    } else {
+                        heightTextField.setText(String.valueOf(getSelectedMap().getHeight()));
+                        System.out.println("Can't have a negative height value!");
+                    }
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                     System.out.println("Nothing is broken, don't let the red error text scare you, just put in a valid int next time please!");

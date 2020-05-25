@@ -128,7 +128,7 @@ public class EditorControlPanel extends JPanel {
 
     public HashMap<String, Map> loadMaps() {
         HashMap<String, Map> maps = new HashMap<>();
-        maps.put("TestMap", new TestMap(new Rectangle(0,0,0,0)));
+        maps.put("TestMap", new TestMap());
         return maps;
     }
 

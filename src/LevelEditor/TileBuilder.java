@@ -71,10 +71,10 @@ public class TileBuilder extends JPanel {
 
         if (hoveredMapTile != null) {
             graphics.drawRectangle(
-                    hoveredMapTile.getX(),
-                    hoveredMapTile.getY(),
-                    hoveredMapTile.getScaledWidth(),
-                    hoveredMapTile.getScaledHeight(),
+                    hoveredMapTile.getX() + 2,
+                    hoveredMapTile.getY() + 2,
+                    hoveredMapTile.getScaledWidth() - 5,
+                    hoveredMapTile.getScaledHeight() - 5,
                     Color.YELLOW,
                     5
             );

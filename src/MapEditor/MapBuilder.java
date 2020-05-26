@@ -28,6 +28,7 @@ public class MapBuilder extends JPanel {
     public void refreshTileBuilder() {
         tileBuilder.setMap(map);
         tileBuilderScroll.setViewportView(tileBuilder);
+        tileBuilderScroll.getVerticalScrollBar().setValue(tileBuilderScroll.getVerticalScrollBar().getMaximum());
     }
 
     public void setMap(Map map) {

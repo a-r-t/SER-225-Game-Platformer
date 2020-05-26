@@ -4,11 +4,13 @@ import Engine.Config;
 import Engine.Graphics;
 import Game.Kirby;
 import GameObject.Rectangle;
+import Utils.Direction;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class Map {
@@ -268,70 +270,108 @@ public abstract class Map {
         return width;
     }
 
-    public void setWidth(int newWidth) {
-        int oldWidth = this.width;
-        int[] tileIndexesSizeChange = new int[this.height * newWidth];
-        int[] movementPermissionsSizeChange = new int[this.height * newWidth];
-        MapTile[] mapTilesSizeChange = new MapTile[this.height * newWidth];
+    public void setWidth(int newWidth, Direction direction) {
+        if (direction == Direction.RIGHT || direction == Direction.LEFT) {
+            int oldWidth = this.width;
+            int[] tileIndexesSizeChange = new int[this.height * newWidth];
+            Arrays.fill(tileIndexesSizeChange, -1);
+            int[] movementPermissionsSizeChange = new int[this.height * newWidth];
+            MapTile[] mapTilesSizeChange = new MapTile[this.height * newWidth];
 
-        for (int i = 0; i < this.height; i++) {
-            for (int j = 0; j < oldWidth; j++) {
-                if (j < newWidth) {
-                    tileIndexesSizeChange[j + newWidth * i] = tileIndexes[j + oldWidth * i];
-                    movementPermissionsSizeChange[j + newWidth * i] = movementPermissions[j + oldWidth * i];
-                    mapTilesSizeChange[j + newWidth * i] = tiles[j + oldWidth * i];
+            if (direction == Direction.RIGHT) {
+                for (int i = 0; i < this.height; i++) {
+                    for (int j = 0; j < oldWidth; j++) {
+                        if (j < newWidth) {
+                            tileIndexesSizeChange[j + newWidth * i] = tileIndexes[j + oldWidth * i];
+                            movementPermissionsSizeChange[j + newWidth * i] = movementPermissions[j + oldWidth * i];
+                            mapTilesSizeChange[j + newWidth * i] = tiles[j + oldWidth * i];
+                        }
+                    }
+                }
+            } else /* if (direction == Direction.LEFT) */ {
+                int difference = newWidth - oldWidth;
+                for (int i = 0; i < this.height; i++) {
+                    for (int j = oldWidth - 1; j >= 0; j--) {
+                        if (j + difference >= 0) {
+                            System.out.println("j mapped to: " + (j + difference));
+                            System.out.println("j :" + j);
+                            tileIndexesSizeChange[j + difference + newWidth * i] = tileIndexes[j + oldWidth * i];
+                            movementPermissionsSizeChange[j + difference + newWidth * i] = movementPermissions[j + oldWidth * i];
+
+                            MapTile tile = tiles[j + oldWidth * i];
+                            mapTilesSizeChange[j + difference + newWidth * i] = tile;
+                            tile.setX(tile.getX() + (tileset.getScaledSpriteWidth() * difference));
+                        }
+                    }
                 }
             }
-        }
-        this.tileIndexes = tileIndexesSizeChange;
-        this.movementPermissions = movementPermissionsSizeChange;
-        this.tiles = mapTilesSizeChange;
 
-        for (int i = 0; i < this.height; i++) {
-            for (int j = 0; j < newWidth; j++) {
-                if (tiles[j + newWidth * i] == null) {
-                    tiles[j + newWidth * i] = tileset.getDefaultTile()
-                            .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+            this.tileIndexes = tileIndexesSizeChange;
+            this.movementPermissions = movementPermissionsSizeChange;
+            this.tiles = mapTilesSizeChange;
+
+            for (int i = 0; i < this.height; i++) {
+                for (int j = 0; j < newWidth; j++) {
+                    if (tiles[j + newWidth * i] == null) {
+                        tiles[j + newWidth * i] = tileset.getDefaultTile()
+                                .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                    }
                 }
             }
-        }
 
-        this.width = newWidth;
+            this.width = newWidth;
+        }
     }
 
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int newHeight) {
-        int oldHeight = this.height;
-        int[] tileIndexesSizeChange = new int[newHeight * this.width];
-        int[] movementPermissionsSizeChange = new int[newHeight * this.width];
-        MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
+    public void setHeight(int newHeight, Direction direction) {
+        if (direction == Direction.UP || direction == Direction.DOWN) {
+            int oldHeight = this.height;
+            int[] tileIndexesSizeChange = new int[newHeight * this.width];
+            int[] movementPermissionsSizeChange = new int[newHeight * this.width];
+            MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
 
-        for (int i = 0; i < oldHeight; i++) {
-            if (i < newHeight) {
+            if (direction == Direction.DOWN) {
+                for (int i = 0; i < oldHeight; i++) {
+                    if (i < newHeight) {
+                        for (int j = 0; j < this.width; j++) {
+                            tileIndexesSizeChange[j + this.width * i] = tileIndexes[j + this.width * i];
+                            movementPermissionsSizeChange[j + this.width * i] = movementPermissions[j + this.width * i];
+                            mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
+                        }
+                    }
+                }
+            } else /* if (direction == Direction.UP) */ {
+                int difference = newHeight - oldHeight;
+                for (int i = difference; i < oldHeight + difference; i++) {
+                    if (i >= 0 && i < newHeight) {
+                        for (int j = 0; j < this.width; j++) {
+                            tileIndexesSizeChange[j + this.width * i] = tileIndexes[j + this.width * i];
+                            movementPermissionsSizeChange[j + this.width * i] = movementPermissions[j + this.width * i];
+                            mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
+                        }
+                    }
+                }
+            }
+
+            this.tileIndexes = tileIndexesSizeChange;
+            this.movementPermissions = movementPermissionsSizeChange;
+            this.tiles = mapTilesSizeChange;
+
+            for (int i = 0; i < newHeight; i++) {
                 for (int j = 0; j < this.width; j++) {
-                    tileIndexesSizeChange[j + this.width * i] = tileIndexes[j + this.width * i];
-                    movementPermissionsSizeChange[j + this.width * i] = movementPermissions[j + this.width * i];
-                    mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
+                    if (tiles[j + this.width * i] == null) {
+                        tiles[j + this.width * i] = tileset.getDefaultTile()
+                                .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                    }
                 }
             }
-        }
-        this.tileIndexes = tileIndexesSizeChange;
-        this.movementPermissions = movementPermissionsSizeChange;
-        this.tiles = mapTilesSizeChange;
 
-        for (int i = 0; i < newHeight; i++) {
-            for (int j = 0; j < this.width; j++) {
-                if (tiles[j + this.width * i] == null) {
-                    tiles[j + this.width * i] = tileset.getDefaultTile()
-                            .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
-                }
-            }
+            this.height = newHeight;
         }
-
-        this.height = newHeight;
     }
 
 }

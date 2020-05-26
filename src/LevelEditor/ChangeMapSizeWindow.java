@@ -2,6 +2,7 @@ package LevelEditor;
 
 import Map.Map;
 import Utils.Colors;
+import Utils.Direction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +13,10 @@ public class ChangeMapSizeWindow {
     private JDialog changeMapSizeWindow;
     private JTextField widthTextField;
     private JTextField heightTextField;
-    private ButtonGroup widthLeftOrRightRadioGroup;
-    private ButtonGroup heightTopOrBottomRadioGroup;
+    private JRadioButton widthLeftRadio;
+    private JRadioButton widthRightRadio;
+    private JRadioButton heightTopRadio;
+    private JRadioButton heightBottomRadio;
     private JLabel errorMessage;
     private Map map;
 
@@ -43,12 +46,12 @@ public class ChangeMapSizeWindow {
         JLabel widthLeftOrRightLabel = new JLabel("Width change from left or right side of map?");
         widthLeftOrRightLabel.setLocation(10, 40);
         widthLeftOrRightLabel.setSize(300, 20);
-        widthLeftOrRightRadioGroup = new ButtonGroup();
-        JRadioButton widthLeftRadio = new JRadioButton("Left");
+        ButtonGroup widthLeftOrRightRadioGroup = new ButtonGroup();
+        widthLeftRadio = new JRadioButton("Left");
         widthLeftRadio.setLocation(10, 70);
         widthLeftRadio.setSize(60, 20);
         widthLeftRadio.setBackground(Colors.CORNFLOWER_BLUE);
-        JRadioButton widthRightRadio = new JRadioButton("Right");
+        widthRightRadio = new JRadioButton("Right");
         widthRightRadio.setLocation(80, 70);
         widthRightRadio.setSize(60, 20);
         widthRightRadio.setBackground(Colors.CORNFLOWER_BLUE);
@@ -74,12 +77,12 @@ public class ChangeMapSizeWindow {
         JLabel heightTopOrBottomLabel = new JLabel("Height change from top or bottom side of map?");
         heightTopOrBottomLabel.setLocation(10, 140);
         heightTopOrBottomLabel.setSize(300, 20);
-        heightTopOrBottomRadioGroup = new ButtonGroup();
-        JRadioButton heightTopRadio = new JRadioButton("Top");
+        ButtonGroup heightTopOrBottomRadioGroup = new ButtonGroup();
+        heightTopRadio = new JRadioButton("Top");
         heightTopRadio.setLocation(10, 170);
         heightTopRadio.setSize(60, 20);
         heightTopRadio.setBackground(Colors.CORNFLOWER_BLUE);
-        JRadioButton heightBottomRadio = new JRadioButton("Bottom");
+        heightBottomRadio = new JRadioButton("Bottom");
         heightBottomRadio.setLocation(80, 170);
         heightBottomRadio.setSize(70, 20);
         heightBottomRadio.setBackground(Colors.CORNFLOWER_BLUE);
@@ -129,8 +132,19 @@ public class ChangeMapSizeWindow {
             errorMessage.setText("");
             int newWidth = Integer.parseInt(widthTextField.getText());
             int newHeight = Integer.parseInt(heightTextField.getText());
-            map.setWidth(newWidth);
-            map.setHeight(newHeight);
+
+            if (widthLeftRadio.isSelected()) {
+                map.setWidth(newWidth, Direction.LEFT);
+            } else if (widthRightRadio.isSelected()) {
+                map.setWidth(newWidth, Direction.RIGHT);
+            }
+
+            if (heightTopRadio.isSelected()) {
+                map.setHeight(newHeight, Direction.UP);
+            } else if (heightBottomRadio.isSelected()) {
+                map.setHeight(newHeight, Direction.DOWN);
+            }
+
             this.close();
         }
     }

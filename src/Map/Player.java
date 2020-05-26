@@ -243,8 +243,7 @@ public abstract class Player extends GameObject {
 
     private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
         MapTile tile = map.getTile(xTileIndex, yTileIndex);
-        int movementPermission = map.getMovementPermission(xTileIndex, yTileIndex);
-        return tile != null && movementPermission == 1 && intersects(tile);
+        return tile != null && tile.getTileType() == TileType.NOT_PASSABLE && intersects(tile);
     }
 
     public int getMoveAmountX() {

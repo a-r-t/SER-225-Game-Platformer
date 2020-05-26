@@ -2,6 +2,7 @@ package Engine;
 
 import GameObject.Rectangle;
 import GameObject.SpriteFont;
+import Utils.Colors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +49,7 @@ public class GamePanel extends JPanel {
 
 	public void setupGame() {
 		windowBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
-		setBackground(new Color(100, 149, 237));
+		setBackground(Colors.CORNFLOWER_BLUE);
 		screenManager.initialize(windowBounds);
 		doPaint = true;
 	}

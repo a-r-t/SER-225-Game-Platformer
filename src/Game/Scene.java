@@ -6,6 +6,7 @@ import Engine.Keyboard;
 import GameObject.Rectangle;
 import Map.Map;
 import Maps.TestMap;
+import Maps.TestMap2;
 
 public class Scene extends Screen {
 	private Rectangle sceneBounds;

@@ -1,10 +1,16 @@
 package Map;
 
+import Engine.ImageLoader;
+import GameObject.FrameBuilder;
 import GameObject.SpriteSheet;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import Map.MapTileBuilder;
+import Utils.ImageUtils;
 
 public abstract class Tileset extends SpriteSheet {
 
@@ -32,7 +38,7 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public MapTileBuilder getTile(int tileNumber) {
-        return tiles.getOrDefault(tileNumber, null);
+        return tiles.getOrDefault(tileNumber, getDefaultTile());
     }
 
     public float getScale() {
@@ -52,4 +58,9 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public abstract HashMap<Integer, MapTileBuilder> createTiles();
+
+    public MapTileBuilder getDefaultTile() {
+        BufferedImage defaultTileImage = ImageLoader.load("DefaultTile.png");
+        return new MapTileBuilder(new FrameBuilder(ImageUtils.resizeImage(defaultTileImage, spriteWidth, spriteHeight), 0).withScale(scale).build());
+    }
 }

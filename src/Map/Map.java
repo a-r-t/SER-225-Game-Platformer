@@ -10,6 +10,8 @@ import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -44,10 +46,18 @@ public abstract class Map {
         try {
             fileInput = new Scanner(new File(Config.MAP_FILES_PATH + this.mapFileName));
         } catch(FileNotFoundException ex) {
-            ex.printStackTrace();
-            System.out.println("Map file not found!");
-            throw new RuntimeException();
+            System.out.println("Map file " + Config.MAP_FILES_PATH + this.mapFileName + " not found! Creating empty map file...");
+
+            try {
+                writeEmptyMapFile();
+                fileInput = new Scanner(new File(Config.MAP_FILES_PATH + this.mapFileName));
+            } catch(IOException ex2) {
+                ex2.printStackTrace();
+                System.out.println("Failed to create an empty map file!");
+                throw new RuntimeException();
+            }
         }
+
         this.width = fileInput.nextInt();
         this.height = fileInput.nextInt();
         this.tiles = new MapTile[this.height * this.width];
@@ -66,6 +76,13 @@ public abstract class Map {
         }
 
         fileInput.close();
+    }
+
+    private void writeEmptyMapFile() throws IOException {
+        FileWriter fileWriter = null;
+        fileWriter = new FileWriter(Config.MAP_FILES_PATH + this.mapFileName);
+        fileWriter.write("0 0\n");
+        fileWriter.close();
     }
 
     public MapTile[] getMapTiles() {

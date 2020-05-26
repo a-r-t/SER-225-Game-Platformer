@@ -11,10 +11,6 @@ import Map.Tileset;
 
 public class MapBuilder extends JPanel {
     private Map map;
-    private Tileset tileset;
-    private int[] tiles;
-    private Graphics graphics = new Graphics();
-    private HashMap<Integer, MapTile> mapTiles = new HashMap<>();
     JScrollPane tileBuilderScroll;
     private TileBuilder tileBuilder;
 
@@ -40,10 +36,7 @@ public class MapBuilder extends JPanel {
 
     public void setMap(Map map) {
         this.map = map;
-        tiles = map.getMapTileIndexes();
-        tileset = map.getTileset();
         tileBuilder.setMap(map);
-        //movementPermissionBuilder.setMap(map);
         tileBuilderScroll.getVerticalScrollBar().setValue(tileBuilderScroll.getVerticalScrollBar().getMaximum());
     }
 }

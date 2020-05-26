@@ -3,6 +3,7 @@ package LevelEditor;
 import Engine.Config;
 import Map.Map;
 import Maps.TestMap;
+import Maps.TestMap2;
 import Utils.Colors;
 
 import javax.swing.*;
@@ -76,6 +77,7 @@ public class EditorControlPanel extends JPanel {
     public HashMap<String, Map> loadMaps() {
         HashMap<String, Map> maps = new HashMap<>();
         maps.put("TestMap", new TestMap());
+        maps.put("TestMap2", new TestMap2());
         return maps;
     }
 

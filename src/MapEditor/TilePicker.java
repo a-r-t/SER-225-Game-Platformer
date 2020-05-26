@@ -49,8 +49,14 @@ public class TilePicker extends JPanel {
         HashMap<Integer, MapTileBuilder> mapTileBuilders = this.tileset.createTiles();
 
         int width = (int)this.getPreferredSize().getWidth() / this.tileset.getScaledSpriteWidth();
+        if (width == 0) {
+            width = 1;
+        }
         int height = (int)Math.ceil(mapTileBuilders.keySet().size() / (double)width);
-        setPreferredSize(new Dimension(144, Math.max(391, height * tileset.getScaledSpriteHeight())));
+        if (height == 0) {
+            height = 1;
+        }
+        setPreferredSize(new Dimension(Math.max(144, width * tileset.getScaledSpriteWidth()), Math.max(391, height * tileset.getScaledSpriteHeight())));
 
         Integer[] tileKeys = mapTileBuilders.keySet().toArray(new Integer[mapTileBuilders.keySet().size()]);
         Arrays.sort(tileKeys);

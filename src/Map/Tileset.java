@@ -38,7 +38,7 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public MapTileBuilder getTile(int tileNumber) {
-        return tiles.getOrDefault(tileNumber, null);
+        return tiles.getOrDefault(tileNumber, getDefaultTile());
     }
 
     public float getScale() {

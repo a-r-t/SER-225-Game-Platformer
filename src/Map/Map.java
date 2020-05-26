@@ -58,14 +58,8 @@ public abstract class Map {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int tileIndex = fileInput.nextInt();
-                MapTile tile = null;
-                if (tileIndex >= 0) {
-                     tile = tileset.getTile(tileIndex)
-                            .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
-                } else {
-                    tile = tileset.getDefaultTile()
-                            .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
-                }
+                MapTile tile = tileset.getTile(tileIndex)
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
                 setTile(j, i, tile);
                 this.tileIndexes[j + this.width * i] = tileIndex;
             }

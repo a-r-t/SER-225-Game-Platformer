@@ -27,7 +27,7 @@ public class EditorControlPanel extends JPanel {
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(0, 0);
         setSize(200, 600);
-        maps = loadMaps();
+        maps = EditorMaps.getMaps();
 
         this.selectedTileIndexHolder = selectedTileIndexHolder;
         this.mapBuilder = mapBuilder;
@@ -86,13 +86,6 @@ public class EditorControlPanel extends JPanel {
             }
         });
         add(saveMapButton);
-    }
-
-    public HashMap<String, Map> loadMaps() {
-        HashMap<String, Map> maps = new HashMap<>();
-        maps.put("TestMap", new TestMap());
-        maps.put("TestMap2", new TestMap2());
-        return maps;
     }
 
     public Map getSelectedMap() {

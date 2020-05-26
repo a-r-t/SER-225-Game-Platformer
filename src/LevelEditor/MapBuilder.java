@@ -13,13 +13,10 @@ public class MapBuilder extends JPanel {
     private Map map;
     private Tileset tileset;
     private int[] tiles;
-    private int[] movementPermissions;
     private Graphics graphics = new Graphics();
     private HashMap<Integer, MapTile> mapTiles = new HashMap<>();
     JScrollPane tileBuilderScroll;
     private TileBuilder tileBuilder;
-    JScrollPane movementPermissionBuilderScroll;
-    private MovementPermissionBuilder movementPermissionBuilder;
 
     public MapBuilder(SelectedTileIndexHolder controlPanelHolder) {
         setBackground(Colors.CORNFLOWER_BLUE);
@@ -31,33 +28,22 @@ public class MapBuilder extends JPanel {
         tileBuilderScroll = new JScrollPane();
         tileBuilderScroll.setViewportView(tileBuilder);
         tileBuilderScroll.getVerticalScrollBar().setValue(tileBuilderScroll.getVerticalScrollBar().getMaximum());
-
-        movementPermissionBuilder = new MovementPermissionBuilder(controlPanelHolder);
-        movementPermissionBuilderScroll = new JScrollPane();
-        movementPermissionBuilderScroll.setViewportView(movementPermissionBuilder);
-
-        JTabbedPane mapBuilderTabs = new JTabbedPane();
-        mapBuilderTabs.setLocation(0, 0);
-        mapBuilderTabs.setSize(585, 562);
-        mapBuilderTabs.addTab("Tiles", tileBuilderScroll);
-        mapBuilderTabs.addTab("Movement Permissions", movementPermissionBuilderScroll);
-        add(mapBuilderTabs);
+        tileBuilderScroll.setLocation(0, 0);
+        tileBuilderScroll.setSize(585, 562);
+        add(tileBuilderScroll);
     }
 
-    public void refreshBuilders() {
+    public void refreshTileBuilder() {
         tileBuilder.setMap(map);
         tileBuilderScroll.setViewportView(tileBuilder);
-        //movementPermissionBuilder.setMap(map);
     }
 
     public void setMap(Map map) {
         this.map = map;
         tiles = map.getMapTileIndexes();
-        movementPermissions = map.getMovementPermissions();
         tileset = map.getTileset();
         tileBuilder.setMap(map);
         //movementPermissionBuilder.setMap(map);
         tileBuilderScroll.getVerticalScrollBar().setValue(tileBuilderScroll.getVerticalScrollBar().getMaximum());
-        movementPermissionBuilderScroll.getVerticalScrollBar().setValue(movementPermissionBuilderScroll.getVerticalScrollBar().getMaximum());
     }
 }

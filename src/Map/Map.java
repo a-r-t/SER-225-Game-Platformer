@@ -16,7 +16,6 @@ import java.util.Scanner;
 public abstract class Map {
     protected MapTile[] tiles;
     protected int[] tileIndexes;
-    protected int[] movementPermissions;
     protected int width;
     protected int height;
     protected Tileset tileset;
@@ -67,14 +66,6 @@ public abstract class Map {
         fileInput.nextLine();
         fileInput.nextLine();
 
-        this.movementPermissions = new int[this.height * this.width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int movementPermissionIndex = fileInput.nextInt();
-                setMovementPermission(j, i, movementPermissionIndex);
-            }
-        }
-
         fileInput.close();
     }
 
@@ -84,10 +75,6 @@ public abstract class Map {
 
     public int[] getMapTileIndexes() {
         return tileIndexes;
-    }
-
-    public int[] getMovementPermissions() {
-        return movementPermissions;
     }
 
     public Rectangle getCamera() {
@@ -125,15 +112,6 @@ public abstract class Map {
         return tileset.getScaledSpriteHeight();
     }
 
-    public int getMovementPermission(int x, int y) {
-        if (isInBounds(x, y)) {
-            return movementPermissions[x + width * y];
-        } else {
-            return -1;
-        }
-    }
-    public void setMovementPermission(int x, int y, int movementPermission) { movementPermissions[x + width * y] = movementPermission; }
-
     public MapTile getTileByPosition(int xPosition, int yPosition) {
         int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
         int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
@@ -141,16 +119,6 @@ public abstract class Map {
             return getTile(xIndex, yIndex);
         } else {
             return null;
-        }
-    }
-
-    public int getMovementPermissionByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
-        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
-        if (isInBounds(xIndex, yIndex)) {
-            return getMovementPermission(xIndex, yIndex);
-        } else {
-            return -1;
         }
     }
 
@@ -276,7 +244,6 @@ public abstract class Map {
             int oldWidth = this.width;
             int[] tileIndexesSizeChange = new int[this.height * newWidth];
             Arrays.fill(tileIndexesSizeChange, -1);
-            int[] movementPermissionsSizeChange = new int[this.height * newWidth];
             MapTile[] mapTilesSizeChange = new MapTile[this.height * newWidth];
 
             if (direction == Direction.RIGHT) {
@@ -284,7 +251,6 @@ public abstract class Map {
                     for (int j = 0; j < oldWidth; j++) {
                         if (j < newWidth) {
                             tileIndexesSizeChange[j + newWidth * i] = tileIndexes[j + oldWidth * i];
-                            movementPermissionsSizeChange[j + newWidth * i] = movementPermissions[j + oldWidth * i];
                             mapTilesSizeChange[j + newWidth * i] = tiles[j + oldWidth * i];
                         }
                     }
@@ -295,7 +261,6 @@ public abstract class Map {
                     for (int j = oldWidth - 1; j >= 0; j--) {
                         if (j + difference >= 0) {
                             tileIndexesSizeChange[j + difference + newWidth * i] = tileIndexes[j + oldWidth * i];
-                            movementPermissionsSizeChange[j + difference + newWidth * i] = movementPermissions[j + oldWidth * i];
 
                             MapTile tile = tiles[j + oldWidth * i];
                             mapTilesSizeChange[j + difference + newWidth * i] = tile;
@@ -306,7 +271,6 @@ public abstract class Map {
             }
 
             this.tileIndexes = tileIndexesSizeChange;
-            this.movementPermissions = movementPermissionsSizeChange;
             this.tiles = mapTilesSizeChange;
 
             for (int i = 0; i < this.height; i++) {
@@ -331,7 +295,6 @@ public abstract class Map {
             int oldHeight = this.height;
             int[] tileIndexesSizeChange = new int[newHeight * this.width];
             Arrays.fill(tileIndexesSizeChange, -1);
-            int[] movementPermissionsSizeChange = new int[newHeight * this.width];
             MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
 
             if (direction == Direction.DOWN) {
@@ -339,7 +302,6 @@ public abstract class Map {
                     if (i < newHeight) {
                         for (int j = 0; j < this.width; j++) {
                             tileIndexesSizeChange[j + this.width * i] = tileIndexes[j + this.width * i];
-                            movementPermissionsSizeChange[j + this.width * i] = movementPermissions[j + this.width * i];
                             mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
                         }
                     }
@@ -350,7 +312,6 @@ public abstract class Map {
                     if (i + difference >= 0) {
                         for (int j = 0; j < this.width; j++) {
                             tileIndexesSizeChange[j + this.width * (i + difference)] = tileIndexes[j + this.width * i];
-                            movementPermissionsSizeChange[j + this.width * (i + difference)] = movementPermissions[j + this.width * i];
 
                             MapTile tile = tiles[j + this.width * i];
                             mapTilesSizeChange[j + this.width * (i + difference)] = tile;
@@ -361,7 +322,6 @@ public abstract class Map {
             }
 
             this.tileIndexes = tileIndexesSizeChange;
-            this.movementPermissions = movementPermissionsSizeChange;
             this.tiles = mapTilesSizeChange;
 
             for (int i = 0; i < newHeight; i++) {

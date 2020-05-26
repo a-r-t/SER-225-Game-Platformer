@@ -1,6 +1,5 @@
 package LevelEditor;
 
-import GameObject.Rectangle;
 import Map.Map;
 import Maps.TestMap;
 import Utils.Colors;
@@ -53,7 +52,7 @@ public class EditorControlPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ChangeMapSizeWindow(getSelectedMap(), parent).show();
-                mapBuilder.refreshBuilders();
+                mapBuilder.refreshTileBuilder();
             }
         });
         add(setMapDimensionsButton);

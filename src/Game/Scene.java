@@ -10,28 +10,24 @@ import Maps.TestMap2;
 
 public class Scene extends Screen {
 	private Rectangle sceneBounds;
-	private DonkeyKong donkeyKong;
 	private Map testMap;
 	private Kirby kirby;
 
 	@Override
 	public void initialize(Rectangle sceneBounds) {
 		this.sceneBounds = sceneBounds;
-		donkeyKong = new DonkeyKong(100, 100, 100, 100);
 		testMap = new TestMap(sceneBounds);
 		kirby = new Kirby(testMap.getPlayerStartPosition().x, testMap.getPlayerStartPosition().y, sceneBounds);
 	}
 
 	@Override
 	public void update(Keyboard keyboard) {
-		//donkeyKong.update(keyboard);
 		testMap.update(kirby);
 		kirby.update(keyboard, testMap);
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
-		//donkeyKong.draw(g);
 		testMap.draw(graphics);
 		kirby.draw(graphics);
 	}

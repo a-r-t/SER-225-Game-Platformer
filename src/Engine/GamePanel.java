@@ -21,8 +21,6 @@ public class GamePanel extends JPanel {
 	private KeyLocker keyLocker = new KeyLocker();
 	private final Key pauseKey = Key.P;
 
-	public static final int FPS = 100;
-
 	public GamePanel() {
 		super();
 		this.setDoubleBuffered(true);
@@ -38,7 +36,7 @@ public class GamePanel extends JPanel {
 		pauseLabel.setOutlineColor(Color.black);
 		pauseLabel.setOutlineThickness(2.0f);
 
-		timer = new Timer(1000 / FPS, new ActionListener() {
+		timer = new Timer(1000 / Config.FPS, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				update(keyboard);
 				repaint();

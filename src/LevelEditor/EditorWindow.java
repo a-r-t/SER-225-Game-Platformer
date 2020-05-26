@@ -10,7 +10,7 @@ public class EditorWindow {
 
     public EditorWindow() {
         editorWindow = new JFrame("Level Editor");
-        editorMainPanel = new EditorMainPanel();
+        editorMainPanel = new EditorMainPanel(editorWindow);
         editorWindow.setContentPane(editorMainPanel);
         editorWindow.setResizable(false);
         editorWindow.setSize(800, 600);

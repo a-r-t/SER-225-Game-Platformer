@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditorControlPanel extends JPanel {
@@ -18,6 +19,8 @@ public class EditorControlPanel extends JPanel {
     private HashMap<String, Map> maps;
     private SelectedTileIndexHolder selectedTileIndexHolder;
     private JComboBox mapNamesComboBox;
+    private TilePicker tilePicker;
+    private MapBuilder mapBuilder;
 
     public EditorControlPanel(SelectedTileIndexHolder selectedTileIndexHolder, MapBuilder mapBuilder, JFrame parent) {
         setLayout(null);
@@ -27,6 +30,7 @@ public class EditorControlPanel extends JPanel {
         maps = loadMaps();
 
         this.selectedTileIndexHolder = selectedTileIndexHolder;
+        this.mapBuilder = mapBuilder;
 
         JLabel mapLabel = new JLabel();
         mapLabel.setLocation(5, 0);
@@ -37,10 +41,20 @@ public class EditorControlPanel extends JPanel {
         mapNamesComboBox = new JComboBox();
         mapNamesComboBox.setSize(190, 40);
         mapNamesComboBox.setLocation(5, 30);
-        maps.keySet().stream().forEach(tilesetName -> mapNamesComboBox.addItem(tilesetName));
+        ArrayList<String> mapKeys = new ArrayList<>(maps.keySet());
+        mapKeys.sort(String::compareToIgnoreCase);
+        for (String mapKey : mapKeys) {
+            mapNamesComboBox.addItem(mapKey);
+        }
+        mapNamesComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setMap();
+            }
+        });
         add(mapNamesComboBox);
 
-        TilePicker tilePicker = new TilePicker(selectedTileIndexHolder);
+        tilePicker = new TilePicker(selectedTileIndexHolder);
         JScrollPane tilePickerScroll = new JScrollPane();
         tilePickerScroll.setViewportView(tilePicker);
         tilePickerScroll.setLocation(5, 78);
@@ -107,5 +121,10 @@ public class EditorControlPanel extends JPanel {
             ex.printStackTrace();
             System.out.println("Unable to save map file! That's really not great!");
         }
+    }
+    public void setMap() {
+        Map map = getSelectedMap();
+        tilePicker.setTileset(map.getTileset());
+        mapBuilder.setMap(map);
     }
 }

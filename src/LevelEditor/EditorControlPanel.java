@@ -1,5 +1,6 @@
 package LevelEditor;
 
+import Engine.Config;
 import Map.Map;
 import Maps.TestMap;
 import Utils.Colors;
@@ -7,6 +8,8 @@ import Utils.Colors;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class EditorControlPanel extends JPanel {
@@ -61,6 +64,12 @@ public class EditorControlPanel extends JPanel {
         saveMapButton.setSize(190, 40);
         saveMapButton.setLocation(5, 525);
         saveMapButton.setText("Save Map");
+        saveMapButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                writeSelectedMapToFile();
+            }
+        });
         add(saveMapButton);
     }
 
@@ -72,5 +81,29 @@ public class EditorControlPanel extends JPanel {
 
     public Map getSelectedMap() {
         return maps.get(mapNamesComboBox.getSelectedItem());
+    }
+
+    public void writeSelectedMapToFile() {
+        Map map = getSelectedMap();
+        String fileName = getSelectedMap().getMapFileName();
+        try {
+            FileWriter fileWriter = new FileWriter(Config.MAP_FILES_PATH + fileName);
+            fileWriter.write(String.valueOf(map.getWidth()) + " " + String.valueOf(map.getHeight()) + "\n");
+            int[] tileIndexes = map.getMapTileIndexes();
+            for (int i = 0; i < map.getHeight(); i++) {
+                for (int j = 0; j < map.getWidth(); j++) {
+                    fileWriter.write(String.valueOf(tileIndexes[j + map.getWidth() * i]));
+                    if (j < map.getWidth() - 1) {
+                        fileWriter.write(" ");
+                    } else if (j >= map.getWidth() -1 && i < map.getHeight() - 1) {
+                        fileWriter.write("\n");
+                    }
+                }
+            }
+            fileWriter.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            System.out.println("Unable to save map file! That's really not great!");
+        }
     }
 }

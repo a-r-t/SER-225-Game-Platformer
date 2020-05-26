@@ -23,10 +23,12 @@ public abstract class Map {
     protected Point playerStartTile;
     protected int xMidPoint, yMidPoint;
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
+    private String mapFileName;
 
     public Map(String mapFileName, Tileset tileset, Rectangle screenBounds, Point playerStartTile) {
+        this.mapFileName = mapFileName;
         this.tileset = tileset;
-        loadMapFile(mapFileName);
+        loadMapFile();
         camera = new Camera(0, 0, screenBounds, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight());
         this.startBoundX = 0;
         this.startBoundY = 0;
@@ -37,10 +39,10 @@ public abstract class Map {
         this.playerStartTile = playerStartTile;
     }
 
-    private void loadMapFile(String mapFileName) {
+    private void loadMapFile() {
         Scanner fileInput;
         try {
-            fileInput = new Scanner(new File(Config.MAP_FILES_PATH + mapFileName));
+            fileInput = new Scanner(new File(Config.MAP_FILES_PATH + this.mapFileName));
         } catch(FileNotFoundException ex) {
             ex.printStackTrace();
             System.out.println("Map file not found!");
@@ -52,7 +54,6 @@ public abstract class Map {
         this.tileIndexes = new int[this.height * this.width];
         Arrays.fill(this.tileIndexes, -1);
         fileInput.nextLine();
-        fileInput.nextLine();
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -63,8 +64,6 @@ public abstract class Map {
                 this.tileIndexes[j + this.width * i] = tileIndex;
             }
         }
-        fileInput.nextLine();
-        fileInput.nextLine();
 
         fileInput.close();
     }
@@ -233,6 +232,10 @@ public abstract class Map {
 
     public int getHeightPixels() {
         return height * tileset.getScaledSpriteHeight();
+    }
+
+    public String getMapFileName() {
+        return mapFileName;
     }
 
     public int getWidth() {

@@ -48,7 +48,7 @@ public abstract class Tileset extends SpriteSheet {
         ArrayList<MapTileBuilder> mapTileBuilders = defineTiles();
         HashMap<Integer, MapTileBuilder> tilesToIndex = new HashMap<>();
         for (int i = 0; i < mapTileBuilders.size(); i++) {
-            tilesToIndex.put(i, mapTileBuilders.get(i));
+            tilesToIndex.put(i, mapTileBuilders.get(i).withTileIndex(i));
         }
         return tilesToIndex;
     }

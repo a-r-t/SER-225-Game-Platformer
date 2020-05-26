@@ -32,21 +32,12 @@ public abstract class Tileset extends SpriteSheet {
         return image.getSubimage((column * spriteWidth) + column, (row * spriteHeight) + row, spriteWidth, spriteHeight);
     }
 
-    public SpriteSheet createAnimatedTileSpriteSheet(int row, int column, int numberOfSprites) {
-        BufferedImage subImage = image.getSubimage((column * spriteWidth) + column, (row * spriteHeight) + row, spriteWidth * numberOfSprites, spriteHeight);
-        return new SpriteSheet(subImage, spriteWidth, spriteHeight);
-    }
-
     public MapTileBuilder getTile(int tileNumber) {
         return tiles.getOrDefault(tileNumber, getDefaultTile());
     }
 
     public float getScale() {
         return scale;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
     }
 
     public int getScaledSpriteWidth() {

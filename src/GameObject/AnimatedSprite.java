@@ -220,20 +220,4 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
     public boolean intersects(IntersectableRectangle other) {
         return currentFrame.intersects(other);
     }
-
-	public String getCurrentAnimationName() {
-		return currentAnimationName;
-	}
-
-	public void setCurrentAnimationName() {
-		this.currentAnimationName = currentAnimationName;
-	}
-
-	public void setAnimations(HashMap<String, Frame[]> animations) {
-		this.animations = animations;
-	}
-
-	public void addAnimation(String animationName, Frame[] frame) {
-		animations.put(animationName, frame);
-	}
 }

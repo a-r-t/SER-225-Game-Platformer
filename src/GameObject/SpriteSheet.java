@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 
 
 public class SpriteSheet {
@@ -17,22 +18,20 @@ public class SpriteSheet {
 	protected int rowLength;
 	protected int columnLength;
 
-	public SpriteSheet(String imageFileName, int spriteWidth, int spriteHeight) {
-		loadImage(imageFileName);
+	public SpriteSheet(BufferedImage image, int spriteWidth, int spriteHeight) {
+		this.image = image;
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
 		this.rowLength = image.getHeight() / spriteHeight;
 		this.columnLength = image.getWidth() / spriteWidth;
 	}
 
-	public SpriteSheet(BufferedImage image, int spriteWidth, int spriteHeight) {
-		this.image = image;
-		this.spriteWidth = spriteWidth;
-		this.spriteHeight = spriteHeight;
-	}
-
 	public BufferedImage getSprite(int spriteNumber, int animationNumber) {
 		return image.getSubimage((animationNumber * spriteWidth) + animationNumber, (spriteNumber * spriteHeight) + spriteNumber, spriteWidth, spriteHeight);
+	}
+
+	public BufferedImage getSubImage(int row, int column) {
+		return image.getSubimage((column * spriteWidth) + column, (row * spriteHeight) + row, spriteWidth, spriteHeight);
 	}
 
 	public BufferedImage getImage() {
@@ -45,16 +44,5 @@ public class SpriteSheet {
 
 	public int getSpriteHeight() {
 		return spriteHeight;
-	}
-
-	public void loadImage(String imageFileName) {
-		try {
-			BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
-			Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, Config.TRANSPARENT_COLOR);
-			image = ImageUtils.convertImageToBufferedImage(transparentImage, initialImage.getWidth(), initialImage.getHeight());
-		} catch (IOException e) {
-			System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
-			throw new RuntimeException(e);
-		}
 	}
 }

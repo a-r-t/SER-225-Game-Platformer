@@ -8,6 +8,16 @@ public class GameObjectBuilder {
     protected HashMap<String, Frame[]> animations = new HashMap<>();
     protected String startingAnimationName = "DEFAULT";
 
+    public GameObjectBuilder() { }
+
+    public GameObjectBuilder(Frame frame) {
+        addDefaultAnimation(frame);
+    }
+
+    public GameObjectBuilder(Frame[] frames) {
+        addDefaultAnimation(frames);
+    }
+
     public GameObjectBuilder addAnimation(String animationName, Frame[] frames) {
         animations.put(animationName, frames);
         return this;

@@ -97,7 +97,7 @@ public class EditorControlPanel extends JPanel {
         String fileName = getSelectedMap().getMapFileName();
         try {
             FileWriter fileWriter = new FileWriter(Config.MAP_FILES_PATH + fileName);
-            fileWriter.write(String.valueOf(map.getWidth()) + " " + String.valueOf(map.getHeight()) + "\n");
+            fileWriter.write(map.getWidth() + " " + map.getHeight() + "\n");
             int[] tileIndexes = map.getMapTileIndexes();
             for (int i = 0; i < map.getHeight(); i++) {
                 for (int j = 0; j < map.getWidth(); j++) {

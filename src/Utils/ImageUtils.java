@@ -98,7 +98,7 @@ public class ImageUtils {
 
 		// Create our target image we will render the rotated result to.
 		BufferedImage result = createOptimalImage(src, newWidth, newHeight);
-		Graphics2D g2d = (Graphics2D) result.createGraphics();
+		Graphics2D g2d = result.createGraphics();
 
 		g2d.drawImage(src, tx, null);
 		g2d.dispose();
@@ -111,8 +111,8 @@ public class ImageUtils {
 		return result;
 	}
 
-	public static enum Rotation {
-		CW_90, CW_180, CW_270, FLIP_HORZ, FLIP_VERT;
+	public enum Rotation {
+		CW_90, CW_180, CW_270, FLIP_HORZ, FLIP_VERT
 	}
 
 	protected static BufferedImage createOptimalImage(BufferedImage src, int width, int height) {

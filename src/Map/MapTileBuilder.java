@@ -2,22 +2,17 @@ package Map;
 
 import GameObject.Frame;
 import GameObject.GameObjectBuilder;
-import GameObject.SpriteSheet;
-
-import java.awt.image.BufferedImage;
 
 public class MapTileBuilder extends GameObjectBuilder {
 
     private TileType tileType = TileType.PASSABLE;
 
     public MapTileBuilder(Frame frame) {
-        super();
-        addDefaultAnimation(frame);
+        super(frame);
     }
 
     public MapTileBuilder(Frame[] frames) {
-        super();
-        addDefaultAnimation(frames);
+        super(frames);
     }
 
     public MapTileBuilder withTileType(TileType tileType) {

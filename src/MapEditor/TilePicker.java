@@ -46,7 +46,7 @@ public class TilePicker extends JPanel {
 
     public void setTileset(Tileset tileset) {
         this.tileset = tileset;
-        HashMap<Integer, MapTileBuilder> mapTileBuilders = this.tileset.createTiles();
+        HashMap<Integer, MapTileBuilder> mapTileBuilders = this.tileset.mapDefinedTilesToIndex();
 
         int width = (int)this.getPreferredSize().getWidth() / this.tileset.getScaledSpriteWidth();
         if (width == 0) {

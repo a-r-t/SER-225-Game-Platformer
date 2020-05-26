@@ -44,5 +44,4 @@ public enum Key {
     NINE,
     ZERO,
     SPACE
-    ;
 }

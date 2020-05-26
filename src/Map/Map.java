@@ -5,7 +5,6 @@ import Engine.Graphics;
 import Game.Kirby;
 import GameObject.Rectangle;
 import Utils.Direction;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.awt.*;
 import java.io.File;
@@ -129,8 +128,8 @@ public abstract class Map {
     }
 
     public MapTile getTileByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getScale());
-        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getScale());
+        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getTileScale());
+        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getTileScale());
         if (isInBounds(xIndex, yIndex)) {
             return getTile(xIndex, yIndex);
         } else {

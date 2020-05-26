@@ -51,6 +51,7 @@ public abstract class Map {
         this.height = fileInput.nextInt();
         this.tiles = new MapTile[this.height * this.width];
         this.tileIndexes = new int[this.height * this.width];
+        Arrays.fill(this.tileIndexes, -1);
         fileInput.nextLine();
         fileInput.nextLine();
 
@@ -293,14 +294,12 @@ public abstract class Map {
                 for (int i = 0; i < this.height; i++) {
                     for (int j = oldWidth - 1; j >= 0; j--) {
                         if (j + difference >= 0) {
-                            System.out.println("j mapped to: " + (j + difference));
-                            System.out.println("j :" + j);
                             tileIndexesSizeChange[j + difference + newWidth * i] = tileIndexes[j + oldWidth * i];
                             movementPermissionsSizeChange[j + difference + newWidth * i] = movementPermissions[j + oldWidth * i];
 
                             MapTile tile = tiles[j + oldWidth * i];
                             mapTilesSizeChange[j + difference + newWidth * i] = tile;
-                            tile.setX(tile.getX() + (tileset.getScaledSpriteWidth() * difference));
+                            tile.moveX(tileset.getScaledSpriteWidth() * difference);
                         }
                     }
                 }
@@ -331,6 +330,7 @@ public abstract class Map {
         if (direction == Direction.UP || direction == Direction.DOWN) {
             int oldHeight = this.height;
             int[] tileIndexesSizeChange = new int[newHeight * this.width];
+            Arrays.fill(tileIndexesSizeChange, -1);
             int[] movementPermissionsSizeChange = new int[newHeight * this.width];
             MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
 
@@ -346,12 +346,15 @@ public abstract class Map {
                 }
             } else /* if (direction == Direction.UP) */ {
                 int difference = newHeight - oldHeight;
-                for (int i = difference; i < oldHeight + difference; i++) {
-                    if (i >= 0 && i < newHeight) {
+                for (int i = oldHeight - 1; i >= 0; i--) {
+                    if (i + difference >= 0) {
                         for (int j = 0; j < this.width; j++) {
-                            tileIndexesSizeChange[j + this.width * i] = tileIndexes[j + this.width * i];
-                            movementPermissionsSizeChange[j + this.width * i] = movementPermissions[j + this.width * i];
-                            mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
+                            tileIndexesSizeChange[j + this.width * (i + difference)] = tileIndexes[j + this.width * i];
+                            movementPermissionsSizeChange[j + this.width * (i + difference)] = movementPermissions[j + this.width * i];
+
+                            MapTile tile = tiles[j + this.width * i];
+                            mapTilesSizeChange[j + this.width * (i + difference)] = tile;
+                            tile.moveY(tileset.getScaledSpriteHeight() * difference);
                         }
                     }
                 }

@@ -1,13 +1,9 @@
-package LevelEditor;
+package MapEditor;
 
-import Engine.Graphics;
 import Map.Map;
 import Utils.Colors;
 
 import javax.swing.*;
-import java.util.HashMap;
-import Map.MapTile;
-import Map.Tileset;
 
 public class MapBuilder extends JPanel {
     private Map map;

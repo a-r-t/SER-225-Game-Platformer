@@ -1,4 +1,4 @@
-package LevelEditor;
+package MapEditor;
 
 import Map.MapTile;
 import Map.Tileset;

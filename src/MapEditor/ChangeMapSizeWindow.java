@@ -1,4 +1,4 @@
-package LevelEditor;
+package MapEditor;
 
 import Map.Map;
 import Utils.Colors;

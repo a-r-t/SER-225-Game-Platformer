@@ -1,6 +1,6 @@
-package LevelEditor;
+package MapEditor;
 
-public class LevelEditor {
+public class MapEditor {
     public static void main(String[] args) {
         new EditorWindow();
     }

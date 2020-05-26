@@ -1,4 +1,4 @@
-package LevelEditor;
+package MapEditor;
 
 public class SelectedTileIndexHolder {
     private int selectedTileIndex;

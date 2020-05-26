@@ -1,6 +1,4 @@
-package LevelEditor;
-
-import Utils.Colors;
+package MapEditor;
 
 import javax.swing.*;
 

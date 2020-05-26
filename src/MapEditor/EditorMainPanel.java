@@ -1,4 +1,4 @@
-package LevelEditor;
+package MapEditor;
 
 import javax.swing.*;
 import java.awt.*;

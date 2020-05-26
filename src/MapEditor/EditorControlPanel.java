@@ -1,4 +1,4 @@
-package LevelEditor;
+package MapEditor;
 
 import Engine.Config;
 import Map.Map;

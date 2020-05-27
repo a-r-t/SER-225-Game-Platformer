@@ -2,8 +2,8 @@ package MapEditor;
 
 import Map.Map;
 import Utils.Colors;
-import Utils.Direction;
-
+import Map.Map.MapWidthDirection;
+import Map.Map.MapHeightDirection;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -134,15 +134,15 @@ public class ChangeMapSizeWindow {
             int newHeight = Integer.parseInt(heightTextField.getText());
 
             if (widthLeftRadio.isSelected()) {
-                map.setWidth(newWidth, Direction.LEFT);
+                map.setWidth(newWidth, MapWidthDirection.LEFT);
             } else if (widthRightRadio.isSelected()) {
-                map.setWidth(newWidth, Direction.RIGHT);
+                map.setWidth(newWidth, MapWidthDirection.RIGHT);
             }
 
             if (heightTopRadio.isSelected()) {
-                map.setHeight(newHeight, Direction.UP);
+                map.setHeight(newHeight, MapHeightDirection.TOP);
             } else if (heightBottomRadio.isSelected()) {
-                map.setHeight(newHeight, Direction.DOWN);
+                map.setHeight(newHeight, MapHeightDirection.BOTTOM);
             }
 
             this.close();

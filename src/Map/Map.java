@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class Map {
@@ -47,7 +46,7 @@ public abstract class Map {
             System.out.println("Map file " + Config.MAP_FILES_PATH + this.mapFileName + " not found! Creating empty map file...");
 
             try {
-                writeEmptyMapFile();
+                createEmptyMapFile();
                 fileInput = new Scanner(new File(Config.MAP_FILES_PATH + this.mapFileName));
             } catch(IOException ex2) {
                 ex2.printStackTrace();
@@ -73,7 +72,7 @@ public abstract class Map {
         fileInput.close();
     }
 
-    private void writeEmptyMapFile() throws IOException {
+    private void createEmptyMapFile() throws IOException {
         FileWriter fileWriter = null;
         fileWriter = new FileWriter(Config.MAP_FILES_PATH + this.mapFileName);
         fileWriter.write("0 0\n");
@@ -84,46 +83,22 @@ public abstract class Map {
         return tiles;
     }
 
-    public Rectangle getCamera() {
-        return camera;
-    }
-
     public MapTile getTile(int x, int y) {
         if (isInBounds(x, y)) {
-            return tiles[x + width * y];
-        } else {
-            return null;
-        }
-    }
-
-    public MapTile getTile(Point index) {
-        if (isInBounds(index.x, index.y)) {
-            return tiles[index.x + width * index.y];
+            return tiles[getConvertedIndex(x, y)];
         } else {
             return null;
         }
     }
 
     public void setTile(int x, int y, MapTile tile) {
-        tiles[x + width * y] = tile;
-    }
-
-    public void setTile(Point index, MapTile tile) {
-        tiles[index.x + width * index.y] = tile;
-    }
-
-    public int getTileWidth() {
-        return tileset.getScaledSpriteWidth();
-    }
-    public int getTileHeight() {
-        return tileset.getScaledSpriteHeight();
+        tiles[getConvertedIndex(x, y)] = tile;
     }
 
     public MapTile getTileByPosition(int xPosition, int yPosition) {
-        int xIndex = xPosition / Math.round(tileset.getSpriteWidth() * tileset.getTileScale());
-        int yIndex = yPosition / Math.round(tileset.getSpriteHeight() * tileset.getTileScale());
-        if (isInBounds(xIndex, yIndex)) {
-            return getTile(xIndex, yIndex);
+        Point tileIndex = getTileIndexByPosition(xPosition, yPosition);
+        if (isInBounds(tileIndex.x, tileIndex.y)) {
+            return getTile(tileIndex.x, tileIndex.y);
         } else {
             return null;
         }
@@ -136,8 +111,12 @@ public abstract class Map {
     }
 
     private boolean isInBounds(int x, int y) {
-        int index = x + width * y;
+        int index = getConvertedIndex(x, y);
         return x >= 0 && y >= 0 && x < width && y < height && index >= 0 && index < tiles.length;
+    }
+
+    private int getConvertedIndex(int x, int y) {
+        return x + width * y;
     }
 
     public void update(Kirby player) {
@@ -217,95 +196,101 @@ public abstract class Map {
         return mapFileName;
     }
 
+    public enum MapWidthDirection {
+        LEFT, RIGHT
+    }
+
+    public enum MapHeightDirection {
+        TOP, BOTTOM
+    }
+
     public int getWidth() {
         return width;
     }
 
-    public void setWidth(int newWidth, Direction direction) {
-        if (direction == Direction.RIGHT || direction == Direction.LEFT) {
-            int oldWidth = this.width;
-            MapTile[] mapTilesSizeChange = new MapTile[this.height * newWidth];
+    public void setWidth(int newWidth, MapWidthDirection mapWidthDirection) {
+        int oldWidth = this.width;
+        MapTile[] mapTilesSizeChange = new MapTile[this.height * newWidth];
 
-            if (direction == Direction.RIGHT) {
-                for (int i = 0; i < this.height; i++) {
-                    for (int j = 0; j < oldWidth; j++) {
-                        if (j < newWidth) {
-                            mapTilesSizeChange[j + newWidth * i] = tiles[j + oldWidth * i];
-                        }
-                    }
-                }
-            } else /* if (direction == Direction.LEFT) */ {
-                int difference = newWidth - oldWidth;
-                for (int i = 0; i < this.height; i++) {
-                    for (int j = oldWidth - 1; j >= 0; j--) {
-                        if (j + difference >= 0) {
-                            MapTile tile = tiles[j + oldWidth * i];
-                            mapTilesSizeChange[j + difference + newWidth * i] = tile;
-                            tile.moveX(tileset.getScaledSpriteWidth() * difference);
-                        }
-                    }
-                }
-            }
-
-            this.tiles = mapTilesSizeChange;
-
+        if (mapWidthDirection == MapWidthDirection.RIGHT) {
             for (int i = 0; i < this.height; i++) {
-                for (int j = 0; j < newWidth; j++) {
-                    if (tiles[j + newWidth * i] == null) {
-                        tiles[j + newWidth * i] = tileset.getDefaultTile()
-                                .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                for (int j = 0; j < oldWidth; j++) {
+                    if (j < newWidth) {
+                        mapTilesSizeChange[j + newWidth * i] = tiles[j + oldWidth * i];
                     }
                 }
             }
-
-            this.width = newWidth;
+        } else /* if (mapHeightDirection == MapHeightDirection.BOTTOM) */ {
+            int difference = newWidth - oldWidth;
+            for (int i = 0; i < this.height; i++) {
+                for (int j = oldWidth - 1; j >= 0; j--) {
+                    if (j + difference >= 0) {
+                        MapTile tile = tiles[j + oldWidth * i];
+                        mapTilesSizeChange[j + difference + newWidth * i] = tile;
+                        tile.moveX(tileset.getScaledSpriteWidth() * difference);
+                    }
+                }
+            }
         }
+
+        this.tiles = mapTilesSizeChange;
+
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < newWidth; j++) {
+                if (tiles[j + newWidth * i] == null) {
+                    tiles[j + newWidth * i] = tileset.getDefaultTile()
+                            .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                }
+            }
+        }
+
+        this.width = newWidth;
     }
+
 
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int newHeight, Direction direction) {
-        if (direction == Direction.UP || direction == Direction.DOWN) {
-            int oldHeight = this.height;
-            MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
+    public void setHeight(int newHeight, MapHeightDirection mapHeightDirection) {
+        int oldHeight = this.height;
+        MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
 
-            if (direction == Direction.DOWN) {
-                for (int i = 0; i < oldHeight; i++) {
-                    if (i < newHeight) {
-                        for (int j = 0; j < this.width; j++) {
-                            mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
-                        }
-                    }
-                }
-            } else /* if (direction == Direction.UP) */ {
-                int difference = newHeight - oldHeight;
-                for (int i = oldHeight - 1; i >= 0; i--) {
-                    if (i + difference >= 0) {
-                        for (int j = 0; j < this.width; j++) {
-
-                            MapTile tile = tiles[j + this.width * i];
-                            mapTilesSizeChange[j + this.width * (i + difference)] = tile;
-                            tile.moveY(tileset.getScaledSpriteHeight() * difference);
-                        }
+        if (mapHeightDirection == MapHeightDirection.BOTTOM) {
+            for (int i = 0; i < oldHeight; i++) {
+                if (i < newHeight) {
+                    for (int j = 0; j < this.width; j++) {
+                        mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
                     }
                 }
             }
+        } else /* if (mapHeightDirection == MapHeightDirection.TOP) */ {
+            int difference = newHeight - oldHeight;
+            for (int i = oldHeight - 1; i >= 0; i--) {
+                if (i + difference >= 0) {
+                    for (int j = 0; j < this.width; j++) {
 
-            this.tiles = mapTilesSizeChange;
-
-            for (int i = 0; i < newHeight; i++) {
-                for (int j = 0; j < this.width; j++) {
-                    if (tiles[j + this.width * i] == null) {
-                        tiles[j + this.width * i] = tileset.getDefaultTile()
-                                .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                        MapTile tile = tiles[j + this.width * i];
+                        mapTilesSizeChange[j + this.width * (i + difference)] = tile;
+                        tile.moveY(tileset.getScaledSpriteHeight() * difference);
                     }
                 }
             }
-
-            this.height = newHeight;
         }
+
+        this.tiles = mapTilesSizeChange;
+
+        for (int i = 0; i < newHeight; i++) {
+            for (int j = 0; j < this.width; j++) {
+                if (tiles[j + this.width * i] == null) {
+                    tiles[j + this.width * i] = tileset.getDefaultTile()
+                            .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                }
+            }
+        }
+
+        this.height = newHeight;
     }
+
 
 }

@@ -2,8 +2,7 @@ package MapEditor;
 
 import Engine.Config;
 import Map.Map;
-import Maps.TestMap;
-import Maps.TestMap2;
+import Map.MapTile;
 import Utils.Colors;
 
 import javax.swing.*;
@@ -98,10 +97,10 @@ public class EditorControlPanel extends JPanel {
         try {
             FileWriter fileWriter = new FileWriter(Config.MAP_FILES_PATH + fileName);
             fileWriter.write(map.getWidth() + " " + map.getHeight() + "\n");
-            int[] tileIndexes = map.getMapTileIndexes();
+            MapTile[] mapTiles = map.getMapTiles();
             for (int i = 0; i < map.getHeight(); i++) {
                 for (int j = 0; j < map.getWidth(); j++) {
-                    fileWriter.write(String.valueOf(tileIndexes[j + map.getWidth() * i]));
+                    fileWriter.write(String.valueOf(mapTiles[j + map.getWidth() * i].getTileIndex()));
                     if (j < map.getWidth() - 1) {
                         fileWriter.write(" ");
                     } else if (j >= map.getWidth() -1 && i < map.getHeight() - 1) {

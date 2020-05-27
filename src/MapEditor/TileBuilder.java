@@ -90,7 +90,6 @@ public class TileBuilder extends JPanel {
     public void tileSelected(Point selectedPoint) {
         int selectedTileIndex = getSelectedTileIndex(selectedPoint);
         if (selectedTileIndex != -1) {
-            map.getMapTileIndexes()[selectedTileIndex] = controlPanelHolder.getSelectedTileIndex();
             MapTile oldMapTile = map.getMapTiles()[selectedTileIndex];
             map.getMapTiles()[selectedTileIndex] = map.getTileset().getTile(controlPanelHolder.getSelectedTileIndex()).build(oldMapTile.getX(), oldMapTile.getY());
         }

@@ -47,7 +47,7 @@ public class Keyboard {
     
     public boolean areKeysDown(Key[] keys) {
     	for (Key key : keys) {
-    		if (!keyDown.getOrDefault(key, false)) {
+    		if (!keyDown.getOrDefault(keyMap.get(key), false)) {
     			return false;
     		}
     	}
@@ -56,7 +56,7 @@ public class Keyboard {
     
     public boolean areKeysUp(Key[] keys) {
     	for (Key key : keys) {
-    		if (!keyUp.getOrDefault(key, false)) {
+    		if (!keyUp.getOrDefault(keyMap.get(key), false)) {
     			return false;
     		}
     	}

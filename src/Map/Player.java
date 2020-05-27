@@ -9,7 +9,6 @@ import GameObject.Rectangle;
 import Utils.Direction;
 
 import java.awt.*;
-import java.util.HashSet;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -242,7 +241,7 @@ public abstract class Player extends GameObject {
     }
 
     private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
-        MapTile tile = map.getTile(xTileIndex, yTileIndex);
+        MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
         return tile != null && tile.getTileType() == TileType.NOT_PASSABLE && intersects(tile);
     }
 

@@ -3,22 +3,14 @@ package Engine;
 import GameObject.Rectangle;
 
 public class DefaultScreen extends Screen {
-    public DefaultScreen() {
-
-    }
+    public DefaultScreen() { }
 
     @Override
-    public void initialize(Rectangle windowBounds) {
-
-    }
+    public void initialize(Rectangle windowBounds) { }
 
     @Override
-    public void update(Keyboard keyboard) {
-
-    }
+    public void update(Keyboard keyboard) { }
 
     @Override
-    public void draw(Graphics graphics) {
-
-    }
+    public void draw(Graphics graphics) { }
 }

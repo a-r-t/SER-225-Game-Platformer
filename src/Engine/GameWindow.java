@@ -27,6 +27,4 @@ public class GameWindow {
 	public ScreenManager getScreenManager() {
 		return gamePanel.getScreenManager();
 	}
-
-
 }

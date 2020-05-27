@@ -99,7 +99,7 @@ public class ChangeMapSizeWindow {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                changeMapSize();
+                resizeMap();
             }
         });
         mainPanel.add(okButton);
@@ -124,7 +124,7 @@ public class ChangeMapSizeWindow {
 
     }
 
-    public void changeMapSize() {
+    public void resizeMap() {
         if (!isWidthInputValid() || !isHeightInputValid()) {
             errorMessage.setText("Inputs must be numbers and not negative!");
         } else {

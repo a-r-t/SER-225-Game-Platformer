@@ -64,7 +64,7 @@ public abstract class Map {
                 int tileIndex = fileInput.nextInt();
                 MapTile tile = tileset.getTile(tileIndex)
                         .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
-                setTile(j, i, tile);
+                setMapTile(j, i, tile);
             }
         }
 
@@ -78,14 +78,52 @@ public abstract class Map {
         fileWriter.close();
     }
 
+    public Point getPlayerStartPosition() {
+        MapTile tile = getMapTile(playerStartTile.x, playerStartTile.y);
+        return new Point(tile.getX(), tile.getY());
+    }
+
+    public Tileset getTileset() {
+        return tileset;
+    }
+
+    public String getMapFileName() {
+        return mapFileName;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidthPixels() {
+        return width * tileset.getScaledSpriteWidth();
+    }
+
+    public int getHeightPixels() {
+        return height * tileset.getScaledSpriteHeight();
+    }
+
     public MapTile[] getMapTiles() {
         return mapTiles;
     }
+
     public void setMapTiles(MapTile[] mapTiles) {
         this.mapTiles = mapTiles;
     }
 
-    public MapTile getTile(int x, int y) {
+    public MapTile getMapTile(int x, int y) {
         if (isInBounds(x, y)) {
             return mapTiles[getConvertedIndex(x, y)];
         } else {
@@ -93,14 +131,14 @@ public abstract class Map {
         }
     }
 
-    public void setTile(int x, int y, MapTile tile) {
+    public void setMapTile(int x, int y, MapTile tile) {
         mapTiles[getConvertedIndex(x, y)] = tile;
     }
 
     public MapTile getTileByPosition(int xPosition, int yPosition) {
         Point tileIndex = getTileIndexByPosition(xPosition, yPosition);
         if (isInBounds(tileIndex.x, tileIndex.y)) {
-            return getTile(tileIndex.x, tileIndex.y);
+            return getMapTile(tileIndex.x, tileIndex.y);
         } else {
             return null;
         }
@@ -113,8 +151,7 @@ public abstract class Map {
     }
 
     private boolean isInBounds(int x, int y) {
-        int index = getConvertedIndex(x, y);
-        return x >= 0 && y >= 0 && x < width && y < height && index >= 0 && index < mapTiles.length;
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     private int getConvertedIndex(int x, int y) {
@@ -175,42 +212,5 @@ public abstract class Map {
 
     public void draw(Graphics graphics) {
         camera.draw(graphics);
-    }
-
-    public Point getPlayerStartPosition() {
-        MapTile tile = getTile(playerStartTile.x, playerStartTile.y);
-        return new Point(tile.getX(), tile.getY());
-    }
-
-    public Tileset getTileset() {
-        return tileset;
-    }
-
-    public int getWidthPixels() {
-        return width * tileset.getScaledSpriteWidth();
-    }
-
-    public int getHeightPixels() {
-        return height * tileset.getScaledSpriteHeight();
-    }
-
-    public String getMapFileName() {
-        return mapFileName;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 }

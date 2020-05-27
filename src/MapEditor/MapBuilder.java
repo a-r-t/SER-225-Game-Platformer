@@ -33,7 +33,6 @@ public class MapBuilder extends JPanel {
 
     public void setMap(Map map) {
         this.map = map;
-        tileBuilder.setMap(map);
-        tileBuilderScroll.getVerticalScrollBar().setValue(tileBuilderScroll.getVerticalScrollBar().getMaximum());
+        refreshTileBuilder();
     }
 }

@@ -34,6 +34,14 @@ public class MapTile extends GameObject {
         this.tileType = tileType;
     }
 
+    public int getTileIndex() {
+        return tileIndex;
+    }
+
+    public void setTileIndex(int tileIndex) {
+        this.tileIndex = tileIndex;
+    }
+
     public void update(Map map, Player player) {
         super.update();
     }

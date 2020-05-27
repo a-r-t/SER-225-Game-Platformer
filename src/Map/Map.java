@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 public abstract class Map {
     protected MapTile[] tiles;
-    protected int[] tileIndexes;
     protected int width;
     protected int height;
     protected Tileset tileset;
@@ -60,8 +59,6 @@ public abstract class Map {
         this.width = fileInput.nextInt();
         this.height = fileInput.nextInt();
         this.tiles = new MapTile[this.height * this.width];
-        this.tileIndexes = new int[this.height * this.width];
-        Arrays.fill(this.tileIndexes, -1);
         fileInput.nextLine();
 
         for (int i = 0; i < height; i++) {
@@ -70,7 +67,6 @@ public abstract class Map {
                 MapTile tile = tileset.getTile(tileIndex)
                         .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
                 setTile(j, i, tile);
-                this.tileIndexes[j + this.width * i] = tileIndex;
             }
         }
 
@@ -86,10 +82,6 @@ public abstract class Map {
 
     public MapTile[] getMapTiles() {
         return tiles;
-    }
-
-    public int[] getMapTileIndexes() {
-        return tileIndexes;
     }
 
     public Rectangle getCamera() {
@@ -258,15 +250,12 @@ public abstract class Map {
     public void setWidth(int newWidth, Direction direction) {
         if (direction == Direction.RIGHT || direction == Direction.LEFT) {
             int oldWidth = this.width;
-            int[] tileIndexesSizeChange = new int[this.height * newWidth];
-            Arrays.fill(tileIndexesSizeChange, -1);
             MapTile[] mapTilesSizeChange = new MapTile[this.height * newWidth];
 
             if (direction == Direction.RIGHT) {
                 for (int i = 0; i < this.height; i++) {
                     for (int j = 0; j < oldWidth; j++) {
                         if (j < newWidth) {
-                            tileIndexesSizeChange[j + newWidth * i] = tileIndexes[j + oldWidth * i];
                             mapTilesSizeChange[j + newWidth * i] = tiles[j + oldWidth * i];
                         }
                     }
@@ -276,8 +265,6 @@ public abstract class Map {
                 for (int i = 0; i < this.height; i++) {
                     for (int j = oldWidth - 1; j >= 0; j--) {
                         if (j + difference >= 0) {
-                            tileIndexesSizeChange[j + difference + newWidth * i] = tileIndexes[j + oldWidth * i];
-
                             MapTile tile = tiles[j + oldWidth * i];
                             mapTilesSizeChange[j + difference + newWidth * i] = tile;
                             tile.moveX(tileset.getScaledSpriteWidth() * difference);
@@ -286,7 +273,6 @@ public abstract class Map {
                 }
             }
 
-            this.tileIndexes = tileIndexesSizeChange;
             this.tiles = mapTilesSizeChange;
 
             for (int i = 0; i < this.height; i++) {
@@ -309,15 +295,12 @@ public abstract class Map {
     public void setHeight(int newHeight, Direction direction) {
         if (direction == Direction.UP || direction == Direction.DOWN) {
             int oldHeight = this.height;
-            int[] tileIndexesSizeChange = new int[newHeight * this.width];
-            Arrays.fill(tileIndexesSizeChange, -1);
             MapTile[] mapTilesSizeChange = new MapTile[newHeight * this.width];
 
             if (direction == Direction.DOWN) {
                 for (int i = 0; i < oldHeight; i++) {
                     if (i < newHeight) {
                         for (int j = 0; j < this.width; j++) {
-                            tileIndexesSizeChange[j + this.width * i] = tileIndexes[j + this.width * i];
                             mapTilesSizeChange[j + this.width * i] = tiles[j + this.width * i];
                         }
                     }
@@ -327,7 +310,6 @@ public abstract class Map {
                 for (int i = oldHeight - 1; i >= 0; i--) {
                     if (i + difference >= 0) {
                         for (int j = 0; j < this.width; j++) {
-                            tileIndexesSizeChange[j + this.width * (i + difference)] = tileIndexes[j + this.width * i];
 
                             MapTile tile = tiles[j + this.width * i];
                             mapTilesSizeChange[j + this.width * (i + difference)] = tile;
@@ -337,7 +319,6 @@ public abstract class Map {
                 }
             }
 
-            this.tileIndexes = tileIndexesSizeChange;
             this.tiles = mapTilesSizeChange;
 
             for (int i = 0; i < newHeight; i++) {

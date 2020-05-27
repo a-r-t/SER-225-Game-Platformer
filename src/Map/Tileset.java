@@ -13,17 +13,19 @@ public abstract class Tileset extends SpriteSheet {
 
     protected float tileScale = 1f;
     protected HashMap<Integer, MapTileBuilder> tiles;
-    protected MapTileBuilder defaultTile = getDefaultTile();
+    protected MapTileBuilder defaultTile;
 
     public Tileset(BufferedImage image, int tileWidth, int tileHeight) {
         super(image, tileWidth, tileHeight);
         this.tiles = mapDefinedTilesToIndex();
+        this.defaultTile = getDefaultTile();
     }
 
     public Tileset(BufferedImage image, int tileWidth, int tileHeight, int tileScale) {
         super(image, tileWidth, tileHeight);
         this.tileScale = tileScale;
         this.tiles = mapDefinedTilesToIndex();
+        this.defaultTile = getDefaultTile();
     }
 
     public abstract ArrayList<MapTileBuilder> defineTiles();

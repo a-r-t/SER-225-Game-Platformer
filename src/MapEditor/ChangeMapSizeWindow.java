@@ -207,17 +207,16 @@ public class ChangeMapSizeWindow {
             }
         }
 
-        map.setMapTiles(mapTilesSizeChange);
-
         for (int i = 0; i < map.getHeight(); i++) {
             for (int j = 0; j < newWidth; j++) {
-                if (map.getMapTiles()[j + newWidth * i] == null) {
-                    map.getMapTiles()[j + newWidth * i] = map.getTileset().getDefaultTile()
+                if (mapTilesSizeChange[j + newWidth * i] == null) {
+                    mapTilesSizeChange[j + newWidth * i] = map.getTileset().getDefaultTile()
                             .build(j * map.getTileset().getScaledSpriteWidth(), i * map.getTileset().getScaledSpriteHeight());
                 }
             }
         }
 
+        map.setMapTiles(mapTilesSizeChange);
         map.setWidth(newWidth);
     }
 
@@ -246,17 +245,16 @@ public class ChangeMapSizeWindow {
             }
         }
 
-        map.setMapTiles(mapTilesSizeChange);
-
         for (int i = 0; i < newHeight; i++) {
             for (int j = 0; j < map.getWidth(); j++) {
-                if (map.getMapTiles()[j + map.getWidth() * i] == null) {
-                    map.getMapTiles()[j + map.getWidth() * i] = map.getTileset().getDefaultTile()
+                if (mapTilesSizeChange[j + map.getWidth() * i] == null) {
+                    mapTilesSizeChange[j + map.getWidth() * i] = map.getTileset().getDefaultTile()
                             .build(j * map.getTileset().getScaledSpriteWidth(), i * map.getTileset().getScaledSpriteHeight());
                 }
             }
         }
 
+        map.setMapTiles(mapTilesSizeChange);
         map.setHeight(newHeight);
     }
 }

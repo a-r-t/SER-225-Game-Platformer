@@ -42,7 +42,7 @@ public class MapTile extends GameObject {
         this.tileIndex = tileIndex;
     }
 
-    public void update(Map map, Player player) {
+    public void update() {
         super.update();
     }
 

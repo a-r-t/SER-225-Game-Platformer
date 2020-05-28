@@ -1,11 +1,14 @@
 package Map;
 
 import Engine.ScreenManager;
+import GameObject.IntersectableRectangle;
 import GameObject.Rectangle;
 
 import Engine.GraphicsHandler;
+import com.sun.org.apache.regexp.internal.RE;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Camera extends Rectangle {
 
@@ -54,6 +57,11 @@ public class Camera extends Rectangle {
                 }
             }
         }
+    }
+
+    @Override
+    public Rectangle getIntersectRectangle() {
+        return new Rectangle(getX() - tileWidth, getY() - tileHeight, getScaledWidth() + tileWidth, getScaledHeight() + tileHeight);
     }
 
     public int getStartBoundX() {

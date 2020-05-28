@@ -2,6 +2,7 @@ package Map;
 
 import Engine.Config;
 import Engine.GraphicsHandler;
+import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
 import GameObject.Rectangle;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class Map {
@@ -22,7 +24,8 @@ public abstract class Map {
     protected Point playerStartTile;
     protected int xMidPoint, yMidPoint;
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
-    private String mapFileName;
+    protected String mapFileName;
+    protected ArrayList<MapEntity> mapEntities;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
@@ -36,6 +39,7 @@ public abstract class Map {
         this.xMidPoint = ScreenManager.getScreenWidth() / 2;
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
+        this.mapEntities = getMapEntities();
     }
 
     private void loadMapFile() {
@@ -159,10 +163,22 @@ public abstract class Map {
         return x + width * y;
     }
 
-    public void update(Kirby player) {
+    public ArrayList<MapEntity> getMapEntities() {
+        return new ArrayList<>();
+    }
+
+    public void update(Keyboard keyboard, Kirby player) {
         adjustMovementY(player);
         adjustMovementX(player);
         camera.update();
+
+        for (MapEntity mapEntity: mapEntities) {
+            if (mapEntity.exists()) {
+                if (camera.intersects(mapEntity) || mapEntity.isUpdateWhileOffScreen()) {
+                    mapEntity.update(keyboard, this, player);
+                }
+            }
+        }
     }
 
     private void adjustMovementX(Kirby player) {
@@ -213,5 +229,11 @@ public abstract class Map {
 
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);
+
+        for (MapEntity mapEntity: mapEntities) {
+            if (mapEntity.exists() && camera.intersects(mapEntity)) {
+                mapEntity.draw(graphicsHandler);
+            }
+        }
     }
 }

@@ -72,7 +72,6 @@ public class ChangeMapSizeWindow {
         mainPanel.add(heightLabel);
         mainPanel.add(heightTextField);
 
-
         JLabel heightTopOrBottomLabel = new JLabel("Height change from top or bottom side of map?");
         heightTopOrBottomLabel.setLocation(10, 140);
         heightTopOrBottomLabel.setSize(300, 20);

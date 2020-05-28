@@ -20,7 +20,7 @@ public class Scene extends Screen {
 
 	@Override
 	public void update(Keyboard keyboard) {
-		testMap.update(kirby);
+		testMap.update(keyboard, kirby);
 		kirby.update(keyboard, testMap);
 	}
 

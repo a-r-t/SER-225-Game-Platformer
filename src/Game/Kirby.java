@@ -8,8 +8,8 @@ import GameObject.*;
 import GameObject.Frame;
 import GameObject.FrameBuilder;
 import GameObject.Rectangle;
-import Map.Map;
-import Map.Player;
+import Scene.Map;
+import Scene.Player;
 
 import java.util.HashMap;
 

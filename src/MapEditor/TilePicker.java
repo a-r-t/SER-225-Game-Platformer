@@ -1,10 +1,10 @@
 package MapEditor;
 
-import Map.MapTile;
-import Map.Tileset;
+import Scene.MapTile;
+import Scene.Tileset;
 
 import javax.swing.*;
-import Map.MapTileBuilder;
+import Scene.MapTileBuilder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

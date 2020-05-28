@@ -1,7 +1,7 @@
 package Maps;
 
 import GameObject.Rectangle;
-import Map.Map;
+import Scene.Map;
 import Tilesets.CommonTileset;
 
 import java.awt.*;

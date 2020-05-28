@@ -1,4 +1,4 @@
-package Map;
+package Scene;
 
 import GameObject.Frame;
 import GameObject.GameObjectBuilder;

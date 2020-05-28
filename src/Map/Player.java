@@ -240,7 +240,21 @@ public abstract class Player extends GameObject {
 
     private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
         MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
-        return tile != null && tile.getTileType() == TileType.NOT_PASSABLE && intersects(tile);
+
+        if (tile == null) {
+            return false;
+        } else {
+            switch (tile.getTileType()) {
+                case PASSABLE:
+                    return false;
+                case NOT_PASSABLE:
+                    return intersects(tile);
+                case JUMP_THROUGH_PLATFORM:
+                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() >= tile.getScaledBoundsY1();
+                default:
+                    return false;
+            }
+        }
     }
 
     public int getMoveAmountX() {

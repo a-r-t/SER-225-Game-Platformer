@@ -54,7 +54,7 @@ public class CommonTileset extends Tileset {
                    .withScale(tileScale)
                    .withBounds(0, 6, 16, 3)
                    .build())
-                   .withTileType(TileType.NOT_PASSABLE)
+                   .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );
 
             // tree trunk
@@ -92,7 +92,7 @@ public class CommonTileset extends Tileset {
                     .withScale(tileScale)
                     .withBounds(0, 6, 16, 3)
                     .build())
-                    .withTileType(TileType.NOT_PASSABLE)
+                    .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );
 
             // tree trunk opening top
@@ -115,7 +115,7 @@ public class CommonTileset extends Tileset {
                     .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                     .withBounds(0, 6, 16, 3)
                     .build())
-                    .withTileType(TileType.NOT_PASSABLE)
+                    .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );
         }};
     }

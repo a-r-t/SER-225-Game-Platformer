@@ -1,6 +1,6 @@
 package MapEditor;
 
-import Map.Map;
+import Scene.Map;
 import Utils.Colors;
 
 import javax.swing.*;

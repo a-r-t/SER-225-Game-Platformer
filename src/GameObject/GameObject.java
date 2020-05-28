@@ -3,7 +3,6 @@ package GameObject;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-
 public class GameObject extends AnimatedSprite {
 
 	public GameObject(SpriteSheet spriteSheet, float x, float y, String startingAnimation) {

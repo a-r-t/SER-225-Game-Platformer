@@ -7,8 +7,10 @@ import Engine.GraphicsHandler;
 import GameObject.*;
 import GameObject.Rectangle;
 import Utils.Direction;
+import Utils.TwoKeyHashMap;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -22,6 +24,7 @@ public abstract class Player extends GameObject {
     protected float moveAmountX, moveAmountY;
     protected PlayerState playerState;
     protected Direction facingDirection;
+    protected TwoKeyHashMap<PlayerState, Direction, String> playerStateAndDirection;
     protected AirGroundState airGroundState;
     protected AirGroundState previousAirGroundState;
     protected KeyLocker keyLocker = new KeyLocker();
@@ -36,6 +39,15 @@ public abstract class Player extends GameObject {
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
+        
+        playerStateAndDirection.put(PlayerState.STANDING, Direction.LEFT, "STAND_LEFT");
+        playerStateAndDirection.put(PlayerState.STANDING, Direction.RIGHT, "STAND_RIGHT");
+        playerStateAndDirection.put(PlayerState.WALKING, Direction.LEFT, "WALK_LEFT");
+        playerStateAndDirection.put(PlayerState.WALKING, Direction.RIGHT, "WALK_RIGHT");
+        playerStateAndDirection.put(PlayerState.CROUCHING, Direction.LEFT, "CROUCH_LEFT");
+        playerStateAndDirection.put(PlayerState.CROUCHING, Direction.RIGHT, "CROUCH_RIGHT");
+        playerStateAndDirection.put(PlayerState.JUMPING, Direction.LEFT, "JUMP_LEFT");
+        playerStateAndDirection.put(PlayerState.JUMPING, Direction.RIGHT, "JUMP_RIGHT");
     }
 
     public void update(Keyboard keyboard, Map map) {
@@ -73,7 +85,8 @@ public abstract class Player extends GameObject {
     }
 
     protected void playerStanding(Keyboard keyboard) {
-        currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+        //currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+    	currentAnimationName = playerStateAndDirection.get(playerState.STANDING, facingDirection);
         if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
         } else if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
@@ -85,7 +98,8 @@ public abstract class Player extends GameObject {
     }
 
     protected void playerWalking(Keyboard keyboard) {
-        currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+        //currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+        currentAnimationName = playerStateAndDirection.get(playerState.WALKING, facingDirection);
         if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
             moveAmountX -= walkSpeed;
             facingDirection = Direction.LEFT;
@@ -105,7 +119,8 @@ public abstract class Player extends GameObject {
     }
 
     protected void playerCrouching(Keyboard keyboard) {
-        currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+        //currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+        currentAnimationName = playerStateAndDirection.get(playerState.CROUCHING, facingDirection);
         if (keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
         }
@@ -117,7 +132,8 @@ public abstract class Player extends GameObject {
 
     protected void playerJumping(Keyboard keyboard) {
         if (previousAirGroundState == AirGroundState.GROUND && airGroundState == AirGroundState.GROUND) {
-            currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            //currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            currentAnimationName = playerStateAndDirection.get(playerState.JUMPING, facingDirection);
             airGroundState = AirGroundState.AIR;
             jumpForce = jumpHeight;
             if (jumpForce > 0) {
@@ -138,7 +154,8 @@ public abstract class Player extends GameObject {
             }
 
             if (moveAmountY < 0) {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+                //currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+                currentAnimationName = playerStateAndDirection.get(playerState.JUMPING, facingDirection);
             } else {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
             }

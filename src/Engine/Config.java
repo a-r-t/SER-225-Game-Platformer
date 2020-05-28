@@ -1,7 +1,8 @@
 package Engine;
 
+import java.awt.Color;
 import Utils.Colors;
-import java.awt.*;
+
 
 public class Config {
     public static final int FPS = 100;

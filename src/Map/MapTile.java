@@ -1,13 +1,10 @@
 package Map;
 
-import Engine.Graphics;
-import Game.Kirby;
+import Engine.GraphicsHandler;
 
 import GameObject.*;
 import GameObject.Frame;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class MapTile extends GameObject {
@@ -46,7 +43,7 @@ public class MapTile extends GameObject {
         super.update();
     }
 
-    public void draw(Graphics graphics) {
-        super.draw(graphics);
+    public void draw(GraphicsHandler graphicsHandler) {
+        super.draw(graphicsHandler);
     }
 }

@@ -1,6 +1,6 @@
 package GameObject;
 
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 import Utils.Timer;
 
 import java.awt.*;
@@ -87,12 +87,12 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 
 	protected Frame[] getCurrentAnimation() { return animations.get(currentAnimationName); }
 
-	public void draw(Graphics graphics) {
-		currentFrame.draw(graphics);
+	public void draw(GraphicsHandler graphicsHandler) {
+		currentFrame.draw(graphicsHandler);
 	}
 
-    public void drawBounds(Graphics graphics, Color color) {
-		currentFrame.drawBounds(graphics, color);
+    public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
+		currentFrame.drawBounds(graphicsHandler, color);
     }
 
 	public int getX() { return currentFrame.getX(); }

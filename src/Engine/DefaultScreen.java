@@ -6,11 +6,11 @@ public class DefaultScreen extends Screen {
     public DefaultScreen() { }
 
     @Override
-    public void initialize(Rectangle windowBounds) { }
+    public void initialize() { }
 
     @Override
     public void update(Keyboard keyboard) { }
 
     @Override
-    public void draw(Graphics graphics) { }
+    public void draw(GraphicsHandler graphicsHandler) { }
 }

@@ -1,6 +1,6 @@
 package GameObject;
 
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 
 import java.awt.*;
 
@@ -161,10 +161,10 @@ public class Rectangle implements IntersectableRectangle {
 
 	public void update() { }
 
-	public void draw(Graphics graphics) {
-		graphics.drawFilledRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), color);
+	public void draw(GraphicsHandler graphicsHandler) {
+		graphicsHandler.drawFilledRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), color);
 		if (borderColor != null && !borderColor.equals(color)) {
-			graphics.drawRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), borderColor, borderThickness);
+			graphicsHandler.drawRectangle(getX(), getY(), getScaledWidth(), getScaledHeight(), borderColor, borderThickness);
 		}
 	}
 

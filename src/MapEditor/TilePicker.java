@@ -12,13 +12,13 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.*;
 import java.util.Map.Entry;
 
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 import Utils.Colors;
 
 public class TilePicker extends JPanel {
 
     private Tileset tileset;
-    private Graphics graphics = new Graphics();
+    private GraphicsHandler graphicsHandler = new GraphicsHandler();
     private HashMap<Integer, MapTile> mapTiles = new HashMap<>();
     private int selectedTileIndex = 0;
     private SelectedTileIndexHolder selectedTileIndexHolder;
@@ -80,11 +80,11 @@ public class TilePicker extends JPanel {
 
     public void draw() {
         for (MapTile mapTile : mapTiles.values()) {
-            mapTile.draw(graphics);
+            mapTile.draw(graphicsHandler);
         }
 
         MapTile selectedTile = mapTiles.get(selectedTileIndex);
-        graphics.drawRectangle(
+        graphicsHandler.drawRectangle(
                 selectedTile.getX() - 2,
                 selectedTile.getY() - 2,
                 selectedTile.getScaledWidth() + 4,
@@ -95,9 +95,9 @@ public class TilePicker extends JPanel {
     }
 
     @Override
-    protected void paintComponent(java.awt.Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        graphics.setGraphics((Graphics2D) g);
+        graphicsHandler.setGraphics((Graphics2D) g);
         draw();
     }
 

@@ -3,7 +3,7 @@ package Map;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 import GameObject.*;
 import GameObject.Rectangle;
 import Utils.Direction;
@@ -20,7 +20,6 @@ public abstract class Player extends GameObject {
     protected float jumpForce = 0;
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
-    protected Rectangle sceneBounds;
     protected PlayerState playerState;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
@@ -31,9 +30,8 @@ public abstract class Player extends GameObject {
     protected Key MOVE_RIGHT_KEY = Key.D;
     protected Key CROUCH_KEY = Key.S;
 
-    public Player(SpriteSheet spriteSheet, float x, float y, Rectangle sceneBounds, String startingAnimationName) {
+    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
-        this.sceneBounds = sceneBounds;
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
@@ -44,7 +42,8 @@ public abstract class Player extends GameObject {
         moveAmountX = 0;
         moveAmountY = 0;
 
-        applyGravity();
+        moveAmountY += gravity + momentumY;
+
         handlePlayerState(keyboard);
 
         previousAirGroundState = airGroundState;
@@ -138,7 +137,7 @@ public abstract class Player extends GameObject {
                 }
             }
 
-            if (jumpForce >= gravity + momentumY) {
+            if (moveAmountY < 0) {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             } else {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
@@ -149,17 +148,16 @@ public abstract class Player extends GameObject {
             } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
                 moveAmountX += walkSpeed;
             }
+
+            if (moveAmountY > 0) {
+                momentumY += momentumYIncrease;
+                if (momentumY > terminalVelocityY) {
+                    momentumY = terminalVelocityY;
+                }
+            }
         }
         else if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
             playerState = PlayerState.STANDING;
-        }
-    }
-
-    protected void applyGravity() {
-        moveAmountY += gravity + momentumY;
-        momentumY += momentumYIncrease;
-        if (momentumY > terminalVelocityY) {
-            momentumY = terminalVelocityY;
         }
     }
 
@@ -253,8 +251,8 @@ public abstract class Player extends GameObject {
         return Math.round(moveAmountY);
     }
 
-    public void draw(Graphics graphics) {
-        super.draw(graphics);
+    public void draw(GraphicsHandler graphicsHandler) {
+        super.draw(graphicsHandler);
     }
 
     protected enum AirGroundState {

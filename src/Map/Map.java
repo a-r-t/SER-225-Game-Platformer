@@ -1,7 +1,8 @@
 package Map;
 
 import Engine.Config;
-import Engine.Graphics;
+import Engine.GraphicsHandler;
+import Engine.ScreenManager;
 import Game.Kirby;
 import GameObject.Rectangle;
 
@@ -23,17 +24,17 @@ public abstract class Map {
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
     private String mapFileName;
 
-    public Map(String mapFileName, Tileset tileset, Rectangle screenBounds, Point playerStartTile) {
+    public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
         loadMapFile();
-        camera = new Camera(0, 0, screenBounds, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
+        this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
         this.startBoundX = 0;
         this.startBoundY = 0;
         this.endBoundX = width * tileset.getScaledSpriteWidth();
         this.endBoundY = height * tileset.getScaledSpriteHeight();
-        this.xMidPoint = screenBounds.getWidth() / 2;
-        this.yMidPoint = (screenBounds.getHeight() / 2);
+        this.xMidPoint = ScreenManager.getScreenWidth() / 2;
+        this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
     }
 
@@ -210,7 +211,7 @@ public abstract class Map {
         }
     }
 
-    public void draw(Graphics graphics) {
-        camera.draw(graphics);
+    public void draw(GraphicsHandler graphicsHandler) {
+        camera.draw(graphicsHandler);
     }
 }

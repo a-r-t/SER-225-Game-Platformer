@@ -17,7 +17,7 @@ public class GamePanel extends JPanel {
 	private boolean doPaint = false;
 	private boolean isGamePaused = false;
 	private SpriteFont pauseLabel;
-	private Graphics graphics;
+	private GraphicsHandler graphicsHandler;
 	private KeyLocker keyLocker = new KeyLocker();
 	private final Key pauseKey = Key.P;
 
@@ -28,7 +28,7 @@ public class GamePanel extends JPanel {
 		keyboard = new Keyboard();
 		this.addKeyListener(keyboard.getKeyListener());
 
-		graphics = new Graphics();
+		graphicsHandler = new GraphicsHandler();
 
 		screenManager = new ScreenManager();
 		
@@ -46,9 +46,8 @@ public class GamePanel extends JPanel {
 	}
 
 	public void setupGame() {
-		windowBounds = new Rectangle(getX(), getY(), getWidth(), getHeight());
 		setBackground(Colors.CORNFLOWER_BLUE);
-		screenManager.initialize(windowBounds);
+		screenManager.initialize(new Rectangle(getX(), getY(), getWidth(), getHeight()));
 		doPaint = true;
 	}
 
@@ -76,17 +75,17 @@ public class GamePanel extends JPanel {
 	}
 
 	public void draw() {
-		screenManager.draw(graphics);
+		screenManager.draw(graphicsHandler);
 		if (isGamePaused) {
-			pauseLabel.draw(graphics);
-			graphics.drawFilledRectangle(windowBounds.getX(), windowBounds.getY(), windowBounds.getWidth(), windowBounds.getHeight(), new Color(0, 0, 0, 100));
+			pauseLabel.draw(graphicsHandler);
+			graphicsHandler.drawFilledRectangle(windowBounds.getX(), windowBounds.getY(), windowBounds.getWidth(), windowBounds.getHeight(), new Color(0, 0, 0, 100));
 		}
 	}
 
 	@Override
-	protected void paintComponent(java.awt.Graphics g) {
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		graphics.setGraphics((Graphics2D) g);
+		graphicsHandler.setGraphics((Graphics2D) g);
 		if (doPaint) {
 			draw();
 		}

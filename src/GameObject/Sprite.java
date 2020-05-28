@@ -1,7 +1,7 @@
 package GameObject;
 
 import Engine.ImageLoader;
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -129,13 +129,13 @@ public abstract class Sprite extends Rectangle implements IntersectableRectangle
 	}
 	
 	@Override
-	public void draw(Graphics graphics) {
-		graphics.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
+	public void draw(GraphicsHandler graphicsHandler) {
+		graphicsHandler.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
-	public void drawBounds(Graphics graphics, Color color) {
+	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
         Rectangle scaledBounds = getScaledBounds();
         scaledBounds.setColor(color);
-        scaledBounds.draw(graphics);
+        scaledBounds.draw(graphicsHandler);
     }
 }

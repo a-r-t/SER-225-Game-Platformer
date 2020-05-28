@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import GameObject.ImageEffect;
 
-public class Graphics {
+public class GraphicsHandler {
     private Graphics2D g;
 
     public void setGraphics(Graphics2D g) {

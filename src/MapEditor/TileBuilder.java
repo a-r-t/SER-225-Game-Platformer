@@ -9,14 +9,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 import Map.MapTile;
 
 public class TileBuilder extends JPanel {
     private Map map;
     private MapTile hoveredMapTile;
     private SelectedTileIndexHolder controlPanelHolder;
-    private Graphics graphics = new Graphics();
+    private GraphicsHandler graphicsHandler = new GraphicsHandler();
 
     public TileBuilder(SelectedTileIndexHolder controlPanelHolder) {
         setBackground(Colors.MAGENTA);
@@ -65,11 +65,11 @@ public class TileBuilder extends JPanel {
 
     public void draw() {
         for (MapTile tile : map.getMapTiles()) {
-            tile.draw(graphics);
+            tile.draw(graphicsHandler);
         }
 
         if (hoveredMapTile != null) {
-            graphics.drawRectangle(
+            graphicsHandler.drawRectangle(
                     hoveredMapTile.getX() + 2,
                     hoveredMapTile.getY() + 2,
                     hoveredMapTile.getScaledWidth() - 5,
@@ -81,9 +81,9 @@ public class TileBuilder extends JPanel {
     }
 
     @Override
-    protected void paintComponent(java.awt.Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        graphics.setGraphics((Graphics2D) g);
+        graphicsHandler.setGraphics((Graphics2D) g);
         draw();
     }
 

@@ -1,6 +1,6 @@
 package GameObject;
 
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 
 import java.awt.*;
 
@@ -90,11 +90,11 @@ public class SpriteFont {
 		y -= dy;
 	}
 
-	public void draw(Graphics graphics) {
+	public void draw(GraphicsHandler graphicsHandler) {
 		if (outlineColor != null && !outlineColor.equals(color)) {
-			graphics.drawStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
+			graphicsHandler.drawStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
 		} else {
-			graphics.drawString(text, getX(), getY(), font, color);
+			graphicsHandler.drawString(text, getX(), getY(), font, color);
 		}
 	}
 }

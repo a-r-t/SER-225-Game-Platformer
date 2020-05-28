@@ -3,7 +3,7 @@ package Game;
 import Engine.ImageLoader;
 import Engine.Key;
 import Engine.Keyboard;
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 import GameObject.*;
 import GameObject.Frame;
 import GameObject.FrameBuilder;
@@ -15,14 +15,14 @@ import java.util.HashMap;
 
 public class Kirby extends Player {
 
-    public Kirby(float x, float y, Rectangle sceneBounds) {
-        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, sceneBounds, "STAND_RIGHT");
+    public Kirby(float x, float y) {
+        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT");
         gravity = .5f;
         terminalVelocityY = 6f;
-        jumpHeight = 20f;
+        jumpHeight = 15.5f;
         jumpDegrade = .5f;
         walkSpeed = 2f;
-        momentumYIncrease = 2f;
+        momentumYIncrease = .5f;
         JUMP_KEY = Key.W;
         MOVE_LEFT_KEY = Key.A;
         MOVE_RIGHT_KEY = Key.D;
@@ -33,8 +33,8 @@ public class Kirby extends Player {
         super.update(keyboard, map);
     }
 
-    public void draw(Graphics graphics) {
-        super.draw(graphics);
+    public void draw(GraphicsHandler graphicsHandler) {
+        super.draw(graphicsHandler);
         //drawBounds(graphics, new Color(255, 0, 0, 170));
     }
 

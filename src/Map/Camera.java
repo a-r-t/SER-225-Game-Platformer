@@ -1,8 +1,9 @@
 package Map;
 
+import Engine.ScreenManager;
 import GameObject.Rectangle;
 
-import Engine.Graphics;
+import Engine.GraphicsHandler;
 
 import java.awt.*;
 
@@ -12,13 +13,13 @@ public class Camera extends Rectangle {
     private int tileWidth, tileHeight;
     private int leftoverSpaceX, leftoverSpaceY;
 
-    public Camera(int startX, int startY, Rectangle screenBounds, int tileWidth, int tileHeight, Map map) {
-        super(startX, startY, screenBounds.getWidth() / tileWidth, screenBounds.getHeight() / tileHeight);
+    public Camera(int startX, int startY, int tileWidth, int tileHeight, Map map) {
+        super(startX, startY, ScreenManager.getScreenWidth() / tileWidth, ScreenManager.getScreenHeight() / tileHeight);
         this.map = map;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
-        this.leftoverSpaceX = screenBounds.getWidth() % tileWidth;
-        this.leftoverSpaceY = screenBounds.getHeight() % tileHeight;
+        this.leftoverSpaceX = ScreenManager.getScreenWidth() % tileWidth;
+        this.leftoverSpaceY = ScreenManager.getScreenHeight() % tileHeight;
     }
 
     public Point getTileIndexByCameraPosition() {
@@ -43,13 +44,13 @@ public class Camera extends Rectangle {
         }
     }
 
-    public void draw(Graphics graphics) {
+    public void draw(GraphicsHandler graphicsHandler) {
         Point tileIndex = getTileIndexByCameraPosition();
         for (int i = tileIndex.y - 1; i <= tileIndex.y + height + 1; i++) {
             for (int j = tileIndex.x - 1; j <= tileIndex.x + width + 1; j++) {
                 MapTile tile = map.getMapTile(j, i);
                 if (tile != null) {
-                    tile.draw(graphics);
+                    tile.draw(graphicsHandler);
                 }
             }
         }

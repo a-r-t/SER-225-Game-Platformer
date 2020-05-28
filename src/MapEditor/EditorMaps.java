@@ -7,7 +7,7 @@ import Maps.TestMap2;
 import java.util.HashMap;
 
 public class EditorMaps {
-    public static final HashMap<String, Map> getMaps() {
+    public static HashMap<String, Map> getMaps() {
         return new HashMap<String, Map>() {{
             put("TestMap", new TestMap());
             put("TestMap2", new TestMap2());

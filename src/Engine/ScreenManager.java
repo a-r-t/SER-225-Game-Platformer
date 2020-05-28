@@ -5,15 +5,15 @@ import GameObject.Rectangle;
 
 public class ScreenManager {
     private Screen currentScreen;
-    private Rectangle windowBounds;
+    private static Rectangle screenBounds = new Rectangle(0, 0, 0, 0);
 
-    public void initialize(Rectangle windowBounds) {
-        this.windowBounds = windowBounds;
+    public void initialize(Rectangle screenBounds) {
+        ScreenManager.screenBounds = screenBounds;
         setCurrentScreen(new DefaultScreen());
     }
 
     public void setCurrentScreen(Screen screen) {
-        screen.initialize(windowBounds);
+        screen.initialize();
         this.currentScreen = screen;
     }
 
@@ -21,7 +21,19 @@ public class ScreenManager {
         currentScreen.update(keyboard);
     }
 
-    public void draw(Graphics graphics) {
-        currentScreen.draw(graphics);
+    public void draw(GraphicsHandler graphicsHandler) {
+        currentScreen.draw(graphicsHandler);
+    }
+
+    public static int getScreenWidth() {
+        return screenBounds.getWidth();
+    }
+
+    public static int getScreenHeight() {
+        return screenBounds.getHeight();
+    }
+
+    public static Rectangle getScreenBounds() {
+        return screenBounds;
     }
 }

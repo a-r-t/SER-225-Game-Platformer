@@ -40,6 +40,7 @@ public abstract class Player extends GameObject {
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
         
+        playerStateAndDirection = new TwoKeyHashMap<PlayerState, Direction, String>();
         playerStateAndDirection.put(PlayerState.STANDING, Direction.LEFT, "STAND_LEFT");
         playerStateAndDirection.put(PlayerState.STANDING, Direction.RIGHT, "STAND_RIGHT");
         playerStateAndDirection.put(PlayerState.WALKING, Direction.LEFT, "WALK_LEFT");

@@ -5,9 +5,9 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
-import Map.MapEntity;
-import Map.Player;
-import Map.Map;
+import Scene.MapEntity;
+import Scene.Player;
+import Scene.Map;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -51,6 +51,6 @@ public class Enemy extends MapEntity {
     }
 
     public void touchedPlayer(Player player) {
-        player.kill();
+        System.out.println("PLAYER KILL");
     }
 }

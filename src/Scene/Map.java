@@ -5,7 +5,6 @@ import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
-import GameObject.Rectangle;
 
 import java.awt.*;
 import java.io.File;
@@ -14,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public abstract class Map {
     protected MapTile[] mapTiles;
@@ -26,6 +26,7 @@ public abstract class Map {
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
     protected String mapFileName;
     protected ArrayList<MapEntity> mapEntities;
+    protected ArrayList<MapEntity> activeMapEntities;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
@@ -40,6 +41,7 @@ public abstract class Map {
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
         this.mapEntities = getMapEntities();
+        this.activeMapEntities = mapEntities;
     }
 
     private void loadMapFile() {
@@ -85,6 +87,11 @@ public abstract class Map {
 
     public Point getPlayerStartPosition() {
         MapTile tile = getMapTile(playerStartTile.x, playerStartTile.y);
+        return new Point(tile.getX(), tile.getY());
+    }
+
+    public Point getPositionByTileIndex(int xIndex, int yIndex) {
+        MapTile tile = getMapTile(xIndex, yIndex);
         return new Point(tile.getX(), tile.getY());
     }
 
@@ -172,32 +179,51 @@ public abstract class Map {
         adjustMovementX(player);
         camera.update();
 
+        activeMapEntities = getActiveMapEntities();
+        for (MapEntity mapEntity: activeMapEntities) {
+            mapEntity.update(keyboard, this, player);
+        }
+    }
+
+    private ArrayList<MapEntity> getActiveMapEntities() {
+        ArrayList<MapEntity> activeMapEntities = new ArrayList<>();
         for (MapEntity mapEntity: mapEntities) {
-            if (mapEntity.exists()) {
-                if (camera.intersects(mapEntity) || mapEntity.isUpdateWhileOffScreen()) {
-                    mapEntity.update(keyboard, this, player);
-                }
+            if (mapEntity.exists() && (camera.contains(mapEntity) || mapEntity.isUpdateWhileOffScreen())) {
+                activeMapEntities.add(mapEntity);
             }
         }
+        return activeMapEntities;
     }
 
     private void adjustMovementX(Kirby player) {
         int xMidPointDifference = 0;
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
+            for (MapEntity mapEntity : mapEntities) {
+                mapEntity.moveX(xMidPointDifference);
+            }
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
                 int cameraDifference = camera.getEndBoundX() - endBoundX;
+                for (MapEntity mapEntity : mapEntities) {
+                    mapEntity.moveX(cameraDifference);
+                }
                 player.moveX(cameraDifference);
                 camera.moveX(-cameraDifference);
             }
         } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
+            for (MapEntity mapEntity : mapEntities) {
+                mapEntity.moveX(xMidPointDifference);
+            }
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
                 int cameraDifference = startBoundX - camera.getX();
+                for (MapEntity mapEntity : mapEntities) {
+                    mapEntity.moveX(-cameraDifference);
+                }
                 player.moveX(-cameraDifference);
                 camera.moveX(cameraDifference);
             }
@@ -208,19 +234,31 @@ public abstract class Map {
         int yMidPointDifference = 0;
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
             yMidPointDifference = yMidPoint - player.getY();
+            for (MapEntity mapEntity : mapEntities) {
+                mapEntity.moveY(yMidPointDifference);
+            }
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
                 int cameraDifference = camera.getEndBoundY() - endBoundY;
+                for (MapEntity mapEntity : mapEntities) {
+                    mapEntity.moveY(cameraDifference);
+                }
                 player.moveY(cameraDifference);
                 camera.moveY(-cameraDifference);
             }
         } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
             yMidPointDifference = yMidPoint - player.getY();
+            for (MapEntity mapEntity : mapEntities) {
+                mapEntity.moveY(yMidPointDifference);
+            }
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {
                 int cameraDifference = startBoundY - camera.getY();
+                for (MapEntity mapEntity : mapEntities) {
+                    mapEntity.moveY(-cameraDifference);
+                }
                 player.moveY(-cameraDifference);
                 camera.moveY(cameraDifference);
             }
@@ -229,9 +267,8 @@ public abstract class Map {
 
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);
-
-        for (MapEntity mapEntity: mapEntities) {
-            if (mapEntity.exists() && camera.intersects(mapEntity)) {
+        for (MapEntity mapEntity: activeMapEntities) {
+            if (camera.contains(mapEntity)) {
                 mapEntity.draw(graphicsHandler);
             }
         }

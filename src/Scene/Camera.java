@@ -1,6 +1,7 @@
 package Scene;
 
 import Engine.ScreenManager;
+import GameObject.GameObject;
 import GameObject.IntersectableRectangle;
 import GameObject.Rectangle;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 public class Camera extends Rectangle {
 
+    private float startPositionX, startPositionY;
     private Map map;
     private int tileWidth, tileHeight;
     private int leftoverSpaceX, leftoverSpaceY;
@@ -23,6 +25,8 @@ public class Camera extends Rectangle {
         this.tileHeight = tileHeight;
         this.leftoverSpaceX = ScreenManager.getScreenWidth() % tileWidth;
         this.leftoverSpaceY = ScreenManager.getScreenHeight() % tileHeight;
+        this.startPositionX = startX;
+        this.startPositionY = startY;
     }
 
     public Point getTileIndexByCameraPosition() {
@@ -59,9 +63,9 @@ public class Camera extends Rectangle {
         }
     }
 
-    @Override
-    public Rectangle getIntersectRectangle() {
-        return new Rectangle(getX() - tileWidth, getY() - tileHeight, getScaledWidth() + tileWidth, getScaledHeight() + tileHeight);
+    public boolean contains(GameObject gameObject) {
+        return getX1() - amountMovedX() < gameObject.getX1() + gameObject.getScaledWidth() && getEndBoundX()  - amountMovedX() > gameObject.getX1() + amountMovedX() &&
+                getY1() - amountMovedY() < gameObject.getY1() + gameObject.getScaledHeight() && getEndBoundY()  - amountMovedY() > gameObject.getY1();
     }
 
     public int getStartBoundX() {
@@ -78,5 +82,21 @@ public class Camera extends Rectangle {
 
     public int getEndBoundY() {
         return getY1() + (height * tileHeight) + leftoverSpaceY;
+    }
+
+    public int getStartPositionX() {
+        return Math.round(startPositionX);
+    }
+
+    public int getStartPositionY() {
+        return Math.round(startPositionY);
+    }
+
+    public int amountMovedX() {
+        return Math.round(x - startPositionX);
+    }
+
+    public int amountMovedY() {
+        return Math.round(y - startPositionY);
     }
 }

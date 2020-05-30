@@ -175,19 +175,23 @@ public abstract class Map {
     }
 
     public void update(Keyboard keyboard, Kirby player) {
-        adjustMovementY(player);
-        adjustMovementX(player);
-        camera.update();
-
         activeMapEntities = getActiveMapEntities();
         for (MapEntity mapEntity: activeMapEntities) {
             mapEntity.update(keyboard, this, player);
         }
+        adjustMovementY(player);
+        adjustMovementX(player);
+
+        camera.update();
     }
 
     private ArrayList<MapEntity> getActiveMapEntities() {
         ArrayList<MapEntity> activeMapEntities = new ArrayList<>();
         for (MapEntity mapEntity: mapEntities) {
+            int amountMovedX = mapEntity.getStartPositionX() + mapEntity.getAmountMovedX() - camera.getX();
+            int amountMovedY = mapEntity.getStartPositionY() + mapEntity.getAmountMovedY() - camera.getY();
+            mapEntity.setX(amountMovedX);
+            mapEntity.setY(amountMovedY);
             if (mapEntity.exists() && (camera.contains(mapEntity) || mapEntity.isUpdateWhileOffScreen())) {
                 activeMapEntities.add(mapEntity);
             }
@@ -199,14 +203,14 @@ public abstract class Map {
         int xMidPointDifference = 0;
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
-            for (MapEntity mapEntity : mapEntities) {
+            for (MapEntity mapEntity : activeMapEntities) {
                 mapEntity.moveX(xMidPointDifference);
             }
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
                 int cameraDifference = camera.getEndBoundX() - endBoundX;
-                for (MapEntity mapEntity : mapEntities) {
+                for (MapEntity mapEntity : activeMapEntities) {
                     mapEntity.moveX(cameraDifference);
                 }
                 player.moveX(cameraDifference);
@@ -214,14 +218,14 @@ public abstract class Map {
             }
         } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
-            for (MapEntity mapEntity : mapEntities) {
+            for (MapEntity mapEntity : activeMapEntities) {
                 mapEntity.moveX(xMidPointDifference);
             }
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
                 int cameraDifference = startBoundX - camera.getX();
-                for (MapEntity mapEntity : mapEntities) {
+                for (MapEntity mapEntity : activeMapEntities) {
                     mapEntity.moveX(-cameraDifference);
                 }
                 player.moveX(-cameraDifference);
@@ -234,14 +238,14 @@ public abstract class Map {
         int yMidPointDifference = 0;
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
             yMidPointDifference = yMidPoint - player.getY();
-            for (MapEntity mapEntity : mapEntities) {
+            for (MapEntity mapEntity : activeMapEntities) {
                 mapEntity.moveY(yMidPointDifference);
             }
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
                 int cameraDifference = camera.getEndBoundY() - endBoundY;
-                for (MapEntity mapEntity : mapEntities) {
+                for (MapEntity mapEntity : activeMapEntities) {
                     mapEntity.moveY(cameraDifference);
                 }
                 player.moveY(cameraDifference);
@@ -249,14 +253,14 @@ public abstract class Map {
             }
         } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
             yMidPointDifference = yMidPoint - player.getY();
-            for (MapEntity mapEntity : mapEntities) {
+            for (MapEntity mapEntity : activeMapEntities) {
                 mapEntity.moveY(yMidPointDifference);
             }
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {
                 int cameraDifference = startBoundY - camera.getY();
-                for (MapEntity mapEntity : mapEntities) {
+                for (MapEntity mapEntity : activeMapEntities) {
                     mapEntity.moveY(-cameraDifference);
                 }
                 player.moveY(-cameraDifference);

@@ -14,10 +14,11 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class MapEntity extends GameObject {
-    private boolean exists = true;
-    private boolean updateWhileOffScreen = false;
-    private float startPositionX;
-    private float startPositionY;
+    protected boolean exists = true;
+    protected boolean updateWhileOffScreen = false;
+    protected float startPositionX, startPositionY;
+    protected float moveAmountX, moveAmountY;
+    private float amountMovedX, amountMovedY;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
         super(spriteSheet, x, y, startingAnimation);
@@ -85,8 +86,18 @@ public class MapEntity extends GameObject {
         this.updateWhileOffScreen = updateWhileOffScreen;
     }
 
+    public int getAmountMovedX() {
+        return Math.round(amountMovedX);
+    }
+
+    public int getAmountMovedY() {
+        return Math.round(amountMovedY);
+    }
+
     public void update(Keyboard keyboard, Map map, Player player) {
         super.update();
+        amountMovedX += moveAmountX;
+        amountMovedY += moveAmountY;
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

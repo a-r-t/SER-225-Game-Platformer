@@ -63,9 +63,9 @@ public class Camera extends Rectangle {
         }
     }
 
-    public boolean contains(GameObject gameObject) {
-        return getX1() - amountMovedX() < gameObject.getX1() + gameObject.getScaledWidth() && getEndBoundX()  - amountMovedX() > gameObject.getX1() + amountMovedX() &&
-                getY1() - amountMovedY() < gameObject.getY1() + gameObject.getScaledHeight() && getEndBoundY()  - amountMovedY() > gameObject.getY1();
+    public boolean contains(MapEntity mapEntity) {
+        return getX1() < mapEntity.getX() + mapEntity.getScaledWidth() + amountMovedX() && getEndBoundX() >  mapEntity.getX() + amountMovedX() &&
+                getY1() <  mapEntity.getY() + amountMovedY() + mapEntity.getScaledHeight() && getEndBoundY() >  mapEntity.getY() + amountMovedY();
     }
 
     public int getStartBoundX() {

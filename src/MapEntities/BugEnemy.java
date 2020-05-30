@@ -18,7 +18,6 @@ import java.util.HashMap;
 public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
-    private float moveAmountX, moveAmountY;
     private float movementSpeed = 2f;
     private Direction facingDirection = Direction.RIGHT;
 
@@ -38,10 +37,9 @@ public class BugEnemy extends Enemy {
             moveAmountX -= movementSpeed;
         }
 
-        super.update(keyboard, map, player);
-
         handleCollisionX(map);
         handleCollisionY(map);
+        super.update(keyboard, map, player);
 
         if (intersects(player)) {
             touchedPlayer(player);
@@ -58,7 +56,7 @@ public class BugEnemy extends Enemy {
                 hasCollided = hasCollidedWithTilesX(map);
                 if (hasCollided) {
                     moveX(-direction);
-                    moveAmountX = i;
+                    moveAmountX = i * direction;
                     break;
                 }
             }
@@ -75,7 +73,7 @@ public class BugEnemy extends Enemy {
                 hasCollided = hasCollidedWithTilesY(map);
                 if (hasCollided) {
                     moveY(-direction);
-                    moveAmountY = i;
+                    moveAmountY = i * direction;
                     break;
                 }
             }

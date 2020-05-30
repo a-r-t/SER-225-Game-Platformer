@@ -220,4 +220,6 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
     public boolean intersects(IntersectableRectangle other) {
         return currentFrame.intersects(other);
     }
+
+	public boolean overlaps(IntersectableRectangle other) { return currentFrame.overlaps(other); }
 }

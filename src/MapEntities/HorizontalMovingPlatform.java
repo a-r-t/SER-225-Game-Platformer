@@ -9,6 +9,7 @@ import Scene.Player;
 import Scene.TileType;
 import Utils.Direction;
 import GameObject.Rectangle;
+import Utils.AirGroundState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -49,7 +50,10 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
             direction = Direction.RIGHT;
         }
 
-        //if (intersects(player) && player.getScaledBoundsY2() )
+        if (overlaps(player) && player.getScaledBoundsY2() == getScaledBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
+            player.setMoveAmountX(moveAmountX);
+            player.handleCollisionX(map);
+        }
 
         super.update(keyboard, map, player);
 

@@ -180,4 +180,11 @@ public class Rectangle implements IntersectableRectangle {
 		return intersectRectangle.getX1() < otherIntersectRectangle.getX2() && intersectRectangle.getX2() > otherIntersectRectangle.getX1() &&
 				intersectRectangle.getY1() < otherIntersectRectangle.getY2() && intersectRectangle.getY2() > otherIntersectRectangle.getY1();
 	}
+
+	public boolean overlaps(IntersectableRectangle other) {
+		Rectangle intersectRectangle = getIntersectRectangle();
+		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
+		return intersectRectangle.getX1() <= otherIntersectRectangle.getX2() && intersectRectangle.getX2() >= otherIntersectRectangle.getX1() &&
+				intersectRectangle.getY1() <= otherIntersectRectangle.getY2() && intersectRectangle.getY2() >= otherIntersectRectangle.getY1();
+	}
 }

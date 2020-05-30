@@ -7,6 +7,7 @@ import Engine.GraphicsHandler;
 import GameObject.*;
 import GameObject.Rectangle;
 import MapEntities.EnhancedMapTile;
+import Utils.AirGroundState;
 import Utils.Direction;
 
 import java.awt.*;
@@ -168,7 +169,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    protected void handleCollisionX(Map map) {
+    public void handleCollisionX(Map map) {
         int amountToMove = moveAmountX > 0 ? (int)Math.abs(Math.ceil(moveAmountX)) : (int)Math.abs(Math.floor(moveAmountX));
         if (amountToMove != 0) {
             boolean hasCollided = false;
@@ -185,7 +186,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    protected void handleCollisionY(Map map) {
+    public void handleCollisionY(Map map) {
         int amountToMove = moveAmountY > 0 ? (int)Math.abs(Math.ceil(moveAmountY)) : (int)Math.abs(Math.floor(moveAmountY));
         if (amountToMove != 0) {
             boolean hasCollided = false;
@@ -251,9 +252,7 @@ public abstract class Player extends GameObject {
                 case NOT_PASSABLE:
                     return intersects(tile);
                 case JUMP_THROUGH_PLATFORM:
-                    System.out.println("MY Y2: "  + getScaledBoundsY2());
-                    System.out.println("Tile Y1: " + tile.getScaledBoundsY1());
-                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() <= tile.getScaledBoundsY1();
+                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() - 1 == tile.getScaledBoundsY1();
                 default:
                     return false;
             }
@@ -268,7 +267,7 @@ public abstract class Player extends GameObject {
                 case NOT_PASSABLE:
                     return intersects(enhancedMapTile);
                 case JUMP_THROUGH_PLATFORM:
-                    return moveAmountY >= 0 && intersects(enhancedMapTile) && getScaledBoundsY2() >= enhancedMapTile.getScaledBoundsY1();
+                    return moveAmountY >= 0 && intersects(enhancedMapTile) && getScaledBoundsY2() - 1 == enhancedMapTile.getScaledBoundsY1();
                 default:
                     return false;
             }
@@ -284,11 +283,23 @@ public abstract class Player extends GameObject {
         return Math.round(moveAmountY);
     }
 
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
+    public void setMoveAmountX(float moveAmountX) {
+        this.moveAmountX = moveAmountX;
     }
 
-    protected enum AirGroundState {
-        AIR, GROUND
+    public void setMoveAmountY(float moveAmountY) {
+        this.moveAmountY = moveAmountY;
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
+
+    public AirGroundState getAirGroundState() {
+        return airGroundState;
+    }
+
+    public void draw(GraphicsHandler graphicsHandler) {
+        super.draw(graphicsHandler);
     }
 }

@@ -65,7 +65,6 @@ public class Camera extends Rectangle {
     }
 
     public boolean contains(MapEntity mapEntity) {
-        System.out.println(amountMovedX);
         return getX1() < mapEntity.getX() + mapEntity.getScaledWidth() + (startPositionX + amountMovedX) && getEndBoundX() >  mapEntity.getX() + (startPositionX + amountMovedX) &&
                 getY1() <  mapEntity.getY() + (startPositionY + amountMovedY) + mapEntity.getScaledHeight() && getEndBoundY() >  mapEntity.getY() + (startPositionY + amountMovedY);
     }

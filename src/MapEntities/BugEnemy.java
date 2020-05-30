@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
-    private float movementSpeed = .1f;
+    private float movementSpeed = .4f;
     private Direction facingDirection = Direction.RIGHT;
 
     public BugEnemy(Point location) {
@@ -47,7 +47,7 @@ public class BugEnemy extends Enemy {
     }
 
     protected void handleCollisionX(Map map) {
-        int amountToMove = Math.abs(Math.round(moveAmountX));
+        int amountToMove = moveAmountX > 0 ? (int)Math.abs(Math.ceil(moveAmountX)) : (int)Math.abs(Math.floor(moveAmountX));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountX < 0 ? -1 : 1;
@@ -73,7 +73,7 @@ public class BugEnemy extends Enemy {
     }
 
     protected void handleCollisionY(Map map) {
-        int amountToMove = Math.abs(Math.round(moveAmountY));
+        int amountToMove = moveAmountY > 0 ? (int)Math.abs(Math.ceil(moveAmountY)) : (int)Math.abs(Math.floor(moveAmountY));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountY < 0 ? -1 : 1;

@@ -168,7 +168,7 @@ public abstract class Player extends GameObject {
     }
 
     protected void handleCollisionX(Map map) {
-        int amountToMove = Math.abs(Math.round(moveAmountX));
+        int amountToMove = moveAmountX > 0 ? (int)Math.abs(Math.ceil(moveAmountX)) : (int)Math.abs(Math.floor(moveAmountX));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountX < 0 ? -1 : 1;
@@ -185,7 +185,7 @@ public abstract class Player extends GameObject {
     }
 
     protected void handleCollisionY(Map map) {
-        int amountToMove = Math.abs(Math.round(moveAmountY));
+        int amountToMove = moveAmountY > 0 ? (int)Math.abs(Math.ceil(moveAmountY)) : (int)Math.abs(Math.floor(moveAmountY));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountY < 0 ? -1 : 1;

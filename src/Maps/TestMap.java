@@ -1,8 +1,10 @@
 package Maps;
 
+import Engine.ImageLoader;
 import GameObject.Rectangle;
 import MapEntities.BugEnemy;
 import MapEntities.Enemy;
+import MapEntities.HorizontalMovingPlatform;
 import Scene.Map;
 import Scene.MapEntity;
 import Tilesets.CommonTileset;
@@ -19,6 +21,12 @@ public class TestMap extends Map {
     public ArrayList<MapEntity> getMapEntities() {
         return new ArrayList<MapEntity>() {{
             add(new BugEnemy(getPositionByTileIndex(2, 9)));
+            add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(2, 4),
+                    getPositionByTileIndex(5, 4),
+                    3,
+                    new Rectangle(0, 6,16,4)));
         }};
     }
 }

@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
-    private float movementSpeed = 2f;
+    private float movementSpeed = .1f;
     private Direction facingDirection = Direction.RIGHT;
 
     public BugEnemy(Point location) {
@@ -58,6 +58,15 @@ public class BugEnemy extends Enemy {
                     moveX(-direction);
                     moveAmountX = i * direction;
                     break;
+                }
+            }
+            if (hasCollided) {
+                if (direction == 1) {
+                    facingDirection = Direction.LEFT;
+                    currentAnimationName = "WALK_LEFT";
+                } else {
+                    facingDirection = Direction.RIGHT;
+                    currentAnimationName = "WALK_RIGHT";
                 }
             }
         }

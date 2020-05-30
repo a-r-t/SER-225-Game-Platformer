@@ -17,6 +17,7 @@ public class Camera extends Rectangle {
     private Map map;
     private int tileWidth, tileHeight;
     private int leftoverSpaceX, leftoverSpaceY;
+    private float amountMovedX, amountMovedY;
 
     public Camera(int startX, int startY, int tileWidth, int tileHeight, Map map) {
         super(startX, startY, ScreenManager.getScreenWidth() / tileWidth, ScreenManager.getScreenHeight() / tileHeight);
@@ -64,8 +65,9 @@ public class Camera extends Rectangle {
     }
 
     public boolean contains(MapEntity mapEntity) {
-        return getX1() < mapEntity.getX() + mapEntity.getScaledWidth() + amountMovedX() && getEndBoundX() >  mapEntity.getX() + amountMovedX() &&
-                getY1() <  mapEntity.getY() + amountMovedY() + mapEntity.getScaledHeight() && getEndBoundY() >  mapEntity.getY() + amountMovedY();
+        System.out.println(amountMovedX);
+        return getX1() < mapEntity.getX() + mapEntity.getScaledWidth() + (startPositionX + amountMovedX) && getEndBoundX() >  mapEntity.getX() + (startPositionX + amountMovedX) &&
+                getY1() <  mapEntity.getY() + (startPositionY + amountMovedY) + mapEntity.getScaledHeight() && getEndBoundY() >  mapEntity.getY() + (startPositionY + amountMovedY);
     }
 
     public int getStartBoundX() {
@@ -92,11 +94,23 @@ public class Camera extends Rectangle {
         return Math.round(startPositionY);
     }
 
-    public int amountMovedX() {
-        return Math.round(x - startPositionX);
+    public int getAmountMovedX() {
+        return Math.round(amountMovedX);
     }
 
-    public int amountMovedY() {
-        return Math.round(y - startPositionY);
+    public int getAmountMovedY() {
+        return Math.round(amountMovedY);
+    }
+
+    @Override
+    public void moveX(float dx) {
+        this.amountMovedX += dx;
+        super.moveX(dx);
+    }
+
+    @Override
+    public void moveY(float dy) {
+        this.amountMovedY += dy;
+        super.moveY(dy);
     }
 }

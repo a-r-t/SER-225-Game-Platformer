@@ -9,7 +9,6 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 

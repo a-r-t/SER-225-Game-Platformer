@@ -174,11 +174,16 @@ public abstract class Map {
         return new ArrayList<>();
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
+
     public void update(Keyboard keyboard, Kirby player) {
         activeMapEntities = getActiveMapEntities();
         for (MapEntity mapEntity: activeMapEntities) {
             mapEntity.update(keyboard, this, player);
         }
+
         adjustMovementY(player);
         adjustMovementX(player);
 
@@ -188,8 +193,8 @@ public abstract class Map {
     private ArrayList<MapEntity> getActiveMapEntities() {
         ArrayList<MapEntity> activeMapEntities = new ArrayList<>();
         for (MapEntity mapEntity: mapEntities) {
-            int amountMovedX = mapEntity.getStartPositionX() + mapEntity.getAmountMovedX() - camera.getX();
-            int amountMovedY = mapEntity.getStartPositionY() + mapEntity.getAmountMovedY() - camera.getY();
+            int amountMovedX = mapEntity.getStartPositionX() + mapEntity.getAmountMovedX() - camera.getAmountMovedX();
+            int amountMovedY = mapEntity.getStartPositionY() + mapEntity.getAmountMovedY() - camera.getAmountMovedY();
             mapEntity.setX(amountMovedX);
             mapEntity.setY(amountMovedY);
             if (mapEntity.exists() && (camera.contains(mapEntity) || mapEntity.isUpdateWhileOffScreen())) {

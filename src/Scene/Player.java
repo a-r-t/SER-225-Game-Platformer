@@ -6,6 +6,7 @@ import Engine.Keyboard;
 import Engine.GraphicsHandler;
 import GameObject.*;
 import GameObject.Rectangle;
+import MapEntities.EnhancedMapTile;
 import Utils.Direction;
 
 import java.awt.*;
@@ -177,7 +178,7 @@ public abstract class Player extends GameObject {
                 hasCollided = hasCollidedWithTilesX(map);
                 if (hasCollided) {
                     moveX(-direction);
-                    moveAmountX = i;
+                    moveAmountX = i * direction;
                     break;
                 }
             }
@@ -194,7 +195,7 @@ public abstract class Player extends GameObject {
                 hasCollided = hasCollidedWithTilesY(map);
                 if (hasCollided) {
                     moveY(-direction);
-                    moveAmountY = i;
+                    moveAmountY = i * direction;
                     break;
                 }
             }
@@ -231,7 +232,7 @@ public abstract class Player extends GameObject {
         int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
         Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y)) {
+            if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y) || hasCollidedWithEnhancedTile(map)) {
                 return true;
             }
         }
@@ -250,11 +251,29 @@ public abstract class Player extends GameObject {
                 case NOT_PASSABLE:
                     return intersects(tile);
                 case JUMP_THROUGH_PLATFORM:
-                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() >= tile.getScaledBoundsY1();
+                    System.out.println("MY Y2: "  + getScaledBoundsY2());
+                    System.out.println("Tile Y1: " + tile.getScaledBoundsY1());
+                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() <= tile.getScaledBoundsY1();
                 default:
                     return false;
             }
         }
+    }
+
+    private boolean hasCollidedWithEnhancedTile(Map map) {
+        for (EnhancedMapTile enhancedMapTile : map.enhancedMapTiles) {
+            switch (enhancedMapTile.getTileType()) {
+                case PASSABLE:
+                    return false;
+                case NOT_PASSABLE:
+                    return intersects(enhancedMapTile);
+                case JUMP_THROUGH_PLATFORM:
+                    return moveAmountY >= 0 && intersects(enhancedMapTile) && getScaledBoundsY2() >= enhancedMapTile.getScaledBoundsY1();
+                default:
+                    return false;
+            }
+        }
+        return false;
     }
 
     public int getMoveAmountX() {

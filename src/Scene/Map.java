@@ -178,10 +178,10 @@ public abstract class Map {
         return x + width * y;
     }
 
-    public ArrayList<Enemy> getEnemies() {
+    protected ArrayList<Enemy> getEnemies() {
         return new ArrayList<>();
     }
-    public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
+    protected ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
         return new ArrayList<>();
     }
 
@@ -358,7 +358,5 @@ public abstract class Map {
                 enhancedMapTile.draw(graphicsHandler);
             }
         }
-
-
     }
 }

@@ -9,6 +9,7 @@ import Scene.Player;
 import Scene.PlayerState;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.MathUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -98,12 +99,12 @@ public class GameObject extends AnimatedSprite {
 
 	public int handleCollisionX(Map map, float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
-		float remainder = moveAmountX > 0 ? (float)Math.abs(moveAmountX - Math.floor(moveAmountX)) : (float)Math.abs(moveAmountX - Math.ceil(moveAmountX));
-		float currentRemainder = getXRaw() > 0 ? (float)Math.abs(getXRaw() - Math.floor(getXRaw())) : (float)Math.abs(getXRaw() - Math.ceil(getXRaw()));
-		float totalRemainder = remainder + currentRemainder;
+		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
+		float currentXRemainder = MathUtils.getRemainder(getXRaw());
+		float totalRemainder = moveAmountXRemainder + currentXRemainder;
 		if (totalRemainder >= 1) {
 			amountToMove += 1;
-			setX((int)getXRaw());
+			setX(getX());
 		}
 		int amountMoved = 0;
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
@@ -120,18 +121,18 @@ public class GameObject extends AnimatedSprite {
 			}
 			onEndCollisionCheckX(hasCollided, direction);
 		}
-		super.moveX(remainder * direction.getVelocity());
+		super.moveX(moveAmountXRemainder * direction.getVelocity());
 		return amountMoved;
 	}
 
 	public int handleCollisionY(Map map, float moveAmountY) {
 		int amountToMove = (int)Math.abs(moveAmountY);
-		float remainder = moveAmountY > 0 ? (float)Math.abs(moveAmountY - Math.floor(moveAmountY)) : (float)Math.abs(moveAmountY - Math.ceil(moveAmountY));
-		float currentRemainder = getYRaw() > 0 ? (float)Math.abs(getYRaw() - Math.floor(getYRaw())) : (float)Math.abs(getYRaw() - Math.ceil(getYRaw()));
-		float totalRemainder = remainder + currentRemainder;
+		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
+		float currentYRemainder = MathUtils.getRemainder(getYRaw());
+		float totalRemainder = moveAmountYRemainder + currentYRemainder;
 		if (totalRemainder >= 1) {
 			amountToMove += 1;
-			setY((int)getYRaw());
+			setY(getY());
 		}
 		int amountMoved = 0;
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
@@ -148,7 +149,7 @@ public class GameObject extends AnimatedSprite {
 			}
 			onEndCollisionCheckY(hasCollided, direction);
 		}
-		super.moveY(remainder * direction.getVelocity());
+		super.moveY(moveAmountYRemainder * direction.getVelocity());
 		return amountMoved;
 	}
 
@@ -196,7 +197,7 @@ public class GameObject extends AnimatedSprite {
 	}
 
 	private boolean hasCollidedWithEnhancedTile(Map map, Direction direction) {
-		for (EnhancedMapTile enhancedMapTile : map.getEnhancedMapTiles()) {
+		for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
 			switch (enhancedMapTile.getTileType()) {
 				case PASSABLE:
 					return false;

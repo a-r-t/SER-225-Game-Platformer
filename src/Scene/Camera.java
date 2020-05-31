@@ -44,8 +44,8 @@ public class Camera extends Rectangle {
                 if (tile != null) {
                     int tileStartX = j * tile.getScaledWidth();
                     int tileStartY = i * tile.getScaledHeight();
-                    tile.setX(tileStartX - getX());
-                    tile.setY(tileStartY - getY());
+                    tile.setX(tileStartX - getAmountMovedX());
+                    tile.setY(tileStartY - getAmountMovedY());
                     tile.update();
                 }
             }

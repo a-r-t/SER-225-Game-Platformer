@@ -197,8 +197,8 @@ public abstract class Map {
     }
 
     public void update(Keyboard keyboard, Kirby player) {
-        activeEnemies = getActiveEnemies();
-        activeEnhancedMapTiles = getActiveEnhancedMapTiles();
+        activeEnemies = loadActiveEnemies();
+        activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
 
         for (Enemy enemy: activeEnemies) {
             enemy.update(keyboard, this, player);
@@ -213,7 +213,7 @@ public abstract class Map {
         camera.update();
     }
 
-    private ArrayList<Enemy> getActiveEnemies() {
+    private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (Enemy enemy: enemies) {
             int amountMovedX = enemy.getStartPositionX() + enemy.getAmountMovedX() - camera.getAmountMovedX();
@@ -227,7 +227,7 @@ public abstract class Map {
         return activeEnemies;
     }
 
-    private ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
+    private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
         for (EnhancedMapTile enhancedMapTile: enhancedMapTiles) {
             int amountMovedX = enhancedMapTile.getStartPositionX() + enhancedMapTile.getAmountMovedX() - camera.getAmountMovedX();
@@ -238,6 +238,14 @@ public abstract class Map {
                 activeEnhancedMapTiles.add(enhancedMapTile);
             }
         }
+        return activeEnhancedMapTiles;
+    }
+
+    public ArrayList<Enemy> getActiveEnemies() {
+        return activeEnemies;
+    }
+
+    public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
         return activeEnhancedMapTiles;
     }
 

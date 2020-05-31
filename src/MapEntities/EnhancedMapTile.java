@@ -6,10 +6,7 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
-import Scene.Map;
-import Scene.MapEntity;
-import Scene.Player;
-import Scene.TileType;
+import Scene.*;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -57,9 +54,12 @@ public class EnhancedMapTile extends MapEntity {
         return tileType;
     }
 
-    @Override
+    public void setTileType(TileType tileType) {
+        this.tileType = tileType;
+    }
+
     public void update(Keyboard keyboard, Map map, Player player) {
-        super.update(keyboard, map, player);
+        super.update();
     }
 
     @Override

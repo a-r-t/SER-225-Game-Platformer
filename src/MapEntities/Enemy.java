@@ -42,9 +42,8 @@ public class Enemy extends MapEntity {
         super(image, x, y, scale, imageEffect, bounds);
     }
 
-    @Override
     public void update(Keyboard keyboard, Map map, Player player) {
-        super.update(keyboard, map, player);
+        super.update();
         if (intersects(player)) {
             touchedPlayer(player);
         }

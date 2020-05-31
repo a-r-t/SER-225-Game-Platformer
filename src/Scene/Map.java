@@ -216,10 +216,7 @@ public abstract class Map {
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (Enemy enemy: enemies) {
-            int amountMovedX = enemy.getStartPositionX() + enemy.getAmountMovedX() - camera.getAmountMovedX();
-            int amountMovedY = enemy.getStartPositionY() + enemy.getAmountMovedY() - camera.getAmountMovedY();
-            enemy.setX(amountMovedX + Math.abs(enemy.getXRaw() - (int)enemy.getXRaw()));
-            enemy.setY(amountMovedY + Math.abs(enemy.getYRaw() - (int)enemy.getYRaw()));
+            enemy.calibrate(this);
             if (enemy.exists() && (camera.contains(enemy) || enemy.isUpdateWhileOffScreen())) {
                 activeEnemies.add(enemy);
             }
@@ -230,10 +227,7 @@ public abstract class Map {
     private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
         for (EnhancedMapTile enhancedMapTile: enhancedMapTiles) {
-            int amountMovedX = enhancedMapTile.getStartPositionX() + enhancedMapTile.getAmountMovedX() - camera.getAmountMovedX();
-            int amountMovedY = enhancedMapTile.getStartPositionY() + enhancedMapTile.getAmountMovedY() - camera.getAmountMovedY();
-            enhancedMapTile.setX(amountMovedX);
-            enhancedMapTile.setY(amountMovedY);
+            enhancedMapTile.calibrate(this);
             if (enhancedMapTile.exists() && (camera.contains(enhancedMapTile) || enhancedMapTile.isUpdateWhileOffScreen())) {
                 activeEnhancedMapTiles.add(enhancedMapTile);
             }

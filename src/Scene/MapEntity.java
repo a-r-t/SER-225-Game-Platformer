@@ -8,6 +8,8 @@ import GameObject.SpriteSheet;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
+import MapEntities.BugEnemy;
+import Utils.MathUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -17,7 +19,7 @@ public class MapEntity extends GameObject {
     protected boolean updateWhileOffScreen = false;
     protected float startPositionX, startPositionY;
     protected float moveAmountX, moveAmountY;
-    private float amountMovedX, amountMovedY;
+    protected float amountMovedX, amountMovedY;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
         super(spriteSheet, x, y, startingAnimation);
@@ -85,18 +87,23 @@ public class MapEntity extends GameObject {
         this.updateWhileOffScreen = updateWhileOffScreen;
     }
 
-    public int getAmountMovedX() {
-        return (int)amountMovedX;
+    public void calibrate(Map map) {
+        setX(getCalibratedXLocation(map));
+        setY(getCalibratedYLocation(map));
     }
 
-    public int getAmountMovedY() {
-        return (int)amountMovedY;
+    private float getCalibratedXLocation(Map map) {
+        return getStartPositionX() + amountMovedX + MathUtils.getRemainder(getXRaw()) - map.getCamera().getAmountMovedX();
     }
 
-    public void update(Keyboard keyboard, Map map, Player player) {
+    private float getCalibratedYLocation(Map map) {
+        return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw()) - map.getCamera().getAmountMovedY();
+    }
+
+    public void update() {
         super.update();
-        amountMovedX += moveAmountX;
-        amountMovedY += moveAmountY;
+        amountMovedX += (int)moveAmountX;
+        amountMovedY += (int)moveAmountY;
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

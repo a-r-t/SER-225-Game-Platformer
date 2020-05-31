@@ -51,8 +51,8 @@ public abstract class Player extends GameObject {
         previousAirGroundState = airGroundState;
 
         super.update();
-        moveY(map, moveAmountY);
-        moveX(map, moveAmountX);
+        moveYHandleCollision(map, moveAmountY);
+        moveXHandleCollision(map, moveAmountX);
 
         updateLockedKeys(keyboard);
     }
@@ -169,11 +169,11 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void moveX(Map map, float dx) {
+    public void moveXHandleCollision(Map map, float dx) {
         handleCollisionX(map, dx);
     }
 
-    public void moveY(Map map, float dy) {
+    public void moveYHandleCollision(Map map, float dy) {
         handleCollisionY(map, dy);
     }
 

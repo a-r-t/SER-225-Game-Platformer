@@ -51,9 +51,9 @@ public abstract class Player extends GameObject {
         previousAirGroundState = airGroundState;
 
         super.update();
+        moveY(map, moveAmountY);
+        moveX(map, moveAmountX);
 
-        handleCollisionY(map);
-        handleCollisionX(map);
         updateLockedKeys(keyboard);
     }
 
@@ -169,34 +169,40 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void handleCollisionX(Map map) {
+    public void moveX(Map map, float dx) {
+        handleCollisionX(map, dx);
+    }
+
+    public void moveY(Map map, float dy) {
+        handleCollisionY(map, dy);
+    }
+
+    public void handleCollisionX(Map map, float moveAmountX) {
         int amountToMove = moveAmountX > 0 ? (int)Math.abs(Math.ceil(moveAmountX)) : (int)Math.abs(Math.floor(moveAmountX));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountX < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
-                moveX(direction);
-                hasCollided = hasCollidedWithTilesX(map);
+                super.moveX(direction);
+                hasCollided = hasCollidedWithTilesX(map, moveAmountX);
                 if (hasCollided) {
-                    moveX(-direction);
-                    moveAmountX = i * direction;
+                    super.moveX(-direction);
                     break;
                 }
             }
         }
     }
 
-    public void handleCollisionY(Map map) {
+    public void handleCollisionY(Map map, float moveAmountY) {
         int amountToMove = moveAmountY > 0 ? (int)Math.abs(Math.ceil(moveAmountY)) : (int)Math.abs(Math.floor(moveAmountY));
         if (amountToMove != 0) {
             boolean hasCollided = false;
             int direction = moveAmountY < 0 ? -1 : 1;
             for (int i = 0; i < amountToMove; i++) {
-                moveY(direction);
-                hasCollided = hasCollidedWithTilesY(map);
+                super.moveY(direction);
+                hasCollided = hasCollidedWithTilesY(map, moveAmountY);
                 if (hasCollided) {
-                    moveY(-direction);
-                    moveAmountY = i * direction;
+                    super.moveY(-direction);
                     break;
                 }
             }
@@ -216,7 +222,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    private boolean hasCollidedWithTilesX(Map map) {
+    private boolean hasCollidedWithTilesX(Map map, float moveAmountX) {
         int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
         int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
         Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
@@ -228,7 +234,7 @@ public abstract class Player extends GameObject {
         return false;
     }
 
-    private boolean hasCollidedWithTilesY(Map map) {
+    private boolean hasCollidedWithTilesY(Map map, float moveAmountY) {
         int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
         int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
         Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);

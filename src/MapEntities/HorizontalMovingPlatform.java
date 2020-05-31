@@ -51,8 +51,8 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
         }
 
         if (overlaps(player) && player.getScaledBoundsY2() == getScaledBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
-            player.setMoveAmountX(moveAmountX);
-            player.handleCollisionX(map);
+            //player.setMoveAmountX(moveAmountX);
+            player.moveX(map, moveAmountX);
         }
 
         super.update(keyboard, map, player);

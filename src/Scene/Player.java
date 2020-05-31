@@ -22,7 +22,6 @@ public abstract class Player extends GameObject {
     protected float jumpForce = 0;
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
-    protected float mostRecentMoveX, mostRecentMoveY;
     protected PlayerState playerState;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
@@ -51,11 +50,12 @@ public abstract class Player extends GameObject {
 
         previousAirGroundState = airGroundState;
 
-        super.update();
-        moveYHandleCollision(map, moveAmountY);
-        moveXHandleCollision(map, moveAmountX);
+        super.moveYHandleCollision(map, moveAmountY);
+        super.moveXHandleCollision(map, moveAmountX);
 
         updateLockedKeys(keyboard);
+
+        super.update();
     }
 
     protected void handlePlayerState(Keyboard keyboard) {
@@ -170,134 +170,26 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void moveXHandleCollision(Map map, float dx) {
-        handleCollisionX(map, dx);
+    @Override
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+
     }
 
-    public void moveYHandleCollision(Map map, float dy) {
-        handleCollisionY(map, dy);
-    }
-
-    public void handleCollisionX(Map map, float moveAmountX) {
-        int amountToMove = moveAmountX > 0 ? (int)Math.abs(Math.ceil(moveAmountX)) : (int)Math.abs(Math.floor(moveAmountX));
-        if (amountToMove != 0) {
-            boolean hasCollided = false;
-            int direction = moveAmountX < 0 ? -1 : 1;
-            for (int i = 0; i < amountToMove; i++) {
-                super.moveX(direction);
-                hasCollided = hasCollidedWithTilesX(map, moveAmountX);
-                if (hasCollided) {
-                    super.moveX(-direction);
-                    mostRecentMoveX = i * direction;
-                    break;
-                }
+    @Override
+    public void onEndCollisionCheckY(boolean hasCollided, Direction direction) {
+        if (direction == Direction.DOWN) {
+            if (hasCollided) {
+                momentumY = 0;
+                airGroundState = AirGroundState.GROUND;
+            } else {
+                playerState = PlayerState.JUMPING;
+                airGroundState = AirGroundState.AIR;
+            }
+        } else if (direction == Direction.UP) {
+            if (hasCollided) {
+                jumpForce = 0;
             }
         }
-    }
-
-    public void handleCollisionY(Map map, float moveAmountY) {
-        int amountToMove = moveAmountY > 0 ? (int)Math.abs(Math.ceil(moveAmountY)) : (int)Math.abs(Math.floor(moveAmountY));
-        if (amountToMove != 0) {
-            boolean hasCollided = false;
-            int direction = moveAmountY < 0 ? -1 : 1;
-            for (int i = 0; i < amountToMove; i++) {
-                super.moveY(direction);
-                hasCollided = hasCollidedWithTilesY(map, moveAmountY);
-                if (hasCollided) {
-                    super.moveY(-direction);
-                    mostRecentMoveY = i * direction;
-                    break;
-                }
-            }
-            if (direction == 1) {
-                if (hasCollided) {
-                    momentumY = 0;
-                    airGroundState = AirGroundState.GROUND;
-                } else {
-                    playerState = PlayerState.JUMPING;
-                    airGroundState = AirGroundState.AIR;
-                }
-            } else if (direction == -1) {
-                if (hasCollided) {
-                    jumpForce = 0;
-                }
-            }
-        }
-    }
-
-    private boolean hasCollidedWithTilesX(Map map, float moveAmountX) {
-        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
-        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j) || hasCollidedWithEnhancedTile(map)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasCollidedWithTilesY(Map map, float moveAmountY) {
-        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
-        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
-        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y) || hasCollidedWithEnhancedTile(map)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
-        MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
-
-        if (tile == null) {
-            return false;
-        } else {
-            switch (tile.getTileType()) {
-                case PASSABLE:
-                    return false;
-                case NOT_PASSABLE:
-                    return intersects(tile);
-                case JUMP_THROUGH_PLATFORM:
-                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() - 1 == tile.getScaledBoundsY1();
-                default:
-                    return false;
-            }
-        }
-    }
-
-    private boolean hasCollidedWithEnhancedTile(Map map) {
-        for (EnhancedMapTile enhancedMapTile : map.enhancedMapTiles) {
-            switch (enhancedMapTile.getTileType()) {
-                case PASSABLE:
-                    return false;
-                case NOT_PASSABLE:
-                    return intersects(enhancedMapTile);
-                case JUMP_THROUGH_PLATFORM:
-                    return moveAmountY >= 0 && intersects(enhancedMapTile) && getScaledBoundsY2() - 1 == enhancedMapTile.getScaledBoundsY1();
-                default:
-                    return false;
-            }
-        }
-        return false;
-    }
-
-    public int getMoveAmountX() {
-        return Math.round(moveAmountX);
-    }
-
-    public int getMoveAmountY() {
-        return Math.round(moveAmountY);
-    }
-
-    public void setMoveAmountX(float moveAmountX) {
-        this.moveAmountX = moveAmountX;
-    }
-
-    public void setMoveAmountY(float moveAmountY) {
-        this.moveAmountY = moveAmountY;
     }
 
     public PlayerState getPlayerState() {
@@ -310,14 +202,6 @@ public abstract class Player extends GameObject {
 
     public Direction getFacingDirection() {
         return facingDirection;
-    }
-
-    public int getMostRecentMoveX() {
-        return Math.round(mostRecentMoveX);
-    }
-
-    public int getMostRecentMoveY() {
-        return Math.round(mostRecentMoveY);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

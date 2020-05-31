@@ -62,11 +62,11 @@ public class MapEntity extends GameObject {
     }
 
     public int getStartPositionX() {
-        return Math.round(startPositionX);
+        return (int)startPositionX;
     }
 
     public int getStartPositionY() {
-        return Math.round(startPositionY);
+        return (int)startPositionY;
     }
 
     public boolean exists() {
@@ -86,11 +86,11 @@ public class MapEntity extends GameObject {
     }
 
     public int getAmountMovedX() {
-        return Math.round(amountMovedX);
+        return (int)amountMovedX;
     }
 
     public int getAmountMovedY() {
-        return Math.round(amountMovedY);
+        return (int)amountMovedY;
     }
 
     public void update(Keyboard keyboard, Map map, Player player) {

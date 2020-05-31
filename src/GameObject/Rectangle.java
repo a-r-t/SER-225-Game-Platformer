@@ -47,16 +47,24 @@ public class Rectangle implements IntersectableRectangle {
 		this.borderThickness = 0;
 	}
 
+	public float getXRaw() {
+		return x;
+	}
+
+	public float getYRaw() {
+		return y;
+	}
+
     public int getX() {
-        return Math.round(x);
+        return (int)x;
     }
 
     public int getX1() {
-        return Math.round(x);
+        return (int)x;
     }
 
     public int getX2() {
-        return Math.round(x + width);
+        return (int)x + width;
     }
 	
 	public void setX(float x) {
@@ -76,15 +84,15 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
     public int getY() {
-        return Math.round(y);
+        return (int)y;
     }
 
     public int getY1() {
-        return Math.round(y);
+        return (int)y;
     }
 
     public int getY2() {
-        return Math.round(y + height);
+        return (int)y + height;
     }
 
     public void setY(float y) {
@@ -125,11 +133,11 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
 	public int getScaledWidth() {
-		return Math.round(width * scale);
+		return (int)(width * scale);
 	}
 
 	public int getScaledHeight() {
-		return Math.round(height * scale);
+		return (int)(height * scale);
 	}
 
 	public float getScale() { return scale; }

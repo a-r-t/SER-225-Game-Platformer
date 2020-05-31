@@ -21,14 +21,14 @@ public class TestMap extends Map {
     }
 
     @Override
-    public ArrayList<Enemy> getEnemies() {
+    public ArrayList<Enemy> loadEnemies() {
         return new ArrayList<Enemy>() {{
            add(new BugEnemy(getPositionByTileIndex(2, 9)));
         }};
     }
 
     @Override
-    public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
+    public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         return new ArrayList<EnhancedMapTile>() {{
             add(new HorizontalMovingPlatform(
                     ImageLoader.load("GreenPlatform.png"),

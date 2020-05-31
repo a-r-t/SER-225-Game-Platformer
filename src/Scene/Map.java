@@ -15,7 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public abstract class Map {
     protected MapTile[] mapTiles;
@@ -46,9 +45,9 @@ public abstract class Map {
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
 
-        this.enemies = getEnemies();
+        this.enemies = loadEnemies();
         this.activeEnemies = this.enemies;
-        this.enhancedMapTiles = getEnhancedMapTiles();
+        this.enhancedMapTiles = loadEnhancedMapTiles();
         this.activeEnhancedMapTiles = this.enhancedMapTiles;
     }
 
@@ -165,8 +164,8 @@ public abstract class Map {
     }
 
     public Point getTileIndexByPosition(int xPosition, int yPosition) {
-        int xIndex = (xPosition + camera.getX()) / Math.round(tileset.getScaledSpriteWidth());
-        int yIndex = (yPosition + camera.getY()) / Math.round(tileset.getScaledSpriteHeight());
+        int xIndex = (xPosition + camera.getX()) / tileset.getScaledSpriteWidth();
+        int yIndex = (yPosition + camera.getY()) / tileset.getScaledSpriteHeight();
         return new Point(xIndex, yIndex);
     }
 
@@ -178,13 +177,20 @@ public abstract class Map {
         return x + width * y;
     }
 
-    protected ArrayList<Enemy> getEnemies() {
+    protected ArrayList<Enemy> loadEnemies() {
         return new ArrayList<>();
     }
-    protected ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
+    protected ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         return new ArrayList<>();
     }
 
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
+        return enhancedMapTiles;
+    }
 
     public Camera getCamera() {
         return camera;
@@ -212,8 +218,8 @@ public abstract class Map {
         for (Enemy enemy: enemies) {
             int amountMovedX = enemy.getStartPositionX() + enemy.getAmountMovedX() - camera.getAmountMovedX();
             int amountMovedY = enemy.getStartPositionY() + enemy.getAmountMovedY() - camera.getAmountMovedY();
-            enemy.setX(amountMovedX);
-            enemy.setY(amountMovedY);
+            enemy.setX(amountMovedX + Math.abs(enemy.getXRaw() - (int)enemy.getXRaw()));
+            enemy.setY(amountMovedY + Math.abs(enemy.getYRaw() - (int)enemy.getYRaw()));
             if (enemy.exists() && (camera.contains(enemy) || enemy.isUpdateWhileOffScreen())) {
                 activeEnemies.add(enemy);
             }

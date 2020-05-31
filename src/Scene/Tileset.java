@@ -39,11 +39,11 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public int getScaledSpriteWidth() {
-        return Math.round(spriteWidth * tileScale);
+        return (int)(spriteWidth * tileScale);
     }
 
     public int getScaledSpriteHeight() {
-        return Math.round(spriteHeight * tileScale);
+        return (int)(spriteHeight * tileScale);
     }
 
     public HashMap<Integer, MapTileBuilder> mapDefinedTilesToIndex() {

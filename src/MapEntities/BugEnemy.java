@@ -10,6 +10,7 @@ import Scene.Map;
 import Scene.MapTile;
 import Scene.Player;
 import Scene.PlayerState;
+import Utils.AirGroundState;
 import Utils.Direction;
 
 import java.awt.*;
@@ -18,8 +19,9 @@ import java.util.HashMap;
 public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
-    private float movementSpeed = .4f;
+    private float movementSpeed = .5f;
     private Direction facingDirection = Direction.RIGHT;
+    private AirGroundState airGroundState = AirGroundState.GROUND;
 
     public BugEnemy(Point location) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_RIGHT");
@@ -31,103 +33,40 @@ public class BugEnemy extends Enemy {
         moveAmountY = 0;
         moveAmountY += gravity;
 
-        if (facingDirection == Direction.RIGHT) {
-            moveAmountX += movementSpeed;
-        } else {
-            moveAmountX -= movementSpeed;
+        if (airGroundState == AirGroundState.GROUND) {
+            if (facingDirection == Direction.RIGHT) {
+                moveAmountX += movementSpeed;
+            } else {
+                moveAmountX -= movementSpeed;
+            }
         }
 
-        handleCollisionX(map);
-        handleCollisionY(map);
+        moveAmountY = super.moveYHandleCollision(map, moveAmountY);
+        moveAmountX = super.moveXHandleCollision(map, moveAmountX);
+
         super.update(keyboard, map, player);
+    }
 
-        if (intersects(player)) {
-            touchedPlayer(player);
+    @Override
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+        if (hasCollided) {
+            if (direction == Direction.RIGHT) {
+                facingDirection = Direction.LEFT;
+                currentAnimationName = "WALK_LEFT";
+            } else {
+                facingDirection = Direction.RIGHT;
+                currentAnimationName = "WALK_RIGHT";
+            }
         }
     }
 
-    protected void handleCollisionX(Map map) {
-        int amountToMove = moveAmountX > 0 ? (int)Math.abs(Math.ceil(moveAmountX)) : (int)Math.abs(Math.floor(moveAmountX));
-        if (amountToMove != 0) {
-            boolean hasCollided = false;
-            int direction = moveAmountX < 0 ? -1 : 1;
-            for (int i = 0; i < amountToMove; i++) {
-                moveX(direction);
-                hasCollided = hasCollidedWithTilesX(map);
-                if (hasCollided) {
-                    moveX(-direction);
-                    moveAmountX = i * direction;
-                    break;
-                }
-            }
+    @Override
+    public void onEndCollisionCheckY(boolean hasCollided, Direction direction) {
+        if (direction == Direction.DOWN) {
             if (hasCollided) {
-                if (direction == 1) {
-                    facingDirection = Direction.LEFT;
-                    currentAnimationName = "WALK_LEFT";
-                } else {
-                    facingDirection = Direction.RIGHT;
-                    currentAnimationName = "WALK_RIGHT";
-                }
-            }
-        }
-    }
-
-    protected void handleCollisionY(Map map) {
-        int amountToMove = moveAmountY > 0 ? (int)Math.abs(Math.ceil(moveAmountY)) : (int)Math.abs(Math.floor(moveAmountY));
-        if (amountToMove != 0) {
-            boolean hasCollided = false;
-            int direction = moveAmountY < 0 ? -1 : 1;
-            for (int i = 0; i < amountToMove; i++) {
-                moveY(direction);
-                hasCollided = hasCollidedWithTilesY(map);
-                if (hasCollided) {
-                    moveY(-direction);
-                    moveAmountY = i * direction;
-                    break;
-                }
-            }
-        }
-    }
-
-    private boolean hasCollidedWithTilesX(Map map) {
-        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
-        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasCollidedWithTilesY(Map map) {
-        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
-        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
-        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
-        MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
-
-        if (tile == null) {
-            return false;
-        } else {
-            switch (tile.getTileType()) {
-                case PASSABLE:
-                    return false;
-                case NOT_PASSABLE:
-                    return intersects(tile);
-                case JUMP_THROUGH_PLATFORM:
-                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() >= tile.getScaledBoundsY1();
-                default:
-                    return false;
+                airGroundState = AirGroundState.GROUND;
+            } else {
+                airGroundState = AirGroundState.AIR;
             }
         }
     }

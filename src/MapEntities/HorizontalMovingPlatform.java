@@ -17,11 +17,11 @@ import java.awt.image.BufferedImage;
 public class HorizontalMovingPlatform extends EnhancedMapTile {
     private Point startLocation;
     private Point endLocation;
-    private float movementSpeed = 1;
+    private float movementSpeed = 1f;
     private Direction direction = Direction.RIGHT;
 
-    public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, float scale, Rectangle bounds) {
-        super(image, startLocation.x, startLocation.y, TileType.JUMP_THROUGH_PLATFORM, scale, ImageEffect.NONE, bounds);
+    public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, TileType tileType, float scale, Rectangle bounds) {
+        super(image, startLocation.x, startLocation.y, tileType, scale, ImageEffect.NONE, bounds);
         this.startLocation = startLocation;
         this.endLocation = endLocation;
     }
@@ -50,10 +50,20 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
             direction = Direction.RIGHT;
         }
 
+        if (tileType == TileType.NOT_PASSABLE) {
+            if (intersects(player) && moveAmountX >= 0 && player.getScaledBoundsX1() <= getScaledBoundsX2()) {
+                player.moveXHandleCollision(map, getScaledBoundsX2() - player.getScaledBoundsX1());
+            } else if (intersects(player) && moveAmountX <= 0 && player.getScaledBoundsX2() >= getScaledBoundsX1()) {
+                player.moveXHandleCollision(map, getScaledBoundsX1() - player.getScaledBoundsX2());
+            }
+        }
+
         if (overlaps(player) && player.getScaledBoundsY2() == getScaledBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
-            //player.setMoveAmountX(moveAmountX);
             player.moveXHandleCollision(map, moveAmountX);
         }
+
+
+
 
         super.update(keyboard, map, player);
 

@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class EnhancedMapTile extends MapEntity {
 
-    private TileType tileType;
+    protected TileType tileType;
 
     public EnhancedMapTile(float x, float y, SpriteSheet spriteSheet, String startingAnimation, TileType tileType) {
         super(x, y, spriteSheet, startingAnimation);

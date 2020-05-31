@@ -22,6 +22,7 @@ public abstract class Player extends GameObject {
     protected float jumpForce = 0;
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
+    protected float mostRecentMoveX, mostRecentMoveY;
     protected PlayerState playerState;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
@@ -187,6 +188,7 @@ public abstract class Player extends GameObject {
                 hasCollided = hasCollidedWithTilesX(map, moveAmountX);
                 if (hasCollided) {
                     super.moveX(-direction);
+                    mostRecentMoveX = i * direction;
                     break;
                 }
             }
@@ -203,6 +205,7 @@ public abstract class Player extends GameObject {
                 hasCollided = hasCollidedWithTilesY(map, moveAmountY);
                 if (hasCollided) {
                     super.moveY(-direction);
+                    mostRecentMoveY = i * direction;
                     break;
                 }
             }
@@ -227,7 +230,7 @@ public abstract class Player extends GameObject {
         int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
         Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j)) {
+            if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j) || hasCollidedWithEnhancedTile(map)) {
                 return true;
             }
         }
@@ -303,6 +306,18 @@ public abstract class Player extends GameObject {
 
     public AirGroundState getAirGroundState() {
         return airGroundState;
+    }
+
+    public Direction getFacingDirection() {
+        return facingDirection;
+    }
+
+    public int getMostRecentMoveX() {
+        return Math.round(mostRecentMoveX);
+    }
+
+    public int getMostRecentMoveY() {
+        return Math.round(mostRecentMoveY);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

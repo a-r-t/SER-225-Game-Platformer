@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite implements IntersectableRectangle {
+public class AnimatedSprite implements IntersectableRectangle {
 	protected float x, y;
 	protected HashMap<String, Frame[]> animations;
 	protected String currentAnimationName = "";

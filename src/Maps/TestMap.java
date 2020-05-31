@@ -8,6 +8,7 @@ import MapEntities.EnhancedMapTile;
 import MapEntities.HorizontalMovingPlatform;
 import Scene.Map;
 import Scene.MapEntity;
+import Scene.TileType;
 import Tilesets.CommonTileset;
 
 import java.awt.*;
@@ -31,8 +32,9 @@ public class TestMap extends Map {
         return new ArrayList<EnhancedMapTile>() {{
             add(new HorizontalMovingPlatform(
                     ImageLoader.load("GreenPlatform.png"),
-                    getPositionByTileIndex(2, 4),
-                    getPositionByTileIndex(5, 4),
+                    getPositionByTileIndex(4, 7),
+                    getPositionByTileIndex(7, 7),
+                    TileType.JUMP_THROUGH_PLATFORM,
                     3,
                     new Rectangle(0, 6,16,4)));
         }};

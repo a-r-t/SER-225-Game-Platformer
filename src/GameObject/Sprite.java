@@ -6,7 +6,7 @@ import Engine.GraphicsHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Sprite extends Rectangle implements IntersectableRectangle {
+public class Sprite extends Rectangle implements IntersectableRectangle {
 	protected BufferedImage image;
     protected Rectangle bounds;
     protected ImageEffect imageEffect;

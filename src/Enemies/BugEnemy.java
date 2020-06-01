@@ -6,7 +6,9 @@ import GameObject.Frame;
 import GameObject.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Scene.*;
+import Scene.Enemy;
+import Scene.Map;
+import Scene.Player;
 import Utils.AirGroundState;
 import Utils.Direction;
 
@@ -17,11 +19,20 @@ public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
     private float movementSpeed = .5f;
-    private Direction facingDirection = Direction.RIGHT;
-    private AirGroundState airGroundState = AirGroundState.GROUND;
+    private Direction facingDirection;
+    private AirGroundState airGroundState;
 
     public BugEnemy(Point location) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_RIGHT");
+        initialize();
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        facingDirection = Direction.RIGHT;
+        currentAnimationName = "WALK_RIGHT";
+        airGroundState = AirGroundState.GROUND;
     }
 
     @Override

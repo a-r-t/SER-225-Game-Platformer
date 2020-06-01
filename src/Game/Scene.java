@@ -1,12 +1,10 @@
 package Game;
 
 import Engine.GraphicsHandler;
-import Engine.Screen;
 import Engine.Keyboard;
-import GameObject.Rectangle;
-import Scene.Map;
+import Engine.Screen;
 import Maps.TestMap;
-import Maps.TestMap2;
+import Scene.Map;
 
 public class Scene extends Screen {
 	private Map testMap;

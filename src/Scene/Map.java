@@ -26,15 +26,12 @@ public abstract class Map {
     protected String mapFileName;
 
     protected ArrayList<Enemy> enemies;
-    protected ArrayList<Enemy> activeEnemies;
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
-    protected ArrayList<EnhancedMapTile> activeEnhancedMapTiles;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
         loadMapFile();
-        this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
         this.startBoundX = 0;
         this.startBoundY = 0;
         this.endBoundX = width * tileset.getScaledSpriteWidth();
@@ -43,9 +40,8 @@ public abstract class Map {
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
         this.enemies = loadEnemies();
-        this.activeEnemies = this.enemies;
         this.enhancedMapTiles = loadEnhancedMapTiles();
-        this.activeEnhancedMapTiles = this.enhancedMapTiles;
+        this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
 
     private void loadMapFile() {
@@ -188,41 +184,23 @@ public abstract class Map {
     public void update(Keyboard keyboard, Kirby player) {
         adjustMovementY(player);
         adjustMovementX(player);
-
-        activeEnemies = loadActiveEnemies();
-        activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
-
         camera.update(keyboard, player);
     }
 
-    private ArrayList<Enemy> loadActiveEnemies() {
-        ArrayList<Enemy> activeEnemies = new ArrayList<>();
-        for (Enemy enemy: enemies) {
-            enemy.calibrate(this);
-            if (enemy.exists() && (camera.contains(enemy) || enemy.isUpdateWhileOffScreen())) {
-                activeEnemies.add(enemy);
-            }
-        }
-        return activeEnemies;
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 
-    private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
-        ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
-        for (EnhancedMapTile enhancedMapTile: enhancedMapTiles) {
-            enhancedMapTile.calibrate(this);
-            if (enhancedMapTile.exists() && (camera.contains(enhancedMapTile) || enhancedMapTile.isUpdateWhileOffScreen())) {
-                activeEnhancedMapTiles.add(enhancedMapTile);
-            }
-        }
-        return activeEnhancedMapTiles;
+    public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
+        return enhancedMapTiles;
     }
 
     public ArrayList<Enemy> getActiveEnemies() {
-        return activeEnemies;
+        return camera.getActiveEnemies();
     }
 
     public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
-        return activeEnhancedMapTiles;
+        return camera.getActiveEnhancedMapTiles();
     }
 
     private void adjustMovementX(Kirby player) {
@@ -273,16 +251,5 @@ public abstract class Map {
 
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);
-
-        for (Enemy enemy : activeEnemies) {
-            if (camera.contains(enemy)) {
-                enemy.draw(graphicsHandler);
-            }
-        }
-        for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-            if (camera.contains(enhancedMapTile)) {
-                enhancedMapTile.draw(graphicsHandler);
-            }
-        }
     }
 }

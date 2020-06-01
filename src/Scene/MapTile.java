@@ -1,11 +1,8 @@
 package Scene;
 
 import Engine.GraphicsHandler;
-
-import GameObject.*;
 import GameObject.Frame;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class MapTile extends MapEntity {

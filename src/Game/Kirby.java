@@ -1,13 +1,13 @@
 package Game;
 
+import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import Engine.Key;
 import Engine.Keyboard;
-import Engine.GraphicsHandler;
-import GameObject.*;
 import GameObject.Frame;
 import GameObject.FrameBuilder;
-import GameObject.Rectangle;
+import GameObject.ImageEffect;
+import GameObject.SpriteSheet;
 import Scene.Map;
 import Scene.Player;
 

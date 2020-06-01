@@ -96,8 +96,7 @@ public class GameObject extends AnimatedSprite {
 		int amountToMove = (int)Math.abs(moveAmountX);
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 		float currentXRemainder = MathUtils.getRemainder(getXRaw());
-		float totalRemainder = moveAmountXRemainder + currentXRemainder;
-		if (totalRemainder >= 1) {
+		if (moveAmountXRemainder + currentXRemainder >= 1) {
 			amountToMove += 1;
 			setX(getX());
 		}
@@ -124,8 +123,7 @@ public class GameObject extends AnimatedSprite {
 		int amountToMove = (int)Math.abs(moveAmountY);
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 		float currentYRemainder = MathUtils.getRemainder(getYRaw());
-		float totalRemainder = moveAmountYRemainder + currentYRemainder;
-		if (totalRemainder >= 1) {
+		if (moveAmountYRemainder + currentYRemainder >= 1) {
 			amountToMove += 1;
 			setY(getY());
 		}
@@ -148,7 +146,7 @@ public class GameObject extends AnimatedSprite {
 		return amountMoved;
 	}
 
-	private boolean hasCollidedWithTilesX(Map map, Direction direction) {
+	protected boolean hasCollidedWithTilesX(Map map, Direction direction) {
 		int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
 		int edgeBoundX = direction == Direction.LEFT ? getScaledBounds().getX1() : getScaledBounds().getX2();
 		Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
@@ -160,7 +158,7 @@ public class GameObject extends AnimatedSprite {
 		return false;
 	}
 
-	private boolean hasCollidedWithTilesY(Map map, Direction direction) {
+	protected boolean hasCollidedWithTilesY(Map map, Direction direction) {
 		int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
 		int edgeBoundY = direction == Direction.UP ? getScaledBounds().getY() : getScaledBounds().getY2();
 		Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
@@ -172,7 +170,7 @@ public class GameObject extends AnimatedSprite {
 		return false;
 	}
 
-	private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex, Direction direction) {
+	protected boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex, Direction direction) {
 		MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
 
 		if (tile == null) {
@@ -191,7 +189,7 @@ public class GameObject extends AnimatedSprite {
 		}
 	}
 
-	private boolean hasCollidedWithEnhancedTile(Map map, Direction direction) {
+	protected boolean hasCollidedWithEnhancedTile(Map map, Direction direction) {
 		for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
 			switch (enhancedMapTile.getTileType()) {
 				case PASSABLE:

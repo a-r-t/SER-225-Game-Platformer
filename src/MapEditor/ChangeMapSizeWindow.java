@@ -1,8 +1,9 @@
 package MapEditor;
 
 import Scene.Map;
-import Utils.Colors;
 import Scene.MapTile;
+import Utils.Colors;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

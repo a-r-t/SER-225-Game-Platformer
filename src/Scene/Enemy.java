@@ -5,9 +5,6 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
-import Scene.MapEntity;
-import Scene.Player;
-import Scene.Map;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -40,6 +37,11 @@ public class Enemy extends MapEntity {
 
     public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
         super(image, x, y, scale, imageEffect, bounds);
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
     }
 
     public void update(Keyboard keyboard, Map map, Player player) {

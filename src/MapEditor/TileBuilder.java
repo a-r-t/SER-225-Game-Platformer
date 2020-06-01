@@ -1,6 +1,8 @@
 package MapEditor;
 
+import Engine.GraphicsHandler;
 import Scene.Map;
+import Scene.MapTile;
 import Utils.Colors;
 
 import javax.swing.*;
@@ -8,9 +10,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-
-import Engine.GraphicsHandler;
-import Scene.MapTile;
 
 public class TileBuilder extends JPanel {
     private Map map;

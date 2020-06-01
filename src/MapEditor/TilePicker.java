@@ -1,19 +1,19 @@
 package MapEditor;
 
+import Engine.GraphicsHandler;
 import Scene.MapTile;
+import Scene.MapTileBuilder;
 import Scene.Tileset;
+import Utils.Colors;
 
 import javax.swing.*;
-import Scene.MapTileBuilder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map.Entry;
-
-import Engine.GraphicsHandler;
-import Utils.Colors;
 
 public class TilePicker extends JPanel {
 

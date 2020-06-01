@@ -1,13 +1,9 @@
 package Scene;
 
+import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
-import GameObject.GameObject;
-import GameObject.IntersectableRectangle;
 import GameObject.Rectangle;
-
-import Engine.GraphicsHandler;
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,6 +15,8 @@ public class Camera extends Rectangle {
     private int tileWidth, tileHeight;
     private int leftoverSpaceX, leftoverSpaceY;
     private float amountMovedX, amountMovedY;
+    private ArrayList<Enemy> activeEnemies = new ArrayList<>();
+    private ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
 
     public Camera(int startX, int startY, int tileWidth, int tileHeight, Map map) {
         super(startX, startY, ScreenManager.getScreenWidth() / tileWidth, ScreenManager.getScreenHeight() / tileHeight);
@@ -38,6 +36,11 @@ public class Camera extends Rectangle {
     }
 
     public void update(Keyboard keyboard, Player player) {
+        updateMapTiles();
+        updateMapEntities(keyboard, player);
+    }
+
+    private void updateMapTiles() {
         Point tileIndex = getTileIndexByCameraPosition();
         for (int i = tileIndex.y - 1; i <= tileIndex.y + height + 1; i++) {
             for (int j = tileIndex.x - 1; j <= tileIndex.x + width + 1; j++) {
@@ -48,6 +51,11 @@ public class Camera extends Rectangle {
                 }
             }
         }
+    }
+
+    public void updateMapEntities(Keyboard keyboard, Player player) {
+        activeEnemies = loadActiveEnemies();
+        activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
 
         for (Enemy enemy: map.getActiveEnemies()) {
             enemy.update(keyboard, map, player);
@@ -58,7 +66,56 @@ public class Camera extends Rectangle {
         }
     }
 
+    private ArrayList<Enemy> loadActiveEnemies() {
+        ArrayList<Enemy> activeEnemies = new ArrayList<>();
+        for (Enemy enemy: map.getEnemies()) {
+            enemy.calibrate(map);
+
+            if (isMapEntityActive(enemy)) {
+                activeEnemies.add(enemy);
+                if (enemy.mapEntityStatus == MapEntityStatus.INACTIVE) {
+                    if (enemy.isRespawnable()) {
+                        enemy.initialize();
+                    }
+                    enemy.setMapEntityStatus(MapEntityStatus.ACTIVE);
+                }
+            } else if (enemy.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
+                enemy.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            }
+        }
+        return activeEnemies;
+    }
+
+    private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
+        ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
+        for (EnhancedMapTile enhancedMapTile: map.getEnhancedMapTiles()) {
+            enhancedMapTile.calibrate(map);
+
+            if (isMapEntityActive(enhancedMapTile)) {
+                activeEnhancedMapTiles.add(enhancedMapTile);
+                if (enhancedMapTile.mapEntityStatus == MapEntityStatus.INACTIVE) {
+                    if (enhancedMapTile.isRespawnable()) {
+                        enhancedMapTile.initialize();
+                    }
+                    enhancedMapTile.setMapEntityStatus(MapEntityStatus.ACTIVE);
+                }
+            } else if (enhancedMapTile.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
+                enhancedMapTile.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            }
+        }
+        return activeEnhancedMapTiles;
+    }
+
+    private boolean isMapEntityActive(MapEntity mapEntity) {
+        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (contains(mapEntity));
+    }
+
     public void draw(GraphicsHandler graphicsHandler) {
+        drawMapTiles(graphicsHandler);
+        drawMapEntities(graphicsHandler);
+    }
+
+    public void drawMapTiles(GraphicsHandler graphicsHandler) {
         Point tileIndex = getTileIndexByCameraPosition();
         for (int i = tileIndex.y - 1; i <= tileIndex.y + height + 1; i++) {
             for (int j = tileIndex.x - 1; j <= tileIndex.x + width + 1; j++) {
@@ -68,7 +125,9 @@ public class Camera extends Rectangle {
                 }
             }
         }
+    }
 
+    public void drawMapEntities(GraphicsHandler graphicsHandler) {
         for (Enemy enemy : map.getActiveEnemies()) {
             if (contains(enemy)) {
                 enemy.draw(graphicsHandler);
@@ -82,8 +141,16 @@ public class Camera extends Rectangle {
     }
 
     public boolean contains(MapEntity mapEntity) {
-        return getX1() < mapEntity.getX() + mapEntity.getScaledWidth() + (startPositionX + amountMovedX) && getEndBoundX() >  mapEntity.getX() + (startPositionX + amountMovedX) &&
-                getY1() <  mapEntity.getY() + (startPositionY + amountMovedY) + mapEntity.getScaledHeight() && getEndBoundY() >  mapEntity.getY() + (startPositionY + amountMovedY);
+        return getX1() - tileWidth - amountMovedX < mapEntity.getX1() && getEndBoundX() + tileWidth - amountMovedX >  mapEntity.getScaledX2() &&
+                getY1() - tileHeight - amountMovedY <  mapEntity.getY1() && getEndBoundY() + tileHeight - amountMovedY >  mapEntity.getScaledY2();
+    }
+
+    public ArrayList<Enemy> getActiveEnemies() {
+        return activeEnemies;
+    }
+
+    public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
+        return activeEnhancedMapTiles;
     }
 
     public int getStartBoundX() {

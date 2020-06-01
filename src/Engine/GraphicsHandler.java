@@ -1,10 +1,11 @@
 package Engine;
 
+import GameObject.ImageEffect;
+
 import java.awt.*;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import GameObject.ImageEffect;
 
 public class GraphicsHandler {
     private Graphics2D g;

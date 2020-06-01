@@ -1,10 +1,11 @@
 package Scene;
 
+import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
-import Engine.GraphicsHandler;
-import GameObject.*;
+import GameObject.GameObject;
+import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
 

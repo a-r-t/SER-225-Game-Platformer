@@ -3,11 +3,11 @@ package Scene;
 import Engine.ImageLoader;
 import GameObject.FrameBuilder;
 import GameObject.SpriteSheet;
+import Utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import Utils.ImageUtils;
 
 public abstract class Tileset extends SpriteSheet {
 

@@ -66,6 +66,10 @@ public class Rectangle implements IntersectableRectangle {
     public int getX2() {
         return (int)x + width;
     }
+
+    public int getScaledX2() {
+		return (int)x + getScaledWidth();
+	}
 	
 	public void setX(float x) {
 		this.x = x;
@@ -94,6 +98,10 @@ public class Rectangle implements IntersectableRectangle {
     public int getY2() {
         return (int)y + height;
     }
+
+	public int getScaledY2() {
+		return (int)y + getScaledHeight();
+	}
 
     public void setY(float y) {
 		this.y = y;

@@ -1,20 +1,15 @@
 package Scene;
 
 import Engine.GraphicsHandler;
-import GameObject.GameObject;
-
-import GameObject.SpriteSheet;
-import GameObject.Frame;
-import GameObject.ImageEffect;
-import GameObject.Rectangle;
+import GameObject.*;
 import Utils.MathUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class MapEntity extends GameObject {
-    protected boolean exists = true;
-    protected boolean updateWhileOffScreen = false;
+    protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
+    protected boolean isRespawnable = true;
     protected float startPositionX, startPositionY;
     protected float moveAmountX, moveAmountY;
     protected float amountMovedX, amountMovedY;
@@ -61,6 +56,11 @@ public class MapEntity extends GameObject {
         this.startPositionY = y;
     }
 
+    public void initialize() {
+        amountMovedX = 0;
+        amountMovedY = 0;
+    }
+
     public int getStartPositionX() {
         return (int)startPositionX;
     }
@@ -69,20 +69,20 @@ public class MapEntity extends GameObject {
         return (int)startPositionY;
     }
 
-    public boolean exists() {
-        return exists;
+    public MapEntityStatus getMapEntityStatus() {
+        return mapEntityStatus;
     }
 
-    public void setExists(boolean exists) {
-        this.exists = exists;
+    public void setMapEntityStatus(MapEntityStatus mapEntityStatus) {
+        this.mapEntityStatus = mapEntityStatus;
     }
 
-    public boolean isUpdateWhileOffScreen() {
-        return updateWhileOffScreen;
+    public boolean isRespawnable() {
+        return isRespawnable;
     }
 
-    public void setUpdateWhileOffScreen(boolean updateWhileOffScreen) {
-        this.updateWhileOffScreen = updateWhileOffScreen;
+    public void setIsRespawnable(boolean isRespawnable) {
+        this.isRespawnable = isRespawnable;
     }
 
     public void calibrate(Map map) {

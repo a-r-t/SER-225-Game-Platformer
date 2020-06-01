@@ -6,7 +6,6 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
-import Scene.*;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -48,6 +47,11 @@ public class EnhancedMapTile extends MapEntity {
     public EnhancedMapTile(BufferedImage image, float x, float y, TileType tileType, float scale, ImageEffect imageEffect, Rectangle bounds) {
         super(image, x, y, scale, imageEffect, bounds);
         this.tileType = tileType;
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
     }
 
     public TileType getTileType() {

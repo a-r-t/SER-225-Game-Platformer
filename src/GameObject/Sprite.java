@@ -1,7 +1,7 @@
 package GameObject;
 
-import Engine.ImageLoader;
 import Engine.GraphicsHandler;
+import Engine.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

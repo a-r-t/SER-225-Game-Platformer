@@ -1,11 +1,15 @@
 package EnhancedMapTiles;
+
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import GameObject.ImageEffect;
-import Scene.*;
-import Utils.Direction;
 import GameObject.Rectangle;
+import Scene.EnhancedMapTile;
+import Scene.Map;
+import Scene.Player;
+import Scene.TileType;
 import Utils.AirGroundState;
+import Utils.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

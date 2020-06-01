@@ -12,10 +12,12 @@ public class SpriteFont {
 	protected Color color;
 	protected Color outlineColor;
 	protected float outlineThickness = 1f;
+	protected int fontSize;
 
 	public SpriteFont(String text, float x, float y, String fontName, int fontSize, Color color) {
 		this.text = text;
 		font = new Font(fontName, Font.PLAIN, fontSize);
+		this.fontSize = fontSize;
 		this.x = x;
 		this.y = y;
 		this.color = color;
@@ -91,10 +93,15 @@ public class SpriteFont {
 	}
 
 	public void draw(GraphicsHandler graphicsHandler) {
-		if (outlineColor != null && !outlineColor.equals(color)) {
-			graphicsHandler.drawStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
-		} else {
-			graphicsHandler.drawString(text, getX(), getY(), font, color);
+		int y = getY();
+		for (String line: text.split("\n")) {
+			if (outlineColor != null && !outlineColor.equals(color)) {
+				graphicsHandler.drawStringWithOutline(line, getX(), y, font, color, outlineColor, outlineThickness);
+			} else {
+				graphicsHandler.drawString(line, getX() - 50, y, font, color);
+			}
+			System.out.println(getX());
+			y += fontSize;
 		}
 	}
 }

@@ -5,6 +5,7 @@ import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
+import Utils.PointExtension;
 
 import java.awt.*;
 import java.io.File;
@@ -27,6 +28,7 @@ public abstract class Map {
 
     protected ArrayList<Enemy> enemies;
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
+    protected ArrayList<NPC> npcs;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
@@ -41,6 +43,7 @@ public abstract class Map {
         this.playerStartTile = playerStartTile;
         this.enemies = loadEnemies();
         this.enhancedMapTiles = loadEnhancedMapTiles();
+        this.npcs = loadNPCs();
         this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
 
@@ -85,14 +88,14 @@ public abstract class Map {
         fileWriter.close();
     }
 
-    public Point getPlayerStartPosition() {
+    public PointExtension getPlayerStartPosition() {
         MapTile tile = getMapTile(playerStartTile.x, playerStartTile.y);
-        return new Point(tile.getX(), tile.getY());
+        return new PointExtension(tile.getX(), tile.getY());
     }
 
-    public Point getPositionByTileIndex(int xIndex, int yIndex) {
+    public PointExtension getPositionByTileIndex(int xIndex, int yIndex) {
         MapTile tile = getMapTile(xIndex, yIndex);
-        return new Point(tile.getX(), tile.getY());
+        return new PointExtension(tile.getX(), tile.getY());
     }
 
     public Tileset getTileset() {
@@ -176,6 +179,9 @@ public abstract class Map {
     protected ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         return new ArrayList<>();
     }
+    protected ArrayList<NPC> loadNPCs() {
+        return new ArrayList<>();
+    }
 
     public Camera getCamera() {
         return camera;
@@ -190,17 +196,20 @@ public abstract class Map {
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
-
     public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
         return enhancedMapTiles;
     }
-
+    public ArrayList<NPC> getNPCs() {
+        return npcs;
+    }
     public ArrayList<Enemy> getActiveEnemies() {
         return camera.getActiveEnemies();
     }
-
     public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
         return camera.getActiveEnhancedMapTiles();
+    }
+    public ArrayList<NPC> getActiveNPCs() {
+        return camera.getActiveNPCs();
     }
 
     private void adjustMovementX(Kirby player) {

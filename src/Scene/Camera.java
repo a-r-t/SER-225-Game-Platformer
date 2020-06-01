@@ -17,6 +17,7 @@ public class Camera extends Rectangle {
     private float amountMovedX, amountMovedY;
     private ArrayList<Enemy> activeEnemies = new ArrayList<>();
     private ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
+    private ArrayList<NPC> activeNPCs = new ArrayList<>();
 
     public Camera(int startX, int startY, int tileWidth, int tileHeight, Map map) {
         super(startX, startY, ScreenManager.getScreenWidth() / tileWidth, ScreenManager.getScreenHeight() / tileHeight);
@@ -56,13 +57,18 @@ public class Camera extends Rectangle {
     public void updateMapEntities(Keyboard keyboard, Player player) {
         activeEnemies = loadActiveEnemies();
         activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
+        activeNPCs = loadActiveNPCs();
 
-        for (Enemy enemy: map.getActiveEnemies()) {
+        for (Enemy enemy : activeEnemies) {
             enemy.update(keyboard, map, player);
         }
 
-        for (EnhancedMapTile enhancedMapTile: map.getActiveEnhancedMapTiles()) {
+        for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
             enhancedMapTile.update(keyboard, map, player);
+        }
+
+        for (NPC npc : activeNPCs) {
+            npc.update(keyboard, map, player);
         }
     }
 
@@ -74,13 +80,13 @@ public class Camera extends Rectangle {
             if (isMapEntityActive(enemy)) {
                 activeEnemies.add(enemy);
                 if (enemy.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (enemy.isRespawnable()) {
-                        enemy.initialize();
-                    }
                     enemy.setMapEntityStatus(MapEntityStatus.ACTIVE);
                 }
             } else if (enemy.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
                 enemy.setMapEntityStatus(MapEntityStatus.INACTIVE);
+                if (enemy.isRespawnable()) {
+                    enemy.initialize();
+                }
             }
         }
         return activeEnemies;
@@ -106,6 +112,26 @@ public class Camera extends Rectangle {
         return activeEnhancedMapTiles;
     }
 
+    private ArrayList<NPC> loadActiveNPCs() {
+        ArrayList<NPC> activeNPCs = new ArrayList<>();
+        for (NPC npc: map.getNPCs()) {
+            npc.calibrate(map);
+
+            if (isMapEntityActive(npc)) {
+                activeNPCs.add(npc);
+                if (npc.mapEntityStatus == MapEntityStatus.INACTIVE) {
+                    if (npc.isRespawnable()) {
+                        npc.initialize();
+                    }
+                    npc.setMapEntityStatus(MapEntityStatus.ACTIVE);
+                }
+            } else if (npc.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
+                npc.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            }
+        }
+        return activeNPCs;
+    }
+
     private boolean isMapEntityActive(MapEntity mapEntity) {
         return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (contains(mapEntity));
     }
@@ -128,21 +154,26 @@ public class Camera extends Rectangle {
     }
 
     public void drawMapEntities(GraphicsHandler graphicsHandler) {
-        for (Enemy enemy : map.getActiveEnemies()) {
+        for (Enemy enemy : activeEnemies) {
             if (contains(enemy)) {
                 enemy.draw(graphicsHandler);
             }
         }
-        for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
+        for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
             if (contains(enhancedMapTile)) {
                 enhancedMapTile.draw(graphicsHandler);
+            }
+        }
+        for (NPC npc : activeNPCs) {
+            if (contains(npc)) {
+                npc.draw(graphicsHandler);
             }
         }
     }
 
     public boolean contains(MapEntity mapEntity) {
-        return getX1() - tileWidth - amountMovedX < mapEntity.getX1() && getEndBoundX() + tileWidth - amountMovedX >  mapEntity.getScaledX2() &&
-                getY1() - tileHeight - amountMovedY <  mapEntity.getY1() && getEndBoundY() + tileHeight - amountMovedY >  mapEntity.getScaledY2();
+        return getX1() - tileWidth < mapEntity.getX1() && getEndBoundX() + tileWidth >  mapEntity.getScaledX2() &&
+                getY1() - tileHeight <  mapEntity.getY1() && getEndBoundY() + tileHeight >  mapEntity.getScaledY2();
     }
 
     public ArrayList<Enemy> getActiveEnemies() {
@@ -151,6 +182,10 @@ public class Camera extends Rectangle {
 
     public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
         return activeEnhancedMapTiles;
+    }
+
+    public ArrayList<NPC> getActiveNPCs() {
+        return activeNPCs;
     }
 
     public int getStartBoundX() {

@@ -1,6 +1,7 @@
 package Scene;
 
 import Engine.GraphicsHandler;
+import Engine.Keyboard;
 import GameObject.*;
 import Utils.MathUtils;
 
@@ -98,7 +99,7 @@ public class MapEntity extends GameObject {
         return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw()) - map.getCamera().getAmountMovedY();
     }
 
-    public void update() {
+    public void update(Keyboard keyboard, Map map, Player player) {
         super.update();
         amountMovedX += (int)moveAmountX;
         amountMovedY += (int)moveAmountY;

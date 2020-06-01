@@ -62,8 +62,9 @@ public class EnhancedMapTile extends MapEntity {
         this.tileType = tileType;
     }
 
+    @Override
     public void update(Keyboard keyboard, Map map, Player player) {
-        super.update();
+        super.update(keyboard, map, player);
     }
 
     @Override

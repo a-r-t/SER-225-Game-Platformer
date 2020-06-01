@@ -4,10 +4,8 @@ import Enemies.BugEnemy;
 import Engine.ImageLoader;
 import EnhancedMapTiles.HorizontalMovingPlatform;
 import GameObject.Rectangle;
-import Scene.Enemy;
-import Scene.EnhancedMapTile;
-import Scene.Map;
-import Scene.TileType;
+import NPCs.Walrus;
+import Scene.*;
 import Tilesets.CommonTileset;
 
 import java.awt.*;
@@ -36,6 +34,15 @@ public class TestMap extends Map {
                     TileType.JUMP_THROUGH_PLATFORM,
                     3,
                     new Rectangle(0, 6,16,4)));
+        }};
+    }
+
+    @Override
+    public ArrayList<NPC> loadNPCs() {
+        return new ArrayList<NPC>() {{
+            add(new Walrus(
+                    getPositionByTileIndex(5, 7).subtract(new Point(0, 11))
+            ));
         }};
     }
 }

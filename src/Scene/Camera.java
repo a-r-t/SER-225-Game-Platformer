@@ -4,6 +4,7 @@ import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
 import GameObject.Rectangle;
+import NPCs.Walrus;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -172,8 +173,8 @@ public class Camera extends Rectangle {
     }
 
     public boolean contains(MapEntity mapEntity) {
-        return getX1() - tileWidth < mapEntity.getX1() && getEndBoundX() + tileWidth >  mapEntity.getScaledX2() &&
-                getY1() - tileHeight <  mapEntity.getY1() && getEndBoundY() + tileHeight >  mapEntity.getScaledY2();
+        return getX1() - tileWidth < mapEntity.getScaledX2() + amountMovedX && getEndBoundX() + tileWidth > mapEntity.getX1() + amountMovedX &&
+                getY1() - tileHeight <  mapEntity.getScaledY2() + amountMovedY && getEndBoundY() + tileHeight >  mapEntity.getY1() + amountMovedY;
     }
 
     public ArrayList<Enemy> getActiveEnemies() {

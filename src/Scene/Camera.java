@@ -19,6 +19,7 @@ public class Camera extends Rectangle {
     private ArrayList<Enemy> activeEnemies = new ArrayList<>();
     private ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
     private ArrayList<NPC> activeNPCs = new ArrayList<>();
+    private final int UPDATE_OFF_SCREEN_RANGE = 4;
 
     public Camera(int startX, int startY, int tileWidth, int tileHeight, Map map) {
         super(startX, startY, ScreenManager.getScreenWidth() / tileWidth, ScreenManager.getScreenHeight() / tileHeight);
@@ -44,8 +45,8 @@ public class Camera extends Rectangle {
 
     private void updateMapTiles() {
         Point tileIndex = getTileIndexByCameraPosition();
-        for (int i = tileIndex.y - 1; i <= tileIndex.y + height + 1; i++) {
-            for (int j = tileIndex.x - 1; j <= tileIndex.x + width + 1; j++) {
+        for (int i = tileIndex.y - UPDATE_OFF_SCREEN_RANGE; i <= tileIndex.y + height + UPDATE_OFF_SCREEN_RANGE; i++) {
+            for (int j = tileIndex.x - UPDATE_OFF_SCREEN_RANGE; j <= tileIndex.x + width + UPDATE_OFF_SCREEN_RANGE; j++) {
                 MapTile tile = map.getMapTile(j, i);
                 if (tile != null) {
                     tile.calibrate(map);
@@ -134,7 +135,7 @@ public class Camera extends Rectangle {
     }
 
     private boolean isMapEntityActive(MapEntity mapEntity) {
-        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (contains(mapEntity));
+        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (containsUpdate(mapEntity));
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
@@ -156,23 +157,30 @@ public class Camera extends Rectangle {
 
     public void drawMapEntities(GraphicsHandler graphicsHandler) {
         for (Enemy enemy : activeEnemies) {
-            if (contains(enemy)) {
+            if (containsDraw(enemy)) {
                 enemy.draw(graphicsHandler);
             }
         }
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-            if (contains(enhancedMapTile)) {
+            if (containsDraw(enhancedMapTile)) {
                 enhancedMapTile.draw(graphicsHandler);
             }
         }
         for (NPC npc : activeNPCs) {
-            if (contains(npc)) {
+            if (containsDraw(npc)) {
                 npc.draw(graphicsHandler);
             }
         }
     }
 
-    public boolean contains(MapEntity mapEntity) {
+    public boolean containsUpdate(MapEntity mapEntity) {
+        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < mapEntity.getScaledX2() + amountMovedX &&
+                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getX1() + amountMovedX &&
+                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  mapEntity.getScaledY2() + amountMovedY
+                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) >  mapEntity.getY1() + amountMovedY;
+    }
+
+    public boolean containsDraw(MapEntity mapEntity) {
         return getX1() - tileWidth < mapEntity.getScaledX2() + amountMovedX && getEndBoundX() + tileWidth > mapEntity.getX1() + amountMovedX &&
                 getY1() - tileHeight <  mapEntity.getScaledY2() + amountMovedY && getEndBoundY() + tileHeight >  mapEntity.getY1() + amountMovedY;
     }

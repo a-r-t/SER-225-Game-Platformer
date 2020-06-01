@@ -1,4 +1,4 @@
-package Map;
+package Scene;
 
 import Engine.Key;
 import Engine.KeyLocker;

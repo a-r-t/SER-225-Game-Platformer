@@ -98,9 +98,8 @@ public class SpriteFont {
 			if (outlineColor != null && !outlineColor.equals(color)) {
 				graphicsHandler.drawStringWithOutline(line, getX(), y, font, color, outlineColor, outlineThickness);
 			} else {
-				graphicsHandler.drawString(line, getX() - 50, y, font, color);
+				graphicsHandler.drawString(line, getX(), y, font, color);
 			}
-			System.out.println(getX());
 			y += fontSize;
 		}
 	}

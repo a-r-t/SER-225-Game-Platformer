@@ -1,14 +1,12 @@
 package Scene;
 
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import GameObject.GameObject;
 
 import GameObject.SpriteSheet;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
-import MapEntities.BugEnemy;
 import Utils.MathUtils;
 
 import java.awt.image.BufferedImage;

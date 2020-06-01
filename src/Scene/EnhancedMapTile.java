@@ -1,4 +1,4 @@
-package MapEntities;
+package Scene;
 
 import Engine.GraphicsHandler;
 import Engine.Keyboard;

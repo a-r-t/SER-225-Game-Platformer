@@ -1,4 +1,4 @@
-package MapEntities;
+package Enemies;
 
 import Engine.ImageLoader;
 import Engine.Keyboard;
@@ -6,10 +6,7 @@ import GameObject.Frame;
 import GameObject.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Scene.Map;
-import Scene.MapTile;
-import Scene.Player;
-import Scene.PlayerState;
+import Scene.*;
 import Utils.AirGroundState;
 import Utils.Direction;
 

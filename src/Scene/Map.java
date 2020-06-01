@@ -5,8 +5,6 @@ import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
-import MapEntities.Enemy;
-import MapEntities.EnhancedMapTile;
 
 import java.awt.*;
 import java.io.File;
@@ -44,7 +42,6 @@ public abstract class Map {
         this.xMidPoint = ScreenManager.getScreenWidth() / 2;
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
-
         this.enemies = loadEnemies();
         this.activeEnemies = this.enemies;
         this.enhancedMapTiles = loadEnhancedMapTiles();
@@ -184,33 +181,18 @@ public abstract class Map {
         return new ArrayList<>();
     }
 
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
-    }
-
-    public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
-        return enhancedMapTiles;
-    }
-
     public Camera getCamera() {
         return camera;
     }
 
     public void update(Keyboard keyboard, Kirby player) {
-        activeEnemies = loadActiveEnemies();
-        activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
-
-        for (Enemy enemy: activeEnemies) {
-            enemy.update(keyboard, this, player);
-        }
-        for (EnhancedMapTile enhancedMapTile: activeEnhancedMapTiles) {
-            enhancedMapTile.update(keyboard, this, player);
-        }
-
         adjustMovementY(player);
         adjustMovementX(player);
 
-        camera.update();
+        activeEnemies = loadActiveEnemies();
+        activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
+
+        camera.update(keyboard, player);
     }
 
     private ArrayList<Enemy> loadActiveEnemies() {
@@ -247,51 +229,19 @@ public abstract class Map {
         int xMidPointDifference = 0;
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
-
-            for (Enemy enemy : activeEnemies) {
-                enemy.moveX(xMidPointDifference);
-            }
-            for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                enhancedMapTile.moveX(xMidPointDifference);
-            }
-
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
                 int cameraDifference = camera.getEndBoundX() - endBoundX;
-
-                for (Enemy enemy : activeEnemies) {
-                    enemy.moveX(cameraDifference);
-                }
-                for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                    enhancedMapTile.moveX(cameraDifference);
-                }
-
                 player.moveX(cameraDifference);
                 camera.moveX(-cameraDifference);
             }
         } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
             xMidPointDifference = xMidPoint - player.getX();
-
-            for (Enemy enemy : activeEnemies) {
-                enemy.moveX(xMidPointDifference);
-            }
-            for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                enhancedMapTile.moveX(xMidPointDifference);
-            }
-
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
                 int cameraDifference = startBoundX - camera.getX();
-
-                for (Enemy enemy : activeEnemies) {
-                    enemy.moveX(-cameraDifference);
-                }
-                for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                    enhancedMapTile.moveX(-cameraDifference);
-                }
-
                 player.moveX(-cameraDifference);
                 camera.moveX(cameraDifference);
             }
@@ -302,51 +252,19 @@ public abstract class Map {
         int yMidPointDifference = 0;
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
             yMidPointDifference = yMidPoint - player.getY();
-
-            for (Enemy enemy : activeEnemies) {
-                enemy.moveY(yMidPointDifference);
-            }
-            for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                enhancedMapTile.moveY(yMidPointDifference);
-            }
-
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
                 int cameraDifference = camera.getEndBoundY() - endBoundY;
-
-                for (Enemy enemy : activeEnemies) {
-                    enemy.moveY(cameraDifference);
-                }
-                for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                    enhancedMapTile.moveX(cameraDifference);
-                }
-
                 player.moveY(cameraDifference);
                 camera.moveY(-cameraDifference);
             }
         } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
             yMidPointDifference = yMidPoint - player.getY();
-
-            for (Enemy enemy : activeEnemies) {
-                enemy.moveY(yMidPointDifference);
-            }
-            for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                enhancedMapTile.moveY(yMidPointDifference);
-            }
-
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {
                 int cameraDifference = startBoundY - camera.getY();
-
-                for (Enemy enemy : activeEnemies) {
-                    enemy.moveY(-cameraDifference);
-                }
-                for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-                    enhancedMapTile.moveY(-cameraDifference);
-                }
-
                 player.moveY(-cameraDifference);
                 camera.moveY(cameraDifference);
             }

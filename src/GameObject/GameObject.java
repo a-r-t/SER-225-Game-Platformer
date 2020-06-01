@@ -1,13 +1,8 @@
 package GameObject;
 
-import Engine.Keyboard;
-import MapEntities.BugEnemy;
-import MapEntities.EnhancedMapTile;
+import Scene.EnhancedMapTile;
 import Scene.Map;
 import Scene.MapTile;
-import Scene.Player;
-import Scene.PlayerState;
-import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.MathUtils;
 

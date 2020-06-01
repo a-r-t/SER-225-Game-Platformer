@@ -1,5 +1,6 @@
 package Scene;
 
+import Engine.Keyboard;
 import Engine.ScreenManager;
 import GameObject.GameObject;
 import GameObject.IntersectableRectangle;
@@ -36,7 +37,7 @@ public class Camera extends Rectangle {
         return new Point(xIndex, yIndex);
     }
 
-    public void update() {
+    public void update(Keyboard keyboard, Player player) {
         Point tileIndex = getTileIndexByCameraPosition();
         for (int i = tileIndex.y - 1; i <= tileIndex.y + height + 1; i++) {
             for (int j = tileIndex.x - 1; j <= tileIndex.x + width + 1; j++) {
@@ -46,6 +47,14 @@ public class Camera extends Rectangle {
                     tile.update();
                 }
             }
+        }
+
+        for (Enemy enemy: map.getActiveEnemies()) {
+            enemy.update(keyboard, map, player);
+        }
+
+        for (EnhancedMapTile enhancedMapTile: map.getActiveEnhancedMapTiles()) {
+            enhancedMapTile.update(keyboard, map, player);
         }
     }
 
@@ -57,6 +66,17 @@ public class Camera extends Rectangle {
                 if (tile != null) {
                     tile.draw(graphicsHandler);
                 }
+            }
+        }
+
+        for (Enemy enemy : map.getActiveEnemies()) {
+            if (contains(enemy)) {
+                enemy.draw(graphicsHandler);
+            }
+        }
+        for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
+            if (contains(enhancedMapTile)) {
+                enhancedMapTile.draw(graphicsHandler);
             }
         }
     }

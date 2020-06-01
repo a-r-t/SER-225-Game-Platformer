@@ -2,12 +2,11 @@ package Maps;
 
 import Engine.ImageLoader;
 import GameObject.Rectangle;
-import MapEntities.BugEnemy;
-import MapEntities.Enemy;
-import MapEntities.EnhancedMapTile;
-import MapEntities.HorizontalMovingPlatform;
+import Enemies.BugEnemy;
+import Scene.Enemy;
+import Scene.EnhancedMapTile;
+import EnhancedMapTiles.HorizontalMovingPlatform;
 import Scene.Map;
-import Scene.MapEntity;
 import Scene.TileType;
 import Tilesets.CommonTileset;
 

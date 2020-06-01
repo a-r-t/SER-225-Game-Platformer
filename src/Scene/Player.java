@@ -5,12 +5,8 @@ import Engine.KeyLocker;
 import Engine.Keyboard;
 import Engine.GraphicsHandler;
 import GameObject.*;
-import GameObject.Rectangle;
-import MapEntities.EnhancedMapTile;
 import Utils.AirGroundState;
 import Utils.Direction;
-
-import java.awt.*;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;

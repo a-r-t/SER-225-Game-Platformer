@@ -1,12 +1,8 @@
-package MapEntities;
+package EnhancedMapTiles;
 import Engine.GraphicsHandler;
-import Engine.ImageLoader;
 import Engine.Keyboard;
 import GameObject.ImageEffect;
-import Scene.Map;
-import Scene.MapEntity;
-import Scene.Player;
-import Scene.TileType;
+import Scene.*;
 import Utils.Direction;
 import GameObject.Rectangle;
 import Utils.AirGroundState;

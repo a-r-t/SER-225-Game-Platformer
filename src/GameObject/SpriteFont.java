@@ -91,10 +91,14 @@ public class SpriteFont {
 	}
 
 	public void draw(GraphicsHandler graphicsHandler) {
-		if (outlineColor != null && !outlineColor.equals(color)) {
-			graphicsHandler.drawStringWithOutline(text, getX(), getY(), font, color, outlineColor, outlineThickness);
-		} else {
-			graphicsHandler.drawString(text, getX(), getY(), font, color);
+		int y = getY();
+		for (String line: text.split("\n")) {
+			if (outlineColor != null && !outlineColor.equals(color)) {
+				graphicsHandler.drawStringWithOutline(line, getX(), y, font, color, outlineColor, outlineThickness);
+			} else {
+				graphicsHandler.drawString(line, getX(), y, font, color);
+			}
+			y += font.getSize();
 		}
 	}
 }

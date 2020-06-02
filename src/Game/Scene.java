@@ -4,8 +4,6 @@ import Engine.GraphicsHandler;
 import Engine.Screen;
 import Engine.Keyboard;
 import GameObject.Rectangle;
-import GameObject.SpriteFont;
-import Map.Map;
 import Scene.Map;
 import Maps.TestMap;
 import Maps.TestMap2;
@@ -13,7 +11,6 @@ import Maps.TestMap2;
 public class Scene extends Screen {
 	private Map testMap;
 	private Kirby kirby;
-	private SpriteFont font;
 
 	@Override
 	public void initialize() {

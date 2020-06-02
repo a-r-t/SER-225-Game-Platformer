@@ -129,6 +129,13 @@ public class CommonTileset extends Tileset {
                     .withScale(tileScale)
                     .build())
             );
+
+            // grey rocks
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 2), 0)
+                    .withScale(tileScale)
+                    .build())
+                    .withTileType(TileType.NOT_PASSABLE)
+            );
         }};
     }
 }

@@ -4,12 +4,10 @@ import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import Engine.Key;
 import Engine.Keyboard;
-import GameObject.FrameBuilder;
-import GameObject.SpriteFont;
-import GameObject.SpriteSheet;
+import GameObject.*;
+import GameObject.Frame;
 import Scene.Map;
 import Scene.MapEntity;
-import GameObject.Frame;
 import Scene.NPC;
 import Scene.Player;
 
@@ -42,11 +40,13 @@ public class Walrus extends NPC {
            put("TAIL_DOWN", new Frame[] {
                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)
                            .withScale(3)
+                           .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                            .build()
            });
             put("TAIL_UP", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(1, 0), 0)
                             .withScale(3)
+                            .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .build()
             });
         }};
@@ -59,8 +59,8 @@ public class Walrus extends NPC {
 
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
-        graphicsHandler.drawFilledRectangleWithBorder(getX() - 4, getY() - 14, 40, 25, Color.WHITE, Color.BLACK, 2);
-        message.setLocation(getX(), getY() + 2);
+        graphicsHandler.drawFilledRectangleWithBorder(getX() - 2, getY() - 24, 40, 25, Color.WHITE, Color.BLACK, 2);
+        message.setLocation(getX() + 2, getY() - 8);
         message.draw(graphicsHandler);
     }
 }

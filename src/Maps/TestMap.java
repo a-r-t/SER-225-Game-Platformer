@@ -41,7 +41,7 @@ public class TestMap extends Map {
     public ArrayList<NPC> loadNPCs() {
         return new ArrayList<NPC>() {{
             add(new Walrus(
-                    getPositionByTileIndex(5, 7).subtract(new Point(0, 11))
+                    getPositionByTileIndex(30, 10).subtract(new Point(0, 13))
             ));
         }};
     }

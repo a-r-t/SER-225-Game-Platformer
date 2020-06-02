@@ -226,7 +226,6 @@ public class AnimatedSprite implements IntersectableRectangle {
 	    return currentFrame.getIntersectRectangle();
     }
 
-    @Override
     public boolean intersects(IntersectableRectangle other) {
         return currentFrame.intersects(other);
     }

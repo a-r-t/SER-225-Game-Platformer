@@ -189,7 +189,6 @@ public class Rectangle implements IntersectableRectangle {
 		return new Rectangle(getX(), getY(), getScaledWidth(), getScaledHeight());
 	}
 
-	@Override
 	public boolean intersects(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();

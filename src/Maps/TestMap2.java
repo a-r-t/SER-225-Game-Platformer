@@ -1,6 +1,5 @@
 package Maps;
 
-import GameObject.Rectangle;
 import Scene.Map;
 import Tilesets.CommonTileset;
 

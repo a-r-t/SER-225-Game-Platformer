@@ -1,12 +1,12 @@
 package GameObject;
 
-import Engine.ImageLoader;
 import Engine.GraphicsHandler;
+import Engine.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Sprite extends Rectangle implements IntersectableRectangle {
+public class Sprite extends Rectangle implements IntersectableRectangle {
 	protected BufferedImage image;
     protected Rectangle bounds;
     protected ImageEffect imageEffect;
@@ -92,7 +92,7 @@ public abstract class Sprite extends Rectangle implements IntersectableRectangle
     }
 
     public int getScaledBoundsX1() {
-        return getX() + Math.round(bounds.getX1() * scale);
+        return getX() + (int)(bounds.getX1() * scale);
     }
 
     public int getScaledBoundsX2() {
@@ -100,7 +100,7 @@ public abstract class Sprite extends Rectangle implements IntersectableRectangle
     }
 
     public int getScaledBoundsY1() {
-        return getY() + Math.round(bounds.getY1() * scale);
+        return getY() + (int)(bounds.getY1() * scale);
     }
 
     public int getScaledBoundsY2() {

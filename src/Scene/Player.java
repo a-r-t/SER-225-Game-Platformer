@@ -1,14 +1,13 @@
 package Scene;
 
+import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
-import Engine.GraphicsHandler;
-import GameObject.*;
-import GameObject.Rectangle;
+import GameObject.GameObject;
+import GameObject.SpriteSheet;
+import Utils.AirGroundState;
 import Utils.Direction;
-
-import java.awt.*;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -48,11 +47,12 @@ public abstract class Player extends GameObject {
 
         previousAirGroundState = airGroundState;
 
-        super.update();
+        super.moveYHandleCollision(map, moveAmountY);
+        super.moveXHandleCollision(map, moveAmountX);
 
-        handleCollisionY(map);
-        handleCollisionX(map);
         updateLockedKeys(keyboard);
+
+        super.update();
     }
 
     protected void handlePlayerState(Keyboard keyboard) {
@@ -167,109 +167,41 @@ public abstract class Player extends GameObject {
         }
     }
 
-    protected void handleCollisionX(Map map) {
-        int amountToMove = Math.abs(Math.round(moveAmountX));
-        if (amountToMove != 0) {
-            boolean hasCollided = false;
-            int direction = moveAmountX < 0 ? -1 : 1;
-            for (int i = 0; i < amountToMove; i++) {
-                moveX(direction);
-                hasCollided = hasCollidedWithTilesX(map);
-                if (hasCollided) {
-                    moveX(-direction);
-                    moveAmountX = i;
-                    break;
-                }
+    @Override
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+
+    }
+
+    @Override
+    public void onEndCollisionCheckY(boolean hasCollided, Direction direction) {
+        if (direction == Direction.DOWN) {
+            if (hasCollided) {
+                momentumY = 0;
+                airGroundState = AirGroundState.GROUND;
+            } else {
+                playerState = PlayerState.JUMPING;
+                airGroundState = AirGroundState.AIR;
+            }
+        } else if (direction == Direction.UP) {
+            if (hasCollided) {
+                jumpForce = 0;
             }
         }
     }
 
-    protected void handleCollisionY(Map map) {
-        int amountToMove = Math.abs(Math.round(moveAmountY));
-        if (amountToMove != 0) {
-            boolean hasCollided = false;
-            int direction = moveAmountY < 0 ? -1 : 1;
-            for (int i = 0; i < amountToMove; i++) {
-                moveY(direction);
-                hasCollided = hasCollidedWithTilesY(map);
-                if (hasCollided) {
-                    moveY(-direction);
-                    moveAmountY = i;
-                    break;
-                }
-            }
-            if (direction == 1) {
-                if (hasCollided) {
-                    momentumY = 0;
-                    airGroundState = AirGroundState.GROUND;
-                } else {
-                    playerState = PlayerState.JUMPING;
-                    airGroundState = AirGroundState.AIR;
-                }
-            } else if (direction == -1) {
-                if (hasCollided) {
-                    jumpForce = 0;
-                }
-            }
-        }
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 
-    private boolean hasCollidedWithTilesX(Map map) {
-        int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-        int edgeBoundX = moveAmountX < 0 ? getScaledBounds().getX1() : getScaledBounds().getX2();
-        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j)) {
-                return true;
-            }
-        }
-        return false;
+    public AirGroundState getAirGroundState() {
+        return airGroundState;
     }
 
-    private boolean hasCollidedWithTilesY(Map map) {
-        int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
-        int edgeBoundY = moveAmountY < 0 ? getScaledBounds().getY() : getScaledBounds().getY2();
-        Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex) {
-        MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
-
-        if (tile == null) {
-            return false;
-        } else {
-            switch (tile.getTileType()) {
-                case PASSABLE:
-                    return false;
-                case NOT_PASSABLE:
-                    return intersects(tile);
-                case JUMP_THROUGH_PLATFORM:
-                    return moveAmountY >= 0 && intersects(tile) && getScaledBoundsY2() >= tile.getScaledBoundsY1();
-                default:
-                    return false;
-            }
-        }
-    }
-
-    public int getMoveAmountX() {
-        return Math.round(moveAmountX);
-    }
-
-    public int getMoveAmountY() {
-        return Math.round(moveAmountY);
+    public Direction getFacingDirection() {
+        return facingDirection;
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
         super.draw(graphicsHandler);
-    }
-
-    protected enum AirGroundState {
-        AIR, GROUND
     }
 }

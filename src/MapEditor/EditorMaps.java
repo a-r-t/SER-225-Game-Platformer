@@ -1,8 +1,8 @@
 package MapEditor;
 
-import Scene.Map;
 import Maps.TestMap;
 import Maps.TestMap2;
+import Scene.Map;
 
 import java.util.HashMap;
 

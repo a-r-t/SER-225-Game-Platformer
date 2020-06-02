@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public abstract class AnimatedSprite implements IntersectableRectangle {
+public class AnimatedSprite implements IntersectableRectangle {
 	protected float x, y;
 	protected HashMap<String, Frame[]> animations;
 	protected String currentAnimationName = "";
@@ -95,12 +95,16 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 		currentFrame.drawBounds(graphicsHandler, color);
     }
 
+    public float getXRaw() { return currentFrame.getXRaw(); }
+    public float getYRaw() { return currentFrame.getYRaw(); }
 	public int getX() { return currentFrame.getX(); }
 	public int getY() { return currentFrame.getY(); }
 	public int getX1() { return currentFrame.getX1(); }
 	public int getY1() { return currentFrame.getY1(); }
 	public int getX2() { return currentFrame.getX2(); }
+	public int getScaledX2() { return currentFrame.getScaledX2(); }
 	public int getY2() { return currentFrame.getY2(); }
+	public int getScaledY2() { return currentFrame.getScaledY2(); }
 
 	public void setX(float x) {
 		this.x = x;
@@ -117,27 +121,33 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	}
 
 	public void moveX(float dx) {
-		setX(x + dx);
+		this.x += dx;
+		currentFrame.moveX(dx);
 	}
 
 	public void moveRight(float dx) {
-		setX(x + dx);
+		this.x += dx;
+		currentFrame.moveX(dx);
 	}
 
 	public void moveLeft(float dx) {
-		setX(x - dx);
+		this.x -= dx;
+		currentFrame.moveLeft(dx);
 	}
 
 	public void moveY(float dy) {
-		setY(y + dy);
+		this.y += dy;
+		currentFrame.moveY(dy);
 	}
 
 	public void moveDown(float dy) {
-		setY(y + dy);
+		this.y += dy;
+		currentFrame.moveDown(dy);
 	}
 
 	public void moveUp(float dy) {
-		setY(y - dy);
+		this.y -= dy;
+		currentFrame.moveUp(dy);
 	}
 
 	public float getScale() {
@@ -216,8 +226,9 @@ public abstract class AnimatedSprite implements IntersectableRectangle {
 	    return currentFrame.getIntersectRectangle();
     }
 
-    @Override
     public boolean intersects(IntersectableRectangle other) {
         return currentFrame.intersects(other);
     }
+
+	public boolean overlaps(IntersectableRectangle other) { return currentFrame.overlaps(other); }
 }

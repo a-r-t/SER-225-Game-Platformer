@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 public class GamePanel extends JPanel {
 	private ScreenManager screenManager;
 	private Timer timer;
-	private Rectangle windowBounds;
 	private Keyboard keyboard;
 	private boolean doPaint = false;
 	private boolean isGamePaused = false;
@@ -78,7 +77,7 @@ public class GamePanel extends JPanel {
 		screenManager.draw(graphicsHandler);
 		if (isGamePaused) {
 			pauseLabel.draw(graphicsHandler);
-			graphicsHandler.drawFilledRectangle(windowBounds.getX(), windowBounds.getY(), windowBounds.getWidth(), windowBounds.getHeight(), new Color(0, 0, 0, 100));
+			graphicsHandler.drawFilledRectangle(0, 0, ScreenManager.getScreenWidth(), ScreenManager.getScreenHeight(), new Color(0, 0, 0, 100));
 		}
 	}
 

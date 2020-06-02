@@ -117,6 +117,25 @@ public class CommonTileset extends Tileset {
                     .build())
                     .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );
+
+            // top water
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 0), 0)
+                    .withScale(tileScale)
+                    .build())
+            );
+
+            // water
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 1), 0)
+                    .withScale(tileScale)
+                    .build())
+            );
+
+            // grey rocks
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 2), 0)
+                    .withScale(tileScale)
+                    .build())
+                    .withTileType(TileType.NOT_PASSABLE)
+            );
         }};
     }
 }

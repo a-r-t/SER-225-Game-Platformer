@@ -1,10 +1,11 @@
 package Engine;
 
+import GameObject.ImageEffect;
+
 import java.awt.*;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import GameObject.ImageEffect;
 
 public class GraphicsHandler {
     private Graphics2D g;
@@ -52,6 +53,11 @@ public class GraphicsHandler {
     public void drawFilledRectangle(int x, int y, int width, int height, Color color) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
+    }
+
+    public void drawFilledRectangleWithBorder(int x, int y, int width, int height, Color fillColor, Color borderColor, int borderThickness) {
+        drawFilledRectangle(x, y, width, height, fillColor);
+        drawRectangle(x, y, width, height, borderColor, borderThickness);
     }
 
     public void drawString(String text, int x, int y, Font font, Color color) {

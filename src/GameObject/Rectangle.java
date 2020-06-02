@@ -47,17 +47,29 @@ public class Rectangle implements IntersectableRectangle {
 		this.borderThickness = 0;
 	}
 
+	public float getXRaw() {
+		return x;
+	}
+
+	public float getYRaw() {
+		return y;
+	}
+
     public int getX() {
-        return Math.round(x);
+        return (int)x;
     }
 
     public int getX1() {
-        return Math.round(x);
+        return (int)x;
     }
 
     public int getX2() {
-        return Math.round(x + width);
+        return (int)x + width;
     }
+
+    public int getScaledX2() {
+		return (int)x + getScaledWidth();
+	}
 	
 	public void setX(float x) {
 		this.x = x;
@@ -76,16 +88,20 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
     public int getY() {
-        return Math.round(y);
+        return (int)y;
     }
 
     public int getY1() {
-        return Math.round(y);
+        return (int)y;
     }
 
     public int getY2() {
-        return Math.round(y + height);
+        return (int)y + height;
     }
+
+	public int getScaledY2() {
+		return (int)y + getScaledHeight();
+	}
 
     public void setY(float y) {
 		this.y = y;
@@ -125,11 +141,11 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
 	public int getScaledWidth() {
-		return Math.round(width * scale);
+		return (int)(width * scale);
 	}
 
 	public int getScaledHeight() {
-		return Math.round(height * scale);
+		return (int)(height * scale);
 	}
 
 	public float getScale() { return scale; }
@@ -173,11 +189,17 @@ public class Rectangle implements IntersectableRectangle {
 		return new Rectangle(getX(), getY(), getScaledWidth(), getScaledHeight());
 	}
 
-	@Override
 	public boolean intersects(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
 		return intersectRectangle.getX1() < otherIntersectRectangle.getX2() && intersectRectangle.getX2() > otherIntersectRectangle.getX1() &&
 				intersectRectangle.getY1() < otherIntersectRectangle.getY2() && intersectRectangle.getY2() > otherIntersectRectangle.getY1();
+	}
+
+	public boolean overlaps(IntersectableRectangle other) {
+		Rectangle intersectRectangle = getIntersectRectangle();
+		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
+		return intersectRectangle.getX1() <= otherIntersectRectangle.getX2() && intersectRectangle.getX2() >= otherIntersectRectangle.getX1() &&
+				intersectRectangle.getY1() <= otherIntersectRectangle.getY2() && intersectRectangle.getY2() >= otherIntersectRectangle.getY1();
 	}
 }

@@ -1,7 +1,5 @@
 package Engine;
 
-import GameObject.Rectangle;
-
 public class DefaultScreen extends Screen {
     public DefaultScreen() { }
 

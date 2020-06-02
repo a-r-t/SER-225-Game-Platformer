@@ -1,6 +1,7 @@
 package Engine;
 
 import Utils.Colors;
+
 import java.awt.*;
 
 public class Config {

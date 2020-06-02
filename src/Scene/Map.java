@@ -191,12 +191,6 @@ public abstract class Map {
         return camera;
     }
 
-    public void update(Keyboard keyboard, Kirby player) {
-        adjustMovementY(player);
-        adjustMovementX(player);
-        camera.update(keyboard, player);
-    }
-
     public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
@@ -216,10 +210,15 @@ public abstract class Map {
         return camera.getActiveNPCs();
     }
 
+    public void update(Keyboard keyboard, Kirby player) {
+        adjustMovementY(player);
+        adjustMovementX(player);
+        camera.update(keyboard, player);
+    }
+
     private void adjustMovementX(Kirby player) {
-        int xMidPointDifference = 0;
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            xMidPointDifference = xMidPoint - player.getX();
+            int xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
@@ -228,7 +227,7 @@ public abstract class Map {
                 camera.moveX(-cameraDifference);
             }
         } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
-            xMidPointDifference = xMidPoint - player.getX();
+            int xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
@@ -240,9 +239,8 @@ public abstract class Map {
     }
 
     private void adjustMovementY(Player player) {
-        int yMidPointDifference = 0;
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            yMidPointDifference = yMidPoint - player.getY();
+            int yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
@@ -251,7 +249,7 @@ public abstract class Map {
                 camera.moveY(-cameraDifference);
             }
         } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
-            yMidPointDifference = yMidPoint - player.getY();
+            int yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {

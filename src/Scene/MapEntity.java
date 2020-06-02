@@ -99,7 +99,7 @@ public class MapEntity extends GameObject {
         return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw()) - map.getCamera().getAmountMovedY();
     }
 
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update() {
         super.update();
         amountMovedX += (int)moveAmountX;
         amountMovedY += (int)moveAmountY;

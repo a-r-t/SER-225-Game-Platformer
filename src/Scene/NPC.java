@@ -63,9 +63,8 @@ public class NPC extends MapEntity {
         return null;
     }
 
-    @Override
     public void update(Keyboard keyboard, Map map, Player player) {
-        super.update(keyboard, map, player);
+        super.update();
         checkTalkedTo(keyboard, player);
     }
 

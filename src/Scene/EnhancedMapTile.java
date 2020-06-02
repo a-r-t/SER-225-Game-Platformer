@@ -46,9 +46,8 @@ public class EnhancedMapTile extends MapTile {
     }
 
 
-    @Override
     public void update(Keyboard keyboard, Map map, Player player) {
-        super.update(keyboard, map, player);
+        super.update();
     }
 
     @Override

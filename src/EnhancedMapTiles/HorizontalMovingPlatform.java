@@ -34,8 +34,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     @Override
     public void update(Keyboard keyboard, Map map, Player player) {
-        moveAmountX = 0;
-        moveAmountY = 0;
+        int moveAmountX = 0;
         if (direction == Direction.RIGHT) {
             moveAmountX += movementSpeed;
         } else if (direction == Direction.LEFT) {

@@ -37,8 +37,8 @@ public class BugEnemy extends Enemy {
 
     @Override
     public void update(Keyboard keyboard, Map map, Player player) {
-        moveAmountX = 0;
-        moveAmountY = 0;
+        float moveAmountX = 0;
+        float moveAmountY = 0;
         moveAmountY += gravity;
 
         if (airGroundState == AirGroundState.GROUND) {
@@ -49,8 +49,8 @@ public class BugEnemy extends Enemy {
             }
         }
 
-        moveAmountY = super.moveYHandleCollision(map, moveAmountY);
-        moveAmountX = super.moveXHandleCollision(map, moveAmountX);
+        moveYHandleCollision(map, moveAmountY);
+        moveXHandleCollision(map, moveAmountX);
 
         super.update(keyboard, map, player);
     }

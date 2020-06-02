@@ -1,5 +1,6 @@
 package Scene;
 
+import Enemies.BugEnemy;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import GameObject.*;
@@ -12,7 +13,7 @@ public class MapEntity extends GameObject {
     protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
     protected boolean isRespawnable = true;
     protected float startPositionX, startPositionY;
-    protected float moveAmountX, moveAmountY;
+    private float moveAmountX, moveAmountY;
     protected float amountMovedX, amountMovedY;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
@@ -58,8 +59,8 @@ public class MapEntity extends GameObject {
     }
 
     public void initialize() {
-        amountMovedX = 0;
-        amountMovedY = 0;
+        this.amountMovedX = 0;
+        this.amountMovedY = 0;
     }
 
     public int getStartPositionX() {
@@ -99,10 +100,24 @@ public class MapEntity extends GameObject {
         return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw()) - map.getCamera().getAmountMovedY();
     }
 
+    @Override
+    public void moveX(float dx) {
+        moveAmountX += dx;
+        super.moveX(dx);
+    }
+
+    @Override
+    public void moveY(float dy) {
+        moveAmountY += dy;
+        super.moveY(dy);
+    }
+
     public void update(Keyboard keyboard, Map map, Player player) {
         super.update();
         amountMovedX += (int)moveAmountX;
         amountMovedY += (int)moveAmountY;
+        moveAmountX = 0;
+        moveAmountY = 0;
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

@@ -105,17 +105,17 @@ public class GameObject extends AnimatedSprite {
 		if (amountToMove != 0) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
-				super.moveX(direction.getVelocity());
+				moveX(direction.getVelocity());
 				hasCollided = hasCollidedWithTilesX(map, direction);
 				if (hasCollided) {
-					super.moveX(-direction.getVelocity());
+					moveX(-direction.getVelocity());
 					break;
 				}
 				amountMoved = (i + 1) * direction.getVelocity();
 			}
 			onEndCollisionCheckX(hasCollided, direction);
 		}
-		super.moveX(moveAmountXRemainder * direction.getVelocity());
+		moveX(moveAmountXRemainder * direction.getVelocity());
 		return amountMoved;
 	}
 
@@ -132,17 +132,17 @@ public class GameObject extends AnimatedSprite {
 		if (amountToMove != 0) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
-				super.moveY(direction.getVelocity());
+				moveY(direction.getVelocity());
 				hasCollided = hasCollidedWithTilesY(map, direction);
 				if (hasCollided) {
-					super.moveY(-direction.getVelocity());
+					moveY(-direction.getVelocity());
 					break;
 				}
 				amountMoved = (i + 1) * direction.getVelocity();
 			}
 			onEndCollisionCheckY(hasCollided, direction);
 		}
-		super.moveY(moveAmountYRemainder * direction.getVelocity());
+		moveY(moveAmountYRemainder * direction.getVelocity());
 		return amountMoved;
 	}
 

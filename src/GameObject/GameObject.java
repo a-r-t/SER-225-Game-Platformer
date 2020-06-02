@@ -151,7 +151,8 @@ public class GameObject extends AnimatedSprite {
 		int edgeBoundX = direction == Direction.LEFT ? getScaledBounds().getX1() : getScaledBounds().getX2();
 		Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
 		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			if (hasCollidedWithTile(map, tileIndex.x, tileIndex.y + j, direction) || hasCollidedWithEnhancedTile(map, direction)) {
+			MapTile mapTile = map.getMapTile(tileIndex.x, tileIndex.y + j);
+			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
 				return true;
 			}
 		}
@@ -163,46 +164,34 @@ public class GameObject extends AnimatedSprite {
 		int edgeBoundY = direction == Direction.UP ? getScaledBounds().getY() : getScaledBounds().getY2();
 		Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
 		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			if (hasCollidedWithTile(map,tileIndex.x + j, tileIndex.y, direction) || hasCollidedWithEnhancedTile(map, direction)) {
+			MapTile mapTile = map.getMapTile(tileIndex.x + j, tileIndex.y);
+			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	protected boolean hasCollidedWithTile(Map map, int xTileIndex, int yTileIndex, Direction direction) {
-		MapTile tile = map.getMapTile(xTileIndex, yTileIndex);
-
-		if (tile == null) {
-			return false;
-		} else {
-			switch (tile.getTileType()) {
-				case PASSABLE:
-					return false;
-				case NOT_PASSABLE:
-					return intersects(tile);
-				case JUMP_THROUGH_PLATFORM:
-					return direction == Direction.DOWN && intersects(tile) && getScaledBoundsY2() - 1 == tile.getScaledBoundsY1();
-				default:
-					return false;
-			}
-		}
-	}
-
 	protected boolean hasCollidedWithEnhancedTile(Map map, Direction direction) {
 		for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
-			switch (enhancedMapTile.getTileType()) {
-				case PASSABLE:
-					return false;
-				case NOT_PASSABLE:
-					return intersects(enhancedMapTile);
-				case JUMP_THROUGH_PLATFORM:
-					return direction == Direction.DOWN && intersects(enhancedMapTile) && getScaledBoundsY2() - 1 == enhancedMapTile.getScaledBoundsY1();
-				default:
-					return false;
+			if (hasCollidedWithMapTile(enhancedMapTile, direction)) {
+				return true;
 			}
 		}
 		return false;
+	}
+
+	protected boolean hasCollidedWithMapTile(MapTile mapTile, Direction direction) {
+		switch (mapTile.getTileType()) {
+			case PASSABLE:
+				return false;
+			case NOT_PASSABLE:
+				return intersects(mapTile);
+			case JUMP_THROUGH_PLATFORM:
+				return direction == Direction.DOWN && intersects(mapTile) && getScaledBoundsY2() - 1 == mapTile.getScaledBoundsY1();
+			default:
+				return false;
+		}
 	}
 
 	public void onEndCollisionCheckX(boolean hasCollided, Direction direction) { }

@@ -10,43 +10,34 @@ import GameObject.SpriteSheet;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public class EnhancedMapTile extends MapEntity {
-
-    protected TileType tileType;
+public class EnhancedMapTile extends MapTile {
 
     public EnhancedMapTile(float x, float y, SpriteSheet spriteSheet, String startingAnimation, TileType tileType) {
-        super(x, y, spriteSheet, startingAnimation);
-        this.tileType = tileType;
+        super(x, y, spriteSheet, startingAnimation, tileType);
     }
 
     public EnhancedMapTile(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, TileType tileType) {
-        super(x, y, animations, startingAnimation);
-        this.tileType = tileType;
+        super(x, y, animations, startingAnimation, tileType);
     }
 
     public EnhancedMapTile(BufferedImage image, float x, float y, String startingAnimation, TileType tileType) {
-        super(image, x, y, startingAnimation);
-        this.tileType = tileType;
+        super(image, x, y, startingAnimation, tileType);
     }
 
     public EnhancedMapTile(BufferedImage image, float x, float y, TileType tileType) {
-        super(image, x, y);
-        this.tileType = tileType;
+        super(image, x, y, tileType);
     }
 
     public EnhancedMapTile(BufferedImage image, float x, float y, TileType tileType, float scale) {
-        super(image, x, y, scale);
-        this.tileType = tileType;
+        super(image, x, y, scale, tileType);
     }
 
     public EnhancedMapTile(BufferedImage image, float x, float y, TileType tileType, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
-        this.tileType = tileType;
+        super(image, x, y, scale, imageEffect, tileType);
     }
 
     public EnhancedMapTile(BufferedImage image, float x, float y, TileType tileType, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
-        this.tileType = tileType;
+        super(image, x, y, scale, imageEffect, bounds, tileType);
     }
 
     @Override
@@ -54,13 +45,6 @@ public class EnhancedMapTile extends MapEntity {
         super.initialize();
     }
 
-    public TileType getTileType() {
-        return tileType;
-    }
-
-    public void setTileType(TileType tileType) {
-        this.tileType = tileType;
-    }
 
     @Override
     public void update(Keyboard keyboard, Map map, Player player) {

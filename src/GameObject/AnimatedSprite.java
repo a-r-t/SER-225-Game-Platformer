@@ -121,27 +121,33 @@ public class AnimatedSprite implements IntersectableRectangle {
 	}
 
 	public void moveX(float dx) {
-		setX(x + dx);
+		this.x += dx;
+		currentFrame.moveX(dx);
 	}
 
 	public void moveRight(float dx) {
-		setX(x + dx);
+		this.x += dx;
+		currentFrame.moveX(dx);
 	}
 
 	public void moveLeft(float dx) {
-		setX(x - dx);
+		this.x -= dx;
+		currentFrame.moveLeft(dx);
 	}
 
 	public void moveY(float dy) {
-		setY(y + dy);
+		this.y += dy;
+		currentFrame.moveY(dy);
 	}
 
 	public void moveDown(float dy) {
-		setY(y + dy);
+		this.y += dy;
+		currentFrame.moveDown(dy);
 	}
 
 	public void moveUp(float dy) {
-		setY(y - dy);
+		this.y -= dy;
+		currentFrame.moveUp(dy);
 	}
 
 	public float getScale() {

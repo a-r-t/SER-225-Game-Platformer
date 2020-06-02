@@ -88,8 +88,8 @@ public class MapEntity extends GameObject {
     }
 
     public void calibrate(Map map) {
-        setX(getCalibratedXLocation(map));
-        setY(getCalibratedYLocation(map));
+        super.setX(getCalibratedXLocation(map));
+        super.setY(getCalibratedYLocation(map));
     }
 
     private float getCalibratedXLocation(Map map) {
@@ -98,6 +98,18 @@ public class MapEntity extends GameObject {
 
     private float getCalibratedYLocation(Map map) {
         return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw()) - map.getCamera().getAmountMovedY();
+    }
+
+    public void update(Keyboard keyboard, Map map, Player player) {
+        super.update();
+        amountMovedX += (int)moveAmountX;
+        amountMovedY += (int)moveAmountY;
+        moveAmountX = 0;
+        moveAmountY = 0;
+    }
+
+    public void draw(GraphicsHandler graphicsHandler) {
+        super.draw(graphicsHandler);
     }
 
     @Override
@@ -112,15 +124,47 @@ public class MapEntity extends GameObject {
         super.moveY(dy);
     }
 
-    public void update(Keyboard keyboard, Map map, Player player) {
-        super.update();
-        amountMovedX += (int)moveAmountX;
-        amountMovedY += (int)moveAmountY;
-        moveAmountX = 0;
-        moveAmountY = 0;
+    @Override
+    public void setX(float x) {
+        float difference = (int)x - getX();
+        moveAmountX += difference;
+        super.setX(x);
     }
 
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
+    @Override
+    public void setY(float y) {
+        float difference = (int)y - getY();
+        moveAmountY += difference;
+        super.setY(y);
+    }
+
+    @Override
+    public void setLocation(float x, float y) {
+        setX(x);
+        setY(y);
+    }
+
+    @Override
+    public void moveRight(float dx) {
+        moveAmountX += dx;
+        super.moveRight(dx);
+    }
+
+    @Override
+    public void moveLeft(float dx) {
+        moveAmountX -= dx;
+        super.moveLeft(dx);
+    }
+
+    @Override
+    public void moveDown(float dy) {
+        moveAmountY += dy;
+        super.moveDown(dy);
+    }
+
+    @Override
+    public void moveUp(float dy) {
+        moveAmountY -= dy;
+        super.moveUp(dy);
     }
 }

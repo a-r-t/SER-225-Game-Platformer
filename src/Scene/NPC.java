@@ -8,7 +8,6 @@ import GameObject.Frame;
 import GameObject.Rectangle;
 import Utils.Timer;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 

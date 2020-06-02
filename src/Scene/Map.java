@@ -165,6 +165,10 @@ public abstract class Map {
         return new Point(xIndex, yIndex);
     }
 
+    public Point getPointCameraAdjusted(Point point) {
+        return new Point(point.x - getCamera().getAmountMovedX(), point.y - getCamera().getAmountMovedY());
+    }
+
     private boolean isInBounds(int x, int y) {
         return x >= 0 && y >= 0 && x < width && y < height;
     }

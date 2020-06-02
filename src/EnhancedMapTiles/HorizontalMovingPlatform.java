@@ -34,6 +34,9 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     @Override
     public void update(Keyboard keyboard, Map map, Player player) {
+        int startBound = map.getPointCameraAdjusted(startLocation).x;
+        int endBound = map.getPointCameraAdjusted(endLocation).x;
+
         int moveAmountX = 0;
         if (direction == Direction.RIGHT) {
             moveAmountX += movementSpeed;
@@ -43,13 +46,13 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
         moveX(moveAmountX);
 
-        if (getX1() + getScaledWidth() >= endLocation.x - map.getCamera().getAmountMovedX()) {
-            int difference = endLocation.x - (getX1() + getScaledWidth()) - map.getCamera().getAmountMovedX();
+        if (getX1() + getScaledWidth() >= endBound) {
+            int difference = endBound - (getX1() + getScaledWidth());
             moveX(-difference);
             moveAmountX -= difference;
             direction = Direction.LEFT;
-        } else if (getX1() <= startLocation.x - map.getCamera().getAmountMovedX()) {
-            int difference = startLocation.x - getX1() - map.getCamera().getAmountMovedX();
+        } else if (getX1() <= startBound) {
+            int difference = startBound - getX1();
             moveX(difference);
             moveAmountX += difference;
             direction = Direction.RIGHT;

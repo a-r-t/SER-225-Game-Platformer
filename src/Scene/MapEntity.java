@@ -1,6 +1,5 @@
 package Scene;
 
-import Enemies.BugEnemy;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import GameObject.*;

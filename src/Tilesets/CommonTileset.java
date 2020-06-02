@@ -4,9 +4,9 @@ import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.FrameBuilder;
 import GameObject.ImageEffect;
-import Map.MapTileBuilder;
-import Map.TileType;
-import Map.Tileset;
+import Scene.MapTileBuilder;
+import Scene.TileType;
+import Scene.Tileset;
 
 import java.util.ArrayList;
 

@@ -6,6 +6,7 @@ import Engine.Keyboard;
 import GameObject.Rectangle;
 import GameObject.SpriteFont;
 import Map.Map;
+import Scene.Map;
 import Maps.TestMap;
 import Maps.TestMap2;
 

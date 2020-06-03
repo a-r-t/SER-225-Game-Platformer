@@ -10,12 +10,12 @@ public class TwoKeyHashMap<K1,K2,V> {
     private Map<K1,Map<K2,V>> tkHashMap;
     
     public TwoKeyHashMap(){
-        tkHashMap = new HashMap<K1,Map<K2,V>>();
+        tkHashMap = new HashMap<K1, Map<K2,V>>();
     }
     
     public V put(K1 k1, K2 k2, V v) {
         Map<K2,V> k2Map = null;
-        if(tkHashMap.containsKey(k1)) {
+        if (tkHashMap.containsKey(k1)) {
             k2Map = tkHashMap.get(k1);
         } else {
             k2Map = new HashMap<K2,V>();
@@ -25,7 +25,7 @@ public class TwoKeyHashMap<K1,K2,V> {
     }
     
     public boolean containsKey(K1 k1, K2 k2) {
-        if(tkHashMap.containsKey(k1)) {
+        if (tkHashMap.containsKey(k1)) {
             Map<K2,V> k2Map = tkHashMap.get(k1);
             return k2Map.containsKey(k2);
         }
@@ -37,7 +37,7 @@ public class TwoKeyHashMap<K1,K2,V> {
     }
     
     public V get(K1 k1, K2 k2) {
-    	if(tkHashMap.containsKey(k1)) {
+    	if (tkHashMap.containsKey(k1)) {
             Map<K2,V> k2Map = tkHashMap.get(k1);
             return k2Map.get(k2);
         }
@@ -49,7 +49,7 @@ public class TwoKeyHashMap<K1,K2,V> {
     }
     
     public V remove(K1 k1, K2 k2) {
-        if(tkHashMap.containsKey(k1)) {
+        if (tkHashMap.containsKey(k1)) {
             Map<K2,V> k2Map = tkHashMap.get(k1);
             return k2Map.remove(k2);
         } 
@@ -71,8 +71,8 @@ public class TwoKeyHashMap<K1,K2,V> {
     
     public List<V> getAllItems(){
         List<V> items = new ArrayList<V>();
-        for(Map<K2,V> k2Map : tkHashMap.values()) {
-            for(V value : k2Map.values()) {
+        for (Map<K2,V> k2Map : tkHashMap.values()) {
+            for (V value : k2Map.values()) {
                 items.add(value);
             }
         }
@@ -80,7 +80,7 @@ public class TwoKeyHashMap<K1,K2,V> {
     }
     
     public void clear() {
-        for(Map<K2,V> k2Map : tkHashMap.values()) {
+        for (Map<K2,V> k2Map : tkHashMap.values()) {
             k2Map.clear();
         }
         tkHashMap.clear();

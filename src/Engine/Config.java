@@ -3,7 +3,6 @@ package Engine;
 import java.awt.Color;
 import Utils.Colors;
 
-
 public class Config {
     public static final int FPS = 100;
     public static final String RESOURCES_PATH = "Resources/";

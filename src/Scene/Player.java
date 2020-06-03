@@ -10,7 +10,6 @@ import Utils.Direction;
 import Utils.TwoKeyHashMap;
 
 import java.awt.*;
-import java.util.HashMap;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;

@@ -2,7 +2,7 @@ package MapEditor;
 
 import Engine.GraphicsHandler;
 import Scene.MapTile;
-import Scene.MapTileBuilder;
+import Builders.MapTileBuilder;
 import Scene.Tileset;
 import Utils.Colors;
 

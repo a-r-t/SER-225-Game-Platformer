@@ -1,7 +1,8 @@
-package Scene;
+package Builders;
 
 import GameObject.Frame;
-import GameObject.GameObjectBuilder;
+import Scene.MapTile;
+import Scene.TileType;
 
 public class MapTileBuilder extends GameObjectBuilder {
 

@@ -1,4 +1,8 @@
-package GameObject;
+package Builders;
+
+import GameObject.Frame;
+import GameObject.ImageEffect;
+import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
 

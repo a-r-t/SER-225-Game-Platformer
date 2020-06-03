@@ -1,5 +1,6 @@
 package GameObject;
 
+import Builders.FrameBuilder;
 import Scene.EnhancedMapTile;
 import Scene.Map;
 import Scene.MapTile;

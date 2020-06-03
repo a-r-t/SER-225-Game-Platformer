@@ -3,7 +3,7 @@ package Enemies;
 import Engine.ImageLoader;
 import Engine.Keyboard;
 import GameObject.Frame;
-import GameObject.FrameBuilder;
+import Builders.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Scene.Enemy;

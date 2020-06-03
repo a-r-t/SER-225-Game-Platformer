@@ -1,6 +1,8 @@
-package GameObject;
+package Builders;
 
-import java.awt.image.BufferedImage;
+import GameObject.Frame;
+import GameObject.GameObject;
+
 import java.util.Arrays;
 import java.util.HashMap;
 

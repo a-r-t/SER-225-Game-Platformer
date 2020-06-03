@@ -1,4 +1,8 @@
-package GameObject;
+package Builders;
+
+import GameObject.Frame;
+import GameObject.ImageEffect;
+import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
 
@@ -25,7 +29,7 @@ public class FrameBuilder {
     }
 
     public FrameBuilder withBounds(float x, float y, int width, int height) {
-        this.bounds = new Rectangle(Math.round(x), Math.round(y), width, height);
+        this.bounds = new Rectangle((int)x, (int)y, width, height);
         return this;
     }
 

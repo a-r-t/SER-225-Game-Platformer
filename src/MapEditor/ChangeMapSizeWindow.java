@@ -1,8 +1,9 @@
 package MapEditor;
 
 import Scene.Map;
-import Utils.Colors;
 import Scene.MapTile;
+import Utils.Colors;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,7 +72,6 @@ public class ChangeMapSizeWindow {
         heightTextField.setText(String.valueOf(map.getHeight()));
         mainPanel.add(heightLabel);
         mainPanel.add(heightTextField);
-
 
         JLabel heightTopOrBottomLabel = new JLabel("Height change from top or bottom side of map?");
         heightTopOrBottomLabel.setLocation(10, 140);

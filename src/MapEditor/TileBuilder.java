@@ -1,6 +1,8 @@
 package MapEditor;
 
+import Engine.GraphicsHandler;
 import Scene.Map;
+import Scene.MapTile;
 import Utils.Colors;
 
 import javax.swing.*;
@@ -9,24 +11,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
-import Engine.GraphicsHandler;
-import Scene.MapTile;
-
 public class TileBuilder extends JPanel {
     private Map map;
     private MapTile hoveredMapTile;
     private SelectedTileIndexHolder controlPanelHolder;
     private GraphicsHandler graphicsHandler = new GraphicsHandler();
+    private JLabel hoveredTileIndexLabel;
 
-    public TileBuilder(SelectedTileIndexHolder controlPanelHolder) {
+    public TileBuilder(SelectedTileIndexHolder controlPanelHolder, JLabel hoveredTileIndexLabel) {
         setBackground(Colors.MAGENTA);
         setLocation(0, 0);
         setPreferredSize(new Dimension(585, 562));
         this.controlPanelHolder = controlPanelHolder;
+        this.hoveredTileIndexLabel = hoveredTileIndexLabel;
         addMouseListener(new MouseListener() {
             @Override
             public void mouseExited(MouseEvent e) {
                 hoveredMapTile = null;
+                hoveredTileIndexLabel.setText("");
                 repaint();
             }
 
@@ -34,6 +36,7 @@ public class TileBuilder extends JPanel {
             public void mousePressed(MouseEvent e) {
                 tileSelected(e.getPoint());
             }
+
             @Override
             public void mouseClicked(MouseEvent e) { }
 
@@ -43,6 +46,7 @@ public class TileBuilder extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) { }
         });
+
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -98,6 +102,9 @@ public class TileBuilder extends JPanel {
 
     public void tileHovered(Point hoveredPoint) {
         this.hoveredMapTile = getHoveredTile(hoveredPoint);
+        int hoveredIndexX = this.hoveredMapTile.getX() / map.getTileset().getScaledSpriteWidth();
+        int hoveredIndexY = this.hoveredMapTile.getY() / map.getTileset().getScaledSpriteHeight();
+        hoveredTileIndexLabel.setText("X: " + hoveredIndexX + ", Y: " + hoveredIndexY);
         repaint();
     }
 

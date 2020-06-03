@@ -2,9 +2,9 @@ package Tilesets;
 
 import Engine.ImageLoader;
 import GameObject.Frame;
-import GameObject.FrameBuilder;
+import Builders.FrameBuilder;
 import GameObject.ImageEffect;
-import Scene.MapTileBuilder;
+import Builders.MapTileBuilder;
 import Scene.TileType;
 import Scene.Tileset;
 
@@ -116,6 +116,25 @@ public class CommonTileset extends Tileset {
                     .withBounds(0, 6, 16, 3)
                     .build())
                     .withTileType(TileType.JUMP_THROUGH_PLATFORM)
+            );
+
+            // top water
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 0), 0)
+                    .withScale(tileScale)
+                    .build())
+            );
+
+            // water
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 1), 0)
+                    .withScale(tileScale)
+                    .build())
+            );
+
+            // grey rocks
+            add(new MapTileBuilder(new FrameBuilder(getSubImage(3, 2), 0)
+                    .withScale(tileScale)
+                    .build())
+                    .withTileType(TileType.NOT_PASSABLE)
             );
         }};
     }

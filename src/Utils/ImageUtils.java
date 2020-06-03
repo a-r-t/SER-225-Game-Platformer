@@ -1,14 +1,7 @@
 package Utils;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.Buffer;
 
 public class ImageUtils {
 	// https://stackoverflow.com/a/665428

@@ -2,15 +2,17 @@ package Scene;
 
 import Engine.Config;
 import Engine.GraphicsHandler;
+import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
-import GameObject.Rectangle;
+import Utils.PointExtension;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class Map {
@@ -22,13 +24,16 @@ public abstract class Map {
     protected Point playerStartTile;
     protected int xMidPoint, yMidPoint;
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
-    private String mapFileName;
+    protected String mapFileName;
+
+    protected ArrayList<Enemy> enemies;
+    protected ArrayList<EnhancedMapTile> enhancedMapTiles;
+    protected ArrayList<NPC> npcs;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
         loadMapFile();
-        this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
         this.startBoundX = 0;
         this.startBoundY = 0;
         this.endBoundX = width * tileset.getScaledSpriteWidth();
@@ -36,6 +41,10 @@ public abstract class Map {
         this.xMidPoint = ScreenManager.getScreenWidth() / 2;
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
+        this.enemies = loadEnemies();
+        this.enhancedMapTiles = loadEnhancedMapTiles();
+        this.npcs = loadNPCs();
+        this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
 
     private void loadMapFile() {
@@ -79,9 +88,14 @@ public abstract class Map {
         fileWriter.close();
     }
 
-    public Point getPlayerStartPosition() {
+    public PointExtension getPlayerStartPosition() {
         MapTile tile = getMapTile(playerStartTile.x, playerStartTile.y);
-        return new Point(tile.getX(), tile.getY());
+        return new PointExtension(tile.getX(), tile.getY());
+    }
+
+    public PointExtension getPositionByTileIndex(int xIndex, int yIndex) {
+        MapTile tile = getMapTile(xIndex, yIndex);
+        return new PointExtension(tile.getX(), tile.getY());
     }
 
     public Tileset getTileset() {
@@ -146,9 +160,13 @@ public abstract class Map {
     }
 
     public Point getTileIndexByPosition(int xPosition, int yPosition) {
-        int xIndex = (xPosition + camera.getX()) / Math.round(tileset.getScaledSpriteWidth());
-        int yIndex = (yPosition + camera.getY()) / Math.round(tileset.getScaledSpriteHeight());
+        int xIndex = (xPosition + camera.getX()) / tileset.getScaledSpriteWidth();
+        int yIndex = (yPosition + camera.getY()) / tileset.getScaledSpriteHeight();
         return new Point(xIndex, yIndex);
+    }
+
+    public Point getPointCameraAdjusted(Point point) {
+        return new Point(point.x - getCamera().getAmountMovedX(), point.y - getCamera().getAmountMovedY());
     }
 
     private boolean isInBounds(int x, int y) {
@@ -159,16 +177,48 @@ public abstract class Map {
         return x + width * y;
     }
 
-    public void update(Kirby player) {
+    protected ArrayList<Enemy> loadEnemies() {
+        return new ArrayList<>();
+    }
+    protected ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
+        return new ArrayList<>();
+    }
+    protected ArrayList<NPC> loadNPCs() {
+        return new ArrayList<>();
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+    public ArrayList<EnhancedMapTile> getEnhancedMapTiles() {
+        return enhancedMapTiles;
+    }
+    public ArrayList<NPC> getNPCs() {
+        return npcs;
+    }
+    public ArrayList<Enemy> getActiveEnemies() {
+        return camera.getActiveEnemies();
+    }
+    public ArrayList<EnhancedMapTile> getActiveEnhancedMapTiles() {
+        return camera.getActiveEnhancedMapTiles();
+    }
+    public ArrayList<NPC> getActiveNPCs() {
+        return camera.getActiveNPCs();
+    }
+
+    public void update(Keyboard keyboard, Kirby player) {
         adjustMovementY(player);
         adjustMovementX(player);
-        camera.update();
+        camera.update(keyboard, player);
     }
 
     private void adjustMovementX(Kirby player) {
-        int xMidPointDifference = 0;
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            xMidPointDifference = xMidPoint - player.getX();
+            int xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
@@ -177,7 +227,7 @@ public abstract class Map {
                 camera.moveX(-cameraDifference);
             }
         } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
-            xMidPointDifference = xMidPoint - player.getX();
+            int xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
@@ -189,9 +239,8 @@ public abstract class Map {
     }
 
     private void adjustMovementY(Player player) {
-        int yMidPointDifference = 0;
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            yMidPointDifference = yMidPoint - player.getY();
+            int yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
@@ -200,7 +249,7 @@ public abstract class Map {
                 camera.moveY(-cameraDifference);
             }
         } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
-            yMidPointDifference = yMidPoint - player.getY();
+            int yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {

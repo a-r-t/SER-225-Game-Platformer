@@ -1,13 +1,14 @@
 package Scene;
 
+import Builders.MapTileBuilder;
 import Engine.ImageLoader;
-import GameObject.FrameBuilder;
+import Builders.FrameBuilder;
 import GameObject.SpriteSheet;
+import Utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import Utils.ImageUtils;
 
 public abstract class Tileset extends SpriteSheet {
 
@@ -39,11 +40,11 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public int getScaledSpriteWidth() {
-        return Math.round(spriteWidth * tileScale);
+        return (int)(spriteWidth * tileScale);
     }
 
     public int getScaledSpriteHeight() {
-        return Math.round(spriteHeight * tileScale);
+        return (int)(spriteHeight * tileScale);
     }
 
     public HashMap<Integer, MapTileBuilder> mapDefinedTilesToIndex() {

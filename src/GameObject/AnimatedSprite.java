@@ -231,4 +231,9 @@ public class AnimatedSprite implements IntersectableRectangle {
     }
 
 	public boolean overlaps(IntersectableRectangle other) { return currentFrame.overlaps(other); }
+
+	@Override
+	public String toString() {
+		return String.format("Current Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", getX(), getY(), getScaledWidth(), getScaledHeight(), getScaledBoundsX1(), getScaledBoundsY1(), getScaledBounds().getWidth(), getScaledBounds().getHeight());
+	}
 }

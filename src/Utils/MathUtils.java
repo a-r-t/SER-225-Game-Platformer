@@ -13,7 +13,7 @@ public class MathUtils {
 		}
 		else {
 			double magic = (float) Math.pow(10, n-1);
-			float result = (float) (Math.round(value * magic) /magic);
+			float result = (float) (Math.round(value * magic) / magic);
 			return result;
 		}
 	}

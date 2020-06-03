@@ -211,13 +211,13 @@ public abstract class Map {
         return camera.getActiveNPCs();
     }
 
-    public void update(Keyboard keyboard, Kirby player) {
-        adjustMovementY(player);
+    public void update(Keyboard keyboard, Player player) {
         adjustMovementX(player);
+        adjustMovementY(player);
         camera.update(keyboard, player);
     }
 
-    private void adjustMovementX(Kirby player) {
+    private void adjustMovementX(Player player) {
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             int xMidPointDifference = xMidPoint - player.getX();
             adjustPlayerAndCamera(player, xMidPointDifference, AxisState.HORIZONTAL);
@@ -257,10 +257,12 @@ public abstract class Map {
 		switch (movement) {
 			case HORIZONTAL:
 				player.moveX(differece);
-				camera.moveX(differece);
+				camera.moveX(-differece);
+				break;
 			case VERTICAL:
 				player.moveY(differece);
 				camera.moveY(-differece);
+				break;
 		}
 	}
 

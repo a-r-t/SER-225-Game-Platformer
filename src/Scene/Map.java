@@ -5,6 +5,7 @@ import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
+import Utils.AxisState;
 import Utils.PointExtension;
 
 import java.awt.*;
@@ -219,46 +220,49 @@ public abstract class Map {
     private void adjustMovementX(Kirby player) {
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             int xMidPointDifference = xMidPoint - player.getX();
-            player.moveX(xMidPointDifference);
-            camera.moveX(-xMidPointDifference);
+            adjustPlayerAndCamera(player, xMidPointDifference, AxisState.HORIZONTAL);
             if (camera.getEndBoundX() > endBoundX) {
                 int cameraDifference = camera.getEndBoundX() - endBoundX;
-                player.moveX(cameraDifference);
-                camera.moveX(-cameraDifference);
+                adjustPlayerAndCamera(player, cameraDifference, AxisState.HORIZONTAL);
             }
         } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
             int xMidPointDifference = xMidPoint - player.getX();
-            player.moveX(xMidPointDifference);
-            camera.moveX(-xMidPointDifference);
+            adjustPlayerAndCamera(player, xMidPointDifference, AxisState.HORIZONTAL);
             if (camera.getX() < startBoundX) {
                 int cameraDifference = startBoundX - camera.getX();
-                player.moveX(-cameraDifference);
-                camera.moveX(cameraDifference);
+                adjustPlayerAndCamera(player, -cameraDifference, AxisState.HORIZONTAL);
             }
         }
     }
 
-    private void adjustMovementY(Player player) {
+	private void adjustMovementY(Player player) {
         if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
             int yMidPointDifference = yMidPoint - player.getY();
-            player.moveY(yMidPointDifference);
-            camera.moveY(-yMidPointDifference);
+            adjustPlayerAndCamera(player, yMidPointDifference, AxisState.VERTICAL);
             if (camera.getEndBoundY() > endBoundY) {
                 int cameraDifference = camera.getEndBoundY() - endBoundY;
-                player.moveY(cameraDifference);
-                camera.moveY(-cameraDifference);
+                adjustPlayerAndCamera(player, cameraDifference, AxisState.VERTICAL);
             }
         } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
             int yMidPointDifference = yMidPoint - player.getY();
-            player.moveY(yMidPointDifference);
-            camera.moveY(-yMidPointDifference);
+            adjustPlayerAndCamera(player, yMidPointDifference, AxisState.VERTICAL);
             if (camera.getY() < startBoundY) {
                 int cameraDifference = startBoundY - camera.getY();
-                player.moveY(-cameraDifference);
-                camera.moveY(cameraDifference);
+                adjustPlayerAndCamera(player, -cameraDifference, AxisState.VERTICAL);
             }
         }
     }
+	
+	private void adjustPlayerAndCamera(Player player, int differece, AxisState movement) {
+		switch (movement) {
+			case HORIZONTAL:
+				player.moveX(differece);
+				camera.moveX(differece);
+			case VERTICAL:
+				player.moveY(differece);
+				camera.moveY(-differece);
+		}
+	}
 
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);

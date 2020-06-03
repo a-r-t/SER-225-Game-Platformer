@@ -1,13 +1,12 @@
 package NPCs;
 
+import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
-import Engine.Key;
 import Engine.Keyboard;
 import GameObject.*;
 import GameObject.Frame;
 import Scene.Map;
-import Scene.MapEntity;
 import Scene.NPC;
 import Scene.Player;
 

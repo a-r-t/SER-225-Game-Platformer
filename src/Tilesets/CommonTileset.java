@@ -2,9 +2,9 @@ package Tilesets;
 
 import Engine.ImageLoader;
 import GameObject.Frame;
-import GameObject.FrameBuilder;
+import Builders.FrameBuilder;
 import GameObject.ImageEffect;
-import Scene.MapTileBuilder;
+import Builders.MapTileBuilder;
 import Scene.TileType;
 import Scene.Tileset;
 

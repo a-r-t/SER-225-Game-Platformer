@@ -1,7 +1,8 @@
 package Scene;
 
+import Builders.MapTileBuilder;
 import Engine.ImageLoader;
-import GameObject.FrameBuilder;
+import Builders.FrameBuilder;
 import GameObject.SpriteSheet;
 import Utils.ImageUtils;
 

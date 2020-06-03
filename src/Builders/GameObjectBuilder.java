@@ -1,4 +1,7 @@
-package GameObject;
+package Builders;
+
+import GameObject.Frame;
+import GameObject.GameObject;
 
 import java.util.Arrays;
 import java.util.HashMap;

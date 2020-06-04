@@ -49,7 +49,7 @@ public abstract class Player extends GameObject {
 
         super.moveYHandleCollision(map, moveAmountY);
         super.moveXHandleCollision(map, moveAmountX);
-
+        System.out.println("PLAYER X: " + getX());
         updateLockedKeys(keyboard);
 
         super.update();

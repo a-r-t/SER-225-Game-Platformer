@@ -1,9 +1,11 @@
 package GameObject;
 
 import Builders.FrameBuilder;
+import EnhancedMapTiles.HorizontalMovingPlatform;
 import Scene.EnhancedMapTile;
 import Scene.Map;
 import Scene.MapTile;
+import Scene.Player;
 import Utils.Direction;
 import Utils.MathUtils;
 
@@ -100,10 +102,11 @@ public class GameObject extends AnimatedSprite {
 		if (moveAmountXRemainder + currentXRemainder >= 1) {
 			amountToMove += 1;
 			setX(getX());
+			moveAmountXRemainder = 0;
 		}
 		int amountMoved = 0;
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-		if (amountToMove != 0) {
+		if (amountToMove > 0) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveX(direction.getVelocity());
@@ -116,7 +119,7 @@ public class GameObject extends AnimatedSprite {
 			}
 			onEndCollisionCheckX(hasCollided, direction);
 		}
-		moveX(moveAmountXRemainder * direction.getVelocity());
+		moveX(moveAmountXRemainder);
 		return amountMoved;
 	}
 
@@ -127,10 +130,11 @@ public class GameObject extends AnimatedSprite {
 		if (moveAmountYRemainder + currentYRemainder >= 1) {
 			amountToMove += 1;
 			setY(getY());
+			moveAmountYRemainder = 0;
 		}
 		int amountMoved = 0;
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
-		if (amountToMove != 0) {
+		if (amountToMove > 0) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveY(direction.getVelocity());
@@ -143,7 +147,7 @@ public class GameObject extends AnimatedSprite {
 			}
 			onEndCollisionCheckY(hasCollided, direction);
 		}
-		moveY(moveAmountYRemainder * direction.getVelocity());
+		moveY(moveAmountYRemainder);
 		return amountMoved;
 	}
 

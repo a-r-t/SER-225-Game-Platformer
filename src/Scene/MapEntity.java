@@ -91,20 +91,20 @@ public class MapEntity extends GameObject {
         super.setY(getCalibratedYLocation(map));
     }
 
-    protected float getPureXLocation(Map map) {
+    protected float getPureXLocation() {
         return getStartPositionX() + amountMovedX + MathUtils.getRemainder(getXRaw());
     }
 
-    protected float getPureYLocation(Map map) {
+    protected float getPureYLocation() {
         return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw());
     }
 
     protected float getCalibratedXLocation(Map map) {
-        return getPureXLocation(map) - map.getCamera().getAmountMovedX();
+        return getPureXLocation() - map.getCamera().getAmountMovedX();
     }
 
     protected float getCalibratedYLocation(Map map) {
-        return getPureYLocation(map) - map.getCamera().getAmountMovedY();
+        return getPureYLocation() - map.getCamera().getAmountMovedY();
     }
 
     public void update() {

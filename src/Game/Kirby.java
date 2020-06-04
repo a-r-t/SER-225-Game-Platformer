@@ -19,9 +19,9 @@ public class Kirby extends Player {
         super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT");
         gravity = .5f;
         terminalVelocityY = 6f;
-        jumpHeight = 15.5f;
+        jumpHeight = 14.5f;
         jumpDegrade = .5f;
-        walkSpeed = 2f;
+        walkSpeed = 1.5f;
         momentumYIncrease = .5f;
         JUMP_KEY = Key.W;
         MOVE_LEFT_KEY = Key.A;

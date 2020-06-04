@@ -216,7 +216,7 @@ public abstract class Map {
         camera.update(keyboard, player);
     }
 
-    private void adjustMovementX(Kirby player) {
+    private void adjustMovementX(Player player) {
         if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
             int xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);

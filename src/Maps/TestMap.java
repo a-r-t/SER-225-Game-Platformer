@@ -22,20 +22,20 @@ public class TestMap extends Map {
     public ArrayList<Enemy> loadEnemies() {
         return new ArrayList<Enemy>() {{
            add(new BugEnemy(getPositionByTileIndex(2, 9)));
-           add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2)));
+           //add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2)));
         }};
     }
 
     @Override
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         return new ArrayList<EnhancedMapTile>() {{
-            add(new HorizontalMovingPlatform(
-                    ImageLoader.load("GreenPlatform.png"),
-                    getPositionByTileIndex(4, 7),
-                    getPositionByTileIndex(7, 7),
-                    TileType.JUMP_THROUGH_PLATFORM,
-                    3,
-                    new Rectangle(0, 6,16,4)));
+//            add(new HorizontalMovingPlatform(
+//                    ImageLoader.load("GreenPlatform.png"),
+//                    getPositionByTileIndex(20, 0),
+//                    getPositionByTileIndex(24, 0),
+//                    TileType.JUMP_THROUGH_PLATFORM,
+//                    3,
+//                    new Rectangle(0, 6,16,4)));
         }};
     }
 

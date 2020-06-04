@@ -80,13 +80,13 @@ public class DinosaurEnemy extends Enemy {
                 int fireballX;
                 float movementSpeed;
                 if (facingDirection == Direction.RIGHT) {
-                    fireballX = (int)getPureXLocation(map) + getScaledWidth();
+                    fireballX = (int)getPureXLocation() + getScaledWidth();
                     movementSpeed = 1.5f;
                 } else {
-                    fireballX = (int)getPureXLocation(map);
+                    fireballX = (int)getPureXLocation();
                     movementSpeed = -1.5f;
                 }
-                int fireballY = (int)getPureYLocation(map) + 4;
+                int fireballY = (int)getPureYLocation() + 4;
                 Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000);
                 map.getEnemies().add(fireball);
                 dinosaurState = DinosaurState.WALK;

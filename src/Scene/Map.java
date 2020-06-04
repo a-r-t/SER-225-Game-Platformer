@@ -217,8 +217,8 @@ public abstract class Map {
     }
 
     private void adjustMovementX(Player player) {
-        if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            int xMidPointDifference = xMidPoint - player.getX();
+        if (player.getXRaw() > xMidPoint && camera.getEndBoundX() < endBoundX) {
+            float xMidPointDifference = xMidPoint - player.getXRaw();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
@@ -226,8 +226,8 @@ public abstract class Map {
                 player.moveX(cameraDifference);
                 camera.moveX(-cameraDifference);
             }
-        } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
-            int xMidPointDifference = xMidPoint - player.getX();
+        } else if (player.getXRaw() < xMidPoint && camera.getX() > startBoundX) {
+            float xMidPointDifference = xMidPoint - player.getXRaw();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
@@ -239,7 +239,7 @@ public abstract class Map {
     }
 
     private void adjustMovementY(Player player) {
-        if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
+        if (player.getYRaw() > yMidPoint && camera.getEndBoundY() < endBoundY) {
             int yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);

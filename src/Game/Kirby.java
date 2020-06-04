@@ -21,7 +21,7 @@ public class Kirby extends Player {
         terminalVelocityY = 6f;
         jumpHeight = 14.5f;
         jumpDegrade = .5f;
-        walkSpeed = 1.5f;
+        walkSpeed = .5f;
         momentumYIncrease = .5f;
         JUMP_KEY = Key.W;
         MOVE_LEFT_KEY = Key.A;

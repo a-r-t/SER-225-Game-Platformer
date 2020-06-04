@@ -38,6 +38,7 @@ public abstract class Player extends GameObject {
     }
 
     public void update(Keyboard keyboard, Map map) {
+
         moveAmountX = 0;
         moveAmountY = 0;
 
@@ -47,12 +48,13 @@ public abstract class Player extends GameObject {
 
         previousAirGroundState = airGroundState;
 
+        super.update();
+
         super.moveYHandleCollision(map, moveAmountY);
         super.moveXHandleCollision(map, moveAmountX);
-        System.out.println("PLAYER X: " + getX());
+        System.out.println(this);
         updateLockedKeys(keyboard);
 
-        super.update();
     }
 
     protected void handlePlayerState(Keyboard keyboard) {

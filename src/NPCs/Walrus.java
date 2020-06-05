@@ -15,8 +15,8 @@ import java.util.HashMap;
 
 public class Walrus extends NPC {
 
-    public Walrus(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "TAIL_DOWN", 5000);
+    public Walrus(Point location, Map map) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "TAIL_DOWN", 5000, map);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Walrus extends NPC {
     }
 
     public void update(Keyboard keyboard, Map map, Player player) {
-        super.update(keyboard, map, player);
+        super.update(keyboard, player);
         if (talkedTo) {
             currentAnimationName = "TAIL_UP";
         } else {

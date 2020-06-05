@@ -26,8 +26,8 @@ public class DinosaurEnemy extends Enemy {
     protected DinosaurState dinosaurState;
     protected DinosaurState previousDinosaurState;
 
-    public DinosaurEnemy(Point startLocation, Point endLocation) {
-        super(startLocation.x, startLocation.y, new SpriteSheet(ImageLoader.load("DinosaurEnemy.png"), 14, 17), "WALK_RIGHT");
+    public DinosaurEnemy(Point startLocation, Point endLocation, Map map) {
+        super(startLocation.x, startLocation.y, new SpriteSheet(ImageLoader.load("DinosaurEnemy.png"), 14, 17), "WALK_RIGHT", map);
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         initialize();
@@ -45,7 +45,7 @@ public class DinosaurEnemy extends Enemy {
     }
 
     @Override
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update(Keyboard keyboard, Player player) {
         int startBound = map.getPointCameraAdjusted(startLocation).x;
         int endBound = map.getPointCameraAdjusted(endLocation).x;
 
@@ -80,20 +80,20 @@ public class DinosaurEnemy extends Enemy {
                 int fireballX;
                 float movementSpeed;
                 if (facingDirection == Direction.RIGHT) {
-                    fireballX = (int)getPureXLocation() + getScaledWidth();
+                    fireballX = Math.round(getPureXLocation()) + getScaledWidth();
                     movementSpeed = 1.5f;
                 } else {
-                    fireballX = (int)getPureXLocation();
+                    fireballX = Math.round(getPureXLocation());
                     movementSpeed = -1.5f;
                 }
-                int fireballY = (int)getPureYLocation() + 4;
-                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000);
+                int fireballY = Math.round(getPureYLocation()) + 4;
+                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000, map);
                 map.getEnemies().add(fireball);
                 dinosaurState = DinosaurState.WALK;
                 shootTimer.setWaitTime(2000);
             }
         }
-        super.update(keyboard, map, player);
+        super.update(keyboard, player);
         previousDinosaurState = dinosaurState;
     }
 

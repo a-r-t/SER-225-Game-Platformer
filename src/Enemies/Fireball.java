@@ -19,8 +19,8 @@ public class Fireball extends Enemy {
     private float movementSpeed;
     private Timer existenceTimer = new Timer();
 
-    public Fireball(Point location, float movementSpeed, int existenceTime) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Fireball.png"), 7, 7), "DEFAULT");
+    public Fireball(Point location, float movementSpeed, int existenceTime, Map map) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Fireball.png"), 7, 7), "DEFAULT", map);
         this.movementSpeed = movementSpeed;
         existenceTimer.setWaitTime(existenceTime);
         isRespawnable = false;
@@ -28,12 +28,12 @@ public class Fireball extends Enemy {
     }
 
     @Override
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update(Keyboard keyboard, Player player) {
         if (existenceTimer.isTimeUp()) {
             this.mapEntityStatus = MapEntityStatus.REMOVED;
         } else {
             moveXHandleCollision(map, movementSpeed);
-            super.update(keyboard, map, player);
+            super.update(keyboard, player);
         }
     }
 

@@ -70,7 +70,7 @@ public class TilePicker extends JPanel {
 
                 int x = j * tileset.getScaledSpriteWidth() + ((j * 5) + 5);
                 int y = i * tileset.getScaledSpriteHeight() + ((i * 5) + 5);
-                MapTile tile = mapTileBuilders.get(tileKeys[currentKeyIndex]).build(x, y);
+                MapTile tile = mapTileBuilders.get(tileKeys[currentKeyIndex]).build(x, y, null);
                 mapTiles.put(currentKeyIndex, tile);
                 currentKeyIndex++;
             }

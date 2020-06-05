@@ -54,7 +54,7 @@ public class SpriteFont {
 	}
 
 	public int getX() {
-		return (int)x;
+		return Math.round(x);
 	}
 
 	public void setX(float x) {
@@ -62,7 +62,7 @@ public class SpriteFont {
 	}
 
 	public int getY() {
-		return (int)y;
+		return Math.round(y);
 	}
 
 	public void setY(float y) {

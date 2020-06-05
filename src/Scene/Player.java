@@ -8,6 +8,8 @@ import GameObject.GameObject;
 import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.MathUtils;
+import GameObject.Rectangle;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -28,6 +30,7 @@ public abstract class Player extends GameObject {
     protected Key MOVE_LEFT_KEY = Key.A;
     protected Key MOVE_RIGHT_KEY = Key.D;
     protected Key CROUCH_KEY = Key.S;
+
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -50,9 +53,8 @@ public abstract class Player extends GameObject {
 
         super.update();
 
-        super.moveYHandleCollision(map, moveAmountY);
-        super.moveXHandleCollision(map, moveAmountX);
-        System.out.println(this);
+        amountMovedX += super.moveYHandleCollision(map, moveAmountY);
+        amountMovedY += super.moveXHandleCollision(map, moveAmountX);
         updateLockedKeys(keyboard);
 
     }

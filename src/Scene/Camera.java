@@ -49,7 +49,6 @@ public class Camera extends Rectangle {
             for (int j = tileIndex.x - UPDATE_OFF_SCREEN_RANGE; j <= tileIndex.x + width + UPDATE_OFF_SCREEN_RANGE; j++) {
                 MapTile tile = map.getMapTile(j, i);
                 if (tile != null) {
-                    tile.calibrate(map);
                     tile.update();
                 }
             }
@@ -62,22 +61,21 @@ public class Camera extends Rectangle {
         activeNPCs = loadActiveNPCs();
 
         for (Enemy enemy : activeEnemies) {
-            enemy.update(keyboard, map, player);
+            enemy.update(keyboard, player);
         }
 
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-            enhancedMapTile.update(keyboard, map, player);
+            enhancedMapTile.update(keyboard, player);
         }
 
         for (NPC npc : activeNPCs) {
-            npc.update(keyboard, map, player);
+            npc.update(keyboard, player);
         }
     }
 
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (Enemy enemy: map.getEnemies()) {
-            enemy.calibrate(map);
 
             if (isMapEntityActive(enemy)) {
                 activeEnemies.add(enemy);
@@ -97,7 +95,6 @@ public class Camera extends Rectangle {
     private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
         for (EnhancedMapTile enhancedMapTile: map.getEnhancedMapTiles()) {
-            enhancedMapTile.calibrate(map);
 
             if (isMapEntityActive(enhancedMapTile)) {
                 activeEnhancedMapTiles.add(enhancedMapTile);
@@ -117,7 +114,6 @@ public class Camera extends Rectangle {
     private ArrayList<NPC> loadActiveNPCs() {
         ArrayList<NPC> activeNPCs = new ArrayList<>();
         for (NPC npc: map.getNPCs()) {
-            npc.calibrate(map);
 
             if (isMapEntityActive(npc)) {
                 activeNPCs.add(npc);
@@ -205,28 +201,28 @@ public class Camera extends Rectangle {
         return getY();
     }
 
-    public int getEndBoundX() {
-        return getX1() + (width * tileWidth) + leftoverSpaceX;
+    public float getEndBoundX() {
+        return x + (width * tileWidth) + leftoverSpaceX;
     }
 
-    public int getEndBoundY() {
-        return getY1() + (height * tileHeight) + leftoverSpaceY;
+    public float getEndBoundY() {
+        return y + (height * tileHeight) + leftoverSpaceY;
     }
 
-    public int getStartPositionX() {
-        return (int)startPositionX;
+    public float getStartPositionX() {
+        return startPositionX;
     }
 
-    public int getStartPositionY() {
-        return (int)startPositionY;
+    public float getStartPositionY() {
+        return startPositionY;
     }
 
-    public int getAmountMovedX() {
-        return (int)amountMovedX;
+    public float getAmountMovedX() {
+        return amountMovedX;
     }
 
-    public int getAmountMovedY() {
-        return (int)amountMovedY;
+    public float getAmountMovedY() {
+        return amountMovedY;
     }
 
     @Override

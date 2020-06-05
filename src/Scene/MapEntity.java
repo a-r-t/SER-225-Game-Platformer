@@ -13,48 +13,55 @@ public class MapEntity extends GameObject {
     protected boolean isRespawnable = true;
     protected float startPositionX, startPositionY;
     private float moveAmountX, moveAmountY;
-    protected float amountMovedX, amountMovedY;
+    protected Map map;
 
-    public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
+    public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation, Map map) {
         super(spriteSheet, x, y, startingAnimation);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
-    public MapEntity(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+    public MapEntity(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, Map map) {
         super(x, y, animations, startingAnimation);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
-    public MapEntity(BufferedImage image, float x, float y, String startingAnimation) {
+    public MapEntity(BufferedImage image, float x, float y, String startingAnimation, Map map) {
         super(image, x, y, startingAnimation);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
-    public MapEntity(BufferedImage image, float x, float y) {
+    public MapEntity(BufferedImage image, float x, float y, Map map) {
         super(image, x, y);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale) {
+    public MapEntity(BufferedImage image, float x, float y, float scale, Map map) {
         super(image, x, y, scale);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
+    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Map map) {
         super(image, x, y, scale, imageEffect);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
+    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
         super(image, x, y, scale, imageEffect, bounds);
         this.startPositionX = x;
         this.startPositionY = y;
+        this.map = map;
     }
 
     public void initialize() {
@@ -63,11 +70,11 @@ public class MapEntity extends GameObject {
     }
 
     public int getStartPositionX() {
-        return (int)startPositionX;
+        return Math.round(startPositionX);
     }
 
     public int getStartPositionY() {
-        return (int)startPositionY;
+        return Math.round(startPositionY);
     }
 
     public MapEntityStatus getMapEntityStatus() {
@@ -91,32 +98,13 @@ public class MapEntity extends GameObject {
         super.setY(getCalibratedYLocation(map));
     }
 
-    protected float getPureXLocation() {
-        return getStartPositionX() + amountMovedX + MathUtils.getRemainder(getXRaw());
-    }
-
-    protected float getPureYLocation() {
-        return getStartPositionY() + amountMovedY + MathUtils.getRemainder(getYRaw());
-    }
-
-    protected float getCalibratedXLocation(Map map) {
-        return getPureXLocation() - map.getCamera().getAmountMovedX();
-    }
-
-    protected float getCalibratedYLocation(Map map) {
-        return getPureYLocation() - map.getCamera().getAmountMovedY();
-    }
 
     public void update() {
         super.update();
-        amountMovedX += (int)moveAmountX;
-        amountMovedY += (int)moveAmountY;
+        amountMovedX += Math.round(moveAmountX);
+        amountMovedY += Math.round(moveAmountY);
         moveAmountX = 0;
         moveAmountY = 0;
-    }
-
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
     }
 
     @Override
@@ -133,14 +121,14 @@ public class MapEntity extends GameObject {
 
     @Override
     public void setX(float x) {
-        float difference = (int)x - getX();
+        float difference = x - this.x;
         moveAmountX += difference;
         super.setX(x);
     }
 
     @Override
     public void setY(float y) {
-        float difference = (int)y - getY();
+        float difference = y - this.y;
         moveAmountY += difference;
         super.setY(y);
     }
@@ -173,5 +161,25 @@ public class MapEntity extends GameObject {
     public void moveUp(float dy) {
         moveAmountY -= dy;
         super.moveUp(dy);
+    }
+
+    @Override
+    public Rectangle getIntersectRectangle() {
+        return new Rectangle(
+                Math.round(getCalibratedXLocation(map)),
+                Math.round(getCalibratedYLocation(map)),
+                currentFrame.getScaledWidth(),
+                currentFrame.getScaledHeight());
+    }
+
+    @Override
+    public void draw(GraphicsHandler graphicsHandler) {
+        graphicsHandler.drawImage(
+                currentFrame.getImage(),
+                Math.round(getCalibratedXLocation(map)),
+                Math.round(getCalibratedYLocation(map)),
+                currentFrame.getScaledWidth(),
+                currentFrame.getScaledHeight(),
+                currentFrame.getImageEffect());
     }
 }

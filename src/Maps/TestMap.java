@@ -20,31 +20,30 @@ public class TestMap extends Map {
 
     @Override
     public ArrayList<Enemy> loadEnemies() {
-        return new ArrayList<Enemy>() {{
-           add(new BugEnemy(getPositionByTileIndex(2, 9)));
-           //add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2)));
-        }};
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new BugEnemy(getPositionByTileIndex(2, 9), this));
+        //enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), this));
+        return enemies;
     }
 
     @Override
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
-        return new ArrayList<EnhancedMapTile>() {{
-//            add(new HorizontalMovingPlatform(
-//                    ImageLoader.load("GreenPlatform.png"),
-//                    getPositionByTileIndex(20, 0),
-//                    getPositionByTileIndex(24, 0),
-//                    TileType.JUMP_THROUGH_PLATFORM,
-//                    3,
-//                    new Rectangle(0, 6,16,4)));
-        }};
+        ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
+//        enhancedMapTiles.add(new HorizontalMovingPlatform(
+//            ImageLoader.load("GreenPlatform.png"),
+//            getPositionByTileIndex(20, 0),
+//            getPositionByTileIndex(24, 0),
+//            TileType.JUMP_THROUGH_PLATFORM,
+//            3,
+//            new Rectangle(0, 6,16,4),
+//            this));
+        return enhancedMapTiles;
     }
 
     @Override
     public ArrayList<NPC> loadNPCs() {
-        return new ArrayList<NPC>() {{
-            add(new Walrus(
-                    getPositionByTileIndex(30, 10).subtract(new Point(0, 13))
-            ));
-        }};
+        ArrayList<NPC> npcs = new ArrayList<>();
+        npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
+        return npcs;
     }
 }

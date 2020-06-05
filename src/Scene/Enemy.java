@@ -11,32 +11,32 @@ import java.util.HashMap;
 
 public class Enemy extends MapEntity {
 
-    public Enemy(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
-        super(x, y, spriteSheet, startingAnimation);
+    public Enemy(float x, float y, SpriteSheet spriteSheet, String startingAnimation, Map map) {
+        super(x, y, spriteSheet, startingAnimation, map);
     }
 
-    public Enemy(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
-        super(x, y, animations, startingAnimation);
+    public Enemy(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, Map map) {
+        super(x, y, animations, startingAnimation, map);
     }
 
-    public Enemy(BufferedImage image, float x, float y, String startingAnimation) {
-        super(image, x, y, startingAnimation);
+    public Enemy(BufferedImage image, float x, float y, String startingAnimation, Map map) {
+        super(image, x, y, startingAnimation, map);
     }
 
-    public Enemy(BufferedImage image, float x, float y) {
-        super(image, x, y);
+    public Enemy(BufferedImage image, float x, float y, Map map) {
+        super(image, x, y, map);
     }
 
-    public Enemy(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale);
+    public Enemy(BufferedImage image, float x, float y, float scale, Map map) {
+        super(image, x, y, scale, map);
     }
 
-    public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
+    public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Map map) {
+        super(image, x, y, scale, imageEffect, map);
     }
 
-    public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
+    public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
+        super(image, x, y, scale, imageEffect, bounds, map);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Enemy extends MapEntity {
         super.initialize();
     }
 
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update(Keyboard keyboard, Player player) {
         super.update();
         if (intersects(player)) {
             touchedPlayer(player);

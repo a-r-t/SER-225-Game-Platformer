@@ -20,8 +20,8 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
     private float movementSpeed = 1f;
     private Direction direction;
 
-    public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, TileType tileType, float scale, Rectangle bounds) {
-        super(image, startLocation.x, startLocation.y, tileType, scale, ImageEffect.NONE, bounds);
+    public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, TileType tileType, float scale, Rectangle bounds, Map map) {
+        super(image, startLocation.x, startLocation.y, tileType, scale, ImageEffect.NONE, bounds, map);
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.initialize();
@@ -33,7 +33,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
     }
 
     @Override
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update(Keyboard keyboard, Player player) {
         int startBound = map.getPointCameraAdjusted(startLocation).x;
         int endBound = map.getPointCameraAdjusted(endLocation).x;
 
@@ -70,7 +70,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
             player.moveXHandleCollision(map, moveAmountX);
         }
 
-        super.update(keyboard, map, player);
+        super.update(keyboard, player);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

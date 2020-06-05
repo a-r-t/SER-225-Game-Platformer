@@ -16,17 +16,25 @@ import java.util.HashMap;
 
 public class GameObject extends AnimatedSprite {
 
+	protected float startPositionX, startPositionY;
+	protected float amountMovedX, amountMovedY;
 
 	public GameObject(SpriteSheet spriteSheet, float x, float y, String startingAnimation) {
 		super(spriteSheet, x, y, startingAnimation);
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
 	public GameObject(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
 		super(x, y, animations, startingAnimation);
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
 	public GameObject(BufferedImage image, float x, float y, String startingAnimation) {
 		super(image, x, y, startingAnimation);
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
 	public GameObject(BufferedImage image, float x, float y) {
@@ -38,6 +46,8 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
 	public GameObject(BufferedImage image, float x, float y, float scale) {
@@ -51,6 +61,8 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
 	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
@@ -65,6 +77,8 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
 	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
@@ -80,8 +94,25 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
 	}
 
+	public float getCalibratedXLocation(Map map) {
+		return getPureXLocation() - map.getCamera().getAmountMovedX();
+	}
+
+	public float getCalibratedYLocation(Map map) {
+		return getPureYLocation() - map.getCamera().getAmountMovedY();
+	}
+
+	public float getPureXLocation() {
+		return startPositionX + amountMovedX;
+	}
+
+	public float getPureYLocation() {
+		return startPositionY + amountMovedY;
+	}
 
 	public void update() {
 		super.update();
@@ -107,7 +138,6 @@ public class GameObject extends AnimatedSprite {
 		}
 		int amountMoved = 0;
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-		moveX(moveAmountXRemainder * direction.getVelocity());
 
 		if (amountToMove > 0) {
 			boolean hasCollided = false;
@@ -116,12 +146,14 @@ public class GameObject extends AnimatedSprite {
 				hasCollided = hasCollidedWithTilesX(map, direction);
 				if (hasCollided) {
 					moveX(-direction.getVelocity());
+					System.out.println("COLLIDE");
 					break;
 				}
 				amountMoved = (i + 1) * direction.getVelocity();
 			}
 			onEndCollisionCheckX(hasCollided, direction);
 		}
+		moveX(moveAmountXRemainder * direction.getVelocity());
 
 		return amountMoved;
 	}
@@ -131,7 +163,7 @@ public class GameObject extends AnimatedSprite {
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 		float currentYRemainder = MathUtils.getRemainder(getYRaw());
 
-		if (moveAmountYRemainder + currentYRemainder >= 1) {
+		if (moveAmountYRemainder + currentYRemainder >= .5) {
 			amountToMove += 1;
 			setY(getY());
 		} else {

@@ -56,19 +56,19 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
     public int getX() {
-        return (int)x;
+        return Math.round(x);
     }
 
     public int getX1() {
-        return (int)x;
+        return Math.round(x);
     }
 
     public int getX2() {
-        return (int)x + width;
+        return Math.round(x) + width;
     }
 
     public int getScaledX2() {
-		return (int)x + getScaledWidth();
+		return Math.round(x) + getScaledWidth();
 	}
 	
 	public void setX(float x) {
@@ -88,19 +88,19 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
     public int getY() {
-        return (int)y;
+        return Math.round(y);
     }
 
     public int getY1() {
-        return (int)y;
+        return Math.round(y);
     }
 
     public int getY2() {
-        return (int)y + height;
+        return Math.round(y) + height;
     }
 
 	public int getScaledY2() {
-		return (int)y + getScaledHeight();
+		return Math.round(y) + getScaledHeight();
 	}
 
     public void setY(float y) {
@@ -141,11 +141,11 @@ public class Rectangle implements IntersectableRectangle {
 	}
 
 	public int getScaledWidth() {
-		return (int)(width * scale);
+		return Math.round(width * scale);
 	}
 
 	public int getScaledHeight() {
-		return (int)(height * scale);
+		return Math.round(height * scale);
 	}
 
 	public float getScale() { return scale; }

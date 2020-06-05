@@ -8,7 +8,7 @@ import GameObject.Rectangle;
 import NPCs.Walrus;
 import Scene.*;
 import Tilesets.CommonTileset;
-
+import Utils.Point;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class TestMap extends Map {
     @Override
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        enemies.add(new BugEnemy(getPositionByTileIndex(2, 9), this));
+        //enemies.add(new BugEnemy(getPositionByTileIndex(2, 9), this));
         //enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), this));
         return enemies;
     }
@@ -43,7 +43,7 @@ public class TestMap extends Map {
     @Override
     public ArrayList<NPC> loadNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
-        npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
+        //npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
         return npcs;
     }
 }

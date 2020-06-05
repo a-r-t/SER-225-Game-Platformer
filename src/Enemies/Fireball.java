@@ -11,7 +11,7 @@ import Scene.MapEntityStatus;
 import Scene.Player;
 import Utils.Direction;
 import Utils.Timer;
-
+import Utils.Point;
 import java.awt.*;
 import java.util.HashMap;
 

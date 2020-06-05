@@ -75,35 +75,35 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
         return new Rectangle(getBoundsX1(), getBoundsY1(), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
-    public int getBoundsX1() {
-        return getX() + bounds.getX1();
+    public float getBoundsX1() {
+        return getXRaw() + bounds.getX1();
     }
 
-    public int getBoundsX2() {
-        return getX() + bounds.getX2();
+    public float getBoundsX2() {
+        return getXRaw() + bounds.getX2();
     }
 
-    public int getBoundsY1() {
-        return getY() + bounds.getY1();
+    public float getBoundsY1() {
+        return getYRaw() + bounds.getY1();
     }
 
-    public int getBoundsY2() {
-        return getY() + bounds.getY2();
+    public float getBoundsY2() {
+        return getYRaw() + bounds.getY2();
     }
 
-    public int getScaledBoundsX1() {
-        return getX() + Math.round(bounds.getX1() * scale);
+    public float getScaledBoundsX1() {
+        return getXRaw() + Math.round(bounds.getX1() * scale);
     }
 
-    public int getScaledBoundsX2() {
+    public float getScaledBoundsX2() {
         return getScaledBoundsX1() + bounds.getScaledWidth();
     }
 
-    public int getScaledBoundsY1() {
-        return getY() + Math.round(bounds.getY1() * scale);
+    public float getScaledBoundsY1() {
+        return getYRaw() + Math.round(bounds.getY1() * scale);
     }
 
-    public int getScaledBoundsY2() {
+    public float getScaledBoundsY2() {
         return getScaledBoundsY1() + bounds.getScaledHeight();
     }
 
@@ -112,7 +112,7 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
     }
 
     public void setBounds(Rectangle bounds) {
-        this.bounds = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), scale);
+        this.bounds = new Rectangle(bounds.getXRaw(), bounds.getYRaw(), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
     public void setBounds(float x, float y, int width, int height) {
@@ -130,7 +130,7 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
 	
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {
-		graphicsHandler.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
+		graphicsHandler.drawImage(image, Math.round(getX()), Math.round(getY()), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {

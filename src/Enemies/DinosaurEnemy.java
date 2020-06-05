@@ -9,6 +9,7 @@ import GameObject.SpriteSheet;
 import Scene.Enemy;
 import Scene.Map;
 import Scene.Player;
+import Utils.Point;
 import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.Timer;
@@ -46,8 +47,8 @@ public class DinosaurEnemy extends Enemy {
 
     @Override
     public void update(Keyboard keyboard, Player player) {
-        int startBound = map.getPointCameraAdjusted(startLocation).x;
-        int endBound = map.getPointCameraAdjusted(endLocation).x;
+        float startBound = map.getPointCameraAdjusted(startLocation).x;
+        float endBound = map.getPointCameraAdjusted(endLocation).x;
 
         if (shootTimer.isTimeUp() && dinosaurState != DinosaurState.SHOOT) {
             dinosaurState = DinosaurState.SHOOT;
@@ -63,11 +64,11 @@ public class DinosaurEnemy extends Enemy {
             }
 
             if (getX1() + getScaledWidth() >= endBound) {
-                int difference = endBound - (getScaledX2());
+                float difference = endBound - (getScaledX2());
                 moveXHandleCollision(map, -difference);
                 facingDirection = Direction.LEFT;
             } else if (getX1() <= startBound) {
-                int difference = startBound - getX1();
+                float difference = startBound - getX1();
                 moveXHandleCollision(map, difference);
                 facingDirection = Direction.RIGHT;
             }

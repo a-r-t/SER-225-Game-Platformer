@@ -33,8 +33,8 @@ public class Camera extends Rectangle {
     }
 
     public Point getTileIndexByCameraPosition() {
-        int xIndex = getX() / tileWidth;
-        int yIndex = getY() / tileHeight;
+        int xIndex = Math.round(getX()) / tileWidth;
+        int yIndex = Math.round(getY()) / tileHeight;
         return new Point(xIndex, yIndex);
     }
 
@@ -191,14 +191,6 @@ public class Camera extends Rectangle {
 
     public ArrayList<NPC> getActiveNPCs() {
         return activeNPCs;
-    }
-
-    public int getStartBoundX() {
-        return getX();
-    }
-
-    public int getStartBoundY() {
-        return getY();
     }
 
     public float getEndBoundX() {

@@ -8,7 +8,7 @@ import Scene.MapTile;
 import Scene.Player;
 import Utils.Direction;
 import Utils.MathUtils;
-
+import Utils.Point;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -99,11 +99,11 @@ public class GameObject extends AnimatedSprite {
 	}
 
 	public float getCalibratedXLocation(Map map) {
-		return getPureXLocation() - map.getCamera().getAmountMovedX();
+		return startPositionX + amountMovedX - map.getCamera().getAmountMovedX();
 	}
 
 	public float getCalibratedYLocation(Map map) {
-		return getPureYLocation() - map.getCamera().getAmountMovedY();
+		return startPositionY + amountMovedY - map.getCamera().getAmountMovedY();
 	}
 
 	public float getPureXLocation() {
@@ -118,7 +118,7 @@ public class GameObject extends AnimatedSprite {
 		super.update();
 	}
 
-	public int moveXHandleCollision(Map map, float dx) {
+	public float moveXHandleCollision(Map map, float dx) {
 		return handleCollisionX(map, dx);
 	}
 
@@ -126,19 +126,23 @@ public class GameObject extends AnimatedSprite {
 		return handleCollisionY(map, dy);
 	}
 
-	public int handleCollisionX(Map map, float moveAmountX) {
+	public float handleCollisionX(Map map, float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
+		System.out.println("Amount to move pre: " + amountToMove);
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
-		float currentXRemainder = MathUtils.getRemainder(getXRaw());
-
-		if (moveAmountXRemainder + currentXRemainder >= 1) {
+		System.out.println("MOVE AMOUNT REMAINDER: " + moveAmountXRemainder);
+		System.out.println("CURRENT ABS X: " + (startPositionX + amountMovedX));
+		float currentXRemainder = MathUtils.getRemainder(startPositionX + amountMovedX);
+		System.out.println("CURRENT X REMAINDER: " + currentXRemainder);
+		if (moveAmountXRemainder + currentXRemainder >= .5 && moveAmountXRemainder + currentXRemainder <= 1) {
+			System.out.println("THRESHOLD REACHED");
 			amountToMove += 1;
-			setX(getX());
-			moveAmountXRemainder = 0;
+			amountMovedX = (int)amountMovedX;
+			moveAmountXRemainder = -moveAmountXRemainder;
 		}
-		int amountMoved = 0;
+		float amountMoved = 0;
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-
+		System.out.println("AMOUNT TO MOVE official: " + amountToMove);
 		if (amountToMove > 0) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
@@ -146,6 +150,7 @@ public class GameObject extends AnimatedSprite {
 				hasCollided = hasCollidedWithTilesX(map, direction);
 				if (hasCollided) {
 					moveX(-direction.getVelocity());
+					//moveAmountXRemainder = 0;
 					System.out.println("COLLIDE");
 					break;
 				}
@@ -153,9 +158,10 @@ public class GameObject extends AnimatedSprite {
 			}
 			onEndCollisionCheckX(hasCollided, direction);
 		}
+		System.out.println("ADDING MOVE AMOUNT X REMAINDER: " + moveAmountXRemainder * direction.getVelocity());
 		moveX(moveAmountXRemainder * direction.getVelocity());
 
-		return amountMoved;
+		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
 	}
 
 	public int handleCollisionY(Map map, float moveAmountY) {
@@ -190,10 +196,14 @@ public class GameObject extends AnimatedSprite {
 
 	protected boolean hasCollidedWithTilesX(Map map, Direction direction) {
 		int numberOfTilesToCheck = Math.max(getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
-		int edgeBoundX = direction == Direction.LEFT ? getScaledBounds().getX1() : getScaledBounds().getX2();
-		Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
+		float edgeBoundX = direction == Direction.LEFT ? getScaledBounds().getX1() : getScaledBounds().getX2();
+		Point tileIndex = map.getTileIndexByPosition(Math.round(edgeBoundX), Math.round(getScaledBounds().getY1()));
 		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			MapTile mapTile = map.getMapTile(tileIndex.x, tileIndex.y + j);
+			MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + j));
+			//System.out.println(mapTile);
+//			if (mapTile != null && mapTile.getTileIndex() == 4) {
+//				System.out.println("TILE: " + this);
+//			}
 			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
 				return true;
 			}
@@ -203,10 +213,10 @@ public class GameObject extends AnimatedSprite {
 
 	protected boolean hasCollidedWithTilesY(Map map, Direction direction) {
 		int numberOfTilesToCheck = Math.max(getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
-		int edgeBoundY = direction == Direction.UP ? getScaledBounds().getY() : getScaledBounds().getY2();
-		Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
+		float edgeBoundY = direction == Direction.UP ? getScaledBounds().getY() : getScaledBounds().getY2();
+		Point tileIndex = map.getTileIndexByPosition(Math.round(getScaledBounds().getX1()), Math.round(edgeBoundY));
 		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			MapTile mapTile = map.getMapTile(tileIndex.x + j, tileIndex.y);
+			MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y));
 			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
 				return true;
 			}

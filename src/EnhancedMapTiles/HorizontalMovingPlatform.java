@@ -10,6 +10,7 @@ import Scene.Player;
 import Scene.TileType;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.Point;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,8 +35,8 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     @Override
     public void update(Keyboard keyboard, Player player) {
-        int startBound = map.getPointCameraAdjusted(startLocation).x;
-        int endBound = map.getPointCameraAdjusted(endLocation).x;
+        float startBound = map.getPointCameraAdjusted(startLocation).x;
+        float endBound = map.getPointCameraAdjusted(endLocation).x;
 
         int moveAmountX = 0;
         if (direction == Direction.RIGHT) {
@@ -47,12 +48,12 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
         moveX(moveAmountX);
 
         if (getX1() + getScaledWidth() >= endBound) {
-            int difference = endBound - (getX1() + getScaledWidth());
+            float difference = endBound - (getX1() + getScaledWidth());
             moveX(-difference);
             moveAmountX -= difference;
             direction = Direction.LEFT;
         } else if (getX1() <= startBound) {
-            int difference = startBound - getX1();
+            float difference = startBound - getX1();
             moveX(difference);
             moveAmountX += difference;
             direction = Direction.RIGHT;

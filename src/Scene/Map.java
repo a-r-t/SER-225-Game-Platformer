@@ -5,7 +5,7 @@ import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
 import Game.Kirby;
-import Utils.PointExtension;
+import Utils.Point;
 
 import java.awt.*;
 import java.io.File;
@@ -88,14 +88,14 @@ public abstract class Map {
         fileWriter.close();
     }
 
-    public PointExtension getPlayerStartPosition() {
-        MapTile tile = getMapTile(playerStartTile.x, playerStartTile.y);
-        return new PointExtension(tile.getX(), tile.getY());
+    public Point getPlayerStartPosition() {
+        MapTile tile = getMapTile(Math.round(playerStartTile.x), Math.round(playerStartTile.y));
+        return new Point(tile.getX(), tile.getY());
     }
 
-    public PointExtension getPositionByTileIndex(int xIndex, int yIndex) {
+    public Point getPositionByTileIndex(int xIndex, int yIndex) {
         MapTile tile = getMapTile(xIndex, yIndex);
-        return new PointExtension(tile.getX(), tile.getY());
+        return new Point(tile.getX(), tile.getY());
     }
 
     public Tileset getTileset() {
@@ -152,21 +152,21 @@ public abstract class Map {
 
     public MapTile getTileByPosition(int xPosition, int yPosition) {
         Point tileIndex = getTileIndexByPosition(xPosition, yPosition);
-        if (isInBounds(tileIndex.x, tileIndex.y)) {
-            return getMapTile(tileIndex.x, tileIndex.y);
+        if (isInBounds(Math.round(tileIndex.x), Math.round(tileIndex.y))) {
+            return getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y));
         } else {
             return null;
         }
     }
 
-    public Point getTileIndexByPosition(int xPosition, int yPosition) {
-        int xIndex = (xPosition + camera.getX()) / tileset.getScaledSpriteWidth();
-        int yIndex = (yPosition + camera.getY()) / tileset.getScaledSpriteHeight();
+    public Point getTileIndexByPosition(float xPosition, float yPosition) {
+        int xIndex = Math.round((xPosition + camera.getX())) / tileset.getScaledSpriteWidth();
+        int yIndex = Math.round((yPosition + camera.getY())) / tileset.getScaledSpriteHeight();
         return new Point(xIndex, yIndex);
     }
 
     public Point getPointCameraAdjusted(Point point) {
-        return new Point(point.x - (int)getCamera().getAmountMovedX(), point.y - (int)getCamera().getAmountMovedY());
+        return new Point(point.x - getCamera().getAmountMovedX(), point.y - getCamera().getAmountMovedY());
     }
 
     private boolean isInBounds(int x, int y) {
@@ -227,6 +227,7 @@ public abstract class Map {
                 camera.moveX(-cameraDifference);
             }
         } else if (player.getXRaw() < xMidPoint && camera.getXRaw() > startBoundX) {
+            System.out.println("YOU ARE UNDER");
             float xMidPointDifference = xMidPoint - player.getXRaw();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);

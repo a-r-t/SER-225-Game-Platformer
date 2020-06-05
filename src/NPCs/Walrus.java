@@ -9,7 +9,7 @@ import GameObject.Frame;
 import Scene.Map;
 import Scene.NPC;
 import Scene.Player;
-
+import Utils.Point;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -58,7 +58,7 @@ public class Walrus extends NPC {
 
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
-        graphicsHandler.drawFilledRectangleWithBorder(getX() - 2, getY() - 24, 40, 25, Color.WHITE, Color.BLACK, 2);
+        graphicsHandler.drawFilledRectangleWithBorder(Math.round(getX()) - 2, Math.round(getY() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
         message.setLocation(getX() + 2, getY() - 8);
         message.draw(graphicsHandler);
     }

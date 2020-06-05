@@ -3,8 +3,11 @@ package Scene;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import GameObject.*;
+import GameObject.Frame;
+import GameObject.Rectangle;
 import Utils.MathUtils;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -101,8 +104,8 @@ public class MapEntity extends GameObject {
 
     public void update() {
         super.update();
-        amountMovedX += Math.round(moveAmountX);
-        amountMovedY += Math.round(moveAmountY);
+        amountMovedX += moveAmountX;
+        amountMovedY += moveAmountY;
         moveAmountX = 0;
         moveAmountY = 0;
     }
@@ -181,5 +184,48 @@ public class MapEntity extends GameObject {
                 currentFrame.getScaledWidth(),
                 currentFrame.getScaledHeight(),
                 currentFrame.getImageEffect());
+    }
+
+    @Override
+    public Rectangle getScaledBounds() {
+        Rectangle scaledBounds = currentFrame.getScaledBounds();
+        return new Rectangle(
+                scaledBounds.getXRaw() - map.getCamera().getAmountMovedX(),
+                scaledBounds.getYRaw() - map.getCamera().getAmountMovedY(),
+                scaledBounds.getWidth(),
+                scaledBounds.getHeight());
+    }
+
+
+    @Override
+    public float getScaledBoundsX1() {
+        return getScaledBounds().getX1();
+    }
+
+
+    @Override
+    public float getScaledBoundsX2() {
+        return getScaledBounds().getX2();
+    }
+
+
+    @Override
+    public float getScaledBoundsY1() {
+        return getScaledBounds().getY1();
+    }
+
+
+    @Override
+    public float getScaledBoundsY2() {
+        return getScaledBounds().getY2();
+    }
+
+    @Override
+    public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
+        Rectangle scaledBounds = getScaledBounds();
+        scaledBounds.setX(getX() - map.getCamera().getAmountMovedX());
+        scaledBounds.setY(getY() - map.getCamera().getAmountMovedY());
+        scaledBounds.setColor(color);
+        scaledBounds.draw(graphicsHandler);
     }
 }

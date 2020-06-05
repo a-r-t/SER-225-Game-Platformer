@@ -2,7 +2,7 @@ package Maps;
 
 import Scene.Map;
 import Tilesets.CommonTileset;
-
+import Utils.Point;
 import java.awt.*;
 
 public class TestMap2 extends Map {

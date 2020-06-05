@@ -59,7 +59,7 @@ public class EditorControlPanel extends JPanel {
         tilePickerScroll.setLocation(5, 78);
         tilePickerScroll.setSize(190, 394);
         add(tilePickerScroll);
-        tilePicker.setTileset(getSelectedMap().getTileset());
+        tilePicker.setTileset(getSelectedMap(), getSelectedMap().getTileset());
 
         JButton setMapDimensionsButton = new JButton();
         setMapDimensionsButton.setSize(190, 40);
@@ -116,7 +116,7 @@ public class EditorControlPanel extends JPanel {
     }
     public void setMap() {
         Map map = getSelectedMap();
-        tilePicker.setTileset(map.getTileset());
+        tilePicker.setTileset(map, map.getTileset());
         mapBuilder.setMap(map);
     }
 }

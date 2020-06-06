@@ -126,15 +126,49 @@ public class GameObject extends AnimatedSprite {
 		return handleCollisionY(map, dy);
 	}
 
-	public float handleCollisionX(Map map, float moveAmountX) {
+	public float handleCollisionX(Map map, float moveAmountX) { // moveAmountX is .5
+		int amountToMove = (int)Math.abs(moveAmountX); // this will be 0
+		float absX = startPositionX + amountMovedX;
+		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX); // this will be .5
+		//float currentRemainder = MathUtils.getRemainder(absX); // will be 0
+		//float totalRemainder = moveAmountXRemainder + currentRemainder;
+		float wholeX = Math.round(startPositionX + amountMovedX);
+		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
+		if (absX + moveAmountXRemainder >= wholeX + .5f) {
+			amountToMove += 1;
+			moveAmountXRemainder = moveAmountXRemainder - 1f;
+		}
+		System.out.println("AMOUNT TO MOVE: " + amountToMove);
+		float amountMoved = 0;
+		if (amountToMove >= 1) {
+			boolean hasCollided = false;
+			for (int i = 0; i < amountToMove; i++) {
+				moveX(direction.getVelocity());
+				hasCollided = hasCollidedWithTilesX(map, direction);
+				if (hasCollided) {
+					moveX(-direction.getVelocity());
+					System.out.println("COLLIDE");
+					moveAmountXRemainder = 0;
+					break;
+				}
+				amountMoved = (i + 1) * direction.getVelocity();
+			}
+			onEndCollisionCheckX(hasCollided, direction);
+		}
+		moveX(moveAmountXRemainder * direction.getVelocity());
+		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
+	}
+
+	public float handleCollisionX2(Map map, float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
+		System.out.println("MOVE AMOUNT X: " + moveAmountX);
 		System.out.println("Amount to move pre: " + amountToMove);
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 		System.out.println("MOVE AMOUNT REMAINDER: " + moveAmountXRemainder);
 		System.out.println("CURRENT ABS X: " + (startPositionX + amountMovedX));
 		float currentXRemainder = MathUtils.getRemainder(startPositionX + amountMovedX);
 		System.out.println("CURRENT X REMAINDER: " + currentXRemainder);
-		if (moveAmountXRemainder + currentXRemainder >= .5 && moveAmountXRemainder + currentXRemainder <= 1) {
+		if (moveAmountXRemainder + currentXRemainder >= 1) {
 			System.out.println("THRESHOLD REACHED");
 			amountToMove += 1;
 			amountMovedX = (int)amountMovedX;
@@ -143,7 +177,7 @@ public class GameObject extends AnimatedSprite {
 		float amountMoved = 0;
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
 		System.out.println("AMOUNT TO MOVE official: " + amountToMove);
-		if (amountToMove > 0) {
+		if (amountToMove >= 1) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveX(direction.getVelocity());

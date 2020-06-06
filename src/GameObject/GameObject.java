@@ -122,23 +122,20 @@ public class GameObject extends AnimatedSprite {
 		return handleCollisionX(map, dx);
 	}
 
-	public int moveYHandleCollision(Map map, float dy) {
+	public float moveYHandleCollision(Map map, float dy) {
 		return handleCollisionY(map, dy);
 	}
 
-	public float handleCollisionX(Map map, float moveAmountX) { // moveAmountX is .5
-		int amountToMove = (int)Math.abs(moveAmountX); // this will be 0
+	public float handleCollisionX(Map map, float moveAmountX) {
+		int amountToMove = (int)Math.abs(moveAmountX);
 		float absX = startPositionX + amountMovedX;
-		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX); // this will be .5
-		//float currentRemainder = MathUtils.getRemainder(absX); // will be 0
-		//float totalRemainder = moveAmountXRemainder + currentRemainder;
+		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 		float wholeX = Math.round(startPositionX + amountMovedX);
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
 		if (absX + moveAmountXRemainder >= wholeX + .5f) {
 			amountToMove += 1;
 			moveAmountXRemainder = moveAmountXRemainder - 1f;
 		}
-		System.out.println("AMOUNT TO MOVE: " + amountToMove);
 		float amountMoved = 0;
 		if (amountToMove >= 1) {
 			boolean hasCollided = false;
@@ -147,7 +144,6 @@ public class GameObject extends AnimatedSprite {
 				hasCollided = hasCollidedWithTilesX(map, direction);
 				if (hasCollided) {
 					moveX(-direction.getVelocity());
-					System.out.println("COLLIDE");
 					moveAmountXRemainder = 0;
 					break;
 				}
@@ -159,73 +155,33 @@ public class GameObject extends AnimatedSprite {
 		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
 	}
 
-	public float handleCollisionX2(Map map, float moveAmountX) {
-		int amountToMove = (int)Math.abs(moveAmountX);
-		System.out.println("MOVE AMOUNT X: " + moveAmountX);
-		System.out.println("Amount to move pre: " + amountToMove);
-		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
-		System.out.println("MOVE AMOUNT REMAINDER: " + moveAmountXRemainder);
-		System.out.println("CURRENT ABS X: " + (startPositionX + amountMovedX));
-		float currentXRemainder = MathUtils.getRemainder(startPositionX + amountMovedX);
-		System.out.println("CURRENT X REMAINDER: " + currentXRemainder);
-		if (moveAmountXRemainder + currentXRemainder >= 1) {
-			System.out.println("THRESHOLD REACHED");
+	public float handleCollisionY(Map map, float moveAmountY) {
+		int amountToMove = (int)Math.abs(moveAmountY);
+		float absY = startPositionY + amountMovedY;
+		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
+		float wholeY = Math.round(startPositionY + amountMovedY);
+		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
+		if (absY + moveAmountYRemainder >= wholeY + .5f) {
 			amountToMove += 1;
-			amountMovedX = (int)amountMovedX;
-			moveAmountXRemainder = -moveAmountXRemainder;
+			moveAmountYRemainder = moveAmountYRemainder - 1f;
 		}
 		float amountMoved = 0;
-		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-		System.out.println("AMOUNT TO MOVE official: " + amountToMove);
 		if (amountToMove >= 1) {
-			boolean hasCollided = false;
-			for (int i = 0; i < amountToMove; i++) {
-				moveX(direction.getVelocity());
-				hasCollided = hasCollidedWithTilesX(map, direction);
-				if (hasCollided) {
-					moveX(-direction.getVelocity());
-					//moveAmountXRemainder = 0;
-					System.out.println("COLLIDE");
-					break;
-				}
-				amountMoved = (i + 1) * direction.getVelocity();
-			}
-			onEndCollisionCheckX(hasCollided, direction);
-		}
-		System.out.println("ADDING MOVE AMOUNT X REMAINDER: " + moveAmountXRemainder * direction.getVelocity());
-		moveX(moveAmountXRemainder * direction.getVelocity());
-
-		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
-	}
-
-	public int handleCollisionY(Map map, float moveAmountY) {
-		int amountToMove = (int)Math.abs(moveAmountY);
-		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
-		float currentYRemainder = MathUtils.getRemainder(getYRaw());
-
-		if (moveAmountYRemainder + currentYRemainder >= .5) {
-			amountToMove += 1;
-			setY(getY());
-		} else {
-			moveY(moveAmountYRemainder);
-		}
-
-		int amountMoved = 0;
-		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
-		if (amountToMove > 0) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveY(direction.getVelocity());
 				hasCollided = hasCollidedWithTilesY(map, direction);
 				if (hasCollided) {
 					moveY(-direction.getVelocity());
+					moveAmountYRemainder = 0;
 					break;
 				}
 				amountMoved = (i + 1) * direction.getVelocity();
 			}
 			onEndCollisionCheckY(hasCollided, direction);
 		}
-		return amountMoved;
+		moveY(moveAmountYRemainder * direction.getVelocity());
+		return amountMoved + (moveAmountYRemainder * direction.getVelocity());
 	}
 
 	protected boolean hasCollidedWithTilesX(Map map, Direction direction) {

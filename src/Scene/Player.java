@@ -46,7 +46,7 @@ public abstract class Player extends GameObject {
         moveAmountX = 0;
         moveAmountY = 0;
 
-        //moveAmountY += gravity + momentumY;
+        moveAmountY += gravity + momentumY;
 
         handlePlayerState(keyboard);
 

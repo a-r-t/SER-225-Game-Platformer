@@ -18,11 +18,11 @@ public class Kirby extends Player {
 
     public Kirby(float x, float y, Map map) {
         super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT", map);
-        gravity = 0f;
+        gravity = .5f;
         terminalVelocityY = 6f;
         jumpHeight = 14.5f;
         jumpDegrade = .5f;
-        walkSpeed = .5f;
+        walkSpeed = 2f;
         momentumYIncrease = .5f;
         JUMP_KEY = Key.W;
         MOVE_LEFT_KEY = Key.A;
@@ -32,7 +32,6 @@ public class Kirby extends Player {
 
     public void update(Keyboard keyboard, Map map) {
         super.update(keyboard, map);
-        //System.out.println("PLAYER: " + this);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

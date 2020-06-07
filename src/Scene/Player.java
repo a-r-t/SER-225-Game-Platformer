@@ -42,7 +42,6 @@ public abstract class Player extends GameObject {
     }
 
     public void update(Keyboard keyboard, Map map) {
-
         moveAmountX = 0;
         moveAmountY = 0;
 
@@ -56,8 +55,7 @@ public abstract class Player extends GameObject {
 
         amountMovedY += super.moveYHandleCollision(map, moveAmountY);
         amountMovedX += super.moveXHandleCollision(map, moveAmountX);
-        System.out.println("PLAYER AMOUNT ACTUALLY MOVED X: " + amountMovedX);
-        System.out.println("PLAYER: " + this);
+
         updateLockedKeys(keyboard);
 
     }

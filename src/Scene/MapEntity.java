@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class MapEntity extends GameObject {
     protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
     protected boolean isRespawnable = true;
-    protected float startPositionX, startPositionY;
+    //protected float startPositionX, startPositionY;
     private float moveAmountX, moveAmountY;
     protected Map map;
 
@@ -138,8 +138,8 @@ public class MapEntity extends GameObject {
 
     @Override
     public void setLocation(float x, float y) {
-        setX(x);
-        setY(y);
+        this.setX(x);
+        this.setY(y);
     }
 
     @Override
@@ -168,11 +168,7 @@ public class MapEntity extends GameObject {
 
     @Override
     public Rectangle getIntersectRectangle() {
-        return new Rectangle(
-                Math.round(getCalibratedXLocation(map)),
-                Math.round(getCalibratedYLocation(map)),
-                currentFrame.getScaledWidth(),
-                currentFrame.getScaledHeight());
+        return getScaledBounds();
     }
 
     @Override
@@ -190,8 +186,8 @@ public class MapEntity extends GameObject {
     public Rectangle getScaledBounds() {
         Rectangle scaledBounds = currentFrame.getScaledBounds();
         return new Rectangle(
-                scaledBounds.getXRaw() - map.getCamera().getAmountMovedX(),
-                scaledBounds.getYRaw() - map.getCamera().getAmountMovedY(),
+                scaledBounds.getX() - map.getCamera().getAmountMovedX(),
+                scaledBounds.getY() - map.getCamera().getAmountMovedY(),
                 scaledBounds.getWidth(),
                 scaledBounds.getHeight());
     }
@@ -223,8 +219,6 @@ public class MapEntity extends GameObject {
     @Override
     public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
         Rectangle scaledBounds = getScaledBounds();
-        scaledBounds.setX(getX() - map.getCamera().getAmountMovedX());
-        scaledBounds.setY(getY() - map.getCamera().getAmountMovedY());
         scaledBounds.setColor(color);
         scaledBounds.draw(graphicsHandler);
     }

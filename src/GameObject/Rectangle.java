@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
+import Scene.MapTile;
 
 import java.awt.*;
 
@@ -194,6 +195,22 @@ public class Rectangle implements IntersectableRectangle {
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
 		return Math.round(intersectRectangle.getX1()) < Math.round(otherIntersectRectangle.getX2()) && Math.round(intersectRectangle.getX2()) > Math.round(otherIntersectRectangle.getX1()) &&
 				Math.round(intersectRectangle.getY1()) < Math.round(otherIntersectRectangle.getY2()) && Math.round(intersectRectangle.getY2()) > Math.round(otherIntersectRectangle.getY1());
+	}
+
+	public boolean bottomIntersectsTop(IntersectableRectangle other, boolean print) {
+		Rectangle intersectRectangle = getIntersectRectangle();
+		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
+		Rectangle bottomRectangle = new Rectangle(intersectRectangle.getX1(), intersectRectangle.getY2(), intersectRectangle.getWidth(), 1);
+		Rectangle otherTopRectangle = new Rectangle(otherIntersectRectangle.getX1(), otherIntersectRectangle.getY1(), otherIntersectRectangle.getWidth(), 1);
+		if (other instanceof MapTile && print) {
+			MapTile test = (MapTile)other;
+			if (test.getTileIndex() == 10) {
+				System.out.println("PLAYER BOTTOM RECT: " + bottomRectangle);
+				System.out.println("TILE TOP RECT: " + otherTopRectangle);
+			}
+		}
+		return Math.round(bottomRectangle.getX1()) < Math.round(otherTopRectangle.getX2()) && Math.round(bottomRectangle.getX2()) > Math.round(otherTopRectangle.getX1()) &&
+				Math.round(bottomRectangle.getY1()) < Math.round(otherTopRectangle.getY2()) && Math.round(bottomRectangle.getY2()) > Math.round(otherTopRectangle.getY1());
 	}
 
 	public boolean overlaps(IntersectableRectangle other) {

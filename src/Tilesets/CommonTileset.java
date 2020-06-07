@@ -52,7 +52,7 @@ public class CommonTileset extends Tileset {
             // left end branch
             add(new MapTileBuilder(new FrameBuilder(getSubImage(1, 5), 0)
                    .withScale(tileScale)
-                   .withBounds(0, 6, 16, 3)
+                   .withBounds(0, 6, 16, 4)
                    .build())
                    .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );
@@ -90,7 +90,7 @@ public class CommonTileset extends Tileset {
             // tree branch
             add(new MapTileBuilder(new FrameBuilder(getSubImage(2, 3), 0)
                     .withScale(tileScale)
-                    .withBounds(0, 6, 16, 3)
+                    .withBounds(0, 6, 16, 4)
                     .build())
                     .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );
@@ -113,7 +113,7 @@ public class CommonTileset extends Tileset {
             add(new MapTileBuilder(new FrameBuilder(getSubImage(1, 5), 0)
                     .withScale(tileScale)
                     .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                    .withBounds(0, 6, 16, 3)
+                    .withBounds(0, 6, 16, 4)
                     .build())
                     .withTileType(TileType.JUMP_THROUGH_PLATFORM)
             );

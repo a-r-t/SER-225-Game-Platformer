@@ -217,8 +217,8 @@ public abstract class Map {
     }
 
     private void adjustMovementX(Player player) {
-        if (player.getXRaw() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            float xMidPointDifference = xMidPoint - player.getXRaw();
+        if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
+            float xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
@@ -226,13 +226,12 @@ public abstract class Map {
                 player.moveX(cameraDifference);
                 camera.moveX(-cameraDifference);
             }
-        } else if (player.getXRaw() < xMidPoint && camera.getXRaw() > startBoundX) {
-            System.out.println("YOU ARE UNDER");
-            float xMidPointDifference = xMidPoint - player.getXRaw();
+        } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
+            float xMidPointDifference = xMidPoint - player.getX();
             player.moveX(xMidPointDifference);
             camera.moveX(-xMidPointDifference);
-            if (camera.getXRaw() < startBoundX) {
-                float cameraDifference = startBoundX - camera.getXRaw();
+            if (camera.getX() < startBoundX) {
+                float cameraDifference = startBoundX - camera.getX();
                 player.moveX(-cameraDifference);
                 camera.moveX(cameraDifference);
             }
@@ -240,23 +239,39 @@ public abstract class Map {
     }
 
     private void adjustMovementY(Player player) {
-        if (player.getYRaw() > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            float yMidPointDifference = yMidPoint - player.getYRaw();
+        System.out.println("Current Player: " + player);
+        System.out.println("Current Camera: " + camera);
+        if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
+            System.out.println("GOING DOWN");
+            float yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
+            System.out.println("yMidPointDifference: " + yMidPointDifference);
+            System.out.println("Current Player: " + player);
+            System.out.println("Current Camera: " + camera);
             if (camera.getEndBoundY() > endBoundY) {
                 float cameraDifference = camera.getEndBoundY() - endBoundY;
                 player.moveY(cameraDifference);
                 camera.moveY(-cameraDifference);
+                System.out.println("cameraDifference: " + yMidPointDifference);
+                System.out.println("Current Player: " + player);
+                System.out.println("Current Camera: " + camera);
             }
-        } else if (player.getYRaw() < yMidPoint && camera.getYRaw() > startBoundY) {
-            float yMidPointDifference = yMidPoint - player.getYRaw();
+        } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
+            System.out.println("GOING UP");
+            float yMidPointDifference = yMidPoint - player.getY();
             player.moveY(yMidPointDifference);
             camera.moveY(-yMidPointDifference);
-            if (camera.getYRaw() < startBoundY) {
-                float cameraDifference = startBoundY - camera.getYRaw();
+            System.out.println("yMidPointDifference: " + yMidPointDifference);
+            System.out.println("Current Player: " + player);
+            System.out.println("Current Camera: " + camera);
+            if (camera.getY() < startBoundY) {
+                float cameraDifference = startBoundY - camera.getY();
                 player.moveY(-cameraDifference);
                 camera.moveY(cameraDifference);
+                System.out.println("cameraDifference: " + yMidPointDifference);
+                System.out.println("Current Player: " + player);
+                System.out.println("Current Camera: " + camera);
             }
         }
     }

@@ -190,10 +190,6 @@ public class GameObject extends AnimatedSprite {
 		Point tileIndex = map.getTileIndexByPosition(Math.round(edgeBoundX), Math.round(getScaledBounds().getY1()));
 		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
 			MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + j));
-			//System.out.println(mapTile);
-//			if (mapTile != null && mapTile.getTileIndex() == 4) {
-//				System.out.println("TILE: " + this);
-//			}
 			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
 				return true;
 			}
@@ -230,7 +226,20 @@ public class GameObject extends AnimatedSprite {
 			case NOT_PASSABLE:
 				return intersects(mapTile);
 			case JUMP_THROUGH_PLATFORM:
-				return direction == Direction.DOWN && intersects(mapTile) && getScaledBoundsY2() - 1 == mapTile.getScaledBoundsY1();
+				//int previousPlayerY2 = Math.round(previousLocationY + (getBoundsTemp().getY2() * getScale()));
+				//int previousTileY1 = Math.round(mapTile.getPreviousLocationY() + (mapTile.getBoundsTemp().getY1() * mapTile.getScale()));
+				if (direction == Direction.DOWN) {
+					System.out.println("PLAYER  Y2: " + (getScaledBoundsY2()));
+					System.out.println("TILE  Y1: " + (mapTile.getScaledBoundsY1()));
+					System.out.println("PLAYER Y2 ROUNDED: " + Math.round(getScaledBoundsY2()));
+					System.out.println("TILE Y1 ROUNDED: " + Math.round(mapTile.getScaledBoundsY1()));
+				}
+				//System.out.println(mapTile.getPreviousLocationY());
+				if (direction == Direction.DOWN && bottomIntersectsTop(mapTile, true)) {
+					System.out.println("IT HAPPENED");
+					//System.exit(1);
+				}
+				return direction == Direction.DOWN && bottomIntersectsTop(mapTile, false);
 			default:
 				return false;
 		}

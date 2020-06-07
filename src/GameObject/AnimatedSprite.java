@@ -236,4 +236,12 @@ public class AnimatedSprite implements IntersectableRectangle {
 	public String toString() {
 		return String.format("Current Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", x, y, getScaledWidth(), getScaledHeight(), getScaledBoundsX1(), getScaledBoundsY1(), getScaledBounds().getWidth(), getScaledBounds().getHeight());
 	}
+
+	public boolean bottomIntersectsTop(IntersectableRectangle other, boolean print) {
+		return currentFrame.bottomIntersectsTop(other, print);
+	}
+
+	public Rectangle getBoundsTemp() {
+		return currentFrame.getBoundsTemp();
+	}
 }

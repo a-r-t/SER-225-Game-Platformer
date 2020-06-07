@@ -184,12 +184,12 @@ public class MapEntity extends GameObject {
 
     @Override
     public Rectangle getScaledBounds() {
-        Rectangle scaledBounds = currentFrame.getScaledBounds();
+        Rectangle boundsTemp = currentFrame.getBoundsTemp();
         return new Rectangle(
-                scaledBounds.getX() - map.getCamera().getAmountMovedX(),
-                scaledBounds.getY() - map.getCamera().getAmountMovedY(),
-                scaledBounds.getWidth(),
-                scaledBounds.getHeight());
+                getX() + boundsTemp.getX() * boundsTemp.getScale(),
+                getY() + boundsTemp.getY() * boundsTemp.getScale(),
+                boundsTemp.getScaledWidth(),
+                boundsTemp.getScaledHeight());
     }
 
 
@@ -218,8 +218,13 @@ public class MapEntity extends GameObject {
 
     @Override
     public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
-        Rectangle scaledBounds = getScaledBounds();
-        scaledBounds.setColor(color);
-        scaledBounds.draw(graphicsHandler);
+        Rectangle boundsTemp = currentFrame.getBoundsTemp();
+        Rectangle scaledCalibratedBounds = new Rectangle(
+                getCalibratedXLocation(map) + boundsTemp.getX() * boundsTemp.getScale(),
+                getCalibratedYLocation(map) + boundsTemp.getY() * boundsTemp.getScale(),
+                boundsTemp.getScaledWidth(),
+                boundsTemp.getScaledHeight());
+        scaledCalibratedBounds.setColor(color);
+        scaledCalibratedBounds.draw(graphicsHandler);
     }
 }

@@ -11,7 +11,7 @@ import Utils.Direction;
 import Utils.MathUtils;
 import GameObject.Rectangle;
 
-public abstract class Player extends GameObject {
+public abstract class Player extends MapEntity {
     protected float walkSpeed = 0;
     protected float gravity = 0;
     protected float jumpHeight = 0;
@@ -30,15 +30,13 @@ public abstract class Player extends GameObject {
     protected Key MOVE_LEFT_KEY = Key.A;
     protected Key MOVE_RIGHT_KEY = Key.D;
     protected Key CROUCH_KEY = Key.S;
-    protected Map map;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
-        super(spriteSheet, x, y, startingAnimationName);
+        super(x, y, spriteSheet, startingAnimationName, map);
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
-        this.map = map;
     }
 
     public void update(Keyboard keyboard, Map map) {
@@ -53,8 +51,8 @@ public abstract class Player extends GameObject {
 
         super.update();
 
-        amountMovedY += super.moveYHandleCollision(map, moveAmountY);
-        amountMovedX += super.moveXHandleCollision(map, moveAmountX);
+        super.moveYHandleCollision(map, moveAmountY);
+        super.moveXHandleCollision(map, moveAmountX);
 
         updateLockedKeys(keyboard);
 
@@ -204,50 +202,5 @@ public abstract class Player extends GameObject {
 
     public Direction getFacingDirection() {
         return facingDirection;
-    }
-
-//
-//    @Override
-//    public Rectangle getScaledBounds() {
-//        Rectangle scaledBounds = currentFrame.getScaledBounds();
-//        return new Rectangle(scaledBounds.getXRaw() + getCalibratedXLocation(map),
-//                scaledBounds.getYRaw() + getCalibratedYLocation(map),
-//                scaledBounds.getWidth(), scaledBounds.getHeight());
-//    }
-//
-//    @Override
-//    public float getScaledBoundsX1() {
-//        return currentFrame.getScaledBounds().getXRaw() + getCalibratedXLocation(map);
-//    }
-//
-//
-//    @Override
-//    public float getScaledBoundsX2() {
-//        return currentFrame.getScaledBounds().getXRaw() + currentFrame.getScaledBounds().getWidth() + getCalibratedXLocation(map);
-//    }
-//
-//
-//    @Override
-//    public float getScaledBoundsY1() {
-//        return currentFrame.getScaledBounds().getYRaw() + getCalibratedYLocation(map);
-//    }
-//
-//
-//    @Override
-//    public float getScaledBoundsY2() {
-//        return currentFrame.getScaledBounds().getYRaw() + currentFrame.getScaledBounds().getHeight() + getCalibratedYLocation(map);
-//    }
-//
-//    @Override
-//    public Rectangle getIntersectRectangle() {
-//        return new Rectangle(
-//                Math.round(getCalibratedXLocation(map)),
-//                Math.round(getCalibratedYLocation(map)),
-//                currentFrame.getScaledWidth(),
-//                currentFrame.getScaledHeight());
-//    }
-
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
     }
 }

@@ -160,8 +160,8 @@ public abstract class Map {
     }
 
     public Point getTileIndexByPosition(float xPosition, float yPosition) {
-        int xIndex = Math.round((xPosition + camera.getX())) / tileset.getScaledSpriteWidth();
-        int yIndex = Math.round((yPosition + camera.getY())) / tileset.getScaledSpriteHeight();
+        int xIndex = Math.round(xPosition) / tileset.getScaledSpriteWidth();
+        int yIndex = Math.round(yPosition) / tileset.getScaledSpriteHeight();
         return new Point(xIndex, yIndex);
     }
 
@@ -217,61 +217,37 @@ public abstract class Map {
     }
 
     private void adjustMovementX(Player player) {
-        if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            float xMidPointDifference = xMidPoint - player.getX();
-            player.moveX(xMidPointDifference);
+        if (player.getCalibratedXLocation(this) > xMidPoint && camera.getEndBoundX() < endBoundX) {
+            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation(this);
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
                 float cameraDifference = camera.getEndBoundX() - endBoundX;
-                player.moveX(cameraDifference);
                 camera.moveX(-cameraDifference);
             }
-        } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
-            float xMidPointDifference = xMidPoint - player.getX();
-            player.moveX(xMidPointDifference);
+        } else if (player.getCalibratedXLocation(this) < xMidPoint && camera.getX() > startBoundX) {
+            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation(this);
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
                 float cameraDifference = startBoundX - camera.getX();
-                player.moveX(-cameraDifference);
                 camera.moveX(cameraDifference);
             }
         }
     }
 
     private void adjustMovementY(Player player) {
-        System.out.println("Current Player: " + player);
-        System.out.println("Current Camera: " + camera);
-        if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            System.out.println("GOING DOWN");
-            float yMidPointDifference = yMidPoint - player.getY();
-            player.moveY(yMidPointDifference);
+        if (player.getCalibratedYLocation(this) > yMidPoint && camera.getEndBoundY() < endBoundY) {
+            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
             camera.moveY(-yMidPointDifference);
-            System.out.println("yMidPointDifference: " + yMidPointDifference);
-            System.out.println("Current Player: " + player);
-            System.out.println("Current Camera: " + camera);
             if (camera.getEndBoundY() > endBoundY) {
                 float cameraDifference = camera.getEndBoundY() - endBoundY;
-                player.moveY(cameraDifference);
                 camera.moveY(-cameraDifference);
-                System.out.println("cameraDifference: " + yMidPointDifference);
-                System.out.println("Current Player: " + player);
-                System.out.println("Current Camera: " + camera);
             }
-        } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
-            System.out.println("GOING UP");
-            float yMidPointDifference = yMidPoint - player.getY();
-            player.moveY(yMidPointDifference);
+        } else if (player.getCalibratedYLocation(this) < yMidPoint && camera.getY() > startBoundY) {
+            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
             camera.moveY(-yMidPointDifference);
-            System.out.println("yMidPointDifference: " + yMidPointDifference);
-            System.out.println("Current Player: " + player);
-            System.out.println("Current Camera: " + camera);
             if (camera.getY() < startBoundY) {
                 float cameraDifference = startBoundY - camera.getY();
-                player.moveY(-cameraDifference);
                 camera.moveY(cameraDifference);
-                System.out.println("cameraDifference: " + yMidPointDifference);
-                System.out.println("Current Player: " + player);
-                System.out.println("Current Camera: " + camera);
             }
         }
     }

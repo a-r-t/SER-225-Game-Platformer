@@ -45,6 +45,12 @@ public class Fireball extends Enemy {
     }
 
     @Override
+    public void touchedPlayer(Player player) {
+        super.touchedPlayer(player);
+        this.mapEntityStatus = MapEntityStatus.REMOVED;
+    }
+
+    @Override
     public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("DEFAULT", new Frame[]{

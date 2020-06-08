@@ -95,8 +95,6 @@ public class AnimatedSprite implements IntersectableRectangle {
 		currentFrame.drawBounds(graphicsHandler, color);
     }
 
-    public float getXRaw() { return currentFrame.getXRaw(); }
-    public float getYRaw() { return currentFrame.getYRaw(); }
 	public float getX() { return currentFrame.getX(); }
 	public float getY() { return currentFrame.getY(); }
 	public float getX1() { return currentFrame.getX1(); }
@@ -235,13 +233,5 @@ public class AnimatedSprite implements IntersectableRectangle {
 	@Override
 	public String toString() {
 		return String.format("Current Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", x, y, getScaledWidth(), getScaledHeight(), getScaledBoundsX1(), getScaledBoundsY1(), getScaledBounds().getWidth(), getScaledBounds().getHeight());
-	}
-
-	public boolean bottomIntersectsTop(IntersectableRectangle other, boolean print) {
-		return currentFrame.bottomIntersectsTop(other, print);
-	}
-
-	public Rectangle getBoundsTemp() {
-		return currentFrame.getBoundsTemp();
 	}
 }

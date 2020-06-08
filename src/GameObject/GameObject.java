@@ -184,6 +184,12 @@ public class GameObject extends AnimatedSprite {
 		return y - map.getCamera().getY();
 	}
 
+	public Rectangle getCalibratedScaledBounds() {
+		return new Rectangle(
+
+		);
+	}
+
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {
 		graphicsHandler.drawImage(
@@ -197,12 +203,12 @@ public class GameObject extends AnimatedSprite {
 
 	@Override
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
-		Rectangle boundsTemp = currentFrame.getBoundsTemp();
+		Rectangle scaledBounds = getScaledBounds();
 		Rectangle scaledCalibratedBounds = new Rectangle(
-				getCalibratedXLocation(map) + boundsTemp.getX() * boundsTemp.getScale(),
-				getCalibratedYLocation(map) + boundsTemp.getY() * boundsTemp.getScale(),
-				boundsTemp.getScaledWidth(),
-				boundsTemp.getScaledHeight());
+				scaledBounds.getX1() - map.getCamera().getX(),
+				scaledBounds.getY1() - map.getCamera().getY(),
+				scaledBounds.getScaledWidth(),
+				scaledBounds.getScaledHeight());
 		scaledCalibratedBounds.setColor(color);
 		scaledCalibratedBounds.draw(graphicsHandler);
 	}

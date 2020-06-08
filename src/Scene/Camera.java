@@ -199,32 +199,4 @@ public class Camera extends Rectangle {
     public float getEndBoundY() {
         return y + (height * tileHeight) + leftoverSpaceY;
     }
-
-    public float getStartPositionX() {
-        return startPositionX;
-    }
-
-    public float getStartPositionY() {
-        return startPositionY;
-    }
-
-    public float getAmountMovedX() {
-        return amountMovedX;
-    }
-
-    public float getAmountMovedY() {
-        return amountMovedY;
-    }
-
-    @Override
-    public void moveX(float dx) {
-        this.amountMovedX += dx;
-        super.moveX(dx);
-    }
-
-    @Override
-    public void moveY(float dy) {
-        this.amountMovedY += dy;
-        super.moveY(dy);
-    }
 }

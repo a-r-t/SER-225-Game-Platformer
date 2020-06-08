@@ -71,28 +71,24 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
         this.imageEffect = imageEffect;
     }
 
-    public Rectangle getBoundsTemp() {
-        return bounds;
-    }
-
     public Rectangle getBounds() {
         return new Rectangle(getBoundsX1(), getBoundsY1(), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
     public float getBoundsX1() {
-        return getXRaw() + bounds.getX1();
+        return x + bounds.getX1();
     }
 
     public float getBoundsX2() {
-        return getXRaw() + bounds.getX2();
+        return x + bounds.getX2();
     }
 
     public float getBoundsY1() {
-        return getYRaw() + bounds.getY1();
+        return y + bounds.getY1();
     }
 
     public float getBoundsY2() {
-        return getYRaw() + bounds.getY2();
+        return y + bounds.getY2();
     }
 
     public float getScaledBoundsX1() {
@@ -116,7 +112,7 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
     }
 
     public void setBounds(Rectangle bounds) {
-        this.bounds = new Rectangle(bounds.getXRaw(), bounds.getYRaw(), bounds.getWidth(), bounds.getHeight(), scale);
+        this.bounds = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
     public void setBounds(float x, float y, int width, int height) {

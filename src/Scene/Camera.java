@@ -33,8 +33,8 @@ public class Camera extends Rectangle {
     }
 
     public Point getTileIndexByCameraPosition() {
-        int xIndex = getX() / tileWidth;
-        int yIndex = getY() / tileHeight;
+        int xIndex = Math.round(getX()) / tileWidth;
+        int yIndex = Math.round(getY()) / tileHeight;
         return new Point(xIndex, yIndex);
     }
 
@@ -49,7 +49,6 @@ public class Camera extends Rectangle {
             for (int j = tileIndex.x - UPDATE_OFF_SCREEN_RANGE; j <= tileIndex.x + width + UPDATE_OFF_SCREEN_RANGE; j++) {
                 MapTile tile = map.getMapTile(j, i);
                 if (tile != null) {
-                    tile.calibrate(map);
                     tile.update();
                 }
             }
@@ -62,23 +61,21 @@ public class Camera extends Rectangle {
         activeNPCs = loadActiveNPCs();
 
         for (Enemy enemy : activeEnemies) {
-            enemy.update(keyboard, map, player);
+            enemy.update(keyboard, player);
         }
 
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-            enhancedMapTile.update(keyboard, map, player);
+            enhancedMapTile.update(keyboard, player);
         }
 
         for (NPC npc : activeNPCs) {
-            npc.update(keyboard, map, player);
+            npc.update(keyboard, player);
         }
     }
 
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (Enemy enemy: map.getEnemies()) {
-            enemy.calibrate(map);
-
             if (isMapEntityActive(enemy)) {
                 activeEnemies.add(enemy);
                 if (enemy.mapEntityStatus == MapEntityStatus.INACTIVE) {
@@ -97,7 +94,6 @@ public class Camera extends Rectangle {
     private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
         for (EnhancedMapTile enhancedMapTile: map.getEnhancedMapTiles()) {
-            enhancedMapTile.calibrate(map);
 
             if (isMapEntityActive(enhancedMapTile)) {
                 activeEnhancedMapTiles.add(enhancedMapTile);
@@ -117,7 +113,6 @@ public class Camera extends Rectangle {
     private ArrayList<NPC> loadActiveNPCs() {
         ArrayList<NPC> activeNPCs = new ArrayList<>();
         for (NPC npc: map.getNPCs()) {
-            npc.calibrate(map);
 
             if (isMapEntityActive(npc)) {
                 activeNPCs.add(npc);
@@ -135,7 +130,7 @@ public class Camera extends Rectangle {
     }
 
     private boolean isMapEntityActive(MapEntity mapEntity) {
-        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (containsUpdate(mapEntity));
+        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (mapEntity.isUpdateOffScreen() || containsUpdate(mapEntity));
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
@@ -174,15 +169,15 @@ public class Camera extends Rectangle {
     }
 
     public boolean containsUpdate(MapEntity mapEntity) {
-        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < mapEntity.getScaledX2() + amountMovedX &&
-                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getX1() + amountMovedX &&
-                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  mapEntity.getScaledY2() + amountMovedY
-                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) >  mapEntity.getY1() + amountMovedY;
+        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < mapEntity.getX() + mapEntity.getScaledWidth() &&
+                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getX() &&
+                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  mapEntity.getY() + mapEntity.getScaledHeight()
+                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getY();
     }
 
     public boolean containsDraw(MapEntity mapEntity) {
-        return getX1() - tileWidth < mapEntity.getScaledX2() + amountMovedX && getEndBoundX() + tileWidth > mapEntity.getX1() + amountMovedX &&
-                getY1() - tileHeight <  mapEntity.getScaledY2() + amountMovedY && getEndBoundY() + tileHeight >  mapEntity.getY1() + amountMovedY;
+        return getX1() - tileWidth < mapEntity.getX() + mapEntity.getScaledWidth() && getEndBoundX() + tileWidth > mapEntity.getX() &&
+                getY1() - tileHeight <  mapEntity.getY() + mapEntity.getScaledHeight() && getEndBoundY() + tileHeight >  mapEntity.getY();
     }
 
     public ArrayList<Enemy> getActiveEnemies() {
@@ -197,47 +192,11 @@ public class Camera extends Rectangle {
         return activeNPCs;
     }
 
-    public int getStartBoundX() {
-        return getX();
+    public float getEndBoundX() {
+        return x + (width * tileWidth) + leftoverSpaceX;
     }
 
-    public int getStartBoundY() {
-        return getY();
-    }
-
-    public int getEndBoundX() {
-        return getX1() + (width * tileWidth) + leftoverSpaceX;
-    }
-
-    public int getEndBoundY() {
-        return getY1() + (height * tileHeight) + leftoverSpaceY;
-    }
-
-    public int getStartPositionX() {
-        return (int)startPositionX;
-    }
-
-    public int getStartPositionY() {
-        return (int)startPositionY;
-    }
-
-    public int getAmountMovedX() {
-        return (int)amountMovedX;
-    }
-
-    public int getAmountMovedY() {
-        return (int)amountMovedY;
-    }
-
-    @Override
-    public void moveX(float dx) {
-        this.amountMovedX += dx;
-        super.moveX(dx);
-    }
-
-    @Override
-    public void moveY(float dy) {
-        this.amountMovedY += dy;
-        super.moveY(dy);
+    public float getEndBoundY() {
+        return y + (height * tileHeight) + leftoverSpaceY;
     }
 }

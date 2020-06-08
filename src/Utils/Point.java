@@ -2,9 +2,13 @@ package Utils;
 
 import java.awt.*;
 
-public class PointExtension extends Point {
-    public PointExtension(int x, int y) {
-        super(x, y);
+public class Point {
+    public final float x;
+    public final float y;
+
+    public Point(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     public Point add(Point point) {

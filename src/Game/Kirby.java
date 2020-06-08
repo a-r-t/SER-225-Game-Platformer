@@ -11,15 +11,16 @@ import GameObject.SpriteSheet;
 import Scene.Map;
 import Scene.Player;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class Kirby extends Player {
 
-    public Kirby(float x, float y) {
-        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT");
+    public Kirby(float x, float y, Map map) {
+        super(new SpriteSheet(ImageLoader.load("Kirby.png"), 24, 24), x, y, "STAND_RIGHT", map);
         gravity = .5f;
         terminalVelocityY = 6f;
-        jumpHeight = 15.5f;
+        jumpHeight = 14.5f;
         jumpDegrade = .5f;
         walkSpeed = 2f;
         momentumYIncrease = .5f;
@@ -35,7 +36,7 @@ public class Kirby extends Player {
 
     public void draw(GraphicsHandler graphicsHandler) {
         super.draw(graphicsHandler);
-        //drawBounds(graphics, new Color(255, 0, 0, 170));
+        drawBounds(graphicsHandler, new Color(255, 0, 0, 170));
     }
 
     @Override

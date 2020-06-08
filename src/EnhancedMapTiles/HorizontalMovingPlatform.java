@@ -10,6 +10,7 @@ import Scene.Player;
 import Scene.TileType;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.Point;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,8 +21,8 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
     private float movementSpeed = 1f;
     private Direction direction;
 
-    public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, TileType tileType, float scale, Rectangle bounds) {
-        super(image, startLocation.x, startLocation.y, tileType, scale, ImageEffect.NONE, bounds);
+    public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, TileType tileType, float scale, Rectangle bounds, Map map) {
+        super(image, startLocation.x, startLocation.y, tileType, scale, ImageEffect.NONE, bounds, map);
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.initialize();
@@ -33,9 +34,9 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
     }
 
     @Override
-    public void update(Keyboard keyboard, Map map, Player player) {
-        int startBound = map.getPointCameraAdjusted(startLocation).x;
-        int endBound = map.getPointCameraAdjusted(endLocation).x;
+    public void update(Keyboard keyboard, Player player) {
+        float startBound = startLocation.x;
+        float endBound = endLocation.x;
 
         int moveAmountX = 0;
         if (direction == Direction.RIGHT) {
@@ -47,12 +48,12 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
         moveX(moveAmountX);
 
         if (getX1() + getScaledWidth() >= endBound) {
-            int difference = endBound - (getX1() + getScaledWidth());
+            float difference = endBound - (getX1() + getScaledWidth());
             moveX(-difference);
             moveAmountX -= difference;
             direction = Direction.LEFT;
         } else if (getX1() <= startBound) {
-            int difference = startBound - getX1();
+            float difference = startBound - getX1();
             moveX(difference);
             moveAmountX += difference;
             direction = Direction.RIGHT;
@@ -70,7 +71,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
             player.moveXHandleCollision(map, moveAmountX);
         }
 
-        super.update(keyboard, map, player);
+        super.update(keyboard, player);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

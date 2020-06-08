@@ -17,44 +17,44 @@ public class NPC extends MapEntity {
     protected int talkedToTime;
     protected Timer timer = new Timer();
 
-    public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation, int talkedToTime) {
-        super(x, y, spriteSheet, startingAnimation);
+    public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation, int talkedToTime, Map map) {
+        super(x, y, spriteSheet, startingAnimation, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
-    public NPC(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, int talkedToTime) {
-        super(x, y, animations, startingAnimation);
+    public NPC(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, int talkedToTime, Map map) {
+        super(x, y, animations, startingAnimation, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, String startingAnimation, int talkedToTime) {
-        super(image, x, y, startingAnimation);
+    public NPC(BufferedImage image, float x, float y, String startingAnimation, int talkedToTime, Map map) {
+        super(image, x, y, startingAnimation, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, int talkedToTime) {
-        super(image, x, y);
+    public NPC(BufferedImage image, float x, float y, int talkedToTime, Map map) {
+        super(image, x, y, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale) {
-        super(image, x, y, scale);
+    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, Map map) {
+        super(image, x, y, scale, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
+    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect, Map map) {
+        super(image, x, y, scale, imageEffect, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
+    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
+        super(image, x, y, scale, imageEffect, bounds, map);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
@@ -63,7 +63,7 @@ public class NPC extends MapEntity {
         return null;
     }
 
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update(Keyboard keyboard, Player player) {
         super.update();
         checkTalkedTo(keyboard, player);
     }

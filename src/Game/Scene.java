@@ -13,7 +13,7 @@ public class Scene extends Screen {
 	@Override
 	public void initialize() {
 		testMap = new TestMap();
-		kirby = new Kirby(testMap.getPlayerStartPosition().x, testMap.getPlayerStartPosition().y);
+		kirby = new Kirby(testMap.getPlayerStartPosition().x, testMap.getPlayerStartPosition().y, testMap);
 	}
 
 	@Override

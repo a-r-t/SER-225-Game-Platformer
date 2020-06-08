@@ -8,6 +8,8 @@ import GameObject.GameObject;
 import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.MathUtils;
+import GameObject.Rectangle;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -20,6 +22,7 @@ public abstract class Player extends GameObject {
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
     protected PlayerState playerState;
+    protected PlayerState previousPlayerState;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
     protected AirGroundState previousAirGroundState;
@@ -29,12 +32,13 @@ public abstract class Player extends GameObject {
     protected Key MOVE_RIGHT_KEY = Key.D;
     protected Key CROUCH_KEY = Key.S;
 
-    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
-        super(spriteSheet, x, y, startingAnimationName);
+    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
+        super(spriteSheet, x, y, startingAnimationName, map);
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
+        previousPlayerState = playerState;
     }
 
     public void update(Keyboard keyboard, Map map) {
@@ -43,16 +47,20 @@ public abstract class Player extends GameObject {
 
         moveAmountY += gravity + momentumY;
 
-        handlePlayerState(keyboard);
+        do {
+            previousPlayerState = playerState;
+            handlePlayerState(keyboard);
+        } while (previousPlayerState != playerState);
 
         previousAirGroundState = airGroundState;
+
+        super.update();
 
         super.moveYHandleCollision(map, moveAmountY);
         super.moveXHandleCollision(map, moveAmountX);
 
         updateLockedKeys(keyboard);
 
-        super.update();
     }
 
     protected void handlePlayerState(Keyboard keyboard) {
@@ -199,9 +207,5 @@ public abstract class Player extends GameObject {
 
     public Direction getFacingDirection() {
         return facingDirection;
-    }
-
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
     }
 }

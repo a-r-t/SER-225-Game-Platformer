@@ -1,12 +1,15 @@
 package GameObject;
 
 import Builders.FrameBuilder;
+import Enemies.DinosaurEnemy;
+import Engine.GraphicsHandler;
 import Scene.EnhancedMapTile;
 import Scene.Map;
 import Scene.MapTile;
+import Scene.MapTileCollisionHandler;
 import Utils.Direction;
 import Utils.MathUtils;
-
+import Utils.Point;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -14,20 +17,32 @@ import java.util.HashMap;
 
 public class GameObject extends AnimatedSprite {
 
+	protected float startPositionX, startPositionY;
+	protected float amountMovedX, amountMovedY;
+	protected Map map;
 
-	public GameObject(SpriteSheet spriteSheet, float x, float y, String startingAnimation) {
+	public GameObject(SpriteSheet spriteSheet, float x, float y, String startingAnimation, Map map) {
 		super(spriteSheet, x, y, startingAnimation);
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-	public GameObject(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+	public GameObject(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, Map map) {
 		super(x, y, animations, startingAnimation);
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-	public GameObject(BufferedImage image, float x, float y, String startingAnimation) {
+	public GameObject(BufferedImage image, float x, float y, String startingAnimation, Map map) {
 		super(image, x, y, startingAnimation);
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-	public GameObject(BufferedImage image, float x, float y) {
+	public GameObject(BufferedImage image, float x, float y, Map map) {
 		super(x, y);
 		this.animations = new HashMap<String, Frame[]>() {{
 			put("DEFAULT", new Frame[] {
@@ -36,9 +51,12 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-	public GameObject(BufferedImage image, float x, float y, float scale) {
+	public GameObject(BufferedImage image, float x, float y, float scale, Map map) {
 		super(x, y);
 		this.animations = new HashMap<String, Frame[]>() {{
 			put("DEFAULT", new Frame[] {
@@ -49,9 +67,12 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
+	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Map map) {
 		super(x, y);
 		this.animations = new HashMap<String, Frame[]>() {{
 			put("DEFAULT", new Frame[] {
@@ -63,9 +84,12 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
+	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
 		super(x, y);
 		this.animations = new HashMap<String, Frame[]>() {{
 			put("DEFAULT", new Frame[]{
@@ -78,38 +102,38 @@ public class GameObject extends AnimatedSprite {
 		}};
 		this.currentAnimationName = "DEFAULT";
 		setCurrentSprite();
+		this.startPositionX = x;
+		this.startPositionY = y;
+		this.map = map;
 	}
 
-
-	public void update() {
-		super.update();
-	}
-
-	public int moveXHandleCollision(Map map, float dx) {
+	public float moveXHandleCollision(Map map, float dx) {
 		return handleCollisionX(map, dx);
 	}
 
-	public int moveYHandleCollision(Map map, float dy) {
+	public float moveYHandleCollision(Map map, float dy) {
 		return handleCollisionY(map, dy);
 	}
 
-	public int handleCollisionX(Map map, float moveAmountX) {
+	public float handleCollisionX(Map map, float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
+		float absX = x;
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
-		float currentXRemainder = MathUtils.getRemainder(getXRaw());
-		if (moveAmountXRemainder + currentXRemainder >= 1) {
-			amountToMove += 1;
-			setX(getX());
-		}
-		int amountMoved = 0;
+		float wholeX = Math.round(x);
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-		if (amountToMove != 0) {
+		if (absX + moveAmountXRemainder >= wholeX + .5f) {
+			amountToMove += 1;
+			moveAmountXRemainder = moveAmountXRemainder - 1f;
+		}
+		float amountMoved = 0;
+		if (amountToMove >= 1) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveX(direction.getVelocity());
-				hasCollided = hasCollidedWithTilesX(map, direction);
+				hasCollided = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
 				if (hasCollided) {
 					moveX(-direction.getVelocity());
+					moveAmountXRemainder = 0;
 					break;
 				}
 				amountMoved = (i + 1) * direction.getVelocity();
@@ -117,26 +141,28 @@ public class GameObject extends AnimatedSprite {
 			onEndCollisionCheckX(hasCollided, direction);
 		}
 		moveX(moveAmountXRemainder * direction.getVelocity());
-		return amountMoved;
+		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
 	}
 
-	public int handleCollisionY(Map map, float moveAmountY) {
+	public float handleCollisionY(Map map, float moveAmountY) {
 		int amountToMove = (int)Math.abs(moveAmountY);
+		float absY = y;
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
-		float currentYRemainder = MathUtils.getRemainder(getYRaw());
-		if (moveAmountYRemainder + currentYRemainder >= 1) {
-			amountToMove += 1;
-			setY(getY());
-		}
-		int amountMoved = 0;
+		float wholeY = Math.round(y);
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
-		if (amountToMove != 0) {
+		if (absY + moveAmountYRemainder >= wholeY + .5f) {
+			amountToMove += 1;
+			moveAmountYRemainder = moveAmountYRemainder - 1f;
+		}
+		float amountMoved = 0;
+		if (amountToMove >= 1) {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveY(direction.getVelocity());
-				hasCollided = hasCollidedWithTilesY(map, direction);
+				hasCollided = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
 				if (hasCollided) {
 					moveY(-direction.getVelocity());
+					moveAmountYRemainder = 0;
 					break;
 				}
 				amountMoved = (i + 1) * direction.getVelocity();
@@ -144,57 +170,46 @@ public class GameObject extends AnimatedSprite {
 			onEndCollisionCheckY(hasCollided, direction);
 		}
 		moveY(moveAmountYRemainder * direction.getVelocity());
-		return amountMoved;
-	}
-
-	protected boolean hasCollidedWithTilesX(Map map, Direction direction) {
-		int numberOfTilesToCheck = getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight();
-		int edgeBoundX = direction == Direction.LEFT ? getScaledBounds().getX1() : getScaledBounds().getX2();
-		Point tileIndex = map.getTileIndexByPosition(edgeBoundX, getScaledBounds().getY1());
-		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			MapTile mapTile = map.getMapTile(tileIndex.x, tileIndex.y + j);
-			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasCollidedWithTilesY(Map map, Direction direction) {
-		int numberOfTilesToCheck = getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth();
-		int edgeBoundY = direction == Direction.UP ? getScaledBounds().getY() : getScaledBounds().getY2();
-		Point tileIndex = map.getTileIndexByPosition(getScaledBounds().getX(), edgeBoundY);
-		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			MapTile mapTile = map.getMapTile(tileIndex.x + j, tileIndex.y);
-			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasCollidedWithEnhancedTile(Map map, Direction direction) {
-		for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
-			if (hasCollidedWithMapTile(enhancedMapTile, direction)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasCollidedWithMapTile(MapTile mapTile, Direction direction) {
-		switch (mapTile.getTileType()) {
-			case PASSABLE:
-				return false;
-			case NOT_PASSABLE:
-				return intersects(mapTile);
-			case JUMP_THROUGH_PLATFORM:
-				return direction == Direction.DOWN && intersects(mapTile) && getScaledBoundsY2() - 1 == mapTile.getScaledBoundsY1();
-			default:
-				return false;
-		}
+		return amountMoved + (moveAmountYRemainder * direction.getVelocity());
 	}
 
 	public void onEndCollisionCheckX(boolean hasCollided, Direction direction) { }
 	public void onEndCollisionCheckY(boolean hasCollided, Direction direction) { }
+
+	public float getCalibratedXLocation(Map map) {
+		return x - map.getCamera().getX();
+	}
+
+	public float getCalibratedYLocation(Map map) {
+		return y - map.getCamera().getY();
+	}
+
+	public Rectangle getCalibratedScaledBounds() {
+		return new Rectangle(
+
+		);
+	}
+
+	@Override
+	public void draw(GraphicsHandler graphicsHandler) {
+		graphicsHandler.drawImage(
+				currentFrame.getImage(),
+				Math.round(getCalibratedXLocation(map)),
+				Math.round(getCalibratedYLocation(map)),
+				currentFrame.getScaledWidth(),
+				currentFrame.getScaledHeight(),
+				currentFrame.getImageEffect());
+	}
+
+	@Override
+	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
+		Rectangle scaledBounds = getScaledBounds();
+		Rectangle scaledCalibratedBounds = new Rectangle(
+				scaledBounds.getX1() - map.getCamera().getX(),
+				scaledBounds.getY1() - map.getCamera().getY(),
+				scaledBounds.getScaledWidth(),
+				scaledBounds.getScaledHeight());
+		scaledCalibratedBounds.setColor(color);
+		scaledCalibratedBounds.draw(graphicsHandler);
+	}
 }

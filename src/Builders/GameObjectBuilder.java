@@ -2,6 +2,7 @@ package Builders;
 
 import GameObject.Frame;
 import GameObject.GameObject;
+import Scene.Map;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class GameObjectBuilder {
         return animationsCopy;
     }
 
-    public GameObject build(float x, float y) {
-        return new GameObject(x, y, cloneAnimations(), startingAnimationName);
+    public GameObject build(float x, float y, Map map) {
+        return new GameObject(x, y, cloneAnimations(), startingAnimationName, map);
     }
 }

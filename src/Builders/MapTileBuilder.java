@@ -1,6 +1,7 @@
 package Builders;
 
 import GameObject.Frame;
+import Scene.Map;
 import Scene.MapTile;
 import Scene.TileType;
 
@@ -27,8 +28,7 @@ public class MapTileBuilder extends GameObjectBuilder {
         return this;
     }
 
-    @Override
-    public MapTile build(float x, float y) {
-        return new MapTile(x, y, cloneAnimations(), startingAnimationName, tileIndex, tileType);
+    public MapTile build(float x, float y, Map map) {
+        return new MapTile(x, y, cloneAnimations(), startingAnimationName, tileIndex, tileType, map);
     }
 }

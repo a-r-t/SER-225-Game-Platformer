@@ -17,47 +17,49 @@ public class MapEntity extends GameObject {
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation, Map map) {
         super(spriteSheet, x, y, startingAnimation, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public MapEntity(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, Map map) {
         super(x, y, animations, startingAnimation, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public MapEntity(BufferedImage image, float x, float y, String startingAnimation, Map map) {
         super(image, x, y, startingAnimation, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public MapEntity(BufferedImage image, float x, float y, Map map) {
         super(image, x, y, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public MapEntity(BufferedImage image, float x, float y, float scale, Map map) {
         super(image, x, y, scale, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Map map) {
         super(image, x, y, scale, imageEffect, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
         super(image, x, y, scale, imageEffect, bounds, map);
-        this.startPositionX = x;
-        this.startPositionY = y;
+//        this.startPositionX = x;
+//        this.startPositionY = y;
     }
 
     public void initialize() {
+        this.x = startPositionX;
+        this.y = startPositionY;
         this.amountMovedX = 0;
         this.amountMovedY = 0;
     }

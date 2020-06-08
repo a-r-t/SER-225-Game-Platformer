@@ -47,7 +47,8 @@ public class MapTileCollisionHandler {
             case NOT_PASSABLE:
                 return gameObject.intersects(mapTile);
             case JUMP_THROUGH_PLATFORM:
-                return direction == Direction.DOWN && gameObject.intersects(mapTile) && Math.round(gameObject.getScaledBoundsY2() - 1) == Math.round(mapTile.getScaledBoundsY1());
+                return direction == Direction.DOWN && gameObject.intersects(mapTile) &&
+                        Math.round(gameObject.getScaledBoundsY2() - 1) == Math.round(mapTile.getScaledBoundsY1());
             default:
                 return false;
         }

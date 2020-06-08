@@ -1,6 +1,7 @@
 package GameObject;
 
 import Builders.FrameBuilder;
+import Enemies.DinosaurEnemy;
 import Engine.GraphicsHandler;
 import Scene.EnhancedMapTile;
 import Scene.Map;
@@ -107,22 +108,6 @@ public class GameObject extends AnimatedSprite {
 		this.map = map;
 	}
 
-	public float getCalibratedXLocation(Map map) {
-		return startPositionX + amountMovedX - map.getCamera().getAmountMovedX();
-	}
-
-	public float getCalibratedYLocation(Map map) {
-		return startPositionY + amountMovedY - map.getCamera().getAmountMovedY();
-	}
-
-	public float getPureXLocation() {
-		return startPositionX + amountMovedX;
-	}
-
-	public float getPureYLocation() {
-		return startPositionY + amountMovedY;
-	}
-
 	public float moveXHandleCollision(Map map, float dx) {
 		return handleCollisionX(map, dx);
 	}
@@ -133,9 +118,9 @@ public class GameObject extends AnimatedSprite {
 
 	public float handleCollisionX(Map map, float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
-		float absX = startPositionX + amountMovedX;
+		float absX = x;
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
-		float wholeX = Math.round(startPositionX + amountMovedX);
+		float wholeX = Math.round(x);
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
 		if (absX + moveAmountXRemainder >= wholeX + .5f) {
 			amountToMove += 1;
@@ -162,9 +147,9 @@ public class GameObject extends AnimatedSprite {
 
 	public float handleCollisionY(Map map, float moveAmountY) {
 		int amountToMove = (int)Math.abs(moveAmountY);
-		float absY = startPositionY + amountMovedY;
+		float absY = y;
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
-		float wholeY = Math.round(startPositionY + amountMovedY);
+		float wholeY = Math.round(y);
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
 		if (absY + moveAmountYRemainder >= wholeY + .5f) {
 			amountToMove += 1;
@@ -200,12 +185,37 @@ public class GameObject extends AnimatedSprite {
 		return startPositionY;
 	}
 
+	public float getCalibratedXLocation(Map map) {
+		return x - map.getCamera().getX();
+	}
+
+	public float getCalibratedYLocation(Map map) {
+		return y - map.getCamera().getY();
+	}
+
+//	public float getCalibratedXLocation(Map map) {
+//		return startPositionX + amountMovedX - map.getCamera().getAmountMovedX();
+//	}
+//
+//	public float getCalibratedYLocation(Map map) {
+//		return startPositionY + amountMovedY - map.getCamera().getAmountMovedY();
+//	}
+
+	public float getPureXLocation() {
+		return startPositionX + amountMovedX;
+	}
+
+	public float getPureYLocation() {
+		return startPositionY + amountMovedY;
+	}
+
+
 	public void update() {
 		super.update();
-		amountMovedX += moveAmountX;
-		amountMovedY += moveAmountY;
-		moveAmountX = 0;
-		moveAmountY = 0;
+//		amountMovedX += moveAmountX;
+//		amountMovedY += moveAmountY;
+//		moveAmountX = 0;
+//		moveAmountY = 0;
 	}
 
 	@Override
@@ -264,10 +274,10 @@ public class GameObject extends AnimatedSprite {
 		super.moveUp(dy);
 	}
 
-	@Override
-	public Rectangle getIntersectRectangle() {
-		return getScaledBounds();
-	}
+//	@Override
+//	public Rectangle getIntersectRectangle() {
+//		return getScaledBounds();
+//	}
 
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {
@@ -279,40 +289,40 @@ public class GameObject extends AnimatedSprite {
 				currentFrame.getScaledHeight(),
 				currentFrame.getImageEffect());
 	}
-
-	@Override
-	public Rectangle getScaledBounds() {
-		Rectangle boundsTemp = currentFrame.getBoundsTemp();
-		return new Rectangle(
-				getX() + boundsTemp.getX() * boundsTemp.getScale(),
-				getY() + boundsTemp.getY() * boundsTemp.getScale(),
-				boundsTemp.getScaledWidth(),
-				boundsTemp.getScaledHeight());
-	}
-
-
-	@Override
-	public float getScaledBoundsX1() {
-		return getScaledBounds().getX1();
-	}
-
-
-	@Override
-	public float getScaledBoundsX2() {
-		return getScaledBounds().getX2();
-	}
-
-
-	@Override
-	public float getScaledBoundsY1() {
-		return getScaledBounds().getY1();
-	}
-
-
-	@Override
-	public float getScaledBoundsY2() {
-		return getScaledBounds().getY2();
-	}
+//
+//	@Override
+//	public Rectangle getScaledBounds() {
+//		Rectangle boundsTemp = currentFrame.getBoundsTemp();
+//		return new Rectangle(
+//				getX() + boundsTemp.getX() * boundsTemp.getScale(),
+//				getY() + boundsTemp.getY() * boundsTemp.getScale(),
+//				boundsTemp.getScaledWidth(),
+//				boundsTemp.getScaledHeight());
+//	}
+//
+//
+//	@Override
+//	public float getScaledBoundsX1() {
+//		return getScaledBounds().getX1();
+//	}
+//
+//
+//	@Override
+//	public float getScaledBoundsX2() {
+//		return getScaledBounds().getX2();
+//	}
+//
+//
+//	@Override
+//	public float getScaledBoundsY1() {
+//		return getScaledBounds().getY1();
+//	}
+//
+//
+//	@Override
+//	public float getScaledBoundsY2() {
+//		return getScaledBounds().getY2();
+//	}
 
 	@Override
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {

@@ -76,7 +76,6 @@ public class Camera extends Rectangle {
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (Enemy enemy: map.getEnemies()) {
-
             if (isMapEntityActive(enemy)) {
                 activeEnemies.add(enemy);
                 if (enemy.mapEntityStatus == MapEntityStatus.INACTIVE) {
@@ -170,15 +169,15 @@ public class Camera extends Rectangle {
     }
 
     public boolean containsUpdate(MapEntity mapEntity) {
-        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < mapEntity.getScaledX2() + amountMovedX &&
-                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getX1() + amountMovedX &&
-                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  mapEntity.getScaledY2() + amountMovedY
-                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) >  mapEntity.getY1() + amountMovedY;
+        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < mapEntity.getX() + mapEntity.getScaledWidth() &&
+                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getX() &&
+                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  mapEntity.getY() + mapEntity.getScaledHeight()
+                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getY();
     }
 
     public boolean containsDraw(MapEntity mapEntity) {
-        return getX1() - tileWidth < mapEntity.getScaledX2() + amountMovedX && getEndBoundX() + tileWidth > mapEntity.getX1() + amountMovedX &&
-                getY1() - tileHeight <  mapEntity.getScaledY2() + amountMovedY && getEndBoundY() + tileHeight >  mapEntity.getY1() + amountMovedY;
+        return getX1() - tileWidth < mapEntity.getX() + mapEntity.getScaledWidth() && getEndBoundX() + tileWidth > mapEntity.getX() &&
+                getY1() - tileHeight <  mapEntity.getY() + mapEntity.getScaledHeight() && getEndBoundY() + tileHeight >  mapEntity.getY();
     }
 
     public ArrayList<Enemy> getActiveEnemies() {

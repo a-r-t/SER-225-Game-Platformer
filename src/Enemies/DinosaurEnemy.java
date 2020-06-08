@@ -47,29 +47,30 @@ public class DinosaurEnemy extends Enemy {
 
     @Override
     public void update(Keyboard keyboard, Player player) {
-        float startBound = map.getPointCameraAdjusted(startLocation).x;
-        float endBound = map.getPointCameraAdjusted(endLocation).x;
+        float startBound = startLocation.x;
+        float endBound = endLocation.x;
 
         if (shootTimer.isTimeUp() && dinosaurState != DinosaurState.SHOOT) {
             dinosaurState = DinosaurState.SHOOT;
         }
+        super.update(keyboard, player);
 
         if (dinosaurState == DinosaurState.WALK) {
             if (facingDirection == Direction.RIGHT) {
                 currentAnimationName = "WALK_RIGHT";
-                moveXHandleCollision(map, movementSpeed);
+                System.out.println("WALK RIGHT: " + moveXHandleCollision(map, movementSpeed));
             } else {
                 currentAnimationName = "WALK_LEFT";
-                moveXHandleCollision(map, -movementSpeed);
+                System.out.println("WALK LEFT: " + moveXHandleCollision(map, -movementSpeed));
             }
 
             if (getX1() + getScaledWidth() >= endBound) {
                 float difference = endBound - (getScaledX2());
-                moveXHandleCollision(map, -difference);
+                System.out.println("SWITCH DIRECTIONS TO LEFT: " + moveXHandleCollision(map, -difference));
                 facingDirection = Direction.LEFT;
             } else if (getX1() <= startBound) {
                 float difference = startBound - getX1();
-                moveXHandleCollision(map, difference);
+                System.out.println("SWITCH DIRECTIONS TO RIGHT: " + moveXHandleCollision(map, difference));
                 facingDirection = Direction.RIGHT;
             }
 
@@ -81,10 +82,10 @@ public class DinosaurEnemy extends Enemy {
                 int fireballX;
                 float movementSpeed;
                 if (facingDirection == Direction.RIGHT) {
-                    fireballX = Math.round(getPureXLocation()) + getScaledWidth();
+                    fireballX = Math.round(getX()) + getScaledWidth();
                     movementSpeed = 1.5f;
                 } else {
-                    fireballX = Math.round(getPureXLocation());
+                    fireballX = Math.round(getX());
                     movementSpeed = -1.5f;
                 }
                 int fireballY = Math.round(getPureYLocation()) + 4;
@@ -94,7 +95,6 @@ public class DinosaurEnemy extends Enemy {
                 shootTimer.setWaitTime(2000);
             }
         }
-        super.update(keyboard, player);
         previousDinosaurState = dinosaurState;
     }
 

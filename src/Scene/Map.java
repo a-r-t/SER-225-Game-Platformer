@@ -175,7 +175,7 @@ public abstract class Map {
     }
 
     public Point getPointCameraAdjusted(Point point) {
-        return new Point(point.x - getCamera().getAmountMovedX(), point.y - getCamera().getAmountMovedY());
+        return new Point(point.x - getCamera().getX(), point.y - getCamera().getY());
     }
 
     private boolean isInBounds(int x, int y) {

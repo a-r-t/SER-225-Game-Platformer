@@ -35,8 +35,8 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     @Override
     public void update(Keyboard keyboard, Player player) {
-        float startBound = map.getPointCameraAdjusted(startLocation).x;
-        float endBound = map.getPointCameraAdjusted(endLocation).x;
+        float startBound = startLocation.x;
+        float endBound = endLocation.x;
 
         int moveAmountX = 0;
         if (direction == Direction.RIGHT) {

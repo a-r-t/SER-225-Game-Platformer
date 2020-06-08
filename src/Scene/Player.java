@@ -11,7 +11,7 @@ import Utils.Direction;
 import Utils.MathUtils;
 import GameObject.Rectangle;
 
-public abstract class Player extends MapEntity {
+public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
     protected float gravity = 0;
     protected float jumpHeight = 0;
@@ -32,7 +32,7 @@ public abstract class Player extends MapEntity {
     protected Key CROUCH_KEY = Key.S;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
-        super(x, y, spriteSheet, startingAnimationName, map);
+        super(spriteSheet, x, y, startingAnimationName, map);
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;

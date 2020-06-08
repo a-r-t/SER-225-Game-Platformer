@@ -14,70 +14,52 @@ import java.util.HashMap;
 public class MapEntity extends GameObject {
     protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
     protected boolean isRespawnable = true;
-    //protected float startPositionX, startPositionY;
-    private float moveAmountX, moveAmountY;
-    protected Map map;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation, Map map) {
-        super(spriteSheet, x, y, startingAnimation);
+        super(spriteSheet, x, y, startingAnimation, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public MapEntity(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, Map map) {
-        super(x, y, animations, startingAnimation);
+        super(x, y, animations, startingAnimation, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public MapEntity(BufferedImage image, float x, float y, String startingAnimation, Map map) {
-        super(image, x, y, startingAnimation);
+        super(image, x, y, startingAnimation, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public MapEntity(BufferedImage image, float x, float y, Map map) {
-        super(image, x, y);
+        super(image, x, y, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public MapEntity(BufferedImage image, float x, float y, float scale, Map map) {
-        super(image, x, y, scale);
+        super(image, x, y, scale, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Map map) {
-        super(image, x, y, scale, imageEffect);
+        super(image, x, y, scale, imageEffect, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
-        super(image, x, y, scale, imageEffect, bounds);
+        super(image, x, y, scale, imageEffect, bounds, map);
         this.startPositionX = x;
         this.startPositionY = y;
-        this.map = map;
     }
 
     public void initialize() {
         this.amountMovedX = 0;
         this.amountMovedY = 0;
-    }
-
-    public int getStartPositionX() {
-        return Math.round(startPositionX);
-    }
-
-    public int getStartPositionY() {
-        return Math.round(startPositionY);
     }
 
     public MapEntityStatus getMapEntityStatus() {
@@ -96,135 +78,4 @@ public class MapEntity extends GameObject {
         this.isRespawnable = isRespawnable;
     }
 
-    public void calibrate(Map map) {
-        super.setX(getCalibratedXLocation(map));
-        super.setY(getCalibratedYLocation(map));
-    }
-
-
-    public void update() {
-        super.update();
-        amountMovedX += moveAmountX;
-        amountMovedY += moveAmountY;
-        moveAmountX = 0;
-        moveAmountY = 0;
-    }
-
-    @Override
-    public void moveX(float dx) {
-        moveAmountX += dx;
-        super.moveX(dx);
-    }
-
-    @Override
-    public void moveY(float dy) {
-        moveAmountY += dy;
-        super.moveY(dy);
-    }
-
-    @Override
-    public void setX(float x) {
-        float difference = x - this.x;
-        moveAmountX += difference;
-        super.setX(x);
-    }
-
-    @Override
-    public void setY(float y) {
-        float difference = y - this.y;
-        moveAmountY += difference;
-        super.setY(y);
-    }
-
-    @Override
-    public void setLocation(float x, float y) {
-        this.setX(x);
-        this.setY(y);
-    }
-
-    @Override
-    public void moveRight(float dx) {
-        moveAmountX += dx;
-        super.moveRight(dx);
-    }
-
-    @Override
-    public void moveLeft(float dx) {
-        moveAmountX -= dx;
-        super.moveLeft(dx);
-    }
-
-    @Override
-    public void moveDown(float dy) {
-        moveAmountY += dy;
-        super.moveDown(dy);
-    }
-
-    @Override
-    public void moveUp(float dy) {
-        moveAmountY -= dy;
-        super.moveUp(dy);
-    }
-
-    @Override
-    public Rectangle getIntersectRectangle() {
-        return getScaledBounds();
-    }
-
-    @Override
-    public void draw(GraphicsHandler graphicsHandler) {
-        graphicsHandler.drawImage(
-                currentFrame.getImage(),
-                Math.round(getCalibratedXLocation(map)),
-                Math.round(getCalibratedYLocation(map)),
-                currentFrame.getScaledWidth(),
-                currentFrame.getScaledHeight(),
-                currentFrame.getImageEffect());
-    }
-
-    @Override
-    public Rectangle getScaledBounds() {
-        Rectangle boundsTemp = currentFrame.getBoundsTemp();
-        return new Rectangle(
-                getX() + boundsTemp.getX() * boundsTemp.getScale(),
-                getY() + boundsTemp.getY() * boundsTemp.getScale(),
-                boundsTemp.getScaledWidth(),
-                boundsTemp.getScaledHeight());
-    }
-
-
-    @Override
-    public float getScaledBoundsX1() {
-        return getScaledBounds().getX1();
-    }
-
-
-    @Override
-    public float getScaledBoundsX2() {
-        return getScaledBounds().getX2();
-    }
-
-
-    @Override
-    public float getScaledBoundsY1() {
-        return getScaledBounds().getY1();
-    }
-
-
-    @Override
-    public float getScaledBoundsY2() {
-        return getScaledBounds().getY2();
-    }
-
-    @Override
-    public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
-        Rectangle boundsTemp = currentFrame.getBoundsTemp();
-        Rectangle scaledCalibratedBounds = new Rectangle(
-                getCalibratedXLocation(map) + boundsTemp.getX() * boundsTemp.getScale(),
-                getCalibratedYLocation(map) + boundsTemp.getY() * boundsTemp.getScale(),
-                boundsTemp.getScaledWidth(),
-                boundsTemp.getScaledHeight());
-        scaledCalibratedBounds.setColor(color);
-        scaledCalibratedBounds.draw(graphicsHandler);
-    }
 }

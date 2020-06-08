@@ -117,11 +117,9 @@ public class GameObject extends AnimatedSprite {
 
 	public float handleCollisionX(Map map, float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
-		float absX = x;
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
-		float wholeX = Math.round(x);
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-		if (absX + moveAmountXRemainder >= wholeX + .5f) {
+		if (x + moveAmountXRemainder >= Math.round(x) + .5f) {
 			amountToMove += 1;
 			moveAmountXRemainder = moveAmountXRemainder - 1f;
 		}
@@ -146,11 +144,9 @@ public class GameObject extends AnimatedSprite {
 
 	public float handleCollisionY(Map map, float moveAmountY) {
 		int amountToMove = (int)Math.abs(moveAmountY);
-		float absY = y;
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
-		float wholeY = Math.round(y);
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
-		if (absY + moveAmountYRemainder >= wholeY + .5f) {
+		if (y + moveAmountYRemainder >= Math.round(y) + .5f) {
 			amountToMove += 1;
 			moveAmountYRemainder = moveAmountYRemainder - 1f;
 		}
@@ -185,8 +181,12 @@ public class GameObject extends AnimatedSprite {
 	}
 
 	public Rectangle getCalibratedScaledBounds() {
+		Rectangle scaledBounds = getScaledBounds();
 		return new Rectangle(
-
+			scaledBounds.getX1() - map.getCamera().getX(),
+			scaledBounds.getY1() - map.getCamera().getY(),
+			scaledBounds.getScaledWidth(),
+			scaledBounds.getScaledHeight()
 		);
 	}
 
@@ -203,12 +203,7 @@ public class GameObject extends AnimatedSprite {
 
 	@Override
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
-		Rectangle scaledBounds = getScaledBounds();
-		Rectangle scaledCalibratedBounds = new Rectangle(
-				scaledBounds.getX1() - map.getCamera().getX(),
-				scaledBounds.getY1() - map.getCamera().getY(),
-				scaledBounds.getScaledWidth(),
-				scaledBounds.getScaledHeight());
+		Rectangle scaledCalibratedBounds = getCalibratedScaledBounds();
 		scaledCalibratedBounds.setColor(color);
 		scaledCalibratedBounds.draw(graphicsHandler);
 	}

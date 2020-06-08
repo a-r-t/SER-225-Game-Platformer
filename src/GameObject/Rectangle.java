@@ -37,17 +37,6 @@ public class Rectangle implements IntersectableRectangle {
 		this.borderThickness = 0;
 	}
 
-	public Rectangle() {
-		this.x = 0;
-		this.y = 0;
-		this.width = 0;
-		this.height = 0;
-		this.scale = 1;
-		this.color = Color.white;
-		this.borderColor = null;
-		this.borderThickness = 0;
-	}
-
     public float getX() {
         return x;
     }

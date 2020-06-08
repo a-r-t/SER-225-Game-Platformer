@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class Map {
+public class Map {
     protected MapTile[] mapTiles;
     protected int width;
     protected int height;
@@ -44,15 +44,6 @@ public abstract class Map {
         this.enemies = loadEnemies();
         this.enhancedMapTiles = loadEnhancedMapTiles();
         this.npcs = loadNPCs();
-        if (this.enemies == null) {
-            this.enemies = new ArrayList<>();
-        }
-        if (this.enhancedMapTiles == null) {
-            this.enhancedMapTiles = new ArrayList<>();
-        }
-        if (this.npcs == null) {
-            this.npcs = new ArrayList<>();
-        }
         this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
 
@@ -174,10 +165,6 @@ public abstract class Map {
         return new Point(xIndex, yIndex);
     }
 
-    public Point getPointCameraAdjusted(Point point) {
-        return new Point(point.x - getCamera().getX(), point.y - getCamera().getY());
-    }
-
     private boolean isInBounds(int x, int y) {
         return x >= 0 && y >= 0 && x < width && y < height;
     }
@@ -186,11 +173,17 @@ public abstract class Map {
         return x + width * y;
     }
 
-    protected abstract ArrayList<Enemy> loadEnemies();
+    protected ArrayList<Enemy> loadEnemies() {
+        return new ArrayList<>();
+    }
 
-    protected abstract ArrayList<EnhancedMapTile> loadEnhancedMapTiles();
+    protected ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
+        return new ArrayList<>();
+    }
 
-    protected abstract ArrayList<NPC> loadNPCs();
+    protected ArrayList<NPC> loadNPCs() {
+        return new ArrayList<>();
+    }
 
     public Camera getCamera() {
         return camera;

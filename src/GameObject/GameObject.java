@@ -2,11 +2,10 @@ package GameObject;
 
 import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
-import EnhancedMapTiles.HorizontalMovingPlatform;
 import Scene.EnhancedMapTile;
 import Scene.Map;
 import Scene.MapTile;
-import Scene.Player;
+import Scene.MapTileCollisionHandler;
 import Utils.Direction;
 import Utils.MathUtils;
 import Utils.Point;
@@ -147,7 +146,7 @@ public class GameObject extends AnimatedSprite {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveX(direction.getVelocity());
-				hasCollided = hasCollidedWithTilesX(map, direction);
+				hasCollided = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
 				if (hasCollided) {
 					moveX(-direction.getVelocity());
 					moveAmountXRemainder = 0;
@@ -176,7 +175,7 @@ public class GameObject extends AnimatedSprite {
 			boolean hasCollided = false;
 			for (int i = 0; i < amountToMove; i++) {
 				moveY(direction.getVelocity());
-				hasCollided = hasCollidedWithTilesY(map, direction);
+				hasCollided = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
 				if (hasCollided) {
 					moveY(-direction.getVelocity());
 					moveAmountYRemainder = 0;
@@ -188,54 +187,6 @@ public class GameObject extends AnimatedSprite {
 		}
 		moveY(moveAmountYRemainder * direction.getVelocity());
 		return amountMoved + (moveAmountYRemainder * direction.getVelocity());
-	}
-
-	protected boolean hasCollidedWithTilesX(Map map, Direction direction) {
-		int numberOfTilesToCheck = Math.max(getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
-		float edgeBoundX = direction == Direction.LEFT ? getScaledBounds().getX1() : getScaledBounds().getX2();
-		Point tileIndex = map.getTileIndexByPosition(Math.round(edgeBoundX), Math.round(getScaledBounds().getY1()));
-		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + j));
-			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasCollidedWithTilesY(Map map, Direction direction) {
-		int numberOfTilesToCheck = Math.max(getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
-		float edgeBoundY = direction == Direction.UP ? getScaledBounds().getY() : getScaledBounds().getY2();
-		Point tileIndex = map.getTileIndexByPosition(Math.round(getScaledBounds().getX1()), Math.round(edgeBoundY));
-		for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-			MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y));
-			if (mapTile != null && (hasCollidedWithMapTile(mapTile, direction) || hasCollidedWithEnhancedTile(map, direction))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasCollidedWithEnhancedTile(Map map, Direction direction) {
-		for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
-			if (hasCollidedWithMapTile(enhancedMapTile, direction)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean hasCollidedWithMapTile(MapTile mapTile, Direction direction) {
-		switch (mapTile.getTileType()) {
-			case PASSABLE:
-				return false;
-			case NOT_PASSABLE:
-				return intersects(mapTile);
-			case JUMP_THROUGH_PLATFORM:
-				return direction == Direction.DOWN && intersects(mapTile) && Math.round(getScaledBoundsY2() - 1) == Math.round(mapTile.getScaledBoundsY1());
-			default:
-				return false;
-		}
 	}
 
 	public void onEndCollisionCheckX(boolean hasCollided, Direction direction) { }

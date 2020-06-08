@@ -44,6 +44,15 @@ public abstract class Map {
         this.enemies = loadEnemies();
         this.enhancedMapTiles = loadEnhancedMapTiles();
         this.npcs = loadNPCs();
+        if (this.enemies == null) {
+            this.enemies = new ArrayList<>();
+        }
+        if (this.enhancedMapTiles == null) {
+            this.enhancedMapTiles = new ArrayList<>();
+        }
+        if (this.npcs == null) {
+            this.npcs = new ArrayList<>();
+        }
         this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
 
@@ -177,15 +186,11 @@ public abstract class Map {
         return x + width * y;
     }
 
-    protected ArrayList<Enemy> loadEnemies() {
-        return new ArrayList<>();
-    }
-    protected ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
-        return new ArrayList<>();
-    }
-    protected ArrayList<NPC> loadNPCs() {
-        return new ArrayList<>();
-    }
+    protected abstract ArrayList<Enemy> loadEnemies();
+
+    protected abstract ArrayList<EnhancedMapTile> loadEnhancedMapTiles();
+
+    protected abstract ArrayList<NPC> loadNPCs();
 
     public Camera getCamera() {
         return camera;

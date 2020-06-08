@@ -22,6 +22,7 @@ public abstract class Player extends GameObject {
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
     protected PlayerState playerState;
+    protected PlayerState previousPlayerState;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
     protected AirGroundState previousAirGroundState;
@@ -37,6 +38,7 @@ public abstract class Player extends GameObject {
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
+        previousPlayerState = playerState;
     }
 
     public void update(Keyboard keyboard, Map map) {
@@ -45,7 +47,10 @@ public abstract class Player extends GameObject {
 
         moveAmountY += gravity + momentumY;
 
-        handlePlayerState(keyboard);
+        do {
+            previousPlayerState = playerState;
+            handlePlayerState(keyboard);
+        } while (previousPlayerState != playerState);
 
         previousAirGroundState = airGroundState;
 

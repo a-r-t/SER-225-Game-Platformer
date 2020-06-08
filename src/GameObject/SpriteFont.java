@@ -53,16 +53,16 @@ public class SpriteFont {
 		this.outlineThickness = outlineThickness;
 	}
 
-	public int getX() {
-		return Math.round(x);
+	public float getX() {
+		return x;
 	}
 
 	public void setX(float x) {
 		this.x = x;
 	}
 
-	public int getY() {
-		return Math.round(y);
+	public float getY() {
+		return y;
 	}
 
 	public void setY(float y) {
@@ -72,6 +72,14 @@ public class SpriteFont {
 	public void setLocation(float x, float y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public void moveX(float dx) {
+		x += dx;
+	}
+
+	public void moveY(float dy) {
+		y += dy;
 	}
 
 	public void moveRight(float dx) {
@@ -91,14 +99,22 @@ public class SpriteFont {
 	}
 
 	public void draw(GraphicsHandler graphicsHandler) {
-		int y = getY();
+		if (outlineColor != null && !outlineColor.equals(color)) {
+			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y), font, color, outlineColor, outlineThickness);
+		} else {
+			graphicsHandler.drawString(text, Math.round(x), Math.round(y), font, color);
+		}
+	}
+
+	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
+		int drawLocationY = Math.round(this.y);
 		for (String line: text.split("\n")) {
 			if (outlineColor != null && !outlineColor.equals(color)) {
-				graphicsHandler.drawStringWithOutline(line, getX(), y, font, color, outlineColor, outlineThickness);
+				graphicsHandler.drawStringWithOutline(line, Math.round(x), drawLocationY, font, color, outlineColor, outlineThickness);
 			} else {
-				graphicsHandler.drawString(line, getX(), y, font, color);
+				graphicsHandler.drawString(line, Math.round(x), drawLocationY, font, color);
 			}
-			y += font.getSize();
+			drawLocationY += font.getSize();
 		}
 	}
 }

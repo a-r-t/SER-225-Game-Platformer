@@ -130,7 +130,7 @@ public class Camera extends Rectangle {
     }
 
     private boolean isMapEntityActive(MapEntity mapEntity) {
-        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (containsUpdate(mapEntity));
+        return mapEntity.getMapEntityStatus() != MapEntityStatus.REMOVED && (mapEntity.isUpdateOffScreen() || containsUpdate(mapEntity));
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

@@ -31,8 +31,8 @@ public class TestMap extends Map {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
         enhancedMapTiles.add(new HorizontalMovingPlatform(
             ImageLoader.load("GreenPlatform.png"),
-            getPositionByTileIndex(20, 0),
-            getPositionByTileIndex(24, 0),
+            getPositionByTileIndex(24, 6),
+            getPositionByTileIndex(27, 6),
             TileType.JUMP_THROUGH_PLATFORM,
             3,
             new Rectangle(0, 6,16,4),
@@ -43,7 +43,7 @@ public class TestMap extends Map {
     @Override
     public ArrayList<NPC> loadNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
-        //npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
+        npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
         return npcs;
     }
 }

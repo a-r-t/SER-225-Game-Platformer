@@ -58,19 +58,19 @@ public class DinosaurEnemy extends Enemy {
         if (dinosaurState == DinosaurState.WALK) {
             if (facingDirection == Direction.RIGHT) {
                 currentAnimationName = "WALK_RIGHT";
-                System.out.println("WALK RIGHT: " + moveXHandleCollision(map, movementSpeed));
+                moveXHandleCollision(map, movementSpeed);
             } else {
                 currentAnimationName = "WALK_LEFT";
-                System.out.println("WALK LEFT: " + moveXHandleCollision(map, -movementSpeed));
+                moveXHandleCollision(map, -movementSpeed);
             }
 
             if (getX1() + getScaledWidth() >= endBound) {
                 float difference = endBound - (getScaledX2());
-                System.out.println("SWITCH DIRECTIONS TO LEFT: " + moveXHandleCollision(map, -difference));
+                moveXHandleCollision(map, -difference);
                 facingDirection = Direction.LEFT;
             } else if (getX1() <= startBound) {
                 float difference = startBound - getX1();
-                System.out.println("SWITCH DIRECTIONS TO RIGHT: " + moveXHandleCollision(map, difference));
+                moveXHandleCollision(map, difference);
                 facingDirection = Direction.RIGHT;
             }
 

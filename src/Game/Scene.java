@@ -8,24 +8,24 @@ import Scene.Map;
 
 public class Scene extends Screen {
 	private Map testMap;
-	private Kirby kirby;
+	private Cat cat;
 
 	@Override
 	public void initialize() {
 		testMap = new TestMap();
-		kirby = new Kirby(testMap.getPlayerStartPosition().x, testMap.getPlayerStartPosition().y, testMap);
+		cat = new Cat(testMap.getPlayerStartPosition().x, testMap.getPlayerStartPosition().y, testMap);
 	}
 
 	@Override
 	public void update(Keyboard keyboard) {
-		testMap.update(keyboard, kirby);
-		kirby.update(keyboard, testMap);
+		testMap.update(keyboard, cat);
+		cat.update(keyboard, testMap);
 	}
 
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {
 		testMap.draw(graphicsHandler);
-		kirby.draw(graphicsHandler);
+		cat.draw(graphicsHandler);
 	}
 	
 }

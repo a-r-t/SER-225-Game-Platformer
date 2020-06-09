@@ -1,15 +1,11 @@
 package GameObject;
 
 import Builders.FrameBuilder;
-import Enemies.DinosaurEnemy;
 import Engine.GraphicsHandler;
-import Scene.EnhancedMapTile;
 import Scene.Map;
-import Scene.MapTile;
 import Scene.MapTileCollisionHandler;
 import Utils.Direction;
 import Utils.MathUtils;
-import Utils.Point;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -19,12 +15,15 @@ public class GameObject extends AnimatedSprite {
 
 	protected float startPositionX, startPositionY;
 	protected float amountMovedX, amountMovedY;
+	protected float previousX, previousY;
 	protected Map map;
 
 	public GameObject(SpriteSheet spriteSheet, float x, float y, String startingAnimation, Map map) {
 		super(spriteSheet, x, y, startingAnimation);
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
 	}
 
@@ -32,6 +31,8 @@ public class GameObject extends AnimatedSprite {
 		super(x, y, animations, startingAnimation);
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
 	}
 
@@ -39,6 +40,8 @@ public class GameObject extends AnimatedSprite {
 		super(image, x, y, startingAnimation);
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
 	}
 
@@ -53,6 +56,8 @@ public class GameObject extends AnimatedSprite {
 		setCurrentSprite();
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
 	}
 
@@ -69,6 +74,8 @@ public class GameObject extends AnimatedSprite {
 		setCurrentSprite();
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
 	}
 
@@ -86,6 +93,8 @@ public class GameObject extends AnimatedSprite {
 		setCurrentSprite();
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
 	}
 
@@ -104,7 +113,16 @@ public class GameObject extends AnimatedSprite {
 		setCurrentSprite();
 		this.startPositionX = x;
 		this.startPositionY = y;
+		this.previousX = x;
+		this.previousY = y;
 		this.map = map;
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		previousX = x;
+		previousY = y;
 	}
 
 	public float moveXHandleCollision(Map map, float dx) {

@@ -10,6 +10,7 @@ import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.MathUtils;
 import GameObject.Rectangle;
+import Utils.Timer;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -145,7 +146,7 @@ public abstract class Player extends GameObject {
                 }
             }
 
-            if (moveAmountY < 0) {
+            if (previousY > Math.round(y)) {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             } else {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";

@@ -4,10 +4,8 @@ import Engine.Config;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
-import Game.Kirby;
 import Utils.Point;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -208,7 +206,7 @@ public class Map {
         return camera.getActiveNPCs();
     }
 
-    public void update(Keyboard keyboard, Kirby player) {
+    public void update(Keyboard keyboard, Player player) {
         adjustMovementY(player);
         adjustMovementX(player);
         camera.update(keyboard, player);

@@ -9,6 +9,9 @@ import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.TwoKeyHashMap;
+import Utils.MathUtils;
+import GameObject.Rectangle;
+import Utils.Timer;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -21,6 +24,7 @@ public abstract class Player extends GameObject {
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
     protected PlayerState playerState;
+    protected PlayerState previousPlayerState;
     protected Direction facingDirection;
     protected TwoKeyHashMap<PlayerState, Direction, String> playerStateAndDirection;
     protected AirGroundState airGroundState;
@@ -31,13 +35,12 @@ public abstract class Player extends GameObject {
     protected Key MOVE_RIGHT_KEY = Key.D;
     protected Key CROUCH_KEY = Key.S;
 
-    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
-        super(spriteSheet, x, y, startingAnimationName);
+    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
+        super(spriteSheet, x, y, startingAnimationName, map);
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
-        
         playerStateAndDirection = new TwoKeyHashMap<PlayerState, Direction, String>();
         playerStateAndDirection.put(PlayerState.STANDING, Direction.LEFT, "STAND_LEFT");
         playerStateAndDirection.put(PlayerState.STANDING, Direction.RIGHT, "STAND_RIGHT");
@@ -47,24 +50,28 @@ public abstract class Player extends GameObject {
         playerStateAndDirection.put(PlayerState.CROUCHING, Direction.RIGHT, "CROUCH_RIGHT");
         playerStateAndDirection.put(PlayerState.JUMPING, Direction.LEFT, "JUMP_LEFT");
         playerStateAndDirection.put(PlayerState.JUMPING, Direction.RIGHT, "JUMP_RIGHT");
+        previousPlayerState = playerState;
     }
 
     public void update(Keyboard keyboard, Map map) {
         moveAmountX = 0;
         moveAmountY = 0;
-
         moveAmountY += gravity + momentumY;
 
-        handlePlayerState(keyboard);
+        do {
+            previousPlayerState = playerState;
+            handlePlayerState(keyboard);
+        } while (previousPlayerState != playerState);
 
         previousAirGroundState = airGroundState;
+
+        super.update();
 
         super.moveYHandleCollision(map, moveAmountY);
         super.moveXHandleCollision(map, moveAmountX);
 
         updateLockedKeys(keyboard);
 
-        super.update();
     }
 
     protected void handlePlayerState(Keyboard keyboard) {
@@ -153,9 +160,8 @@ public abstract class Player extends GameObject {
                 }
             }
 
-            if (moveAmountY < 0) {
-                //currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
-                currentAnimationName = playerStateAndDirection.get(playerState.JUMPING, facingDirection);
+            if (previousY > Math.round(y)) {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             } else {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
             }
@@ -216,9 +222,5 @@ public abstract class Player extends GameObject {
 
     public Direction getFacingDirection() {
         return facingDirection;
-    }
-
-    public void draw(GraphicsHandler graphicsHandler) {
-        super.draw(graphicsHandler);
     }
 }

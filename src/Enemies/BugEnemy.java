@@ -11,7 +11,7 @@ import Scene.Map;
 import Scene.Player;
 import Utils.AirGroundState;
 import Utils.Direction;
-
+import Utils.Point;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -22,8 +22,8 @@ public class BugEnemy extends Enemy {
     private Direction facingDirection;
     private AirGroundState airGroundState;
 
-    public BugEnemy(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_RIGHT");
+    public BugEnemy(Point location, Map map) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_RIGHT", map);
         initialize();
     }
 
@@ -36,7 +36,7 @@ public class BugEnemy extends Enemy {
     }
 
     @Override
-    public void update(Keyboard keyboard, Map map, Player player) {
+    public void update(Keyboard keyboard, Player player) {
         float moveAmountX = 0;
         float moveAmountY = 0;
         moveAmountY += gravity;
@@ -52,7 +52,7 @@ public class BugEnemy extends Enemy {
         moveYHandleCollision(map, moveAmountY);
         moveXHandleCollision(map, moveAmountX);
 
-        super.update(keyboard, map, player);
+        super.update(keyboard, player);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Builders;
 
 import GameObject.Frame;
+import Scene.Map;
 import Scene.MapEntity;
 import Scene.MapEntityStatus;
 
@@ -28,9 +29,8 @@ public class MapEntityBuilder extends GameObjectBuilder {
         return this;
     }
 
-    @Override
-    public MapEntity build(float x, float y) {
-        MapEntity mapEntity = new MapEntity(x, y, cloneAnimations(), startingAnimationName);
+    public MapEntity build(float x, float y, Map map) {
+        MapEntity mapEntity = new MapEntity(x, y, cloneAnimations(), startingAnimationName, map);
         mapEntity.setMapEntityStatus(mapEntityStatus);
         mapEntity.setIsRespawnable(isRespawnable);
         return mapEntity;

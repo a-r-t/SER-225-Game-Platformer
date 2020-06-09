@@ -74,8 +74,8 @@ public class TileBuilder extends JPanel {
 
         if (hoveredMapTile != null) {
             graphicsHandler.drawRectangle(
-                    hoveredMapTile.getX() + 2,
-                    hoveredMapTile.getY() + 2,
+                    Math.round(hoveredMapTile.getX()) + 2,
+                    Math.round(hoveredMapTile.getY()) + 2,
                     hoveredMapTile.getScaledWidth() - 5,
                     hoveredMapTile.getScaledHeight() - 5,
                     Color.YELLOW,
@@ -95,15 +95,15 @@ public class TileBuilder extends JPanel {
         int selectedTileIndex = getSelectedTileIndex(selectedPoint);
         if (selectedTileIndex != -1) {
             MapTile oldMapTile = map.getMapTiles()[selectedTileIndex];
-            map.getMapTiles()[selectedTileIndex] = map.getTileset().getTile(controlPanelHolder.getSelectedTileIndex()).build(oldMapTile.getX(), oldMapTile.getY());
+            map.getMapTiles()[selectedTileIndex] = map.getTileset().getTile(controlPanelHolder.getSelectedTileIndex()).build(oldMapTile.getX(), oldMapTile.getY(), map);
         }
         repaint();
     }
 
     public void tileHovered(Point hoveredPoint) {
         this.hoveredMapTile = getHoveredTile(hoveredPoint);
-        int hoveredIndexX = this.hoveredMapTile.getX() / map.getTileset().getScaledSpriteWidth();
-        int hoveredIndexY = this.hoveredMapTile.getY() / map.getTileset().getScaledSpriteHeight();
+        int hoveredIndexX = Math.round(this.hoveredMapTile.getX()) / map.getTileset().getScaledSpriteWidth();
+        int hoveredIndexY = Math.round(this.hoveredMapTile.getY()) / map.getTileset().getScaledSpriteHeight();
         hoveredTileIndexLabel.setText("X: " + hoveredIndexX + ", Y: " + hoveredIndexY);
         repaint();
     }

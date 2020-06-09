@@ -11,39 +11,11 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
     protected Rectangle bounds;
     protected ImageEffect imageEffect;
 
-    public Sprite (BufferedImage image) {
-        super(0, 0, image.getWidth(), image.getHeight());
-        this.image = image;
-        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight());
-        this.imageEffect = ImageEffect.NONE;
-    }
-
-    public Sprite (BufferedImage image, float scale) {
-        super(0, 0, image.getWidth(), image.getHeight(), scale);
-        this.image = image;
-        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
-        this.imageEffect = ImageEffect.NONE;
-    }
-
     public Sprite (BufferedImage image, float scale, ImageEffect imageEffect) {
         super(0, 0, image.getWidth(), image.getHeight(), scale);
         this.image = image;
         this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
         this.imageEffect = imageEffect;
-    }
-
-    public Sprite(BufferedImage image, float x, float y) {
-        super(x, y, image.getWidth(), image.getHeight());
-        this.image = image;
-        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight());
-        this.imageEffect = ImageEffect.NONE;
-    }
-
-    public Sprite(BufferedImage image, float x, float y, float scale) {
-        super(x, y, image.getWidth(), image.getHeight(), scale);
-        this.image = image;
-        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
-        this.imageEffect = ImageEffect.NONE;
     }
 
     public Sprite(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
@@ -75,35 +47,35 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
         return new Rectangle(getBoundsX1(), getBoundsY1(), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
-    public int getBoundsX1() {
-        return getX() + bounds.getX1();
+    public float getBoundsX1() {
+        return x + bounds.getX1();
     }
 
-    public int getBoundsX2() {
-        return getX() + bounds.getX2();
+    public float getBoundsX2() {
+        return x + bounds.getX2();
     }
 
-    public int getBoundsY1() {
-        return getY() + bounds.getY1();
+    public float getBoundsY1() {
+        return y + bounds.getY1();
     }
 
-    public int getBoundsY2() {
-        return getY() + bounds.getY2();
+    public float getBoundsY2() {
+        return y + bounds.getY2();
     }
 
-    public int getScaledBoundsX1() {
-        return getX() + (int)(bounds.getX1() * scale);
+    public float getScaledBoundsX1() {
+        return getX() + (bounds.getX1() * scale);
     }
 
-    public int getScaledBoundsX2() {
+    public float getScaledBoundsX2() {
         return getScaledBoundsX1() + bounds.getScaledWidth();
     }
 
-    public int getScaledBoundsY1() {
-        return getY() + (int)(bounds.getY1() * scale);
+    public float getScaledBoundsY1() {
+        return getY() + (bounds.getY1() * scale);
     }
 
-    public int getScaledBoundsY2() {
+    public float getScaledBoundsY2() {
         return getScaledBoundsY1() + bounds.getScaledHeight();
     }
 
@@ -130,7 +102,7 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
 	
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {
-		graphicsHandler.drawImage(image, getX(), getY(), getScaledWidth(), getScaledHeight(), imageEffect);
+		graphicsHandler.drawImage(image, Math.round(getX()), Math.round(getY()), getScaledWidth(), getScaledHeight(), imageEffect);
 	}
 
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {

@@ -1,6 +1,7 @@
 package MapEditor;
 
 import Engine.GraphicsHandler;
+import Scene.Map;
 import Scene.MapTile;
 import Builders.MapTileBuilder;
 import Scene.Tileset;
@@ -44,7 +45,7 @@ public class TilePicker extends JPanel {
         });
     }
 
-    public void setTileset(Tileset tileset) {
+    public void setTileset(Map map, Tileset tileset) {
         this.tileset = tileset;
         HashMap<Integer, MapTileBuilder> mapTileBuilders = this.tileset.mapDefinedTilesToIndex();
 
@@ -70,7 +71,7 @@ public class TilePicker extends JPanel {
 
                 int x = j * tileset.getScaledSpriteWidth() + ((j * 5) + 5);
                 int y = i * tileset.getScaledSpriteHeight() + ((i * 5) + 5);
-                MapTile tile = mapTileBuilders.get(tileKeys[currentKeyIndex]).build(x, y);
+                MapTile tile = mapTileBuilders.get(tileKeys[currentKeyIndex]).build(x, y, map);
                 mapTiles.put(currentKeyIndex, tile);
                 currentKeyIndex++;
             }
@@ -85,8 +86,8 @@ public class TilePicker extends JPanel {
 
         MapTile selectedTile = mapTiles.get(selectedTileIndex);
         graphicsHandler.drawRectangle(
-                selectedTile.getX() - 2,
-                selectedTile.getY() - 2,
+                Math.round(selectedTile.getX()) - 2,
+                Math.round(selectedTile.getY()) - 2,
                 selectedTile.getScaledWidth() + 4,
                 selectedTile.getScaledHeight() + 4,
                 Color.YELLOW,

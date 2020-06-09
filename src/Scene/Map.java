@@ -4,11 +4,9 @@ import Engine.Config;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
-import Game.Kirby;
 import Utils.AxisState;
-import Utils.PointExtension;
+import Utils.Point;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class Map {
+public class Map {
     protected MapTile[] mapTiles;
     protected int width;
     protected int height;
@@ -74,7 +72,7 @@ public abstract class Map {
             for (int j = 0; j < width; j++) {
                 int tileIndex = fileInput.nextInt();
                 MapTile tile = tileset.getTile(tileIndex)
-                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight(), this);
                 setMapTile(j, i, tile);
             }
         }
@@ -89,14 +87,14 @@ public abstract class Map {
         fileWriter.close();
     }
 
-    public PointExtension getPlayerStartPosition() {
-        MapTile tile = getMapTile(playerStartTile.x, playerStartTile.y);
-        return new PointExtension(tile.getX(), tile.getY());
+    public Point getPlayerStartPosition() {
+        MapTile tile = getMapTile(Math.round(playerStartTile.x), Math.round(playerStartTile.y));
+        return new Point(tile.getX(), tile.getY());
     }
 
-    public PointExtension getPositionByTileIndex(int xIndex, int yIndex) {
+    public Point getPositionByTileIndex(int xIndex, int yIndex) {
         MapTile tile = getMapTile(xIndex, yIndex);
-        return new PointExtension(tile.getX(), tile.getY());
+        return new Point(tile.getX(), tile.getY());
     }
 
     public Tileset getTileset() {
@@ -153,21 +151,17 @@ public abstract class Map {
 
     public MapTile getTileByPosition(int xPosition, int yPosition) {
         Point tileIndex = getTileIndexByPosition(xPosition, yPosition);
-        if (isInBounds(tileIndex.x, tileIndex.y)) {
-            return getMapTile(tileIndex.x, tileIndex.y);
+        if (isInBounds(Math.round(tileIndex.x), Math.round(tileIndex.y))) {
+            return getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y));
         } else {
             return null;
         }
     }
 
-    public Point getTileIndexByPosition(int xPosition, int yPosition) {
-        int xIndex = (xPosition + camera.getX()) / tileset.getScaledSpriteWidth();
-        int yIndex = (yPosition + camera.getY()) / tileset.getScaledSpriteHeight();
+    public Point getTileIndexByPosition(float xPosition, float yPosition) {
+        int xIndex = Math.round(xPosition) / tileset.getScaledSpriteWidth();
+        int yIndex = Math.round(yPosition) / tileset.getScaledSpriteHeight();
         return new Point(xIndex, yIndex);
-    }
-
-    public Point getPointCameraAdjusted(Point point) {
-        return new Point(point.x - getCamera().getAmountMovedX(), point.y - getCamera().getAmountMovedY());
     }
 
     private boolean isInBounds(int x, int y) {
@@ -181,9 +175,11 @@ public abstract class Map {
     protected ArrayList<Enemy> loadEnemies() {
         return new ArrayList<>();
     }
+
     protected ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         return new ArrayList<>();
     }
+
     protected ArrayList<NPC> loadNPCs() {
         return new ArrayList<>();
     }
@@ -218,37 +214,37 @@ public abstract class Map {
     }
 
     private void adjustMovementX(Player player) {
-        if (player.getX() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            int xMidPointDifference = xMidPoint - player.getX();
-            adjustPlayerAndCamera(player, xMidPointDifference, AxisState.HORIZONTAL);
+        if (player.getCalibratedXLocation(this) > xMidPoint && camera.getEndBoundX() < endBoundX) {
+            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation(this);
+            camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
-                int cameraDifference = camera.getEndBoundX() - endBoundX;
-                adjustPlayerAndCamera(player, cameraDifference, AxisState.HORIZONTAL);
+                float cameraDifference = camera.getEndBoundX() - endBoundX;
+                camera.moveX(-cameraDifference);
             }
-        } else if (player.getX() < xMidPoint && camera.getX() > startBoundX) {
-            int xMidPointDifference = xMidPoint - player.getX();
-            adjustPlayerAndCamera(player, xMidPointDifference, AxisState.HORIZONTAL);
+        } else if (player.getCalibratedXLocation(this) < xMidPoint && camera.getX() > startBoundX) {
+            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation(this);
+            camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
-                int cameraDifference = startBoundX - camera.getX();
-                adjustPlayerAndCamera(player, -cameraDifference, AxisState.HORIZONTAL);
+                float cameraDifference = startBoundX - camera.getX();
+                camera.moveX(cameraDifference);
             }
         }
     }
-
-	private void adjustMovementY(Player player) {
-        if (player.getY() > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            int yMidPointDifference = yMidPoint - player.getY();
-            adjustPlayerAndCamera(player, yMidPointDifference, AxisState.VERTICAL);
+    
+    private void adjustMovementY(Player player) {
+        if (player.getCalibratedYLocation(this) > yMidPoint && camera.getEndBoundY() < endBoundY) {
+            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
+            camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
-                int cameraDifference = camera.getEndBoundY() - endBoundY;
-                adjustPlayerAndCamera(player, cameraDifference, AxisState.VERTICAL);
+                float cameraDifference = camera.getEndBoundY() - endBoundY;
+                camera.moveY(-cameraDifference);
             }
-        } else if (player.getY() < yMidPoint && camera.getY() > startBoundY) {
-            int yMidPointDifference = yMidPoint - player.getY();
-            adjustPlayerAndCamera(player, yMidPointDifference, AxisState.VERTICAL);
+        } else if (player.getCalibratedYLocation(this) < yMidPoint && camera.getY() > startBoundY) {
+            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
+            camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {
-                int cameraDifference = startBoundY - camera.getY();
-                adjustPlayerAndCamera(player, -cameraDifference, AxisState.VERTICAL);
+                float cameraDifference = startBoundY - camera.getY();
+                camera.moveY(cameraDifference);
             }
         }
     }

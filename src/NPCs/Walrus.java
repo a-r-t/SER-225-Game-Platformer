@@ -58,7 +58,7 @@ public class Walrus extends NPC {
 
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
-        graphicsHandler.drawFilledRectangleWithBorder(getX() - 2, getY() - 24, 40, 25, Color.WHITE, Color.BLACK, 2);
+        //graphicsHandler.drawFilledRectangleWithBorder(getX() - 2, getY() - 24, 40, 25, Color.WHITE, Color.BLACK, 2);
         message.setLocation(getX() + 2, getY() - 8);
         message.draw(graphicsHandler);
     }

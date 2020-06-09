@@ -1,6 +1,6 @@
 package Utils;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class Colors {
     public static final Color MAGENTA = new Color(255, 0, 255);

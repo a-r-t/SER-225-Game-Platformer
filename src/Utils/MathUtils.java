@@ -12,9 +12,8 @@ public class MathUtils {
 			return value;
 		}
 		else {
-			double magic = (float) Math.pow(10, n-1);
-			float result = (float) (Math.round(value * magic) / magic);
-			return result;
+			double magic = Math.pow(10, n);
+			return (float) (Math.round(value * magic) / magic);
 		}
 	}
 }

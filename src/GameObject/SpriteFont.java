@@ -93,12 +93,18 @@ public class SpriteFont {
 	public void draw(GraphicsHandler graphicsHandler) {
 		int y = getY();
 		for (String line: text.split("\n")) {
+			int recWidth = graphicsHandler.getGraphics().getFontMetrics().stringWidth(line);
+			int recHeight = graphicsHandler.getGraphics().getFontMetrics().getHeight();
 			if (outlineColor != null && !outlineColor.equals(color)) {
-				graphicsHandler.drawStringWithOutline(line, getX(), y, font, color, outlineColor, outlineThickness);
+				graphicsHandler.drawFilledRectangleWithBorder(getX() - 2, getY() - 24, recWidth, recHeight, Color.WHITE, Color.BLACK, 2);
+				graphicsHandler.drawStringWithOutline(line, getX(), y - (int) (recHeight * 1/3), font, color, outlineColor, outlineThickness);
 			} else {
-				graphicsHandler.drawString(line, getX(), y, font, color);
+				graphicsHandler.drawFilledRectangleWithBorder(getX() - 2, getY() - 24, 40, 25, Color.WHITE, Color.BLACK, 2);
+				graphicsHandler.drawString(line, getX(), y - (int) (recHeight * 1/3), font, color);
 			}
 			y += font.getSize();
 		}
 	}
+	
+	
 }

@@ -56,9 +56,9 @@ public class Camera extends Rectangle {
     }
 
     public void updateMapEntities(Keyboard keyboard, Player player) {
-        activeEnemies = loadActiveEnemies();
-        activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
-        activeNPCs = loadActiveNPCs();
+        activeEnemies = loadActiveObjects(Enemy.class);
+        activeEnhancedMapTiles = loadActiveObjects(EnhancedMapTile.class);
+        activeNPCs = loadActiveObjects(NPC.class);
 
         for (Enemy enemy : activeEnemies) {
             enemy.update(keyboard, player);
@@ -73,60 +73,38 @@ public class Camera extends Rectangle {
         }
     }
 
-    private ArrayList<Enemy> loadActiveEnemies() {
-        ArrayList<Enemy> activeEnemies = new ArrayList<>();
-        for (Enemy enemy: map.getEnemies()) {
-            if (isMapEntityActive(enemy)) {
-                activeEnemies.add(enemy);
-                if (enemy.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    enemy.setMapEntityStatus(MapEntityStatus.ACTIVE);
-                }
-            } else if (enemy.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
-                enemy.setMapEntityStatus(MapEntityStatus.INACTIVE);
-                if (enemy.isRespawnable()) {
-                    enemy.initialize();
-                }
-            }
+    private <T extends MapEntity> ArrayList<T> getValidEnts(Class<T> entClass) {
+        if (entClass.equals(Enemy.class)) {
+            return (ArrayList<T>)this.map.getEnemies();
         }
-        return activeEnemies;
+        else if (entClass.equals(EnhancedMapTile.class)) {
+            return (ArrayList<T>)this.map.getEnhancedMapTiles();
+        }
+        else if (entClass.equals(NPC.class)) {
+            return (ArrayList<T>)this.map.getNPCs();
+        }
+        else {
+            throw new IllegalArgumentException("Entity must be an Enemy, EnhancedMapTile, or NPC!");
+        }
     }
 
-    private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
-        ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
-        for (EnhancedMapTile enhancedMapTile: map.getEnhancedMapTiles()) {
+    private <T extends MapEntity> ArrayList<T> loadActiveObjects(Class<T> entClass) {
+        ArrayList<T> activeObjs = new ArrayList<T>();
 
-            if (isMapEntityActive(enhancedMapTile)) {
-                activeEnhancedMapTiles.add(enhancedMapTile);
-                if (enhancedMapTile.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (enhancedMapTile.isRespawnable()) {
-                        enhancedMapTile.initialize();
-                    }
-                    enhancedMapTile.setMapEntityStatus(MapEntityStatus.ACTIVE);
+        for (T ent: this.getValidEnts(entClass)) {
+            if (isMapEntityActive(ent)) {
+                activeObjs.add(ent);
+                if (ent.mapEntityStatus == MapEntityStatus.INACTIVE) {
+                    ent.setMapEntityStatus(MapEntityStatus.ACTIVE);
                 }
-            } else if (enhancedMapTile.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
-                enhancedMapTile.setMapEntityStatus(MapEntityStatus.INACTIVE);
+            } else if (ent.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
+                ent.setMapEntityStatus(MapEntityStatus.INACTIVE);
+                if (ent.isRespawnable()) {
+                    ent.initialize();
+                }
             }
         }
-        return activeEnhancedMapTiles;
-    }
-
-    private ArrayList<NPC> loadActiveNPCs() {
-        ArrayList<NPC> activeNPCs = new ArrayList<>();
-        for (NPC npc: map.getNPCs()) {
-
-            if (isMapEntityActive(npc)) {
-                activeNPCs.add(npc);
-                if (npc.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (npc.isRespawnable()) {
-                        npc.initialize();
-                    }
-                    npc.setMapEntityStatus(MapEntityStatus.ACTIVE);
-                }
-            } else if (npc.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
-                npc.setMapEntityStatus(MapEntityStatus.INACTIVE);
-            }
-        }
-        return activeNPCs;
+        return activeObjs;
     }
 
     private boolean isMapEntityActive(MapEntity mapEntity) {

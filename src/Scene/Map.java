@@ -24,6 +24,7 @@ public class Map {
     protected int xMidPoint, yMidPoint;
     protected int startBoundX, startBoundY, endBoundX, endBoundY;
     protected String mapFileName;
+    protected Scanner scanner;
 
     protected ArrayList<Enemy> enemies;
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
@@ -44,6 +45,21 @@ public class Map {
         this.enhancedMapTiles = loadEnhancedMapTiles();
         this.npcs = loadNPCs();
         this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
+    }
+    
+    /* Please only use this for map editing. */
+    public Map(String mapFileName, Tileset tileset) {
+        this.mapFileName = mapFileName;
+        this.tileset = tileset;
+        loadMapFile();
+        this.startBoundX = 0;
+        this.startBoundY = 0;
+        this.endBoundX = width * tileset.getScaledSpriteWidth();
+        this.endBoundY = height * tileset.getScaledSpriteHeight();
+        this.xMidPoint = ScreenManager.getScreenWidth() / 2;
+        this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
+        this.enhancedMapTiles = loadEnhancedMapTiles();
+        System.err.println("Minimal Map Loading complete.");
     }
 
     private void loadMapFile() {

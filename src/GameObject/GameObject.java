@@ -137,26 +137,27 @@ public class GameObject extends AnimatedSprite {
 		int amountToMove = (int)Math.abs(moveAmountX);
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-		if (x + moveAmountXRemainder >= Math.round(x) + .5f) {
-			amountToMove += 1;
-			moveAmountXRemainder = moveAmountXRemainder - 1f;
-		}
 		float amountMoved = 0;
-		if (amountToMove >= 1) {
-			boolean hasCollided = false;
-			for (int i = 0; i < amountToMove; i++) {
-				moveX(direction.getVelocity());
-				hasCollided = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
-				if (hasCollided) {
-					moveX(-direction.getVelocity());
-					moveAmountXRemainder = 0;
-					break;
-				}
-				amountMoved = (i + 1) * direction.getVelocity();
+		boolean hasCollided = false;
+		for (int i = 0; i < amountToMove; i++) {
+			moveX(direction.getVelocity());
+			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
+			if (newLocation != 0) {
+				hasCollided = true;
+				setX(newLocation);
+				break;
 			}
-			onEndCollisionCheckX(hasCollided, direction);
+			amountMoved = (i + 1) * direction.getVelocity();
 		}
-		moveX(moveAmountXRemainder * direction.getVelocity());
+		if (!hasCollided) {
+			moveX(moveAmountXRemainder * direction.getVelocity());
+			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
+			if (newLocation != 0) {
+				hasCollided = true;
+				setX(newLocation);
+			}
+		}
+		onEndCollisionCheckX(hasCollided, direction);
 		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
 	}
 
@@ -164,26 +165,27 @@ public class GameObject extends AnimatedSprite {
 		int amountToMove = (int)Math.abs(moveAmountY);
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
-		if (y + moveAmountYRemainder >= Math.round(y) + .5f) {
-			amountToMove += 1;
-			moveAmountYRemainder = moveAmountYRemainder - 1f;
-		}
 		float amountMoved = 0;
-		if (amountToMove >= 1) {
-			boolean hasCollided = false;
-			for (int i = 0; i < amountToMove; i++) {
-				moveY(direction.getVelocity());
-				hasCollided = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
-				if (hasCollided) {
-					moveY(-direction.getVelocity());
-					moveAmountYRemainder = 0;
-					break;
-				}
-				amountMoved = (i + 1) * direction.getVelocity();
+		boolean hasCollided = false;
+		for (int i = 0; i < amountToMove; i++) {
+			moveY(direction.getVelocity());
+			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
+			if (newLocation != 0) {
+				hasCollided = true;
+				setY(newLocation);
+				break;
 			}
-			onEndCollisionCheckY(hasCollided, direction);
+			amountMoved = (i + 1) * direction.getVelocity();
 		}
-		moveY(moveAmountYRemainder * direction.getVelocity());
+		if (!hasCollided) {
+			moveY(moveAmountYRemainder * direction.getVelocity());
+			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
+			if (newLocation != 0) {
+				hasCollided = true;
+				setY(newLocation);
+			}
+		}
+		onEndCollisionCheckY(hasCollided, direction);
 		return amountMoved + (moveAmountYRemainder * direction.getVelocity());
 	}
 

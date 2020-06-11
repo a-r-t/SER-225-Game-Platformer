@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class TestMap extends Map {
 
     public TestMap() {
-        super("test_map.txt", new CommonTileset(), new Point(32, 9));
+        super("test_map.txt", new CommonTileset(), new Point(24, 5));
     }
 
     @Override

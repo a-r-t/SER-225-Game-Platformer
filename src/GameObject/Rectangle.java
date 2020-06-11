@@ -181,7 +181,7 @@ public class Rectangle implements IntersectableRectangle {
 	public boolean overlaps(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
-		return intersectRectangle.getX1() <= otherIntersectRectangle.getX2() && intersectRectangle.getX2() >= otherIntersectRectangle.getX1() &&
-				intersectRectangle.getY1() <= otherIntersectRectangle.getY2() && intersectRectangle.getY2() >= otherIntersectRectangle.getY1();
+		return Math.round(intersectRectangle.getX1()) <= Math.round(otherIntersectRectangle.getX2()) && Math.round(intersectRectangle.getX2()) >= Math.round(otherIntersectRectangle.getX1()) &&
+				Math.round(intersectRectangle.getY1()) <= Math.round(otherIntersectRectangle.getY2()) && Math.round(intersectRectangle.getY2()) >= Math.round(otherIntersectRectangle.getY1());
 	}
 }

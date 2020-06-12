@@ -12,6 +12,7 @@ import java.awt.*;
 public class Scene extends Screen {
 	protected MenuScreen menuScreen;
 	protected PlayLevelScreen playLevelScreen;
+	protected CreditsScreen creditsScreen;
 	protected GameState gameState;
 	protected GameState previousGameState;
 
@@ -32,12 +33,13 @@ public class Scene extends Screen {
 			if (gameState == GameState.MENU) {
 				if (didGameStateChange) {
 					menuScreen = new MenuScreen();
-				} else {
-					menuScreen.update(keyboard);
-					if (menuScreen.menuItemSelected != -1) {
-						if (menuScreen.menuItemSelected == 0) {
-							gameState = GameState.LEVEL;
-						}
+				}
+				menuScreen.update(keyboard);
+				if (menuScreen.getMenuItemSelected() != -1) {
+					if (menuScreen.getMenuItemSelected() == 0) {
+						gameState = GameState.LEVEL;
+					} else if (menuScreen.getMenuItemSelected() == 1) {
+						gameState = GameState.CREDITS;
 					}
 				}
 			} else if (gameState == GameState.LEVEL) {
@@ -47,14 +49,34 @@ public class Scene extends Screen {
 					playLevelScreen = new PlayLevelScreen();
 					playLevelScreen.initialize(map, player);
 					gameState = GameState.LEVEL;
-				} else {
-					playLevelScreen.update(keyboard);
-					if (playLevelScreen.getLevelState() == LevelState.DONE) {
-						gameState = GameState.MENU;
-					}
+				}
+				playLevelScreen.update(keyboard);
+				if (playLevelScreen.getLevelState() == LevelState.DONE) {
+					gameState = GameState.MENU;
+				}
+			} else if (gameState == GameState.CREDITS) {
+				if (didGameStateChange) {
+					creditsScreen = new CreditsScreen();
+				}
+				creditsScreen.update(keyboard);
+				if (creditsScreen.isDone()) {
+					gameState = GameState.MENU;
 				}
 			}
 		} while (previousGameState != gameState);
+		cleanUpReferences();
+	}
+
+	public void cleanUpReferences() {
+		if (gameState != GameState.MENU) {
+			menuScreen = null;
+		}
+		if (gameState != GameState.LEVEL) {
+			playLevelScreen = null;
+		}
+		if (gameState != GameState.CREDITS) {
+			creditsScreen = null;
+		}
 	}
 
 	@Override
@@ -63,6 +85,8 @@ public class Scene extends Screen {
 			playLevelScreen.draw(graphicsHandler);
 		} else if (menuScreen != null && gameState == GameState.MENU) {
 			menuScreen.draw(graphicsHandler);
+		} else if (creditsScreen != null && gameState == GameState.CREDITS) {
+			creditsScreen.draw(graphicsHandler);
 		}
 	}
 	

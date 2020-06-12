@@ -2,6 +2,7 @@ package Game;
 
 import Engine.GraphicsHandler;
 import Engine.Key;
+import Engine.KeyLocker;
 import Engine.Keyboard;
 import GameObject.SpriteFont;
 import Maps.TitleScreenMap;
@@ -18,6 +19,7 @@ public class MenuScreen {
     protected Map background;
     protected Timer keyTimer = new Timer();
     protected int pointerLocationX, pointerLocationY;
+    protected KeyLocker keyLocker = new KeyLocker();
 
     public MenuScreen() {
         playGame = new SpriteFont("PLAY GAME", 200, 150, "Comic Sans", 30, new Color(49, 207, 240));
@@ -30,10 +32,12 @@ public class MenuScreen {
         background.setAdjustCamera(false);
         keyTimer.setWaitTime(200);
         menuItemSelected = -1;
+        keyLocker.lockKey(Key.SPACE);
     }
 
     public void update(Keyboard keyboard) {
         background.update(keyboard, null);
+
         if (keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
             keyTimer.reset();
             currentMenuItemHovered++;
@@ -41,6 +45,7 @@ public class MenuScreen {
             keyTimer.reset();
             currentMenuItemHovered--;
         }
+
         if (currentMenuItemHovered > 1) {
             currentMenuItemHovered = 0;
         } else if (currentMenuItemHovered < 0) {
@@ -59,7 +64,10 @@ public class MenuScreen {
             pointerLocationY = 230;
         }
 
-        if (keyboard.isKeyDown(Key.SPACE)) {
+        if (keyboard.isKeyUp(Key.SPACE)) {
+            keyLocker.unlockKey(Key.SPACE);
+        }
+        if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
             menuItemSelected = currentMenuItemHovered;
         }
     }

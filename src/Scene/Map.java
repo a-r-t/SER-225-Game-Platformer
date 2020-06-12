@@ -28,7 +28,6 @@ public class Map {
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
     protected ArrayList<NPC> npcs;
     protected boolean adjustCamera = true;
-    protected boolean updateCamera = true;
     protected boolean isCompleted = false;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {

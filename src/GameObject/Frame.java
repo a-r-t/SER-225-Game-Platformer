@@ -3,7 +3,6 @@ package GameObject;
 import java.awt.image.BufferedImage;
 
 public class Frame extends Sprite {
-	
 	private int delay;
 
 	public Frame(BufferedImage image, float scale, ImageEffect imageEffect, Rectangle bounds, int delay) {

@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+
 public class GameObject extends AnimatedSprite {
 
 	protected float startPositionX, startPositionY;

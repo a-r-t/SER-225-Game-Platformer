@@ -109,8 +109,6 @@ public class SpriteFont {
 	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
 		int drawLocationY = Math.round(this.y);
 		for (String line: text.split("\n")) {
-			int recWidth = graphicsHandler.getGraphics().getFontMetrics().stringWidth(line);
-			int recHeight = graphicsHandler.getGraphics().getFontMetrics().getHeight();
 			if (outlineColor != null && !outlineColor.equals(color)) {
 				graphicsHandler.drawStringWithOutline(line, Math.round(x), drawLocationY, font, color, outlineColor, outlineThickness);
 			} else {
@@ -119,6 +117,4 @@ public class SpriteFont {
 			drawLocationY += font.getSize();
 		}
 	}
-	
-	
 }

@@ -4,7 +4,6 @@ import Engine.Config;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
-import Utils.AxisState;
 import Utils.Point;
 
 import java.io.File;
@@ -208,8 +207,8 @@ public class Map {
     }
 
     public void update(Keyboard keyboard, Player player) {
-        adjustMovementX(player);
         adjustMovementY(player);
+        adjustMovementX(player);
         camera.update(keyboard, player);
     }
 
@@ -230,7 +229,7 @@ public class Map {
             }
         }
     }
-    
+
     private void adjustMovementY(Player player) {
         if (player.getCalibratedYLocation(this) > yMidPoint && camera.getEndBoundY() < endBoundY) {
             float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
@@ -248,19 +247,6 @@ public class Map {
             }
         }
     }
-	
-	private void adjustPlayerAndCamera(Player player, int differece, AxisState movement) {
-		switch (movement) {
-			case HORIZONTAL:
-				player.moveX(differece);
-				camera.moveX(-differece);
-				break;
-			case VERTICAL:
-				player.moveY(differece);
-				camera.moveY(-differece);
-				break;
-		}
-	}
 
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);

@@ -114,7 +114,6 @@ public class EditorControlPanel extends JPanel {
             System.out.println("Unable to save map file! That's really not great!");
         }
     }
-    
     public void setMap() {
         Map map = getSelectedMap();
         tilePicker.setTileset(map, map.getTileset());

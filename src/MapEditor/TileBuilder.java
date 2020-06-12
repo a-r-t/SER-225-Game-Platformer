@@ -102,10 +102,12 @@ public class TileBuilder extends JPanel {
 
     public void tileHovered(Point hoveredPoint) {
         this.hoveredMapTile = getHoveredTile(hoveredPoint);
-        int hoveredIndexX = Math.round(this.hoveredMapTile.getX()) / map.getTileset().getScaledSpriteWidth();
-        int hoveredIndexY = Math.round(this.hoveredMapTile.getY()) / map.getTileset().getScaledSpriteHeight();
-        hoveredTileIndexLabel.setText("X: " + hoveredIndexX + ", Y: " + hoveredIndexY);
-        repaint();
+        if (this.hoveredMapTile != null) {
+            int hoveredIndexX = Math.round(this.hoveredMapTile.getX()) / map.getTileset().getScaledSpriteWidth();
+            int hoveredIndexY = Math.round(this.hoveredMapTile.getY()) / map.getTileset().getScaledSpriteHeight();
+            hoveredTileIndexLabel.setText("X: " + hoveredIndexX + ", Y: " + hoveredIndexY);
+            repaint();
+        }
     }
 
     protected MapTile getHoveredTile(Point mousePoint) {

@@ -24,10 +24,10 @@ public class Cat extends Player {
         jumpDegrade = .5f;
         walkSpeed = 2.1f;
         momentumYIncrease = .5f;
-        JUMP_KEY = Key.W;
-        MOVE_LEFT_KEY = Key.A;
-        MOVE_RIGHT_KEY = Key.D;
-        CROUCH_KEY = Key.S;
+        JUMP_KEY = Key.UP;
+        MOVE_LEFT_KEY = Key.LEFT;
+        MOVE_RIGHT_KEY = Key.RIGHT;
+        CROUCH_KEY = Key.DOWN;
     }
 
     public void update(Keyboard keyboard, Map map) {

@@ -12,4 +12,8 @@ public class Timer {
     public boolean isTimeUp() {
         return System.currentTimeMillis() - beforeTime > millisecondsToWait;
     }
+
+    public void reset() {
+        setWaitTime(millisecondsToWait);
+    }
 }

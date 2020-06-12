@@ -5,39 +5,64 @@ import Utils.Direction;
 import Utils.Point;
 
 public class MapTileCollisionHandler {
-    public static boolean hasCollidedWithTilesX(GameObject gameObject, Map map, Direction direction) {
+    public static float hasCollidedWithTilesX(GameObject gameObject, Map map, Direction direction) {
         int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
         float edgeBoundX = direction == Direction.LEFT ? gameObject.getScaledBounds().getX1() : gameObject.getScaledBounds().getX2();
-        Point tileIndex = map.getTileIndexByPosition(Math.round(edgeBoundX), Math.round(gameObject.getScaledBounds().getY1()));
+        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, gameObject.getScaledBounds().getY1());
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
             MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + j));
-            if (mapTile != null && (hasCollidedWithMapTile(gameObject, mapTile, direction) || hasCollidedWithEnhancedTile(gameObject, map, direction))) {
-                return true;
+            if (mapTile != null && hasCollidedWithMapTile(gameObject, mapTile, direction)) {
+                if (direction == Direction.RIGHT) {
+                    float boundsDifference = gameObject.getScaledX2() - gameObject.getScaledBoundsX2();
+                    return mapTile.getScaledBoundsX1() - gameObject.getScaledWidth() + boundsDifference;
+                } else if (direction == Direction.LEFT) {
+                    float boundsDifference = gameObject.getScaledBoundsX1() - gameObject.getX();
+                    return mapTile.getScaledBoundsX2() - boundsDifference;
+                }
             }
         }
-        return false;
-    }
-
-    public static boolean hasCollidedWithTilesY(GameObject gameObject, Map map, Direction direction) {
-        int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
-        float edgeBoundY = direction == Direction.UP ? gameObject.getScaledBounds().getY() : gameObject.getScaledBounds().getY2();
-        Point tileIndex = map.getTileIndexByPosition(Math.round(gameObject.getScaledBounds().getX1()), Math.round(edgeBoundY));
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y));
-            if (mapTile != null && (hasCollidedWithMapTile(gameObject, mapTile, direction) || hasCollidedWithEnhancedTile(gameObject, map, direction))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean hasCollidedWithEnhancedTile(GameObject gameObject, Map map, Direction direction) {
         for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
             if (hasCollidedWithMapTile(gameObject, enhancedMapTile, direction)) {
-                return true;
+                if (direction == Direction.RIGHT) {
+                    float boundsDifference = gameObject.getScaledX2() - gameObject.getScaledBoundsX2();
+                    return enhancedMapTile.getScaledBoundsX1() - gameObject.getScaledWidth() + boundsDifference;
+                } else if (direction == Direction.LEFT) {
+                    float boundsDifference = gameObject.getScaledBoundsX1() - gameObject.getX();
+                    return enhancedMapTile.getScaledBoundsX2() - boundsDifference;
+                }
             }
         }
-        return false;
+        return 0;
+    }
+
+    public static float hasCollidedWithTilesY(GameObject gameObject, Map map, Direction direction) {
+        int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
+        float edgeBoundY = direction == Direction.UP ? gameObject.getScaledBounds().getY() : gameObject.getScaledBounds().getY2();
+        Point tileIndex = map.getTileIndexByPosition(gameObject.getScaledBounds().getX1(), edgeBoundY);
+        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+            MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y));
+            if (mapTile != null && hasCollidedWithMapTile(gameObject, mapTile, direction)) {
+                if (direction == Direction.DOWN) {
+                    float boundsDifference = gameObject.getScaledY2() - gameObject.getScaledBoundsY2();
+                    return mapTile.getScaledBoundsY1() - gameObject.getScaledHeight() + boundsDifference;
+                } else if (direction == Direction.UP) {
+                    float boundsDifference = gameObject.getScaledBoundsY1() - gameObject.getY();
+                    return mapTile.getScaledBoundsY2() - boundsDifference;
+                }
+            }
+        }
+        for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
+            if (hasCollidedWithMapTile(gameObject, enhancedMapTile, direction)) {
+                if (direction == Direction.DOWN) {
+                    float boundsDifference = gameObject.getScaledY2() - gameObject.getScaledBoundsY2();
+                    return enhancedMapTile.getScaledBoundsY1() - gameObject.getScaledHeight() + boundsDifference;
+                } else if (direction == Direction.UP) {
+                    float boundsDifference = gameObject.getScaledBoundsY1() - gameObject.getY();
+                    return enhancedMapTile.getScaledBoundsY2() - boundsDifference;
+                }
+            }
+        }
+        return 0;
     }
 
     private static boolean hasCollidedWithMapTile(GameObject gameObject, MapTile mapTile, Direction direction) {

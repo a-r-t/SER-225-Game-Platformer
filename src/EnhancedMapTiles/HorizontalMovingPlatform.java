@@ -76,6 +76,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     public void draw(GraphicsHandler graphicsHandler) {
         super.draw(graphicsHandler);
+        //super.drawBounds(graphicsHandler, new Color(0, 0, 255, 100));
     }
 
 }

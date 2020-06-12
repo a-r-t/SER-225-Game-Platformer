@@ -3,6 +3,7 @@ package Maps;
 import Enemies.BugEnemy;
 import Enemies.DinosaurEnemy;
 import Engine.ImageLoader;
+import EnhancedMapTiles.EndLevelBox;
 import EnhancedMapTiles.HorizontalMovingPlatform;
 import GameObject.Rectangle;
 import NPCs.Walrus;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class TestMap extends Map {
 
     public TestMap() {
-        super("test_map.txt", new CommonTileset(), new Point(1, 10));
+        super("test_map.txt", new CommonTileset(), new Point(24, 5));
     }
 
     @Override
@@ -37,6 +38,10 @@ public class TestMap extends Map {
             3,
             new Rectangle(0, 6,16,4),
             this));
+        enhancedMapTiles.add(new EndLevelBox(
+                getPositionByTileIndex(32, 7),
+                this
+        ));
         return enhancedMapTiles;
     }
 

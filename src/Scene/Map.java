@@ -4,6 +4,7 @@ import Engine.Config;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
+import Tilesets.CommonTileset;
 import Utils.Point;
 
 import java.io.File;
@@ -44,20 +45,36 @@ public class Map {
         this.npcs = loadNPCs();
         this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
+    
+    // Please only use this for map editing.
+    public Map(String mapFileName, CommonTileset tileset) {
+    	this.mapFileName = mapFileName;
+    	this.tileset = tileset;
+    	loadMapFile();
+    	this.startBoundX = 0;
+    	this.startBoundY = 0;
+    	this.endBoundX = width * tileset.getScaledSpriteWidth();
+    	this.endBoundY = height * tileset.getScaledSpriteHeight();
+    	this.xMidPoint = ScreenManager.getScreenWidth() / 2;
+    	this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
+    	this.enhancedMapTiles = loadEnhancedMapTiles();
+    	this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
+    	System.out.println("Minimal Map Loading complete.");
+    }
 
-    private void loadMapFile() {
+	private void loadMapFile() {
         Scanner fileInput;
         try {
             fileInput = new Scanner(new File(Config.MAP_FILES_PATH + this.mapFileName));
         } catch(FileNotFoundException ex) {
-            System.out.println("Map file " + Config.MAP_FILES_PATH + this.mapFileName + " not found! Creating empty map file...");
+            System.err.println("Map file " + Config.MAP_FILES_PATH + this.mapFileName + " not found! Creating empty map file...");
 
             try {
                 createEmptyMapFile();
                 fileInput = new Scanner(new File(Config.MAP_FILES_PATH + this.mapFileName));
             } catch(IOException ex2) {
                 ex2.printStackTrace();
-                System.out.println("Failed to create an empty map file!");
+                System.err.println("Failed to create an empty map file!");
                 throw new RuntimeException();
             }
         }

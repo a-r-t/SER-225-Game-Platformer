@@ -111,7 +111,7 @@ public class EditorControlPanel extends JPanel {
             fileWriter.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Unable to save map file! That's really not great!");
+            System.err.println("Unable to save map file! That's really not great!");
         }
     }
     public void setMap() {

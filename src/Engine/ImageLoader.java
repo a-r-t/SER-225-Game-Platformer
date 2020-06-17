@@ -19,7 +19,7 @@ public class ImageLoader {
             Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, transparentColor);
             return ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
         } catch (IOException e) {
-            System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
+            System.err.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
             throw new RuntimeException(e);
         }
     }
@@ -35,7 +35,7 @@ public class ImageLoader {
             BufferedImage image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
             return image.getSubimage(x, y, width, height);
         } catch (IOException e) {
-            System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
+            System.err.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
             throw new RuntimeException(e);
         }
     }

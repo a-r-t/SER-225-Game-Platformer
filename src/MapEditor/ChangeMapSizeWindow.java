@@ -161,6 +161,7 @@ public class ChangeMapSizeWindow {
             int number = Integer.parseInt(s);
             return number >= 0;
         } catch (NumberFormatException ex) {
+        	System.err.println("String, " + s + ", is not a positive integer.");
             return false;
         }
     }

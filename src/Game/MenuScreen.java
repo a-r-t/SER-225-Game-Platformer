@@ -1,9 +1,6 @@
 package Game;
 
-import Engine.GraphicsHandler;
-import Engine.Key;
-import Engine.KeyLocker;
-import Engine.Keyboard;
+import Engine.*;
 import GameObject.SpriteFont;
 import Maps.TitleScreenMap;
 import Scene.Map;
@@ -11,8 +8,8 @@ import Utils.Timer;
 
 import java.awt.*;
 
-public class MenuScreen {
-    protected Scene scene;
+public class MenuScreen extends Screen {
+    protected ScreenCoordinator screenCoordinator;
     protected int currentMenuItemHovered = 0;
     protected int menuItemSelected = -1;
     protected SpriteFont playGame;
@@ -22,8 +19,12 @@ public class MenuScreen {
     protected int pointerLocationX, pointerLocationY;
     protected KeyLocker keyLocker = new KeyLocker();
 
-    public MenuScreen(Scene scene) {
-        this.scene = scene;
+    public MenuScreen(ScreenCoordinator screenCoordinator) {
+        this.screenCoordinator = screenCoordinator;
+    }
+
+    @Override
+    public void initialize() {
         playGame = new SpriteFont("PLAY GAME", 200, 150, "Comic Sans", 30, new Color(49, 207, 240));
         playGame.setOutlineColor(Color.black);
         playGame.setOutlineThickness(3);
@@ -72,9 +73,9 @@ public class MenuScreen {
         if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
             menuItemSelected = currentMenuItemHovered;
             if (menuItemSelected == 0) {
-                scene.setGameState(GameState.LEVEL);
+                screenCoordinator.setGameState(GameState.LEVEL);
             } else if (menuItemSelected == 1) {
-                scene.setGameState(GameState.CREDITS);
+                screenCoordinator.setGameState(GameState.CREDITS);
             }
         }
     }

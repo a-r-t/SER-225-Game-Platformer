@@ -2,27 +2,29 @@ package Game;
 
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
+import Engine.Screen;
+import Maps.TestMap;
 import Scene.Map;
 import Scene.Player;
 import Utils.Timer;
 
-public class PlayLevelScreen {
-    protected Scene scene;
+public class PlayLevelScreen extends Screen {
+    protected ScreenCoordinator screenCoordinator;
     protected Map map;
     protected Player player;
     protected LevelState levelState;
     protected Timer screenTimer = new Timer();
     protected LevelClearedScreen levelClearedScreen;
 
-    public PlayLevelScreen(Scene scene) {
-        this.scene = scene;
+    public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
+        this.screenCoordinator = screenCoordinator;
     }
 
-    public void initialize(Map map, Player player) {
-        this.map = map;
+    public void initialize() {
+        this.map = new TestMap();
         map.reset();
-        this.player = player;
-        player.setLocation(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+        this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y, map);
+        this.player.setLocation(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
         this.levelState = LevelState.RUNNING;
     }
 
@@ -41,11 +43,12 @@ public class PlayLevelScreen {
             } else {
                 levelState = LevelState.LEVEL_WIN_MESSAGE;
                 levelClearedScreen = new LevelClearedScreen();
+                levelClearedScreen.initialize();
                 screenTimer.setWaitTime(3000);
             }
         } else if (levelState == LevelState.LEVEL_WIN_MESSAGE) {
             if (screenTimer.isTimeUp()) {
-                scene.setGameState(GameState.MENU);
+                screenCoordinator.setGameState(GameState.MENU);
             }
         }
     }

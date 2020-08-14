@@ -10,11 +10,20 @@ import Utils.Timer;
 
 import java.awt.*;
 
-public class LevelClearedScreen {
+public class LevelClearedScreen extends Screen {
     protected SpriteFont winMessage;
 
     public LevelClearedScreen() {
+    }
+
+    @Override
+    public void initialize() {
         winMessage = new SpriteFont("Level Cleared", 320, 270, "Comic Sans", 30, Color.white);
+    }
+
+    @Override
+    public void update(Keyboard keyboard) {
+
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

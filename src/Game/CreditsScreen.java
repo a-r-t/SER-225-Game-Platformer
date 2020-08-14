@@ -1,17 +1,14 @@
 package Game;
 
-import Engine.GraphicsHandler;
-import Engine.Key;
-import Engine.KeyLocker;
-import Engine.Keyboard;
+import Engine.*;
 import GameObject.SpriteFont;
 import Maps.TitleScreenMap;
 import Scene.Map;
 
 import java.awt.*;
 
-public class CreditsScreen {
-    protected Scene scene;
+public class CreditsScreen extends Screen {
+    protected ScreenCoordinator screenCoordinator;
     protected Map background;
     protected boolean isDone = false;
     protected KeyLocker keyLocker = new KeyLocker();
@@ -20,8 +17,12 @@ public class CreditsScreen {
     protected SpriteFont contributorsLabel;
     protected SpriteFont returnInstructionsLabel;
 
-    public CreditsScreen(Scene scene) {
-        this.scene = scene;
+    public CreditsScreen(ScreenCoordinator screenCoordinator) {
+        this.screenCoordinator = screenCoordinator;
+    }
+
+    @Override
+    public void initialize() {
         background = new TitleScreenMap();
         background.setAdjustCamera(false);
         creditsLabel = new SpriteFont("Credits", 15, 35, "Times New Roman", 30, Color.white);
@@ -38,7 +39,7 @@ public class CreditsScreen {
             keyLocker.unlockKey(Key.SPACE);
         }
         if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
-            scene.setGameState(GameState.MENU);
+            screenCoordinator.setGameState(GameState.MENU);
         }
     }
 

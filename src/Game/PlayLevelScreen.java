@@ -7,11 +7,16 @@ import Scene.Player;
 import Utils.Timer;
 
 public class PlayLevelScreen {
+    protected Scene scene;
     protected Map map;
     protected Player player;
     protected LevelState levelState;
     protected Timer screenTimer = new Timer();
     protected LevelClearedScreen levelClearedScreen;
+
+    public PlayLevelScreen(Scene scene) {
+        this.scene = scene;
+    }
 
     public void initialize(Map map, Player player) {
         this.map = map;
@@ -40,7 +45,7 @@ public class PlayLevelScreen {
             }
         } else if (levelState == LevelState.LEVEL_WIN_MESSAGE) {
             if (screenTimer.isTimeUp()) {
-                levelState = LevelState.DONE;
+                scene.setGameState(GameState.MENU);
             }
         }
     }

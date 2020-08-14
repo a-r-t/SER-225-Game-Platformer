@@ -47,22 +47,15 @@ public class Scene extends Screen {
 				if (didGameStateChange) {
 					Map map = new TestMap();
 					Player player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y, map);
-					playLevelScreen = new PlayLevelScreen();
+					playLevelScreen = new PlayLevelScreen(this);
 					playLevelScreen.initialize(map, player);
-					gameState = GameState.LEVEL;
 				}
 				playLevelScreen.update(keyboard);
-				if (playLevelScreen.getLevelState() == LevelState.DONE) {
-					gameState = GameState.MENU;
-				}
 			} else if (gameState == GameState.CREDITS) {
 				if (didGameStateChange) {
-					creditsScreen = new CreditsScreen();
+					creditsScreen = new CreditsScreen(this);
 				}
 				creditsScreen.update(keyboard);
-				if (creditsScreen.isDone()) {
-					gameState = GameState.MENU;
-				}
 			}
 		} while (previousGameState != gameState);
 		cleanUpReferences();

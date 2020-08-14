@@ -11,6 +11,7 @@ import Scene.Map;
 import java.awt.*;
 
 public class CreditsScreen {
+    protected Scene scene;
     protected Map background;
     protected boolean isDone = false;
     protected KeyLocker keyLocker = new KeyLocker();
@@ -19,7 +20,8 @@ public class CreditsScreen {
     protected SpriteFont contributorsLabel;
     protected SpriteFont returnInstructionsLabel;
 
-    public CreditsScreen() {
+    public CreditsScreen(Scene scene) {
+        this.scene = scene;
         background = new TitleScreenMap();
         background.setAdjustCamera(false);
         creditsLabel = new SpriteFont("Credits", 15, 35, "Times New Roman", 30, Color.white);
@@ -36,7 +38,7 @@ public class CreditsScreen {
             keyLocker.unlockKey(Key.SPACE);
         }
         if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
-            isDone = true;
+            scene.setGameState(GameState.MENU);
         }
     }
 

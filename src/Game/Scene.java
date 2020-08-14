@@ -16,6 +16,14 @@ public class Scene extends Screen {
 	protected GameState gameState;
 	protected GameState previousGameState;
 
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
 	@Override
 	public void initialize() {
 		gameState = GameState.MENU;
@@ -32,16 +40,9 @@ public class Scene extends Screen {
 
 			if (gameState == GameState.MENU) {
 				if (didGameStateChange) {
-					menuScreen = new MenuScreen();
+					menuScreen = new MenuScreen(this);
 				}
 				menuScreen.update(keyboard);
-				if (menuScreen.getMenuItemSelected() != -1) {
-					if (menuScreen.getMenuItemSelected() == 0) {
-						gameState = GameState.LEVEL;
-					} else if (menuScreen.getMenuItemSelected() == 1) {
-						gameState = GameState.CREDITS;
-					}
-				}
 			} else if (gameState == GameState.LEVEL) {
 				if (didGameStateChange) {
 					Map map = new TestMap();

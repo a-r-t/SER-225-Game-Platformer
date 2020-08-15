@@ -226,7 +226,7 @@ public abstract class Player extends GameObject {
     }
 
     public void levelCompleted(Map map) {
-        if (airGroundState != AirGroundState.GROUND) {
+        if (airGroundState != AirGroundState.GROUND && map.getCamera().containsDraw(this)) {
             currentAnimationName = "FALL_RIGHT";
             applyGravity();
             increaseMomentum();
@@ -251,9 +251,7 @@ public abstract class Player extends GameObject {
             }
         } else if (currentFrameIndex == getCurrentAnimation().length - 1) {
             if (map.getCamera().containsDraw(this)) {
-                applyGravity();
-                increaseMomentum();
-                moveY(moveAmountY + momentumY);
+                moveY(3);
             } else {
                 for (PlayerListener listener : listeners) {
                     listener.onDeath();

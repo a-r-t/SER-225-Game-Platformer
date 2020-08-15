@@ -141,7 +141,7 @@ public class GameObject extends AnimatedSprite {
 		boolean hasCollided = false;
 		for (int i = 0; i < amountToMove; i++) {
 			moveX(direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
+			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
 			if (newLocation != 0) {
 				hasCollided = true;
 				setX(newLocation);
@@ -151,7 +151,7 @@ public class GameObject extends AnimatedSprite {
 		}
 		if (!hasCollided) {
 			moveX(moveAmountXRemainder * direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesX(this, map, direction);
+			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
 			if (newLocation != 0) {
 				hasCollided = true;
 				setX(newLocation);
@@ -169,7 +169,7 @@ public class GameObject extends AnimatedSprite {
 		boolean hasCollided = false;
 		for (int i = 0; i < amountToMove; i++) {
 			moveY(direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
+			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
 			if (newLocation != 0) {
 				hasCollided = true;
 				setY(newLocation);
@@ -179,7 +179,7 @@ public class GameObject extends AnimatedSprite {
 		}
 		if (!hasCollided) {
 			moveY(moveAmountYRemainder * direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.hasCollidedWithTilesY(this, map, direction);
+			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
 			if (newLocation != 0) {
 				hasCollided = true;
 				setY(newLocation);

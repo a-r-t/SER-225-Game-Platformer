@@ -1,8 +1,0 @@
-# main links
-docs:
-  - title: "SER-225-Documentation"
-    children:
-    - title: "Home"
-      url: https://a-r-t.github.io/SER-225-Game/Engine/
-    - title: "Engine"
-      url: ./Engine/index

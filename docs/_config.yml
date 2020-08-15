@@ -1,15 +1,4 @@
-plugins:
-  - jekyll-relative-links
+remote_theme: pmarsceill/just-the-docs
 relative_links:
   enabled: true
   collections: true
-include:
-  - index.md
-  - Engine/index.md
-defaults:
-  - scope:
-      path: ""
-      type: docs
-    values:
-      sidebar:
-        nav: "docs"

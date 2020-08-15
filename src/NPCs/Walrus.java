@@ -58,8 +58,8 @@ public class Walrus extends NPC {
 
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
-        graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation(map) - 2), Math.round(getCalibratedYLocation(map) - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
-        message.setLocation(getCalibratedXLocation(map) + 2, getCalibratedYLocation(map)- 8);
+        graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation() - 2), Math.round(getCalibratedYLocation() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
+        message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation()- 8);
         message.draw(graphicsHandler);
     }
 }

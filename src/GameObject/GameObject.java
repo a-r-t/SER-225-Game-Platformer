@@ -192,11 +192,11 @@ public class GameObject extends AnimatedSprite {
 	public void onEndCollisionCheckX(boolean hasCollided, Direction direction) { }
 	public void onEndCollisionCheckY(boolean hasCollided, Direction direction) { }
 
-	public float getCalibratedXLocation(Map map) {
+	public float getCalibratedXLocation() {
 		return x - map.getCamera().getX();
 	}
 
-	public float getCalibratedYLocation(Map map) {
+	public float getCalibratedYLocation() {
 		return y - map.getCamera().getY();
 	}
 
@@ -214,8 +214,8 @@ public class GameObject extends AnimatedSprite {
 	public void draw(GraphicsHandler graphicsHandler) {
 		graphicsHandler.drawImage(
 				currentFrame.getImage(),
-				Math.round(getCalibratedXLocation(map)),
-				Math.round(getCalibratedYLocation(map)),
+				Math.round(getCalibratedXLocation()),
+				Math.round(getCalibratedYLocation()),
 				currentFrame.getScaledWidth(),
 				currentFrame.getScaledHeight(),
 				currentFrame.getImageEffect());

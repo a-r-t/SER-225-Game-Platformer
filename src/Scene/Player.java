@@ -1,17 +1,12 @@
 package Scene;
 
-import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
-import Game.LevelState;
 import GameObject.GameObject;
 import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
-import Utils.MathUtils;
-import GameObject.Rectangle;
-import Utils.Timer;
 
 import java.util.ArrayList;
 
@@ -70,10 +65,8 @@ public abstract class Player extends GameObject {
             updateLockedKeys(keyboard);
         } else if (levelState == LevelState.LEVEL_COMPLETED) {
             levelCompleted(map);
-            super.update();
         } else if (levelState == LevelState.PLAYER_DEAD) {
             playerDead(map);
-            super.update();
         }
     }
 
@@ -230,10 +223,12 @@ public abstract class Player extends GameObject {
             currentAnimationName = "FALL_RIGHT";
             applyGravity();
             increaseMomentum();
+            super.update();
             moveYHandleCollision(map, moveAmountY);
         }
         else if (map.getCamera().containsDraw(this)) {
             currentAnimationName = "WALK_RIGHT";
+            super.update();
             moveXHandleCollision(map, walkSpeed);
         } else {
             for (PlayerListener listener : listeners) {
@@ -249,6 +244,8 @@ public abstract class Player extends GameObject {
             } else {
                 currentAnimationName = "DEATH_LEFT";
             }
+        } else if (currentFrameIndex != getCurrentAnimation().length - 1) {
+          super.update();
         } else if (currentFrameIndex == getCurrentAnimation().length - 1) {
             if (map.getCamera().containsDraw(this)) {
                 moveY(3);

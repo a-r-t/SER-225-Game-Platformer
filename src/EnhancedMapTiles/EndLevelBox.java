@@ -3,7 +3,7 @@ package EnhancedMapTiles;
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
 import Engine.Keyboard;
-import Game.LevelState;
+import Scene.LevelState;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 import Scene.EnhancedMapTile;

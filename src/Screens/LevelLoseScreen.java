@@ -1,8 +1,8 @@
-package Game;
+package Screens;
 
 import Engine.*;
 import GameObject.SpriteFont;
-import Game.PlayLevelScreen;
+
 import java.awt.*;
 
 public class LevelLoseScreen extends Screen {

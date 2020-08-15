@@ -1,6 +1,8 @@
-package Game;
+package Screens;
 
 import Engine.*;
+import Game.GameState;
+import Game.ScreenCoordinator;
 import GameObject.SpriteFont;
 import Maps.TitleScreenMap;
 import Scene.Map;

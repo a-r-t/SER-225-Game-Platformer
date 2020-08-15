@@ -3,7 +3,7 @@ layout: default
 title: GameWindow
 parent: Engine
 nav_order: 1
-permalink: /Engine/Game
+permalink: /Engine/GameWindow
 ---
 
 # GameWindow

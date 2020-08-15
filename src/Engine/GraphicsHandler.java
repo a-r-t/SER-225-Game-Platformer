@@ -7,6 +7,7 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+
 public class GraphicsHandler {
     private Graphics2D g;
 

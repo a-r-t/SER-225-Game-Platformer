@@ -5,9 +5,17 @@ import java.awt.event.KeyListener;
 import java.util.EnumMap;
 import java.util.HashMap;
 
+/*
+ * This class is used throughout the engine for detecting keyboard state
+ * This includes if a key is pressed, if a key is not pressed, and if multiple keys are pressed/not pressed at the same time
+ */
 public class Keyboard {
+
+	// hashmaps keep track of if a key is currently down or up
 	private HashMap<Integer, Boolean> keyDown = new HashMap<>();
 	private HashMap<Integer, Boolean> keyUp = new HashMap<>();
+
+	// maps a Key enum type to its key code
 	private EnumMap<Key, Integer> keyMap;
 	
 	public Keyboard() {
@@ -20,6 +28,7 @@ public class Keyboard {
 
         @Override
         public void keyPressed(KeyEvent e) {
+        	// when key is pressed, set its keyDown state to true and its keyUp state to false
             int keyCode = e.getKeyCode();
             keyDown.put(keyCode, true);
             keyUp.put(keyCode, false);
@@ -27,7 +36,8 @@ public class Keyboard {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            int keyCode = e.getKeyCode();
+			// when key is released, set its keyDown state to false and its keyUp state to true
+			int keyCode = e.getKeyCode();
             keyDown.put(keyCode, false);
             keyUp.put(keyCode, true);
         }
@@ -36,15 +46,18 @@ public class Keyboard {
     public KeyListener getKeyListener() {
     	return keyListener;
     }
-    
+
+    // returns if a key is currently being pressed
     public boolean isKeyDown(Key key) {
     	return keyDown.getOrDefault(keyMap.get(key), false);
     }
-    
+
+    // returns if a key is currently not being pressed
     public boolean isKeyUp(Key key) {
     	return keyUp.getOrDefault(keyMap.get(key), true);
     }
-    
+
+    // checks if multiple keys are being pressed at the same time
     public boolean areKeysDown(Key[] keys) {
     	for (Key key : keys) {
     		if (!keyDown.getOrDefault(keyMap.get(key), false)) {
@@ -53,8 +66,9 @@ public class Keyboard {
     	}
     	return true;
     }
-    
-    public boolean areKeysUp(Key[] keys) {
+
+	// checks if multiple keys are not being pressed at the same time
+	public boolean areKeysUp(Key[] keys) {
     	for (Key key : keys) {
     		if (!keyUp.getOrDefault(keyMap.get(key), false)) {
     			return false;
@@ -62,7 +76,9 @@ public class Keyboard {
     	}
     	return true;
     }
-    
+
+    // maps a Key enum type to its keycode
+	// Java keycodes were found here: https://stackoverflow.com/a/31637206
     private void buildKeyMap() {
     	keyMap = new EnumMap<Key, Integer>(Key.class)
  		{{

@@ -1,5 +1,10 @@
 package Engine;
 
+/*
+ * Default Screen that does nothing
+ * Its existence is really just to prevent null pointers from occurring if no Screen is set somewhere
+ * Think of it as the equivalent as setting a String to "" instead of just leaving it as null
+ */
 public class DefaultScreen extends Screen {
     public DefaultScreen() { }
 

@@ -6,3 +6,10 @@ relative_links:
 include:
   - index.md
   - Engine/index.md
+defaults:
+  - scope:
+      path: ""
+      type: docs
+    values:
+      sidebar:
+        nav: "sidebar"

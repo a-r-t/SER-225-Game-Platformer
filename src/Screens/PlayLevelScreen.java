@@ -1,9 +1,12 @@
-package Game;
+package Screens;
 
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.Screen;
+import Game.GameState;
+import Game.ScreenCoordinator;
 import Maps.TestMap;
+import Players.Cat;
 import Scene.Map;
 import Scene.Player;
 import Scene.PlayerListener;
@@ -13,7 +16,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     protected ScreenCoordinator screenCoordinator;
     protected Map map;
     protected Player player;
-    protected LevelState levelState;
+    protected PlayLevelScreenState playLevelScreenState;
     protected Timer screenTimer = new Timer();
     protected LevelClearedScreen levelClearedScreen;
     protected LevelLoseScreen levelLoseScreen;
@@ -28,11 +31,11 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y, map);
         this.player.addListener(this);
         this.player.setLocation(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
-        this.levelState = LevelState.RUNNING;
+        this.playLevelScreenState = PlayLevelScreenState.RUNNING;
     }
 
     public void update(Keyboard keyboard) {
-        switch (levelState) {
+        switch (playLevelScreenState) {
             case RUNNING:
                 map.update(keyboard, player);
                 player.update(keyboard, map);
@@ -41,7 +44,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 levelClearedScreen = new LevelClearedScreen();
                 levelClearedScreen.initialize();
                 screenTimer.setWaitTime(3000);
-                levelState = LevelState.LEVEL_WIN_MESSAGE;
+                playLevelScreenState = PlayLevelScreenState.LEVEL_WIN_MESSAGE;
                 break;
             case LEVEL_WIN_MESSAGE:
                 if (screenTimer.isTimeUp()) {
@@ -52,7 +55,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             case PLAYER_DEAD:
                 levelLoseScreen = new LevelLoseScreen(this);
                 levelLoseScreen.initialize();
-                levelState = LevelState.LEVEL_LOSE_MESSAGE;
+                playLevelScreenState = PlayLevelScreenState.LEVEL_LOSE_MESSAGE;
                 break;
             case LEVEL_LOSE_MESSAGE:
                 levelLoseScreen.update(keyboard);
@@ -61,7 +64,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
-        switch (levelState) {
+        switch (playLevelScreenState) {
             case RUNNING:
             case LEVEL_COMPLETED:
             case PLAYER_DEAD:
@@ -77,18 +80,18 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         }
     }
 
-    public LevelState getLevelState() {
-        return levelState;
+    public PlayLevelScreenState getPlayLevelScreenState() {
+        return playLevelScreenState;
     }
 
     @Override
     public void onLevelCompleted() {
-        levelState = LevelState.LEVEL_COMPLETED;
+        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
     }
 
     @Override
     public void onDeath() {
-        levelState = LevelState.PLAYER_DEAD;
+        playLevelScreenState = PlayLevelScreenState.PLAYER_DEAD;
     }
 
     public void resetLevel() {
@@ -97,5 +100,9 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     public void goBackToMenu() {
         screenCoordinator.setGameState(GameState.MENU);
+    }
+
+    private enum PlayLevelScreenState {
+        RUNNING, LEVEL_COMPLETED, PLAYER_DEAD, LEVEL_WIN_MESSAGE, LEVEL_LOSE_MESSAGE
     }
 }

@@ -1,4 +1,4 @@
-package Game;
+package Screens;
 
 import Engine.GraphicsHandler;
 import Engine.Keyboard;

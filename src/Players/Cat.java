@@ -1,4 +1,4 @@
-package Game;
+package Players;
 
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
@@ -11,7 +11,6 @@ import GameObject.SpriteSheet;
 import Scene.Map;
 import Scene.Player;
 
-import java.awt.*;
 import java.util.HashMap;
 
 public class Cat extends Player {

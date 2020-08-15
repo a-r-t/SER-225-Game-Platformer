@@ -1,5 +1,5 @@
 # main links
-sidebar:
+docs:
   - title: "SER-225-Documentation"
     children:
     - title: "Home"

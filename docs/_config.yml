@@ -3,4 +3,5 @@ relative_links:
   enabled: true
   collections: true
 search_enabled: true
-search.heading_level: 2
+search:
+  heading_level: 3

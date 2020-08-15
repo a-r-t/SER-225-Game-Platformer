@@ -3,6 +3,8 @@ package Scene;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.ScreenManager;
+import Game.Game;
+import GameObject.GameObject;
 import GameObject.Rectangle;
 import NPCs.Walrus;
 
@@ -168,16 +170,16 @@ public class Camera extends Rectangle {
         }
     }
 
-    public boolean containsUpdate(MapEntity mapEntity) {
-        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < mapEntity.getX() + mapEntity.getScaledWidth() &&
-                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getX() &&
-                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  mapEntity.getY() + mapEntity.getScaledHeight()
-                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) > mapEntity.getY();
+    public boolean containsUpdate(GameObject gameObject) {
+        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < gameObject.getX() + gameObject.getScaledWidth() &&
+                getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > gameObject.getX() &&
+                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  gameObject.getY() + gameObject.getScaledHeight()
+                && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) > gameObject.getY();
     }
 
-    public boolean containsDraw(MapEntity mapEntity) {
-        return getX1() - tileWidth < mapEntity.getX() + mapEntity.getScaledWidth() && getEndBoundX() + tileWidth > mapEntity.getX() &&
-                getY1() - tileHeight <  mapEntity.getY() + mapEntity.getScaledHeight() && getEndBoundY() + tileHeight >  mapEntity.getY();
+    public boolean containsDraw(GameObject gameObject) {
+        return getX1() - tileWidth < gameObject.getX() + gameObject.getScaledWidth() && getEndBoundX() + tileWidth > gameObject.getX() &&
+                getY1() - tileHeight <  gameObject.getY() + gameObject.getScaledHeight() && getEndBoundY() + tileHeight >  gameObject.getY();
     }
 
     public ArrayList<Enemy> getActiveEnemies() {

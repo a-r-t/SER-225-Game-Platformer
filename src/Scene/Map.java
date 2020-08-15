@@ -27,11 +27,13 @@ public class Map {
     protected ArrayList<Enemy> enemies;
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
     protected ArrayList<NPC> npcs;
+    protected boolean adjustCamera = true;
+    protected boolean isCompleted = false;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
-        loadMapFile();
+        setupMap();
         this.startBoundX = 0;
         this.startBoundY = 0;
         this.endBoundX = width * tileset.getScaledSpriteWidth();
@@ -39,6 +41,10 @@ public class Map {
         this.xMidPoint = ScreenManager.getScreenWidth() / 2;
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
         this.playerStartTile = playerStartTile;
+    }
+
+    public void setupMap() {
+        loadMapFile();
         this.enemies = loadEnemies();
         this.enhancedMapTiles = loadEnhancedMapTiles();
         this.npcs = loadNPCs();
@@ -205,10 +211,21 @@ public class Map {
     public ArrayList<NPC> getActiveNPCs() {
         return camera.getActiveNPCs();
     }
+    public boolean isCompleted() { return isCompleted; }
+    public void setIsCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
+    public boolean adjustCamera() { return adjustCamera; }
+    public void setAdjustCamera(boolean adjustCamera) {
+        this.adjustCamera = adjustCamera;
+    }
 
     public void update(Keyboard keyboard, Player player) {
-        adjustMovementY(player);
-        adjustMovementX(player);
+        if (adjustCamera) {
+            adjustMovementY(player);
+            adjustMovementX(player);
+        }
         camera.update(keyboard, player);
     }
 
@@ -246,6 +263,10 @@ public class Map {
                 camera.moveY(cameraDifference);
             }
         }
+    }
+
+    public void reset() {
+        setupMap();
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

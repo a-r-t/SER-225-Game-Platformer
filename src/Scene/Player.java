@@ -28,10 +28,12 @@ public abstract class Player extends GameObject {
     protected AirGroundState airGroundState;
     protected AirGroundState previousAirGroundState;
     protected KeyLocker keyLocker = new KeyLocker();
-    protected Key JUMP_KEY = Key.W;
-    protected Key MOVE_LEFT_KEY = Key.A;
-    protected Key MOVE_RIGHT_KEY = Key.D;
-    protected Key CROUCH_KEY = Key.S;
+    protected Key JUMP_KEY = Key.UP;
+    protected Key MOVE_LEFT_KEY = Key.LEFT;
+    protected Key MOVE_RIGHT_KEY = Key.RIGHT;
+    protected Key CROUCH_KEY = Key.DOWN;
+    protected boolean isOnMapCompletedFinished;
+    protected boolean isOnDeathFinished;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
         super(spriteSheet, x, y, startingAnimationName, map);
@@ -46,7 +48,7 @@ public abstract class Player extends GameObject {
         moveAmountX = 0;
         moveAmountY = 0;
 
-        moveAmountY += gravity + momentumY;
+        applyGravity();
 
         do {
             previousPlayerState = playerState;
@@ -62,6 +64,10 @@ public abstract class Player extends GameObject {
 
         updateLockedKeys(keyboard);
 
+    }
+
+    protected void applyGravity() {
+        moveAmountY += gravity + momentumY;
     }
 
     protected void handlePlayerState(Keyboard keyboard) {
@@ -159,14 +165,18 @@ public abstract class Player extends GameObject {
             }
 
             if (moveAmountY > 0) {
-                momentumY += momentumYIncrease;
-                if (momentumY > terminalVelocityY) {
-                    momentumY = terminalVelocityY;
-                }
+                increaseMomentum();
             }
         }
         else if (previousAirGroundState == AirGroundState.AIR && airGroundState == AirGroundState.GROUND) {
             playerState = PlayerState.STANDING;
+        }
+    }
+
+    protected void increaseMomentum() {
+        momentumY += momentumYIncrease;
+        if (momentumY > terminalVelocityY) {
+            momentumY = terminalVelocityY;
         }
     }
 
@@ -198,6 +208,27 @@ public abstract class Player extends GameObject {
         }
     }
 
+    public void onMapCompleted(Map map) {
+        if (airGroundState != AirGroundState.GROUND) {
+            moveAmountX = 0;
+            moveAmountY = 0;
+            currentAnimationName = "FALL_RIGHT";
+            applyGravity();
+            increaseMomentum();
+            moveYHandleCollision(map, moveAmountY);
+            super.update();
+        }
+        else if (map.getCamera().containsDraw(this)) {
+            currentAnimationName = "WALK_RIGHT";
+            moveXHandleCollision(map, walkSpeed);
+            super.update();
+        } else {
+            isOnMapCompletedFinished = true;
+        }
+    }
+
+    public void onDeath(Map map) { }
+
     public PlayerState getPlayerState() {
         return playerState;
     }
@@ -208,5 +239,9 @@ public abstract class Player extends GameObject {
 
     public Direction getFacingDirection() {
         return facingDirection;
+    }
+
+    public boolean isOnMapCompletedFinished() {
+        return isOnMapCompletedFinished;
     }
 }

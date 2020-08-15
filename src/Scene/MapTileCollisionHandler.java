@@ -5,7 +5,7 @@ import Utils.Direction;
 import Utils.Point;
 
 public class MapTileCollisionHandler {
-    public static float hasCollidedWithTilesX(GameObject gameObject, Map map, Direction direction) {
+    public static float getAdjustedPositionAfterCollisionCheckX(GameObject gameObject, Map map, Direction direction) {
         int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
         float edgeBoundX = direction == Direction.LEFT ? gameObject.getScaledBounds().getX1() : gameObject.getScaledBounds().getX2();
         Point tileIndex = map.getTileIndexByPosition(edgeBoundX, gameObject.getScaledBounds().getY1());
@@ -35,7 +35,7 @@ public class MapTileCollisionHandler {
         return 0;
     }
 
-    public static float hasCollidedWithTilesY(GameObject gameObject, Map map, Direction direction) {
+    public static float getAdjustedPositionAfterCollisionCheckY(GameObject gameObject, Map map, Direction direction) {
         int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
         float edgeBoundY = direction == Direction.UP ? gameObject.getScaledBounds().getY() : gameObject.getScaledBounds().getY2();
         Point tileIndex = map.getTileIndexByPosition(gameObject.getScaledBounds().getX1(), edgeBoundY);

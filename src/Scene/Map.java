@@ -225,15 +225,15 @@ public class Map {
     }
 
     private void adjustMovementX(Player player) {
-        if (player.getCalibratedXLocation(this) > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation(this);
+        if (player.getCalibratedXLocation() > xMidPoint && camera.getEndBoundX() < endBoundX) {
+            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation();
             camera.moveX(-xMidPointDifference);
             if (camera.getEndBoundX() > endBoundX) {
                 float cameraDifference = camera.getEndBoundX() - endBoundX;
                 camera.moveX(-cameraDifference);
             }
-        } else if (player.getCalibratedXLocation(this) < xMidPoint && camera.getX() > startBoundX) {
-            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation(this);
+        } else if (player.getCalibratedXLocation() < xMidPoint && camera.getX() > startBoundX) {
+            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation();
             camera.moveX(-xMidPointDifference);
             if (camera.getX() < startBoundX) {
                 float cameraDifference = startBoundX - camera.getX();
@@ -243,15 +243,15 @@ public class Map {
     }
 
     private void adjustMovementY(Player player) {
-        if (player.getCalibratedYLocation(this) > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
+        if (player.getCalibratedYLocation() > yMidPoint && camera.getEndBoundY() < endBoundY) {
+            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation();
             camera.moveY(-yMidPointDifference);
             if (camera.getEndBoundY() > endBoundY) {
                 float cameraDifference = camera.getEndBoundY() - endBoundY;
                 camera.moveY(-cameraDifference);
             }
-        } else if (player.getCalibratedYLocation(this) < yMidPoint && camera.getY() > startBoundY) {
-            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation(this);
+        } else if (player.getCalibratedYLocation() < yMidPoint && camera.getY() > startBoundY) {
+            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation();
             camera.moveY(-yMidPointDifference);
             if (camera.getY() < startBoundY) {
                 float cameraDifference = startBoundY - camera.getY();

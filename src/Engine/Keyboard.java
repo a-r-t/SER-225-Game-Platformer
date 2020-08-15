@@ -70,8 +70,8 @@ public class Keyboard {
  		     put(Key.DOWN, 40);
  		     put(Key.RIGHT, 39);
  		     put(Key.LEFT, 37);
- 		     put(Key.ENTER, 13);
- 		     put(Key.LSHIFT, 16);
+ 		     put(Key.ENTER, 10);
+ 		     put(Key.SHIFT, 16);
  		     put(Key.A, 65);
  		     put(Key.B, 66);
  		     put(Key.C, 67);
@@ -109,6 +109,7 @@ public class Keyboard {
  		     put(Key.NINE, 57);
  		     put(Key.ZERO, 48);
  		     put(Key.SPACE, 32);
+ 		     put(Key.ESC, 27);
  		}};
     }
 }

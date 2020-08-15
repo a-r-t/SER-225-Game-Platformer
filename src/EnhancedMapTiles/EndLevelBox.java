@@ -3,6 +3,7 @@ package EnhancedMapTiles;
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
 import Engine.Keyboard;
+import Game.LevelState;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 import Scene.EnhancedMapTile;
@@ -21,7 +22,7 @@ public class EndLevelBox extends EnhancedMapTile {
     public void update(Keyboard keyboard, Player player) {
         super.update(keyboard, player);
         if (intersects(player)) {
-            map.setIsCompleted(true);
+            player.setLevelState(LevelState.LEVEL_COMPLETED);
         }
     }
 

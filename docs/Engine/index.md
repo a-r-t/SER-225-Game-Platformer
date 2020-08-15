@@ -15,8 +15,49 @@ This engine is pretty basic and not made "specifically" for any one type of game
 it just sets up the necessities in order to get a game going in Java.
        
 ## How to set up a game using this Engine?
+Assuming a separate driver class is created, setting up the game loop and engine resources is pretty simple.
 
 Upon instantiation of the `GameWindow` class, the game engine will set itself up.<br>
 ```java
 GameWindow gameWindow = new GameWindow();
 ```
+
+The game loop will start once the window's `startGame` method is called:
+```java
+gameWindow.startGame();
+```
+
+From there, the engine's `ScreenManager` class will load up the `DefaultScreen`, which does nothing.<br>
+A `Screen` is a piece of the game that has its own update and draw cycles.<br>
+For example, a game may have a "MenuScreen" or "PlayGameScreen".<br>
+Any class that extends from the engine's `Screen` base class can be given to the `ScreenManager`.
+
+To attach a Screen to the ScreenManager, grab the `ScreenManager` class instance from the `GameWindow` and then set its current screen to the desired Screen class: 
+```java
+public class MyScreen extends Screen {
+    	@Override
+    	public void initialize() {
+
+    	}
+
+        @Override
+        public void update(Keyboard keyboard) {
+    	    
+    	}
+
+        @Override
+        public void draw(GraphicsHandler graphicsHandler) {
+    	    
+        }
+}
+```
+
+```java
+ScreenManager screenManager = gameWindow.getScreenManager();
+screenManager.setCurrentScreen(new MyScreen());
+```
+
+From this point, the `MyScreen` class needs to implement the `initialize`, `update`, and `draw` methods to provide actual game logic and graphics.
+As mentioned before, the engine itself is very simple, and just provides the basics -- it is up to the game maker to use the tools in the engine to actually create a playable game!
+
+For more information on how to set up the Screen class, check out the Screen documentation [here](./screen.md).

@@ -6,7 +6,7 @@ public enum Key {
     RIGHT, 
     LEFT, 
     ENTER,
-    LSHIFT,
+    SHIFT,
     A,
     B,
     C,
@@ -43,5 +43,6 @@ public enum Key {
     EIGHT,
     NINE,
     ZERO,
-    SPACE
+    SPACE,
+    ESC
 }

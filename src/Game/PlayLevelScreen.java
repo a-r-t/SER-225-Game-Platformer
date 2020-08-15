@@ -16,6 +16,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     protected LevelState levelState;
     protected Timer screenTimer = new Timer();
     protected LevelClearedScreen levelClearedScreen;
+    protected LevelLoseScreen levelLoseScreen;
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -45,8 +46,16 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             case LEVEL_WIN_MESSAGE:
                 if (screenTimer.isTimeUp()) {
                     levelClearedScreen = null;
-                    screenCoordinator.setGameState(GameState.MENU);
+                    goBackToMenu();
                 }
+                break;
+            case PLAYER_DEAD:
+                levelLoseScreen = new LevelLoseScreen(this);
+                levelLoseScreen.initialize();
+                levelState = LevelState.LEVEL_LOSE_MESSAGE;
+                break;
+            case LEVEL_LOSE_MESSAGE:
+                levelLoseScreen.update(keyboard);
                 break;
         }
     }
@@ -62,6 +71,9 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             case LEVEL_WIN_MESSAGE:
                 levelClearedScreen.draw(graphicsHandler);
                 break;
+            case LEVEL_LOSE_MESSAGE:
+                levelLoseScreen.draw(graphicsHandler);
+                break;
         }
     }
 
@@ -76,6 +88,14 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     @Override
     public void onDeath() {
+        levelState = LevelState.PLAYER_DEAD;
+    }
 
+    public void resetLevel() {
+        initialize();
+    }
+
+    public void goBackToMenu() {
+        screenCoordinator.setGameState(GameState.MENU);
     }
 }

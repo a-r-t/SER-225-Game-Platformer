@@ -52,6 +52,6 @@ public class Enemy extends MapEntity {
     }
 
     public void touchedPlayer(Player player) {
-        System.out.println("PLAYER KILL");
+        player.hurt(this);
     }
 }

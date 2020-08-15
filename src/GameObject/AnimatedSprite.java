@@ -56,7 +56,7 @@ public class AnimatedSprite implements IntersectableRectangle {
 			timer.setWaitTime(getCurrentFrame().getDelay());
 			hasAnimationLooped = false;
 		} else {
-			if (getCurrentAnimation().length > 1) {
+			if (getCurrentAnimation().length > 1 && currentFrame.getDelay() > 0) {
 				if (timer.isTimeUp()) {
 					currentFrameIndex++;
 					if (currentFrameIndex >= animations.get(currentAnimationName).length) {

@@ -49,10 +49,10 @@ public abstract class Player extends GameObject {
     }
 
     public void update(Keyboard keyboard, Map map) {
-        if (levelState == LevelState.RUNNING) {
-            moveAmountX = 0;
-            moveAmountY = 0;
+        moveAmountX = 0;
+        moveAmountY = 0;
 
+        if (levelState == LevelState.RUNNING) {
             applyGravity();
 
             do {
@@ -70,6 +70,9 @@ public abstract class Player extends GameObject {
             updateLockedKeys(keyboard);
         } else if (levelState == LevelState.LEVEL_COMPLETED) {
             levelCompleted(map);
+            super.update();
+        } else if (levelState == LevelState.PLAYER_DEAD) {
+            playerDead(map);
             super.update();
         }
     }
@@ -216,10 +219,14 @@ public abstract class Player extends GameObject {
         }
     }
 
+    public void hurt(MapEntity mapEntity) {
+        if (mapEntity instanceof Enemy) {
+            levelState = LevelState.PLAYER_DEAD;
+        }
+    }
+
     public void levelCompleted(Map map) {
         if (airGroundState != AirGroundState.GROUND) {
-            moveAmountX = 0;
-            moveAmountY = 0;
             currentAnimationName = "FALL_RIGHT";
             applyGravity();
             increaseMomentum();
@@ -233,10 +240,27 @@ public abstract class Player extends GameObject {
                 listener.onLevelCompleted();
             }
         }
-
     }
 
-    public void onDeath(Map map) { }
+    public void playerDead(Map map) {
+        if (!currentAnimationName.startsWith("DEATH")) {
+            if (facingDirection == Direction.RIGHT) {
+                currentAnimationName = "DEATH_RIGHT";
+            } else {
+                currentAnimationName = "DEATH_LEFT";
+            }
+        } else if (currentFrameIndex == getCurrentAnimation().length - 1) {
+            if (map.getCamera().containsDraw(this)) {
+                applyGravity();
+                increaseMomentum();
+                moveY(moveAmountY + momentumY);
+            } else {
+                for (PlayerListener listener : listeners) {
+                    listener.onDeath();
+                }
+            }
+        }
+    }
 
     public PlayerState getPlayerState() {
         return playerState;

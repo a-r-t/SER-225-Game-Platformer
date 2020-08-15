@@ -2,3 +2,5 @@ remote_theme: pmarsceill/just-the-docs
 relative_links:
   enabled: true
   collections: true
+search_enabled: true
+search.heading_level: 2

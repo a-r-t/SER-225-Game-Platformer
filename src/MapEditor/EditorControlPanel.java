@@ -11,22 +11,23 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class EditorControlPanel extends JPanel {
 
-    private HashMap<String, Map> maps;
+    private ArrayList<String> mapNames;
     private SelectedTileIndexHolder selectedTileIndexHolder;
     private JComboBox mapNamesComboBox;
     private TilePicker tilePicker;
     private MapBuilder mapBuilder;
+    private Map selectedMap;
 
     public EditorControlPanel(SelectedTileIndexHolder selectedTileIndexHolder, MapBuilder mapBuilder, JFrame parent) {
         setLayout(null);
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(0, 0);
         setSize(200, 600);
-        maps = EditorMaps.getMaps();
+
+        mapNames = EditorMaps.getMapNames();
 
         this.selectedTileIndexHolder = selectedTileIndexHolder;
         this.mapBuilder = mapBuilder;
@@ -40,10 +41,9 @@ public class EditorControlPanel extends JPanel {
         mapNamesComboBox = new JComboBox();
         mapNamesComboBox.setSize(190, 40);
         mapNamesComboBox.setLocation(5, 30);
-        ArrayList<String> mapKeys = new ArrayList<>(maps.keySet());
-        mapKeys.sort(String::compareToIgnoreCase);
-        for (String mapKey : mapKeys) {
-            mapNamesComboBox.addItem(mapKey);
+        mapNames.sort(String::compareToIgnoreCase);
+        for (String mapName : mapNames) {
+            mapNamesComboBox.addItem(mapName);
         }
         mapNamesComboBox.addActionListener(new ActionListener() {
             @Override
@@ -52,6 +52,7 @@ public class EditorControlPanel extends JPanel {
             }
         });
         add(mapNamesComboBox);
+        selectedMap = EditorMaps.getMapByName(mapNamesComboBox.getSelectedItem().toString());
 
         tilePicker = new TilePicker(selectedTileIndexHolder);
         JScrollPane tilePickerScroll = new JScrollPane();
@@ -88,7 +89,7 @@ public class EditorControlPanel extends JPanel {
     }
 
     public Map getSelectedMap() {
-        return maps.get(mapNamesComboBox.getSelectedItem());
+        return selectedMap;
     }
 
     public void writeSelectedMapToFile() {
@@ -115,8 +116,8 @@ public class EditorControlPanel extends JPanel {
         }
     }
     public void setMap() {
-        Map map = getSelectedMap();
-        tilePicker.setTileset(map, map.getTileset());
-        mapBuilder.setMap(map);
+        selectedMap = EditorMaps.getMapByName(mapNamesComboBox.getSelectedItem().toString());
+        tilePicker.setTileset(selectedMap, selectedMap.getTileset());
+        mapBuilder.setMap(selectedMap);
     }
 }

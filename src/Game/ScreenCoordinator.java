@@ -1,11 +1,12 @@
 package Game;
 
+import Engine.DefaultScreen;
 import Engine.GraphicsHandler;
 import Engine.Keyboard;
 import Engine.Screen;
 
 public class ScreenCoordinator extends Screen {
-	protected Screen currentScreen;
+	protected Screen currentScreen = new DefaultScreen();
 	protected GameState gameState;
 	protected GameState previousGameState;
 

@@ -28,7 +28,6 @@ public class Map {
     protected ArrayList<EnhancedMapTile> enhancedMapTiles;
     protected ArrayList<NPC> npcs;
     protected boolean adjustCamera = true;
-    protected boolean isCompleted = false;
 
     public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
         this.mapFileName = mapFileName;
@@ -210,10 +209,6 @@ public class Map {
     }
     public ArrayList<NPC> getActiveNPCs() {
         return camera.getActiveNPCs();
-    }
-    public boolean isCompleted() { return isCompleted; }
-    public void setIsCompleted(boolean isCompleted) {
-        this.isCompleted = isCompleted;
     }
 
     public boolean adjustCamera() { return adjustCamera; }

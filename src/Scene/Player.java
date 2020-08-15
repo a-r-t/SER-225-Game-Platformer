@@ -4,6 +4,7 @@ import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
+import Game.LevelState;
 import GameObject.GameObject;
 import GameObject.SpriteSheet;
 import Utils.AirGroundState;
@@ -11,6 +12,8 @@ import Utils.Direction;
 import Utils.MathUtils;
 import GameObject.Rectangle;
 import Utils.Timer;
+
+import java.util.ArrayList;
 
 public abstract class Player extends GameObject {
     protected float walkSpeed = 0;
@@ -32,8 +35,8 @@ public abstract class Player extends GameObject {
     protected Key MOVE_LEFT_KEY = Key.LEFT;
     protected Key MOVE_RIGHT_KEY = Key.RIGHT;
     protected Key CROUCH_KEY = Key.DOWN;
-    protected boolean isOnMapCompletedFinished;
-    protected boolean isOnDeathFinished;
+    protected ArrayList<PlayerListener> listeners = new ArrayList<>();
+    protected LevelState levelState;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
         super(spriteSheet, x, y, startingAnimationName, map);
@@ -42,28 +45,33 @@ public abstract class Player extends GameObject {
         previousAirGroundState = airGroundState;
         playerState = PlayerState.STANDING;
         previousPlayerState = playerState;
+        levelState = LevelState.RUNNING;
     }
 
     public void update(Keyboard keyboard, Map map) {
-        moveAmountX = 0;
-        moveAmountY = 0;
+        if (levelState == LevelState.RUNNING) {
+            moveAmountX = 0;
+            moveAmountY = 0;
 
-        applyGravity();
+            applyGravity();
 
-        do {
-            previousPlayerState = playerState;
-            handlePlayerState(keyboard);
-        } while (previousPlayerState != playerState);
+            do {
+                previousPlayerState = playerState;
+                handlePlayerState(keyboard);
+            } while (previousPlayerState != playerState);
 
-        previousAirGroundState = airGroundState;
+            previousAirGroundState = airGroundState;
 
-        super.update();
+            super.update();
 
-        super.moveYHandleCollision(map, moveAmountY);
-        super.moveXHandleCollision(map, moveAmountX);
+            super.moveYHandleCollision(map, moveAmountY);
+            super.moveXHandleCollision(map, moveAmountX);
 
-        updateLockedKeys(keyboard);
-
+            updateLockedKeys(keyboard);
+        } else if (levelState == LevelState.LEVEL_COMPLETED) {
+            levelCompleted(map);
+            super.update();
+        }
     }
 
     protected void applyGravity() {
@@ -208,7 +216,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void onMapCompleted(Map map) {
+    public void levelCompleted(Map map) {
         if (airGroundState != AirGroundState.GROUND) {
             moveAmountX = 0;
             moveAmountY = 0;
@@ -216,21 +224,26 @@ public abstract class Player extends GameObject {
             applyGravity();
             increaseMomentum();
             moveYHandleCollision(map, moveAmountY);
-            super.update();
         }
         else if (map.getCamera().containsDraw(this)) {
             currentAnimationName = "WALK_RIGHT";
             moveXHandleCollision(map, walkSpeed);
-            super.update();
         } else {
-            isOnMapCompletedFinished = true;
+            for (PlayerListener listener : listeners) {
+                listener.onLevelCompleted();
+            }
         }
+
     }
 
     public void onDeath(Map map) { }
 
     public PlayerState getPlayerState() {
         return playerState;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
     }
 
     public AirGroundState getAirGroundState() {
@@ -241,7 +254,15 @@ public abstract class Player extends GameObject {
         return facingDirection;
     }
 
-    public boolean isOnMapCompletedFinished() {
-        return isOnMapCompletedFinished;
+    public void setFacingDirection(Direction facingDirection) {
+        this.facingDirection = facingDirection;
+    }
+
+    public void setLevelState(LevelState levelState) {
+        this.levelState = levelState;
+    }
+
+    public void addListener(PlayerListener listener) {
+        listeners.add(listener);
     }
 }

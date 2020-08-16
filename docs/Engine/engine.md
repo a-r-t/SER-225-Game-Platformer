@@ -23,7 +23,7 @@ window. A game loop starts running immediately that will continually cycle throu
 calls (update is where game logic takes place, draw is where rendering happens – what you show on
 screen). That’s it! Below is a diagram that summarizes the entire game engine nicely:
 
-![](../assets/images/game-loop-diagram.png?raw=true)
+![](../assets/images/game-loop-diagram.png)
 
 As the user of this game engine, you will be creating game objects with their own update and draw
 implementations to work with the engine.

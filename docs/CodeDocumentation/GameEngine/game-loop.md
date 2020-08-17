@@ -59,3 +59,6 @@ moves a player one pixel to the right when the right arrow key is held down, the
 right arrow key being pressed and if so move the player to the right one pixel each time. Without the game loop, there'd be no way
 to apply this logic continually.
 
+Anytime in the codebase you see an `update` method, and you will see it in nearly every class, it is where game logic is being run
+by the game loop when an instance of that class is active.
+

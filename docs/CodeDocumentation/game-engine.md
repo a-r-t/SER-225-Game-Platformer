@@ -35,7 +35,7 @@ For this game, the engine was created from scratch using components from the Jav
 done using vanilla Java. While the engine itself is not "specific" to the platformer game genre, several other components were included
 that fit nicely with platformer game logic.
 
-## Overview of the game engine
+## Overview of this game engine
 
 The code architecture and design for this engine was inspired by [XNA](https://en.wikipedia.org/wiki/Microsoft_XNA), Microsoft’s old game programming framework that they supported for
 anyone to use to write games for the Xbox 360. Now it has been ported and released open source under the title [Monogame](https://www.monogame.net/)

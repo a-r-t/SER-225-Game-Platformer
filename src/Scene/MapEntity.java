@@ -5,6 +5,7 @@ import GameObject.Frame;
 import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapEntity extends GameObject {
@@ -70,5 +71,4 @@ public class MapEntity extends GameObject {
     public void setIsUpdateOffScreen(boolean isUpdateOffScreen) {
         this.isUpdateOffScreen = isUpdateOffScreen;
     }
-
 }

@@ -2,9 +2,8 @@
 layout: default
 title: Game Loop
 parent: Game Engine
-grand_parent: Code Documentation
 nav_order: 1
-permalink: /CodeDocumentation/GameEngine/GameLoop
+permalink: /GameEngine/GameLoop
 ---
 
 # Navigation Structure

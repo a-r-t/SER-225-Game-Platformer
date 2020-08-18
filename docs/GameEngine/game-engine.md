@@ -1,10 +1,9 @@
 ---
 layout: default
 title: Game Engine
-parent: Code Documentation
 has_children: true
-nav_order: 1
-permalink: /CodeDocumentation/GameEngine
+nav_order: 3
+permalink: /GameEngine
 ---
 
 # Navigation Structure

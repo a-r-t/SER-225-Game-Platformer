@@ -2,9 +2,8 @@
 layout: default
 title: Loading Images
 parent: Game Engine
-grand_parent: Code Documentation
 nav_order: 3
-permalink: /CodeDocumentation/GameEngine/LoadingImages
+permalink: /GameEngine/LoadingImages
 ---
 
 # Navigation Structure
@@ -66,7 +65,8 @@ For example, the following cat image used in game has its background set as mage
 
 ![cat sprite](../../assets/images/cat-sprite.png)
 
-When loading this image into the game, the transparent color of magenta is set, meaning in game, the magenta color will not be shown:
+When loading this image into the game, the transparent color of magenta is set, meaning in game, the magenta color will not be shown,
+allowing it to blend in with whatever color is shown in the background of it:
 
 ![Game Screen 4](../../assets/images/game-screen-4.png)
 

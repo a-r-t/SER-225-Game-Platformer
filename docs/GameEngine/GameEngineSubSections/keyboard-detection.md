@@ -2,9 +2,8 @@
 layout: default
 title: Keyboard Detection
 parent: Game Engine
-grand_parent: Code Documentation
 nav_order: 2
-permalink: /CodeDocumentation/GameEngine/KeyboardDetection
+permalink: /GameEngine/KeyboardDetection
 ---
 
 # Navigation Structure

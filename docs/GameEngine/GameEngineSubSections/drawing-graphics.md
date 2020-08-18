@@ -1,10 +1,9 @@
 ---
 layout: default
-title: Drawing Graphics to Screen
+title: Drawing Graphics
 parent: Game Engine
-grand_parent: Code Documentation
 nav_order: 4
-permalink: /CodeDocumentation/GameEngine/DrawingGraphicsToScreen
+permalink: /GameEngine/DrawingGraphics
 ---
 
 # Navigation Structure
@@ -18,7 +17,7 @@ permalink: /CodeDocumentation/GameEngine/DrawingGraphicsToScreen
 
 ---
 
-# Drawing Graphics To Screen
+# Drawing Graphics
 
 ## Painting an image to the JPanel
 
@@ -45,3 +44,14 @@ public void draw(GraphicsHandler graphicsHandler) {
 ```
 
 The `ImageEffect` enum contains all the other image effects that can be applied to an image besides flipping it horizontally.
+
+## Draw Order
+
+Something important to keep in mind is that the order that graphics are drawn to the JPanel matters, because each graphic
+is "pasted" on over whatever was there beforehand.
+
+For an in game example, the map tiles (light blue sky, tree, etc) in the below image are drawn BEFORE the cat image to ensure
+that the map tiles do not cover up the cat making it not visible. This also ensures that every time the cat moves, the map tiles
+continue to stay behind it.
+
+![Game Screen 4](../../assets/images/game-screen-4.png)

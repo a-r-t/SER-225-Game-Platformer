@@ -34,7 +34,8 @@ The sun shines, the flowers dance, and a bright color palette is used ~~which is
 - One NPC that you can talk to
 - Player can walk, jump, and duck
 - Touching an enemy immediately kills you
-- The level is beaten when the gold box at the end of the level is touched
+- The level is completed when the gold box at the end of the level is touched
+- Tile map loader that supports both static and animated tiles
 - Some interesting level set pieces like jump through platforms and moving platforms
 - A map editor tool
 - A menu and credits screen

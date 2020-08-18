@@ -34,7 +34,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         float startBound = startLocation.x;
         float endBound = endLocation.x;
 
@@ -71,7 +71,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
             player.moveXHandleCollision(map, moveAmountX);
         }
 
-        super.update(keyboard, player);
+        super.update(player);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

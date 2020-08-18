@@ -5,6 +5,6 @@ package Engine;
 // For example, there may be a "MenuScreen" or a "PlayGameScreen"
 public abstract class Screen {
     public abstract void initialize();
-    public abstract void update(Keyboard keyboard);
+    public abstract void update();
     public abstract void draw(GraphicsHandler graphicsHandler);
 }

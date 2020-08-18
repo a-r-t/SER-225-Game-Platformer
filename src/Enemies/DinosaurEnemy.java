@@ -46,14 +46,14 @@ public class DinosaurEnemy extends Enemy {
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         float startBound = startLocation.x;
         float endBound = endLocation.x;
 
         if (shootTimer.isTimeUp() && dinosaurState != DinosaurState.SHOOT) {
             dinosaurState = DinosaurState.SHOOT;
         }
-        super.update(keyboard, player);
+        super.update(player);
 
         if (dinosaurState == DinosaurState.WALK) {
             if (facingDirection == Direction.RIGHT) {

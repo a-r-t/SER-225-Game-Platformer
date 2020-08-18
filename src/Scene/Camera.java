@@ -40,9 +40,9 @@ public class Camera extends Rectangle {
         return new Point(xIndex, yIndex);
     }
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         updateMapTiles();
-        updateMapEntities(keyboard, player);
+        updateMapEntities(player);
     }
 
     private void updateMapTiles() {
@@ -57,21 +57,21 @@ public class Camera extends Rectangle {
         }
     }
 
-    public void updateMapEntities(Keyboard keyboard, Player player) {
+    public void updateMapEntities(Player player) {
         activeEnemies = loadActiveEnemies();
         activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
         activeNPCs = loadActiveNPCs();
 
         for (Enemy enemy : activeEnemies) {
-            enemy.update(keyboard, player);
+            enemy.update(player);
         }
 
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-            enhancedMapTile.update(keyboard, player);
+            enhancedMapTile.update(player);
         }
 
         for (NPC npc : activeNPCs) {
-            npc.update(keyboard, player);
+            npc.update(player);
         }
     }
 

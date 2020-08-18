@@ -21,9 +21,6 @@ public class GamePanel extends JPanel {
 	// used to create the game loop and cycle between update and draw calls
 	private Timer timer;
 
-	// used for key detection (like checking if a key is pressed)
-	private Keyboard keyboard;
-
 	// used to draw graphics to the panel
 	private GraphicsHandler graphicsHandler;
 
@@ -41,8 +38,7 @@ public class GamePanel extends JPanel {
 		this.setDoubleBuffered(true);
 
 		// attaches Keyboard class's keyListener to this JPanel
-		keyboard = new Keyboard();
-		this.addKeyListener(keyboard.getKeyListener());
+		this.addKeyListener(Keyboard.getKeyListener());
 
 		graphicsHandler = new GraphicsHandler();
 
@@ -57,7 +53,7 @@ public class GamePanel extends JPanel {
 		// If the game is really laggy/slow, I would consider upping the FPS in the Config file.
 		timer = new Timer(1000 / Config.FPS, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				update(keyboard);
+				update();
 				repaint();
 			}
 		});
@@ -81,18 +77,18 @@ public class GamePanel extends JPanel {
 		return screenManager;
 	}
 
-	public void update(Keyboard keyboard) {
-		if (keyboard.isKeyDown(pauseKey) && !keyLocker.isKeyLocked(pauseKey)) {
+	public void update() {
+		if (Keyboard.isKeyDown(pauseKey) && !keyLocker.isKeyLocked(pauseKey)) {
 			isGamePaused = !isGamePaused;
 			keyLocker.lockKey(pauseKey);
 		}
 		
-		if (keyboard.isKeyUp(pauseKey)) {
+		if (Keyboard.isKeyUp(pauseKey)) {
 			keyLocker.unlockKey(pauseKey);
 		}
 
 		if (!isGamePaused) {
-			screenManager.update(keyboard);
+			screenManager.update();
 		}
 	}
 

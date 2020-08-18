@@ -40,13 +40,13 @@ public class MenuScreen extends Screen {
         keyLocker.lockKey(Key.SPACE);
     }
 
-    public void update(Keyboard keyboard) {
-        background.update(keyboard, null);
+    public void update() {
+        background.update(null);
 
-        if (keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
+        if (Keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
             keyTimer.reset();
             currentMenuItemHovered++;
-        } else if (keyboard.isKeyDown(Key.UP) && keyTimer.isTimeUp()) {
+        } else if (Keyboard.isKeyDown(Key.UP) && keyTimer.isTimeUp()) {
             keyTimer.reset();
             currentMenuItemHovered--;
         }
@@ -69,10 +69,10 @@ public class MenuScreen extends Screen {
             pointerLocationY = 230;
         }
 
-        if (keyboard.isKeyUp(Key.SPACE)) {
+        if (Keyboard.isKeyUp(Key.SPACE)) {
             keyLocker.unlockKey(Key.SPACE);
         }
-        if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
+        if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
             menuItemSelected = currentMenuItemHovered;
             if (menuItemSelected == 0) {
                 screenCoordinator.setGameState(GameState.LEVEL);

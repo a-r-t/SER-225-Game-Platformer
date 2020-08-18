@@ -44,7 +44,7 @@ public class Enemy extends MapEntity {
         super.initialize();
     }
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         super.update();
         if (intersects(player)) {
             touchedPlayer(player);

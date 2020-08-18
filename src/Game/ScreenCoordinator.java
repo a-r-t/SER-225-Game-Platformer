@@ -36,7 +36,7 @@ public class ScreenCoordinator extends Screen {
 	}
 
 	@Override
-	public void update(Keyboard keyboard) {
+	public void update() {
 		do {
 			// if previousGameState does not equal gameState, it means there was a change in gameState
 			// this triggers ScreenCoordinator to bring up a new Screen based on what the gameState is
@@ -57,7 +57,7 @@ public class ScreenCoordinator extends Screen {
 			previousGameState = gameState;
 
 			// call the update method for the currentScreen
-			currentScreen.update(keyboard);
+			currentScreen.update();
 		} while (previousGameState != gameState);
 	}
 

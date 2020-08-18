@@ -22,7 +22,7 @@ public class LevelClearedScreen extends Screen {
     }
 
     @Override
-    public void update(Keyboard keyboard) {
+    public void update() {
 
     }
 

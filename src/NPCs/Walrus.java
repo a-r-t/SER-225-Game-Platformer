@@ -24,13 +24,13 @@ public class Walrus extends NPC {
         return new SpriteFont("Hello!", getX(), getY() - 10, "Arial", 12, Color.BLACK);
     }
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         if (talkedTo) {
             currentAnimationName = "TAIL_UP";
         } else {
             currentAnimationName = "TAIL_DOWN";
         }
-        super.update(keyboard, player);
+        super.update(player);
     }
 
     @Override

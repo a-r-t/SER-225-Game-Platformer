@@ -216,12 +216,12 @@ public class Map {
         this.adjustCamera = adjustCamera;
     }
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         if (adjustCamera) {
             adjustMovementY(player);
             adjustMovementX(player);
         }
-        camera.update(keyboard, player);
+        camera.update(player);
     }
 
     private void adjustMovementX(Player player) {

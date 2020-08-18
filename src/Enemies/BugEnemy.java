@@ -36,7 +36,7 @@ public class BugEnemy extends Enemy {
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         float moveAmountX = 0;
         float moveAmountY = 0;
         moveAmountY += gravity;
@@ -52,7 +52,7 @@ public class BugEnemy extends Enemy {
         moveYHandleCollision(map, moveAmountY);
         moveXHandleCollision(map, moveAmountX);
 
-        super.update(keyboard, player);
+        super.update(player);
     }
 
     @Override

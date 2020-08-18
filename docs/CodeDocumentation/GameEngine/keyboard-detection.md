@@ -38,10 +38,30 @@ Using these methods are really easy. There is a `Key` enum in the engine that ha
 These can be used as arguments for the `Keyboard` class's methods.
 
 ```java
-public void update(Keyboard keyboard) {}
-    if (keyboard.isKeyDown(Key.))
+public void update(Keyboard keyboard) {
+    // check if LEFT arrow key pressed
+    if (keyboard.isKeyDown(Key.LEFT)) {
+        
+    }
+
+    // check if A key is pressed
+    if (keyboard.isKeyDown(Key.A)) {
+        
+    }
+    
+    // if 1 key is not pressed
+    if (keyboard.isKeyUp(Key.ONE)) {
+
+    }
+
+    // if both shift and space are pressed at the same time
+    if (keyboard.areKeysDown(new Key[] { Key.SHIFT, Key.SPACE })) {
+
+    }      
 }
 ```
+
+## Supported Keys
 
 <details>
   <summary>The following keys are supported:</summary>
@@ -92,3 +112,10 @@ public void update(Keyboard keyboard) {}
     <li>ESC</li>
   </ul>
 </details>
+
+## Adding More Supported Keys
+If additional keys are needed to be supported for key detection, an entry for it must be added to the `Key` enum (`Key.java`),
+and then an entry also needs to be added to the `Keyboard` class's `buildKeyMap` `EnumMap` method mapping the enum entry with its
+key code. You can look up each key's key code in the StackOverflow answer [here](https://stackoverflow.com/a/31637206). Note:
+key codes for Java differ slightly from those in JavaScript, which most other websites will give you when googling for key codes -- please
+use the provided link for correct key codes for Java.

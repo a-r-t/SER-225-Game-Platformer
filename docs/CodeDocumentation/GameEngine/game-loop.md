@@ -88,6 +88,7 @@ Say I have the following class for an image:
 
 ```java
 import javax.imageio.ImageIO;
+import java.io.File;
 
 public class CatImage {
     private BufferedImage image = ImageIO.read(new File("pusheen.png"));

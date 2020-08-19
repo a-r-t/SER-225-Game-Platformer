@@ -2,7 +2,7 @@
 layout: default
 title: Keyboard Detection
 parent: Game Engine
-nav_order: 2
+nav_order: 3
 permalink: /GameEngine/KeyboardDetection
 ---
 
@@ -21,10 +21,10 @@ permalink: /GameEngine/KeyboardDetection
 
 ## Keyboard Input
 
-There is a `Keyboard` class constructed in the engine that handles detecting if a key is currently pressed (or not pressed)
-on the keyboard at any point while the game is running. An instance of the class is created on game start up and it is passed around
-to nearly every class's `update` methods to be used to check if a certain key is currently being pressed or not. Every class has the ability
-to detect keyboard input and multiple classes can detect keyboard input at the same time and react to it as desired.
+There is a `Keyboard` class in the engine that handles detecting if a key is currently pressed (or not pressed)
+on the keyboard at any point while the game is running. The class is a "static" class (meaning it can't be instantiated) and exists
+solely to poll the global keyboard state, which is generally used in `update` methods to be used to check if a certain key is currently being pressed or not. 
+Every class has the ability to detect keyboard input and multiple classes can detect keyboard input at the same time and react to it as desired.
 
 ## Key Detection Methods
 The `Keyboard` class supplies the following methods:
@@ -33,28 +33,30 @@ The `Keyboard` class supplies the following methods:
 - **areKeysDown** -- check if multiple keys are being pressed at the same time
 - **areKeysUp** -- check if multiple keys are not being pressed at the same time
 
+Since these methods are all static methods, they can be referenced directly from the `Keyboard` type (examples for this below).
+
 Using these methods are really easy. There is a `Key` enum in the engine that has predefined keys set up to be checked for.
 These can be used as arguments for the `Keyboard` class's methods.
 
 ```java
-public void update(Keyboard keyboard) {
+public void update() {
     // check if LEFT arrow key pressed
-    if (keyboard.isKeyDown(Key.LEFT)) {
+    if (Keyboard.isKeyDown(Key.LEFT)) {
         
     }
 
     // check if A key is pressed
-    if (keyboard.isKeyDown(Key.A)) {
+    if (Keyboard.isKeyDown(Key.A)) {
         
     }
     
     // if 1 key is not pressed
-    if (keyboard.isKeyUp(Key.ONE)) {
+    if (Keyboard.isKeyUp(Key.ONE)) {
 
     }
 
     // if both shift and space are pressed at the same time
-    if (keyboard.areKeysDown(new Key[] { Key.SHIFT, Key.SPACE })) {
+    if (Keyboard.areKeysDown(new Key[] { Key.SHIFT, Key.SPACE })) {
 
     }      
 }

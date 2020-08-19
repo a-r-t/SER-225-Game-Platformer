@@ -38,6 +38,9 @@ public class Keyboard {
             keyUp.put(keyCode, true);
         }
     };
+
+	// prevents Keyboard from being instantiated -- it's my way of making a "static" class like C# has
+	private Keyboard() { }
     
     public static KeyListener getKeyListener() {
     	return keyListener;

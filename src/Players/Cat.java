@@ -29,8 +29,8 @@ public class Cat extends Player {
         CROUCH_KEY = Key.DOWN;
     }
 
-    public void update(Keyboard keyboard, Map map) {
-        super.update(keyboard, map);
+    public void update(Map map) {
+        super.update(map);
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

@@ -23,8 +23,8 @@ public class ScreenManager {
         this.currentScreen = screen;
     }
 
-    public void update(Keyboard keyboard) {
-        currentScreen.update(keyboard);
+    public void update() {
+        currentScreen.update();
     }
 
     public void draw(GraphicsHandler graphicsHandler) {

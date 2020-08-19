@@ -43,7 +43,7 @@ public abstract class Player extends GameObject {
         levelState = LevelState.RUNNING;
     }
 
-    public void update(Keyboard keyboard, Map map) {
+    public void update(Map map) {
         moveAmountX = 0;
         moveAmountY = 0;
 
@@ -52,7 +52,7 @@ public abstract class Player extends GameObject {
 
             do {
                 previousPlayerState = playerState;
-                handlePlayerState(keyboard);
+                handlePlayerState();
             } while (previousPlayerState != playerState);
 
             previousAirGroundState = airGroundState;
@@ -62,7 +62,7 @@ public abstract class Player extends GameObject {
             super.moveYHandleCollision(map, moveAmountY);
             super.moveXHandleCollision(map, moveAmountX);
 
-            updateLockedKeys(keyboard);
+            updateLockedKeys();
         } else if (levelState == LevelState.LEVEL_COMPLETED) {
             levelCompleted(map);
         } else if (levelState == LevelState.PLAYER_DEAD) {
@@ -74,67 +74,67 @@ public abstract class Player extends GameObject {
         moveAmountY += gravity + momentumY;
     }
 
-    protected void handlePlayerState(Keyboard keyboard) {
+    protected void handlePlayerState() {
         switch (playerState) {
             case STANDING:
-                playerStanding(keyboard);
+                playerStanding();
                 break;
             case WALKING:
-                playerWalking(keyboard);
+                playerWalking();
                 break;
             case CROUCHING:
-                playerCrouching(keyboard);
+                playerCrouching();
                 break;
             case JUMPING:
-                playerJumping(keyboard);
+                playerJumping();
                 break;
         }
     }
 
-    protected void playerStanding(Keyboard keyboard) {
+    protected void playerStanding() {
         currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-        if (keyboard.isKeyDown(MOVE_LEFT_KEY) || keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
-        } else if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+        } else if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
-        } else if (keyboard.isKeyDown(CROUCH_KEY)) {
+        } else if (Keyboard.isKeyDown(CROUCH_KEY)) {
             playerState = PlayerState.CROUCHING;
         }
     }
 
-    protected void playerWalking(Keyboard keyboard) {
+    protected void playerWalking() {
         currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-        if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
+        if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
             moveAmountX -= walkSpeed;
             facingDirection = Direction.LEFT;
-        } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+        } else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             moveAmountX += walkSpeed;
             facingDirection = Direction.RIGHT;
-        } else if (keyboard.isKeyUp(MOVE_LEFT_KEY) && keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
+        } else if (Keyboard.isKeyUp(MOVE_LEFT_KEY) && Keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.STANDING;
         }
 
-        if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+        if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
-        } else if (keyboard.isKeyDown(CROUCH_KEY)) {
+        } else if (Keyboard.isKeyDown(CROUCH_KEY)) {
             playerState = PlayerState.CROUCHING;
         }
     }
 
-    protected void playerCrouching(Keyboard keyboard) {
+    protected void playerCrouching() {
         currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
-        if (keyboard.isKeyUp(CROUCH_KEY)) {
+        if (Keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
         }
-        if (keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+        if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
     }
 
-    protected void playerJumping(Keyboard keyboard) {
+    protected void playerJumping() {
         if (previousAirGroundState == AirGroundState.GROUND && airGroundState == AirGroundState.GROUND) {
             currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             airGroundState = AirGroundState.AIR;
@@ -162,9 +162,9 @@ public abstract class Player extends GameObject {
                 currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
             }
 
-            if (keyboard.isKeyDown(MOVE_LEFT_KEY)) {
+            if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
                 moveAmountX -= walkSpeed;
-            } else if (keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+            } else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
                 moveAmountX += walkSpeed;
             }
 
@@ -184,8 +184,8 @@ public abstract class Player extends GameObject {
         }
     }
 
-    protected void updateLockedKeys(Keyboard keyboard) {
-        if (keyboard.isKeyUp(JUMP_KEY)) {
+    protected void updateLockedKeys() {
+        if (Keyboard.isKeyUp(JUMP_KEY)) {
             keyLocker.unlockKey(JUMP_KEY);
         }
     }

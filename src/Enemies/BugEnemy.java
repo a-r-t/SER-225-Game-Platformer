@@ -19,24 +19,30 @@ public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
     private float movementSpeed = .5f;
+    private Direction startFacingDirection;
     private Direction facingDirection;
     private AirGroundState airGroundState;
 
-    public BugEnemy(Point location, Map map) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_RIGHT", map);
-        initialize();
+    public BugEnemy(Point location, Map map, Direction facingDirection) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_LEFT", map);
+        this.startFacingDirection = facingDirection;
+        this.initialize();
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        facingDirection = Direction.RIGHT;
-        currentAnimationName = "WALK_RIGHT";
+        facingDirection = startFacingDirection;
+        if (facingDirection == Direction.RIGHT) {
+            currentAnimationName = "WALK_RIGHT";
+        } else if (facingDirection == Direction.LEFT) {
+            currentAnimationName = "WALK_LEFT";
+        }
         airGroundState = AirGroundState.GROUND;
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         float moveAmountX = 0;
         float moveAmountY = 0;
         moveAmountY += gravity;
@@ -52,7 +58,7 @@ public class BugEnemy extends Enemy {
         moveYHandleCollision(map, moveAmountY);
         moveXHandleCollision(map, moveAmountX);
 
-        super.update(keyboard, player);
+        super.update(player);
     }
 
     @Override

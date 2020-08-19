@@ -21,16 +21,18 @@ public class DinosaurEnemy extends Enemy {
     protected Point startLocation;
     protected Point endLocation;
     protected float movementSpeed = 1f;
+    private Direction startFacingDirection;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
     protected Timer shootTimer = new Timer();
     protected DinosaurState dinosaurState;
     protected DinosaurState previousDinosaurState;
 
-    public DinosaurEnemy(Point startLocation, Point endLocation, Map map) {
+    public DinosaurEnemy(Point startLocation, Point endLocation, Map map, Direction facingDirection) {
         super(startLocation.x, startLocation.y, new SpriteSheet(ImageLoader.load("DinosaurEnemy.png"), 14, 17), "WALK_RIGHT", map);
         this.startLocation = startLocation;
         this.endLocation = endLocation;
+        this.startFacingDirection = facingDirection;
         initialize();
     }
 
@@ -39,21 +41,25 @@ public class DinosaurEnemy extends Enemy {
         super.initialize();
         dinosaurState = DinosaurState.WALK;
         previousDinosaurState = dinosaurState;
-        facingDirection = Direction.RIGHT;
-        currentAnimationName = "WALK_RIGHT";
+        facingDirection = startFacingDirection;
+        if (facingDirection == Direction.RIGHT) {
+            currentAnimationName = "WALK_RIGHT";
+        } else if (facingDirection == Direction.LEFT) {
+            currentAnimationName = "WALK_LEFT";
+        }
         airGroundState = AirGroundState.GROUND;
         shootTimer.setWaitTime(2000);
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         float startBound = startLocation.x;
         float endBound = endLocation.x;
 
         if (shootTimer.isTimeUp() && dinosaurState != DinosaurState.SHOOT) {
             dinosaurState = DinosaurState.SHOOT;
         }
-        super.update(keyboard, player);
+        super.update(player);
 
         if (dinosaurState == DinosaurState.WALK) {
             if (facingDirection == Direction.RIGHT) {

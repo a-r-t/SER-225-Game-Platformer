@@ -12,7 +12,7 @@ public class DefaultScreen extends Screen {
     public void initialize() { }
 
     @Override
-    public void update(Keyboard keyboard) { }
+    public void update() { }
 
     @Override
     public void draw(GraphicsHandler graphicsHandler) { }

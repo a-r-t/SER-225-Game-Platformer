@@ -34,13 +34,13 @@ public class CreditsScreen extends Screen {
         keyLocker.lockKey(Key.SPACE);
     }
 
-    public void update(Keyboard keyboard) {
-        background.update(keyboard, null);
+    public void update() {
+        background.update(null);
 
-        if (keyboard.isKeyUp(Key.SPACE)) {
+        if (Keyboard.isKeyUp(Key.SPACE)) {
             keyLocker.unlockKey(Key.SPACE);
         }
-        if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
+        if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
             screenCoordinator.setGameState(GameState.MENU);
         }
     }

@@ -24,17 +24,17 @@ public class LevelLoseScreen extends Screen {
     }
 
     @Override
-    public void update(Keyboard keyboard) {
-        if (keyboard.isKeyUp(Key.SPACE)) {
+    public void update() {
+        if (Keyboard.isKeyUp(Key.SPACE)) {
             keyLocker.unlockKey(Key.SPACE);
         }
-        if (keyboard.isKeyUp(Key.ESC)) {
+        if (Keyboard.isKeyUp(Key.ESC)) {
             keyLocker.unlockKey(Key.ESC);
         }
 
-        if (keyboard.isKeyDown(Key.SPACE)) {
+        if (Keyboard.isKeyDown(Key.SPACE)) {
             playLevelScreen.resetLevel();
-        } else if (keyboard.isKeyDown(Key.ESC)) {
+        } else if (Keyboard.isKeyDown(Key.ESC)) {
             playLevelScreen.goBackToMenu();
         }
     }

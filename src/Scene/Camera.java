@@ -40,9 +40,9 @@ public class Camera extends Rectangle {
         return new Point(xIndex, yIndex);
     }
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         updateMapTiles();
-        updateMapEntities(keyboard, player);
+        updateMapEntities(player);
     }
 
     private void updateMapTiles() {
@@ -57,21 +57,21 @@ public class Camera extends Rectangle {
         }
     }
 
-    public void updateMapEntities(Keyboard keyboard, Player player) {
+    public void updateMapEntities(Player player) {
         activeEnemies = loadActiveEnemies();
         activeEnhancedMapTiles = loadActiveEnhancedMapTiles();
         activeNPCs = loadActiveNPCs();
 
         for (Enemy enemy : activeEnemies) {
-            enemy.update(keyboard, player);
+            enemy.update(player);
         }
 
         for (EnhancedMapTile enhancedMapTile : activeEnhancedMapTiles) {
-            enhancedMapTile.update(keyboard, player);
+            enhancedMapTile.update(player);
         }
 
         for (NPC npc : activeNPCs) {
-            npc.update(keyboard, player);
+            npc.update(player);
         }
     }
 
@@ -100,13 +100,13 @@ public class Camera extends Rectangle {
             if (isMapEntityActive(enhancedMapTile)) {
                 activeEnhancedMapTiles.add(enhancedMapTile);
                 if (enhancedMapTile.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (enhancedMapTile.isRespawnable()) {
-                        enhancedMapTile.initialize();
-                    }
                     enhancedMapTile.setMapEntityStatus(MapEntityStatus.ACTIVE);
                 }
             } else if (enhancedMapTile.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
                 enhancedMapTile.setMapEntityStatus(MapEntityStatus.INACTIVE);
+                if (enhancedMapTile.isRespawnable()) {
+                    enhancedMapTile.initialize();
+                }
             }
         }
         return activeEnhancedMapTiles;
@@ -119,13 +119,13 @@ public class Camera extends Rectangle {
             if (isMapEntityActive(npc)) {
                 activeNPCs.add(npc);
                 if (npc.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (npc.isRespawnable()) {
-                        npc.initialize();
-                    }
                     npc.setMapEntityStatus(MapEntityStatus.ACTIVE);
                 }
             } else if (npc.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
                 npc.setMapEntityStatus(MapEntityStatus.INACTIVE);
+                if (npc.isRespawnable()) {
+                    npc.initialize();
+                }
             }
         }
         return activeNPCs;

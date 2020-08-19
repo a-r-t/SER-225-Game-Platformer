@@ -46,7 +46,7 @@ public class EnhancedMapTile extends MapTile {
     }
 
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         super.update();
     }
 

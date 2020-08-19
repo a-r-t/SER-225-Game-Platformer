@@ -34,11 +34,11 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.playLevelScreenState = PlayLevelScreenState.RUNNING;
     }
 
-    public void update(Keyboard keyboard) {
+    public void update() {
         switch (playLevelScreenState) {
             case RUNNING:
-                map.update(keyboard, player);
-                player.update(keyboard, map);
+                map.update(player);
+                player.update(map);
                 break;
             case LEVEL_COMPLETED:
                 levelClearedScreen = new LevelClearedScreen();
@@ -58,7 +58,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 playLevelScreenState = PlayLevelScreenState.LEVEL_LOSE_MESSAGE;
                 break;
             case LEVEL_LOSE_MESSAGE:
-                levelLoseScreen.update(keyboard);
+                levelLoseScreen.update();
                 break;
         }
     }

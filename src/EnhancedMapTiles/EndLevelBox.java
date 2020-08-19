@@ -19,8 +19,8 @@ public class EndLevelBox extends EnhancedMapTile {
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
-        super.update(keyboard, player);
+    public void update(Player player) {
+        super.update(player);
         if (intersects(player)) {
             player.setLevelState(LevelState.LEVEL_COMPLETED);
         }

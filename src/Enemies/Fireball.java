@@ -28,12 +28,12 @@ public class Fireball extends Enemy {
     }
 
     @Override
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         if (existenceTimer.isTimeUp()) {
             this.mapEntityStatus = MapEntityStatus.REMOVED;
         } else {
             moveXHandleCollision(map, movementSpeed);
-            super.update(keyboard, player);
+            super.update(player);
         }
     }
 

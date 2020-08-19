@@ -63,13 +63,13 @@ public class NPC extends MapEntity {
         return null;
     }
 
-    public void update(Keyboard keyboard, Player player) {
+    public void update(Player player) {
         super.update();
-        checkTalkedTo(keyboard, player);
+        checkTalkedTo(player);
     }
 
-    public void checkTalkedTo(Keyboard keyboard, Player player) {
-        if (intersects(player) && keyboard.isKeyDown(Key.SPACE)) {
+    public void checkTalkedTo(Player player) {
+        if (intersects(player) && Keyboard.isKeyDown(Key.SPACE)) {
             talkedTo = true;
             timer.setWaitTime(talkedToTime);
         };

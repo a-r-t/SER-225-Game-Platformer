@@ -9,6 +9,7 @@ import GameObject.Rectangle;
 import NPCs.Walrus;
 import Scene.*;
 import Tilesets.CommonTileset;
+import Utils.Direction;
 import Utils.Point;
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ import java.util.ArrayList;
 public class TestMap extends Map {
 
     public TestMap() {
-        super("test_map.txt", new CommonTileset(), new Point(24, 5));
+        super("test_map.txt", new CommonTileset(), new Point(1, 11));
     }
 
     @Override
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        enemies.add(new BugEnemy(getPositionByTileIndex(2, 9), this));
-        enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), this));
+        enemies.add(new BugEnemy(getPositionByTileIndex(15, 9), this, Direction.LEFT));
+        enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), this, Direction.RIGHT));
         return enemies;
     }
 
@@ -37,7 +38,9 @@ public class TestMap extends Map {
             TileType.JUMP_THROUGH_PLATFORM,
             3,
             new Rectangle(0, 6,16,4),
-            this));
+            this,
+             Direction.RIGHT
+        ));
         enhancedMapTiles.add(new EndLevelBox(
                 getPositionByTileIndex(32, 7),
                 this

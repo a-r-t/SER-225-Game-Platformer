@@ -100,13 +100,13 @@ public class Camera extends Rectangle {
             if (isMapEntityActive(enhancedMapTile)) {
                 activeEnhancedMapTiles.add(enhancedMapTile);
                 if (enhancedMapTile.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (enhancedMapTile.isRespawnable()) {
-                        enhancedMapTile.initialize();
-                    }
                     enhancedMapTile.setMapEntityStatus(MapEntityStatus.ACTIVE);
                 }
             } else if (enhancedMapTile.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
                 enhancedMapTile.setMapEntityStatus(MapEntityStatus.INACTIVE);
+                if (enhancedMapTile.isRespawnable()) {
+                    enhancedMapTile.initialize();
+                }
             }
         }
         return activeEnhancedMapTiles;
@@ -119,13 +119,13 @@ public class Camera extends Rectangle {
             if (isMapEntityActive(npc)) {
                 activeNPCs.add(npc);
                 if (npc.mapEntityStatus == MapEntityStatus.INACTIVE) {
-                    if (npc.isRespawnable()) {
-                        npc.initialize();
-                    }
                     npc.setMapEntityStatus(MapEntityStatus.ACTIVE);
                 }
             } else if (npc.getMapEntityStatus() == MapEntityStatus.ACTIVE) {
                 npc.setMapEntityStatus(MapEntityStatus.INACTIVE);
+                if (npc.isRespawnable()) {
+                    npc.initialize();
+                }
             }
         }
         return activeNPCs;

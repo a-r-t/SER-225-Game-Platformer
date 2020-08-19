@@ -46,6 +46,9 @@ public class MapEntity extends GameObject {
         this.y = startPositionY;
         this.amountMovedX = 0;
         this.amountMovedY = 0;
+        this.previousX = startPositionX;
+        this.previousY = startPositionY;
+        setCurrentSprite();
     }
 
     public MapEntityStatus getMapEntityStatus() {

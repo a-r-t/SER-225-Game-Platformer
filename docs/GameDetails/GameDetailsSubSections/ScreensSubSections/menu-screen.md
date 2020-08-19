@@ -36,14 +36,14 @@ on the option selected.
 // if down key is pressed, add one to current menu item hovered
 // "Play Game" option is menu item 0, pressing down will add 1 to the current menu item hovered, 
 // which changes it to the "Credits" option
-if (keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
+if (Keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
     keyTimer.reset();
     currentMenuItemHovered++;
 }
 // if up key is pressed, subtract one to current menu item hovered
 // "Credits" option is menu item 1, pressing up will sbutract 1 to the current menu item hovered, 
 // which changes it to the "Play Game" option
-} else if (keyboard.isKeyDown(Key.UP) && keyTimer.isTimeUp()) {
+} else if (Keyboard.isKeyDown(Key.UP) && keyTimer.isTimeUp()) {
     keyTimer.reset();
     currentMenuItemHovered--;
 }
@@ -55,7 +55,7 @@ that leads to `ScreenCoordinator's` game state being changed.
 
 ```java
 // if space is pressed, item is selected
-if (!keyLocker.isKeyLocked(Key.SPACE) && keyboard.isKeyDown(Key.SPACE)) {
+if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
     menuItemSelected = currentMenuItemHovered;
     
     // if first menu item is selected "PLAY GAME", set ScreenCoordinator game state to LEVEL
@@ -79,7 +79,7 @@ with the checks for the up or down keys being pressed, but here is a snippet of 
 ```java
 // if down key is pressed 
 // and 200 milliseconds have passed by since the last down key press
-if (keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
+if (Keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
     // reset keyTimer to wait out its set wait time,
     // which in this class is set to 200ms
     keyTimer.reset(); 

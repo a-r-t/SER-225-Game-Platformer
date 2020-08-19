@@ -35,7 +35,7 @@ is set to 100 as I found that the timer lags a bit when set to a standard 60 FPS
 Each "tick" of the game loop (each time the loop iterates), it does two things: updates game logic and then updates the graphics
 that are rendered to the screen based on the updated game logic. That's it. Here is a very detailed diagram illustrating the game loop:
 
-![](../../assets/images/game-loop-diagram.png)
+![Game Loop Diagram](../../assets/images/game-loop-diagram.png)
 
 All jokes aside, at the end of the day that is all the game loop is doing -- continually cycling between `update` and `draw` calls.
 

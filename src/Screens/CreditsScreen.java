@@ -12,7 +12,6 @@ import java.awt.*;
 public class CreditsScreen extends Screen {
     protected ScreenCoordinator screenCoordinator;
     protected Map background;
-    protected boolean isDone = false;
     protected KeyLocker keyLocker = new KeyLocker();
     protected SpriteFont creditsLabel;
     protected SpriteFont createdByLabel;
@@ -51,9 +50,5 @@ public class CreditsScreen extends Screen {
         createdByLabel.draw(graphicsHandler);
         contributorsLabel.drawWithParsedNewLines(graphicsHandler);
         returnInstructionsLabel.draw(graphicsHandler);
-    }
-
-    public boolean isDone() {
-        return isDone;
     }
 }

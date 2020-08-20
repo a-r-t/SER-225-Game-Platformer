@@ -66,21 +66,22 @@ All of the game's art was created from scratch using the almighty Microsoft Pain
 It can be run like any other Java application by executing the program starting from the file with the main method. I recommend using
 the IntelliJ IDE to run the application, however the Eclipse IDE will work fine as well.
 
-The main method for the game is in the `Game` package > `Game.java` file.<br>
-The main method for the map editor is in the `MapEditor` package > `MapEditor.java` file. This is run separate from the game
-itself.
+The `main` method for the game is in the `Game` package > `Game.java` file.
+
+The `main` method for the map editor is in the `MapEditor` package > `MapEditor.java` file. This is a separate program
+from the game.
 
 # Game Screenshots
 
 Here is what the game looks like:
 
 Menu Screen
-![Menu Screen](../assets/images/menu-screen.png)
+![menu-screen.png](../assets/images/menu-screen.png)
 
 In Game Screens (the player character is the adorable cat!)
-![Game Screen 1](../assets/images/game-screen-1.png)
+![game-screen-1.png](../assets/images/game-screen-1.png)
 
-![Game Screen 2](../assets/images/game-screen-2.png)
+![game-screen-2.png](../assets/images/game-screen-2.png)
 
 
 

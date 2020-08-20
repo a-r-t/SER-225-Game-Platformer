@@ -32,6 +32,7 @@ public abstract class Player extends GameObject {
     protected Key CROUCH_KEY = Key.DOWN;
     protected ArrayList<PlayerListener> listeners = new ArrayList<>();
     protected LevelState levelState;
+    protected boolean isInvincible = false;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
         super(spriteSheet, x, y, startingAnimationName, map);
@@ -213,8 +214,10 @@ public abstract class Player extends GameObject {
     }
 
     public void hurt(MapEntity mapEntity) {
-        if (mapEntity instanceof Enemy) {
-            levelState = LevelState.PLAYER_DEAD;
+        if (!isInvincible) {
+            if (mapEntity instanceof Enemy) {
+                levelState = LevelState.PLAYER_DEAD;
+            }
         }
     }
 

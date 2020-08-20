@@ -22,7 +22,7 @@ permalink: /GameDetails/Screens/CreditsScreen
 
 The screen handles the logic and graphics related to the credits screen that is loaded when the "CREDITS" option is selected form the game's main menu.
 
-![Credits Screen](../../../assets/images/game-screen-3.png)
+![credits-screen.png](../../../assets/images/credits-screen.png)
 
 The class file for it is `CreditsScreen.java` which can be found in the `Screens` package.
 
@@ -55,4 +55,4 @@ Like the `MenuScreen` class, the `CreditsScreen` class uses a `Map` (`TitleScree
 is used when actually playing the platformer game. While any image could have been used, I thought it'd be more fun to use a map as the background.
 
 All of the text shown on screen is created with various `SpriteFont` graphics defined in the class, which are setup in the
-`initialize` method. 
+`initialize` method.

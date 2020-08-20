@@ -35,7 +35,7 @@ is set to 100 as I found that the timer lags a bit when set to a standard 60 FPS
 Each "tick" of the game loop (each time the loop iterates), it does two things: updates game logic and then updates the graphics
 that are rendered to the screen based on the updated game logic. That's it. Here is a very detailed diagram illustrating the game loop:
 
-![Game Loop Diagram](../../assets/images/game-loop-diagram.png)
+![game-loop-diagram.png](../../assets/images/game-loop-diagram.png)
 
 All jokes aside, at the end of the day that is all the game loop is doing -- continually cycling between `update` and `draw` calls.
 
@@ -124,7 +124,7 @@ Click the button below for a live simulation of how this example `CatImage` clas
 <button id="run-simulation-button" onclick="triggerSimulation()">Run Simulation</button>
 
 <div id="cat-image-container" style="border:1px solid black;">
-    <img id="pusheen-image" src="/SER-225-Game/assets/images/pusheen.png" alt="Cat" style="padding-left:0px;visibility:hidden;">
+    <img id="pusheen-image" src="/SER-225-Game/assets/images/pusheen.png" alt="pusheen.png" style="padding-left:0px;">
 </div>
 
 <script>
@@ -135,7 +135,6 @@ function triggerSimulation() {
     const button = document.getElementById("run-simulation-button");
     button.disabled = true;
     const catImage = document.getElementById("pusheen-image");
-    catImage.style.visibility = "visible";
     catImage.style["padding-left"] = "0px";
 }
 

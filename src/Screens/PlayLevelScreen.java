@@ -37,13 +37,13 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     public void update() {
         switch (playLevelScreenState) {
             case RUNNING:
-                map.update(player);
                 player.update(map);
+                map.update(player);
                 break;
             case LEVEL_COMPLETED:
                 levelClearedScreen = new LevelClearedScreen();
                 levelClearedScreen.initialize();
-                screenTimer.setWaitTime(3000);
+                screenTimer.setWaitTime(2500);
                 playLevelScreenState = PlayLevelScreenState.LEVEL_WIN_MESSAGE;
                 break;
             case LEVEL_WIN_MESSAGE:

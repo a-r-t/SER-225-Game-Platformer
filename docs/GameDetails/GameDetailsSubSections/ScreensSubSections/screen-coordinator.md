@@ -32,15 +32,15 @@ and drawing graphics for a piece of the game.
 Currently, there are three main screens that the `ScreenCoordinator` class can load: the menu screen, the credits screen,
 and the play level screen. The menu screen is always loaded at the start of the game (which you see when the game first starts up):
 
-![Menu Screen](../../../assets/images/menu-screen.png)
+![menu-screen.png](../../../assets/images/menu-screen.png)
 
 When the "Play Game" option on the menu screen is selected, the `ScreenCoordinator` class responds by loading the play level screen (which starts the platformer game level):
 
-![Play Game Screen](../../../assets/images/game-screen-1.png)
+![game-screen-1.png](../../../assets/images/game-screen-1.png)
 
 And finally, when the "Credits" option on the menu screen is selected, the `ScreenCoordinator` class responds by predictably loading the credits screen:
 
-![Play Game Screen](../../../assets/images/game-screen-3.png)
+![credits-screen.png](../../../assets/images/credits-screen.png)
 
 The `ScreenCoordinator` can support as many screens as necessary -- there is no limit!
 

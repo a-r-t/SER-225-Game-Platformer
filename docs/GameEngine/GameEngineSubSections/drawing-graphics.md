@@ -54,4 +54,4 @@ For an in game example, the map tiles (light blue sky, tree, etc) in the below i
 that the map tiles do not cover up the cat making it not visible. This also ensures that every time the cat moves, the map tiles
 continue to stay behind it.
 
-![Game Screen 4](../../assets/images/game-screen-4.png)
+![game-screen-3.png](../../assets/images/game-screen-3.png)

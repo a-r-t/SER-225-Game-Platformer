@@ -19,7 +19,7 @@ permalink: /
 # SER-225-Game Documentation
 
 <div id="cat-image-container">
-    <img id="cat-gif" src="/SER-225-Game/assets/images/cat-walking-right.gif" alt="Cat" style="padding-left:0px;">
+    <img id="cat-gif" src="/SER-225-Game/assets/images/cat-walking-right.gif" alt="cat-walking-right.gif" style="padding-left:0px;">
 </div>
 
 [Engine Package](../Engine/engine.md)
@@ -39,9 +39,11 @@ function moveCat() {
     if (currentLeft + catImageWidth >= containerWidth) {
         walkDirection = -1;
         catImage.src = "/SER-225-Game/assets/images/cat-walking-left.gif";
+        catImage.alt = "cat-walking-left.gif";
     } else if (currentLeft <= 0) {
         walkDirection = 1;
         catImage.src = "/SER-225-Game/assets/images/cat-walking-right.gif";
+        catImage.alt = "cat-walking-right.gif";
     }
 
     catImage.style["padding-left"] = (currentLeft + walkDirection) + "px";

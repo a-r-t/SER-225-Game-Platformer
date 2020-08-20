@@ -63,12 +63,12 @@ the `TRANSPARENT_COLOR` variable in the `Config` class.
 
 For example, the following cat image used in game has its background set as magenta:
 
-![cat sprite](../../assets/images/cat-sprite.png)
+![cat-sprite.png](../../assets/images/cat-sprite.png)
 
 When loading this image into the game, the transparent color of magenta is set, meaning in game, the magenta color will not be shown,
 allowing it to blend in with whatever color is shown in the background of it:
 
-![Game Screen 4](../../assets/images/game-screen-4.png)
+![game-screen-3.png](../../assets/images/game-screen-3.png)
 
 Before you ask "why can't you just use a tool like photoshop to add a transparency to an image", the answer is that it is not advisable to do this
 for games because it bloats the file size (leading to longer load times), takes additional time, and does not always work out as expected (especially with Java's limited image loading capabilities).

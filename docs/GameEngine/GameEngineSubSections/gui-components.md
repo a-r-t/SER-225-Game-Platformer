@@ -32,7 +32,7 @@ it's only job is just to exist.
 
 Essentially, this is all the `GameWindow` brings up on its own:
 
-![](../../assets/images/jframe.png)
+![jframe.png](../../assets/images/jframe.png)
 
 ## Game Panel
 

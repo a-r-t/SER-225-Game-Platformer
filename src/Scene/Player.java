@@ -213,7 +213,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void hurt(MapEntity mapEntity) {
+    public void hurtPlayer(MapEntity mapEntity) {
         if (!isInvincible) {
             if (mapEntity instanceof Enemy) {
                 levelState = LevelState.PLAYER_DEAD;

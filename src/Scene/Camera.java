@@ -77,7 +77,9 @@ public class Camera extends Rectangle {
 
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
-        for (Enemy enemy: map.getEnemies()) {
+        for (int i = map.getEnemies().size() - 1; i >= 0; i--) {
+            Enemy enemy = map.getEnemies().get(i);
+
             if (isMapEntityActive(enemy)) {
                 activeEnemies.add(enemy);
                 if (enemy.mapEntityStatus == MapEntityStatus.INACTIVE) {
@@ -88,6 +90,8 @@ public class Camera extends Rectangle {
                 if (enemy.isRespawnable()) {
                     enemy.initialize();
                 }
+            } else if (enemy.getMapEntityStatus() == MapEntityStatus.REMOVED) {
+                map.getEnemies().remove(i);
             }
         }
         return activeEnemies;
@@ -95,7 +99,8 @@ public class Camera extends Rectangle {
 
     private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
-        for (EnhancedMapTile enhancedMapTile: map.getEnhancedMapTiles()) {
+        for (int i = map.getEnhancedMapTiles().size() - 1; i >= 0; i--) {
+            EnhancedMapTile enhancedMapTile = map.getEnhancedMapTiles().get(i);
 
             if (isMapEntityActive(enhancedMapTile)) {
                 activeEnhancedMapTiles.add(enhancedMapTile);
@@ -107,6 +112,8 @@ public class Camera extends Rectangle {
                 if (enhancedMapTile.isRespawnable()) {
                     enhancedMapTile.initialize();
                 }
+            } else if (enhancedMapTile.getMapEntityStatus() == MapEntityStatus.REMOVED) {
+                map.getEnhancedMapTiles().remove(i);
             }
         }
         return activeEnhancedMapTiles;
@@ -114,7 +121,8 @@ public class Camera extends Rectangle {
 
     private ArrayList<NPC> loadActiveNPCs() {
         ArrayList<NPC> activeNPCs = new ArrayList<>();
-        for (NPC npc: map.getNPCs()) {
+        for (int i = map.getNPCs().size() - 1; i >= 0; i--) {
+            NPC npc = map.getNPCs().get(i);
 
             if (isMapEntityActive(npc)) {
                 activeNPCs.add(npc);
@@ -126,6 +134,8 @@ public class Camera extends Rectangle {
                 if (npc.isRespawnable()) {
                     npc.initialize();
                 }
+            } else if (npc.getMapEntityStatus() == MapEntityStatus.REMOVED) {
+                map.getNPCs().remove(i);
             }
         }
         return activeNPCs;

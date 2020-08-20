@@ -52,6 +52,6 @@ public class Enemy extends MapEntity {
     }
 
     public void touchedPlayer(Player player) {
-        player.hurt(this);
+        player.hurtPlayer(this);
     }
 }

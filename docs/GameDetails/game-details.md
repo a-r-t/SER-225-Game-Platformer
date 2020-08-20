@@ -21,7 +21,7 @@ permalink: /GameDetails
 
 ## How is this game made and how does it work?
 
-Utilizing the supplied game engine, the game "hooks" on to the engine's game loop through the use of the `ScreenCoordinator` class,
+Utilizing the supplied game engine, the game code "hooks" on to the engine's game loop through the use of the `ScreenCoordinator` class,
 and from there the game is directed by the various `Screen` classes (which exist in the `Screens` package). The subsections
 of this document will go over how this game is made and how everything works.
 

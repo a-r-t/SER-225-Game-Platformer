@@ -27,6 +27,7 @@ public class BugEnemy extends Enemy {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_LEFT", map);
         this.startFacingDirection = facingDirection;
         this.initialize();
+        isUpdateOffScreen = true;
     }
 
     @Override

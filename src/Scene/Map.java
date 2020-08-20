@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Map {
+public abstract class Map {
     protected MapTile[] mapTiles;
     protected int width;
     protected int height;

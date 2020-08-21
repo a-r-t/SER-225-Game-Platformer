@@ -122,7 +122,9 @@ public static Map getMapByName(String mapName) {
 ```
 
 The last thing you have to do is open the Map Editor and in the drop down select your new map. The Map Editor will create a new
-blank map file for it. From there, you can change the map dimensions as desired and start designing the map!
+blank map file for it. From there, you can change the map dimensions as desired (it will start at a width and height of (0,0), so
+you have to change them to actually add tiles) and start designing the map! 
+
 
 
 

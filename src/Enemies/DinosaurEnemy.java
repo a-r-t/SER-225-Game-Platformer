@@ -64,19 +64,19 @@ public class DinosaurEnemy extends Enemy {
         if (dinosaurState == DinosaurState.WALK) {
             if (facingDirection == Direction.RIGHT) {
                 currentAnimationName = "WALK_RIGHT";
-                moveXHandleCollision(map, movementSpeed);
+                moveXHandleCollision(movementSpeed);
             } else {
                 currentAnimationName = "WALK_LEFT";
-                moveXHandleCollision(map, -movementSpeed);
+                moveXHandleCollision(-movementSpeed);
             }
 
             if (getX1() + getScaledWidth() >= endBound) {
                 float difference = endBound - (getScaledX2());
-                moveXHandleCollision(map, -difference);
+                moveXHandleCollision(-difference);
                 facingDirection = Direction.LEFT;
             } else if (getX1() <= startBound) {
                 float difference = startBound - getX1();
-                moveXHandleCollision(map, difference);
+                moveXHandleCollision(difference);
                 facingDirection = Direction.RIGHT;
             }
 
@@ -96,8 +96,7 @@ public class DinosaurEnemy extends Enemy {
                 }
                 int fireballY = Math.round(getY()) + 4;
                 Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000);
-                fireball.setMap(map);
-                map.getEnemies().add(fireball);
+                map.addEnemy(fireball);
                 dinosaurState = DinosaurState.WALK;
                 shootTimer.setWaitTime(2000);
             }

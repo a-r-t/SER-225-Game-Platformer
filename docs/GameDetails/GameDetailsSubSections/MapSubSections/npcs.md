@@ -53,7 +53,7 @@ a `Walrus` class instance is created added to the NPC list:
 public ArrayList<NPC> loadNPCs() {
     ArrayList<NPC> npcs = new ArrayList<>();
 
-    npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
+    npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13))));
 
     return npcs;
 }

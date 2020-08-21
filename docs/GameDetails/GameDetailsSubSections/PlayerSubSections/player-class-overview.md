@@ -4,7 +4,7 @@ title: Player Class Overview
 nav_order: 1
 parent: Player
 grand_parent: Game Details
-permalink: /GameDetails/Map/PlayerClassOverview
+permalink: /GameDetails/Player/PlayerClassOverview
 ---
 
 # Navigation Structure
@@ -94,7 +94,7 @@ Looking at the `Cat` classes constructor is a good reference point for making an
 ```java
 public Cat(float x, float y, Map map) {
     // set sprite sheet, location, and default animation
-    super(new SpriteSheet(ImageLoader.load("Cat.png"), 24, 24), x, y, "STAND_RIGHT", map);
+    super(new SpriteSheet(ImageLoader.load("Cat.png"), 24, 24), x, y, "STAND_RIGHT");
 
     // set movement values
     gravity = .5f;
@@ -113,3 +113,26 @@ public Cat(float x, float y, Map map) {
 ```
 
 The image file for the cat player is `Cat.png`.
+
+## Player Moving
+
+When the player moves through the level, you may notice that most of the time it is not actually moving on screen, and instead
+stays in the middle of the screen while the map's camera moves to show more of the map. The only time the player actaully moves is when
+the map camera reaches the end of the screen and has no more map to show. You can see it in the below gif (notice the player is kept in the middle
+of the screen while the camera continually moves).
+
+![game-screen-1.gif](../../../assets/images/playing-level.gif)
+
+While the player is in charge of the overall movement of the game, the map class's `adjustMovementX` and `adjustMovementY` methods are called
+each frame which adjusts the player's position and the camera's position as needed. Usually, what happens is the player will move forward
+while at the center of the screen, and then the adjust methods will move the player back to the center of the screen and convert
+that movement amount to the camera to show more of the map. This gives the appearance that the map is "scrolling". And yes, nearly all games do this,
+99% of the time your player character is not actually moving, instead the map camera is.
+
+## Player Update Cycle
+
+Each `update` cycle, the `Player` class will do a few things:
+1. Apply gravity (downward force)
+1. Handle player state (more details on player state [here](./player-states.md))
+1. Update player animation and see if a switch is needed (`super.update()` does this)
+1. Move player by the amount it should be moved by based on the results of the handle player state step

@@ -61,8 +61,8 @@ a `BugEnemy` and `DinosaurEnemy` are created and added to the enemy list:
 @Override
 public ArrayList<Enemy> loadEnemies() {
     ArrayList<Enemy> enemies = new ArrayList<>();
-    enemies.add(new BugEnemy(getPositionByTileIndex(15, 9), this, Direction.LEFT));
-    enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), this, Direction.RIGHT));
+    enemies.add(new BugEnemy(getPositionByTileIndex(15, 9), Direction.LEFT));
+    enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), Direction.RIGHT));
     return enemies;
 }
 ```
@@ -113,7 +113,7 @@ int fireballY = Math.round(getY()) + 4;
 Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000, map);
 
 // add the fireball enemy to the map's enemy list
-map.getEnemies().add(fireball);
+map.addEnemy(fireball);
 ```
 
 The image file for the dinosaur enemy is `DinosaurEnemy.png`.

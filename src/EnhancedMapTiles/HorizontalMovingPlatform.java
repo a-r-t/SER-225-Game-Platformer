@@ -63,14 +63,14 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
         if (tileType == TileType.NOT_PASSABLE) {
             if (intersects(player) && moveAmountX >= 0 && player.getScaledBoundsX1() <= getScaledBoundsX2()) {
-                player.moveXHandleCollision(map, getScaledBoundsX2() - player.getScaledBoundsX1());
+                player.moveXHandleCollision(getScaledBoundsX2() - player.getScaledBoundsX1());
             } else if (intersects(player) && moveAmountX <= 0 && player.getScaledBoundsX2() >= getScaledBoundsX1()) {
-                player.moveXHandleCollision(map, getScaledBoundsX1() - player.getScaledBoundsX2());
+                player.moveXHandleCollision(getScaledBoundsX1() - player.getScaledBoundsX2());
             }
         }
 
         if (overlaps(player) && player.getScaledBoundsY2() == getScaledBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
-            player.moveXHandleCollision(map, moveAmountX);
+            player.moveXHandleCollision(moveAmountX);
         }
 
         super.update(player);

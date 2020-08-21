@@ -58,13 +58,11 @@ public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
             TileType.JUMP_THROUGH_PLATFORM, 
             3, 
             new Rectangle(0, 6,16,4), 
-            this, 
             Direction.RIGHT
     ));
     
     enhancedMapTiles.add(new EndLevelBox(
             getPositionByTileIndex(32, 7),
-            this
     ));
     
     return enhancedMapTiles;

@@ -55,7 +55,7 @@ the grass tile to the number 0, the sky tile to the number 1, etc.
 
 ## Reading the map file into the game
 
-The `Map` classes `loadMapFile` method handles reading in a map file. It starts by opening up the map file and reading in the
+The `Map` class's `loadMapFile` method handles reading in a map file. It starts by opening up the map file and reading in the
 width and height values. 
 
 The `Map` class then defines an array of `MapTile` of length `width * height`. This is a regular array and NOT

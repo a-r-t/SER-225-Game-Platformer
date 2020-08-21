@@ -56,8 +56,8 @@ public class BugEnemy extends Enemy {
             }
         }
 
-        moveYHandleCollision(map, moveAmountY);
-        moveXHandleCollision(map, moveAmountX);
+        moveYHandleCollision(moveAmountY);
+        moveXHandleCollision(moveAmountX);
 
         super.update(player);
     }

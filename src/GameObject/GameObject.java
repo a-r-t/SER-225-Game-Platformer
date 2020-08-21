@@ -118,15 +118,15 @@ public class GameObject extends AnimatedSprite {
 		previousY = y;
 	}
 
-	public float moveXHandleCollision(Map map, float dx) {
-		return handleCollisionX(map, dx);
+	public float moveXHandleCollision(float dx) {
+		return handleCollisionX(dx);
 	}
 
-	public float moveYHandleCollision(Map map, float dy) {
-		return handleCollisionY(map, dy);
+	public float moveYHandleCollision(float dy) {
+		return handleCollisionY(dy);
 	}
 
-	public float handleCollisionX(Map map, float moveAmountX) {
+	public float handleCollisionX(float moveAmountX) {
 		int amountToMove = (int)Math.abs(moveAmountX);
 		float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 		Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
@@ -154,7 +154,7 @@ public class GameObject extends AnimatedSprite {
 		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
 	}
 
-	public float handleCollisionY(Map map, float moveAmountY) {
+	public float handleCollisionY(float moveAmountY) {
 		int amountToMove = (int)Math.abs(moveAmountY);
 		float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 		Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;

@@ -32,7 +32,7 @@ public class Fireball extends Enemy {
         if (existenceTimer.isTimeUp()) {
             this.mapEntityStatus = MapEntityStatus.REMOVED;
         } else {
-            moveXHandleCollision(map, movementSpeed);
+            moveXHandleCollision(movementSpeed);
             super.update(player);
         }
     }

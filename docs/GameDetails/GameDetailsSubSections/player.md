@@ -28,3 +28,6 @@ during the platformer game except for the player character, which includes the p
 In the gif below, everything the cat is doing and how it is interacting with the map is handled by the `Player` class.
 
 ![game-screen-1.gif](../../assets/images/playing-level.gif)
+
+The `Player` class extends off the `GameObject` class, so everything in the [game object]() documentation applies to the `Player` class as well
+(any instance variables, animation setup, etc.)

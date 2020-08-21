@@ -27,17 +27,10 @@ This includes [map tiles]() (`MapTile` class), [enemies]() (`Enemy` class), [enh
 
 ## What is the purpose of this class?
 
-The main reason for the `MapEntity` class, which extends from `GameObject`, is that the `MapEntity` class adds a reference to the `Map` class
-as an instance variable and has several helper methods/processes to keep the game object's update logic and drawn location
-stay relative to how much the camera has moved. This is a bit difficult to explain, but if you think about it, the screen pixel coordinates NEVER change,
-pixel location (0, 0) is always at the top left of the screen no matter what. However, when the camera moves through the map,
-technically the spot (0 ,0) represents a different coordinate location on the map image. In order to properly position entities on the map
-and take this camera movement into account, the `MapEntity` class converts the game object's x and y position from map's coordinates into screen coordinates
-which results in location integrity beings maintained in the game logic while the draw logic places graphics in the correct location on screen. This is all handled by the `Camera` class,
-so there is no need to really worry too much about it.
-
-Additionally, during a `MapEntity's` `update` cycle, the `Player` class instance is passed in, so map entities have the ability
-to interact with the player directly. This is used in situations like an enemy detecting if it touched a player.
+The main reason for the `MapEntity` class, which extends from `GameObject`, is that the `MapEntity` class adds a couple of instance variables
+made for map entities other than the player -- this includes `isRespawnable` and `isUpdateOffScreen`, which mostly applies to enemies (and can be read about further
+on the [enemies](./enemies.md) page), as well as an `initialize` method that will properly "reset" an entity on a map
+back to its original position if necessary (such as for respawning an enemy).
 
 ## Initialize Method
 

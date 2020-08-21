@@ -225,6 +225,21 @@ public abstract class Map {
         return camera.getActiveNPCs();
     }
 
+    public void addEnemy(Enemy enemy) {
+        enemy.setMap(this);
+        this.enemies.add(enemy);
+    }
+
+    public void addEnhancedMapTile(EnhancedMapTile enhancedMapTile) {
+        enhancedMapTile.setMap(this);
+        this.enhancedMapTiles.add(enhancedMapTile);
+    }
+
+    public void addNPC(NPC npc) {
+        npc.setMap(this);
+        this.npcs.add(npc);
+    }
+
     public boolean adjustCamera() { return adjustCamera; }
     public void setAdjustCamera(boolean adjustCamera) {
         this.adjustCamera = adjustCamera;

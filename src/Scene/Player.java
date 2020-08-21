@@ -65,14 +65,14 @@ public abstract class Player extends GameObject {
 
             super.update();
 
-            super.moveYHandleCollision(map, moveAmountY);
-            super.moveXHandleCollision(map, moveAmountX);
+            super.moveYHandleCollision(moveAmountY);
+            super.moveXHandleCollision(moveAmountX);
 
             updateLockedKeys();
         } else if (levelState == LevelState.LEVEL_COMPLETED) {
-            levelCompleted(map);
+            updateLevelCompleted();
         } else if (levelState == LevelState.PLAYER_DEAD) {
-            playerDead(map);
+            updatePlayerDead();
         }
     }
 
@@ -226,18 +226,22 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void levelCompleted(Map map) {
+    public void completeLevel() {
+        levelState = LevelState.LEVEL_COMPLETED;
+    }
+
+    public void updateLevelCompleted() {
         if (airGroundState != AirGroundState.GROUND && map.getCamera().containsDraw(this)) {
             currentAnimationName = "FALL_RIGHT";
             applyGravity();
             increaseMomentum();
             super.update();
-            moveYHandleCollision(map, moveAmountY);
+            moveYHandleCollision(moveAmountY);
         }
         else if (map.getCamera().containsDraw(this)) {
             currentAnimationName = "WALK_RIGHT";
             super.update();
-            moveXHandleCollision(map, walkSpeed);
+            moveXHandleCollision(walkSpeed);
         } else {
             for (PlayerListener listener : listeners) {
                 listener.onLevelCompleted();
@@ -245,7 +249,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    public void playerDead(Map map) {
+    public void updatePlayerDead() {
         if (!currentAnimationName.startsWith("DEATH")) {
             if (facingDirection == Direction.RIGHT) {
                 currentAnimationName = "DEATH_RIGHT";

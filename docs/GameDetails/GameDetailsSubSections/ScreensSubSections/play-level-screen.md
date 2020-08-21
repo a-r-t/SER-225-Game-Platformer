@@ -49,8 +49,8 @@ all the game code is abstracted away to the `Map` and `Player` classes, meaning 
 
 `update` method:
 ```java
+player.update();
 map.update(player);
-player.update(map);
 ```
 
 and

@@ -210,8 +210,10 @@ public class ChangeMapSizeWindow {
         for (int i = 0; i < map.getHeight(); i++) {
             for (int j = 0; j < newWidth; j++) {
                 if (mapTilesSizeChange[j + newWidth * i] == null) {
-                    mapTilesSizeChange[j + newWidth * i] = map.getTileset().getDefaultTile()
-                            .build(j * map.getTileset().getScaledSpriteWidth(), i * map.getTileset().getScaledSpriteHeight(), map);
+                    MapTile defaultTile = map.getTileset().getDefaultTile()
+                            .build(j * map.getTileset().getScaledSpriteWidth(), i * map.getTileset().getScaledSpriteHeight());
+                    defaultTile.setMap(map);
+                    mapTilesSizeChange[j + newWidth * i] = defaultTile;
                 }
             }
         }
@@ -248,8 +250,10 @@ public class ChangeMapSizeWindow {
         for (int i = 0; i < newHeight; i++) {
             for (int j = 0; j < map.getWidth(); j++) {
                 if (mapTilesSizeChange[j + map.getWidth() * i] == null) {
-                    mapTilesSizeChange[j + map.getWidth() * i] = map.getTileset().getDefaultTile()
-                            .build(j * map.getTileset().getScaledSpriteWidth(), i * map.getTileset().getScaledSpriteHeight(), map);
+                    MapTile defaultTile = map.getTileset().getDefaultTile()
+                            .build(j * map.getTileset().getScaledSpriteWidth(), i * map.getTileset().getScaledSpriteHeight());
+                    defaultTile.setMap(map);
+                    mapTilesSizeChange[j + map.getWidth() * i] = defaultTile;
                 }
             }
         }

@@ -35,6 +35,9 @@ As of right now, the `Enemy` classes base `touchedPlayer` method will hurt the p
 touches the enemy. If this behavior is not desired, you can remove that line of code, or override the `touchedPlayer` method
 in an enemy class and include logic to determine if the enemy should be hurt or not.
 
+Most enemies adhere to similar collision detection to the player, and can follow those collision rules using the `GameObject` class's
+collision methods just like the player does. More details on collision detection and handling can be found [here]().
+
 ## Enemy Subclass
 
 In the `Enemies` package, there are currently three subclasses of the `Enemy` class -- `BugEnemy`, `DinosaurEnemy`, and `Fireball`.
@@ -74,6 +77,8 @@ This enemy is defined by the `BugEnemy` class. I tried to replicate a typical go
 the bug enemy will continually walk forward. If it hits a wall, it will turn around. If it walks off the edge of a cliff, it will
 fall down until it touches the ground again before it starts walking forward again.
 
+The image file for the bug enemy is `BugEnemy.png`.
+
 ### Dinosaur Enemy
 
 ![dinosaur-enemy-walk.gif](../../../assets/images/dinosaur-enemy-walk.gif)
@@ -90,6 +95,7 @@ creates a fireball enemy and adds it to the map):
 
 ```java
 // determine fireball starting x location (relative to dinosaur enemy's current location), speed and direction
+// based on the direction the dinosaur is facing, the fireball's direction is chosen (either right or left)
 int fireballX;
 float movementSpeed;
 if (facingDirection == Direction.RIGHT) {
@@ -99,6 +105,7 @@ if (facingDirection == Direction.RIGHT) {
     fireballX = Math.round(getX());
     movementSpeed = -1.5f;
 }
+
 // determine fireball starting y location (relative to dinosaur enemy's current location))
 int fireballY = Math.round(getY()) + 4;
 
@@ -108,6 +115,8 @@ Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed,
 // add the fireball enemy to the map's enemy list
 map.getEnemies().add(fireball);
 ```
+
+The image file for the dinosaur enemy is `DinosaurEnemy.png`.
 
 ### Fireball
 
@@ -123,3 +132,5 @@ if (existenceTimer.isTimeUp()) {
     this.mapEntityStatus = MapEntityStatus.REMOVED;
 }
 ```
+
+The image file for the fireball is `Fireball.png`.

@@ -14,8 +14,8 @@ import Utils.Point;
 import java.util.HashMap;
 
 public class EndLevelBox extends EnhancedMapTile {
-    public EndLevelBox(Point location, Map map) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("GoldBox.png"), 16, 16), "DEFAULT", TileType.PASSABLE, map);
+    public EndLevelBox(Point location) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("GoldBox.png"), 16, 16), "DEFAULT", TileType.PASSABLE);
     }
 
     @Override

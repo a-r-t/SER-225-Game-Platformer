@@ -55,7 +55,7 @@ public class GameObjectBuilder {
         return animationsCopy;
     }
 
-    public GameObject build(float x, float y, Map map) {
-        return new GameObject(x, y, cloneAnimations(), startingAnimationName, map);
+    public GameObject build(float x, float y) {
+        return new GameObject(x, y, cloneAnimations(), startingAnimationName);
     }
 }

@@ -87,3 +87,4 @@ public void drawMessage(GraphicsHandler graphicsHandler) {
 Lining the rectangle up with the text and the NPC is a total PITA. Those random `+ 2s` and `- 8s` was just me moving the graphics
 pixel by pixel until I was happy with the position.
 
+The image file for the walrus is `Walrus.png`.

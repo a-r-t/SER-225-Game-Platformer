@@ -11,15 +11,20 @@ import Utils.Direction;
 import java.util.ArrayList;
 
 public abstract class Player extends GameObject {
+    // values that affect player movement
+    // these should be set in a subclass
     protected float walkSpeed = 0;
     protected float gravity = 0;
     protected float jumpHeight = 0;
     protected float jumpDegrade = 0;
     protected float terminalVelocityY = 0;
     protected float momentumYIncrease = 0;
+
+    // values used to handle player movement
     protected float jumpForce = 0;
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
+
     protected PlayerState playerState;
     protected PlayerState previousPlayerState;
     protected Direction facingDirection;
@@ -34,8 +39,8 @@ public abstract class Player extends GameObject {
     protected LevelState levelState;
     protected boolean isInvincible = false;
 
-    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName, Map map) {
-        super(spriteSheet, x, y, startingAnimationName, map);
+    public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
+        super(spriteSheet, x, y, startingAnimationName);
         facingDirection = Direction.RIGHT;
         airGroundState = AirGroundState.AIR;
         previousAirGroundState = airGroundState;
@@ -44,7 +49,7 @@ public abstract class Player extends GameObject {
         levelState = LevelState.RUNNING;
     }
 
-    public void update(Map map) {
+    public void update() {
         moveAmountX = 0;
         moveAmountY = 0;
 

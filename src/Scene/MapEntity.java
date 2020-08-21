@@ -13,32 +13,32 @@ public class MapEntity extends GameObject {
     protected boolean isRespawnable = true;
     protected boolean isUpdateOffScreen = false;
 
-    public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation, Map map) {
-        super(spriteSheet, x, y, startingAnimation, map);
+    public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
+        super(spriteSheet, x, y, startingAnimation);
     }
 
-    public MapEntity(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, Map map) {
-        super(x, y, animations, startingAnimation, map);
+    public MapEntity(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
+        super(x, y, animations, startingAnimation);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, String startingAnimation, Map map) {
-        super(image, x, y, startingAnimation, map);
+    public MapEntity(BufferedImage image, float x, float y, String startingAnimation) {
+        super(image, x, y, startingAnimation);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, Map map) {
-        super(image, x, y, map);
+    public MapEntity(BufferedImage image, float x, float y) {
+        super(image, x, y);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale, Map map) {
-        super(image, x, y, scale, map);
+    public MapEntity(BufferedImage image, float x, float y, float scale) {
+        super(image, x, y, scale);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Map map) {
-        super(image, x, y, scale, imageEffect, map);
+    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
+        super(image, x, y, scale, imageEffect);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, Map map) {
-        super(image, x, y, scale, imageEffect, bounds, map);
+    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
+        super(image, x, y, scale, imageEffect, bounds);
     }
 
     public void initialize() {

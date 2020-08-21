@@ -26,9 +26,11 @@ on its instantiated `Map` and `Player` classes, which carries out the platformer
 hold all the game code that brings the level together -- this is the most complicated aspect of this application (as expected)
 but it isn't so bad once you get the hang of how the `Map` and `Player` classes work together and how the classes are structured.
 
+![game-screen-1.gif](../../assets/images/playing-level.gif)
+
 Documentation for the `Map` class can be found [here](./map.md).
 
-Documentation for the `Player` class can be found [here]().
+Documentation for the `Player` class can be found [here](./player.md).
 
 Documentation for usage of the Map Editor can be found [here]().
 

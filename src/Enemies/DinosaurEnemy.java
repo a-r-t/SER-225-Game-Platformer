@@ -28,12 +28,12 @@ public class DinosaurEnemy extends Enemy {
     protected DinosaurState dinosaurState;
     protected DinosaurState previousDinosaurState;
 
-    public DinosaurEnemy(Point startLocation, Point endLocation, Map map, Direction facingDirection) {
-        super(startLocation.x, startLocation.y, new SpriteSheet(ImageLoader.load("DinosaurEnemy.png"), 14, 17), "WALK_RIGHT", map);
+    public DinosaurEnemy(Point startLocation, Point endLocation, Direction facingDirection) {
+        super(startLocation.x, startLocation.y, new SpriteSheet(ImageLoader.load("DinosaurEnemy.png"), 14, 17), "WALK_RIGHT");
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.startFacingDirection = facingDirection;
-        initialize();
+        this.initialize();
     }
 
     @Override
@@ -95,7 +95,8 @@ public class DinosaurEnemy extends Enemy {
                     movementSpeed = -1.5f;
                 }
                 int fireballY = Math.round(getY()) + 4;
-                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000, map);
+                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000);
+                fireball.setMap(map);
                 map.getEnemies().add(fireball);
                 dinosaurState = DinosaurState.WALK;
                 shootTimer.setWaitTime(2000);

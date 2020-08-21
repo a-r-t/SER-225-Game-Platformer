@@ -19,8 +19,8 @@ public class Fireball extends Enemy {
     private float movementSpeed;
     private Timer existenceTimer = new Timer();
 
-    public Fireball(Point location, float movementSpeed, int existenceTime, Map map) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Fireball.png"), 7, 7), "DEFAULT", map);
+    public Fireball(Point location, float movementSpeed, int existenceTime) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Fireball.png"), 7, 7), "DEFAULT");
         this.movementSpeed = movementSpeed;
         existenceTimer.setWaitTime(existenceTime);
         isRespawnable = false;

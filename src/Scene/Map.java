@@ -44,9 +44,22 @@ public abstract class Map {
 
     public void setupMap() {
         loadMapFile();
+
         this.enemies = loadEnemies();
+        for (Enemy enemy: this.enemies) {
+            enemy.setMap(this);
+        }
+
         this.enhancedMapTiles = loadEnhancedMapTiles();
+        for (EnhancedMapTile enhancedMapTile: this.enhancedMapTiles) {
+            enhancedMapTile.setMap(this);
+        }
+
         this.npcs = loadNPCs();
+        for (NPC npc: this.npcs) {
+            npc.setMap(this);
+        }
+
         this.camera = new Camera(0, 0, tileset.getScaledSpriteWidth(), tileset.getScaledSpriteHeight(), this);
     }
 
@@ -76,7 +89,8 @@ public abstract class Map {
             for (int j = 0; j < width; j++) {
                 int tileIndex = fileInput.nextInt();
                 MapTile tile = tileset.getTile(tileIndex)
-                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight(), this);
+                        .build(j * tileset.getScaledSpriteWidth(), i * tileset.getScaledSpriteHeight());
+                tile.setMap(this);
                 setMapTile(j, i, tile);
             }
         }

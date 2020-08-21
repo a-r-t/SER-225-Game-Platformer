@@ -54,16 +54,16 @@ Clearly, this game is not finished, in fact it's pretty much just the "start" of
 and the player character's movement options are limited. There are many different directions the game can be taken in from here,
 and the backing game engine was built to support a wide variety of options that could be feasibly implemented.
 
-# What was this game made with?
+# Tools used to make this game
 
 This game was written in Java (version 8 or later) and uses no external libraries. It was developed using the IntelliJ IDE,
 although it should work out of the box with any other Java IDEs such as Eclipse. 
 
 All of the game's art was created from scratch using the almighty Microsoft Paint.
 
-# How to run this game?
+# Running the game
 
-It can be run like any other Java application by executing the program starting from the file with the main method. I recommend using
+The game can be run like any other Java application by executing the program starting from the file with the main method. I recommend using
 the IntelliJ IDE to run the application, however the Eclipse IDE will work fine as well.
 
 The `main` method for the game is in the `Game` package > `Game.java` file.

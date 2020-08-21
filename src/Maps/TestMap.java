@@ -24,9 +24,9 @@ public class TestMap extends Map {
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
 
-        enemies.add(new BugEnemy(getPositionByTileIndex(15, 9), this, Direction.LEFT));
+        enemies.add(new BugEnemy(getPositionByTileIndex(15, 9), Direction.LEFT));
 
-        enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), this, Direction.RIGHT));
+        enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), Direction.RIGHT));
 
         return enemies;
     }
@@ -42,13 +42,11 @@ public class TestMap extends Map {
                 TileType.JUMP_THROUGH_PLATFORM,
                 3,
                 new Rectangle(0, 6,16,4),
-                this,
                 Direction.RIGHT
         ));
 
         enhancedMapTiles.add(new EndLevelBox(
-                getPositionByTileIndex(32, 7),
-                this
+                getPositionByTileIndex(32, 7)
         ));
 
         return enhancedMapTiles;

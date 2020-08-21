@@ -20,9 +20,9 @@ permalink: /GameDetails/Map
 
 # Map
 
-## What does the `Map` class do?
+## What does the Map class do?
 
-The `Map` class (found in the `Scene` package) is responsible for everything on the screen during the platformer game except for the player character, which includes the map tile grpahics,
+The `Map` class (found in the `Scene` package) is responsible for everything on the screen during the platformer game except for the player character, which includes the map tile graphics,
 the camera (current view -- which part of the map is being shown on the screen), the enemies, and the npcs. It has a lot of duties to carry out,
 but a vast majority of the `Map` class is just "setup" -- once everything is ready to go, the actual game logic is pretty simple (it pretty much just calls `update` on every class and
 lets them decide what they want to do).

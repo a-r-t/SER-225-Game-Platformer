@@ -97,6 +97,8 @@ to decimals screwing everything up (I'm telling you, it's a lot harder than it s
 
 Also, if the platform's tile type is changed to `NOT_PASSABLE`, it will push the player if the player is in the way of it while it moves.
 
+The image file for the green platform is `GreenPlatform.png`.
+
 ### End Level Box
 
 ![end-level-box.gif](../../../assets/images/end-level-box.gif)
@@ -110,3 +112,5 @@ if (intersects(player)) {
     player.setLevelState(LevelState.LEVEL_COMPLETED);
 }
 ```
+
+The image file for the end level box is `GoldBox.png`.

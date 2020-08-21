@@ -19,8 +19,7 @@ It can be accessed at [https://a-r-t.github.io/SER-225-Game/](https://a-r-t.gith
 Changes to content in the `docs` folder will not show up on the website unless they are pushed to the `master` branch.
 
 ## Credits
-**Alex Thimineur**: Programmed the game, made the art (yeah I actually made all the art on my own, I may be more proud of
-that than the actual code).
+**Alex Thimineur**: Programmed the game, made the art.
 
 **Joe White, Alex Hutman, Brian Carducci**: Quinnipiac Alumni that contributed to this repo directly and were very helpful,
 let me bounce ideas off them, and gave me feedback.

@@ -1,8 +1,9 @@
 ---
 layout: default
 title: Game Overview
-nav_order: 2
+nav_order: 3
 permalink: /GameOverview
+search_exclude: true
 ---
 
 # Navigation Structure
@@ -25,7 +26,7 @@ Inspiration for this game came from popular 2D platformers such as Mario and Meg
 and enemy/level design and graphics were heavily influenced by the games [Super Mario World](https://www.youtube.com/watch?v=ta7ufW0Prws) and [Megaman 2](https://www.youtube.com/watch?v=vuJ8Qr-3_zg).
 
 The art direction was intended to create a "happy" vibe, and follows a blocky minimalistic style ~~because I am a horrible artist~~.
-The sun shines, the flowers dance, and a bright color palette is used ~~which is totally not just the Microsoft Paint default colors~~.
+The sun shines, the flowers dance, and a bright color palette is used ~~which is totally not just the result of me only using Microsoft Paint default colors~~.
 
 # Features
 

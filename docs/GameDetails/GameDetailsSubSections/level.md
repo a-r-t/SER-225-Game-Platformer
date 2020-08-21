@@ -30,7 +30,7 @@ but it isn't so bad once you get the hang of how the `Map` and `Player` classes 
 
 Documentation for the `Map` class can be found [here](./map.md).
 
-Documentation for the `Player` class can be found [here](/GameDetails/Player).
+Documentation for the `Player` class can be found [here](./player.md).
 
 Documentation for usage of the Map Editor can be found [here]().
 

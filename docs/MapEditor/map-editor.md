@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Map Editor
-nav_order: 5
+nav_order: 6
 permalink: /MapEditor
 ---
 

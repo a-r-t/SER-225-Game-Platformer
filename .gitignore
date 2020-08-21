@@ -7,5 +7,4 @@ bin/
 classes/
 out/
 TestResources/
-Gemfile.lock
 _site

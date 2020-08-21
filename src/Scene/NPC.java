@@ -6,7 +6,7 @@ import Engine.Keyboard;
 import GameObject.*;
 import GameObject.Frame;
 import GameObject.Rectangle;
-import Utils.Timer;
+import Utils.Stopwatch;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class NPC extends MapEntity {
     protected boolean talkedTo = false;
     protected SpriteFont message;
     protected int talkedToTime;
-    protected Timer timer = new Timer();
+    protected Stopwatch timer = new Stopwatch();
 
     public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation, int talkedToTime) {
         super(x, y, spriteSheet, startingAnimation);

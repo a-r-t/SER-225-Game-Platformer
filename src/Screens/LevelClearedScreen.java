@@ -1,12 +1,9 @@
 package Screens;
 
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import Engine.Screen;
 import Engine.ScreenManager;
 import GameObject.SpriteFont;
-import Utils.Colors;
-import Utils.Timer;
 
 import java.awt.*;
 

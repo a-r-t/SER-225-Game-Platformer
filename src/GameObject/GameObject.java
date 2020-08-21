@@ -209,19 +209,27 @@ public class GameObject extends AnimatedSprite {
 
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {
-		graphicsHandler.drawImage(
-				currentFrame.getImage(),
-				Math.round(getCalibratedXLocation()),
-				Math.round(getCalibratedYLocation()),
-				currentFrame.getScaledWidth(),
-				currentFrame.getScaledHeight(),
-				currentFrame.getImageEffect());
+		if (map != null) {
+			graphicsHandler.drawImage(
+					currentFrame.getImage(),
+					Math.round(getCalibratedXLocation()),
+					Math.round(getCalibratedYLocation()),
+					currentFrame.getScaledWidth(),
+					currentFrame.getScaledHeight(),
+					currentFrame.getImageEffect());
+		} else {
+			super.draw(graphicsHandler);
+		}
 	}
 
 	@Override
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
-		Rectangle scaledCalibratedBounds = getCalibratedScaledBounds();
-		scaledCalibratedBounds.setColor(color);
-		scaledCalibratedBounds.draw(graphicsHandler);
+		if (map != null) {
+			Rectangle scaledCalibratedBounds = getCalibratedScaledBounds();
+			scaledCalibratedBounds.setColor(color);
+			scaledCalibratedBounds.draw(graphicsHandler);
+		} else {
+			super.drawBounds(graphicsHandler, color);
+		}
 	}
 }

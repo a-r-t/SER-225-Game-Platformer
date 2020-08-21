@@ -1,7 +1,6 @@
 package Screens;
 
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import Engine.Screen;
 import Game.GameState;
 import Game.ScreenCoordinator;
@@ -10,14 +9,14 @@ import Players.Cat;
 import Scene.Map;
 import Scene.Player;
 import Scene.PlayerListener;
-import Utils.Timer;
+import Utils.Stopwatch;
 
 public class PlayLevelScreen extends Screen implements PlayerListener {
     protected ScreenCoordinator screenCoordinator;
     protected Map map;
     protected Player player;
     protected PlayLevelScreenState playLevelScreenState;
-    protected Timer screenTimer = new Timer();
+    protected Stopwatch screenTimer = new Stopwatch();
     protected LevelClearedScreen levelClearedScreen;
     protected LevelLoseScreen levelLoseScreen;
 

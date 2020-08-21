@@ -1,7 +1,7 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
-import Utils.Timer;
+import Utils.Stopwatch;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ public class AnimatedSprite implements IntersectableRectangle {
 	protected int currentFrameIndex;
 	protected boolean hasAnimationLooped;
 	protected Frame currentFrame;
-	private Timer timer = new Timer();
+	private Stopwatch timer = new Stopwatch();
 
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		this.x = x;

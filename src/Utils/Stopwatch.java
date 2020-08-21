@@ -1,6 +1,6 @@
 package Utils;
 
-public class Timer {
+public class Stopwatch {
     private long beforeTime = System.currentTimeMillis();
     private int millisecondsToWait = 0;
 

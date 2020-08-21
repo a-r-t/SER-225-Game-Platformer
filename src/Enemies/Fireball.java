@@ -2,22 +2,20 @@ package Enemies;
 
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
-import Engine.Keyboard;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 import Scene.Enemy;
-import Scene.Map;
 import Scene.MapEntityStatus;
 import Scene.Player;
 import Utils.Direction;
-import Utils.Timer;
+import Utils.Stopwatch;
 import Utils.Point;
-import java.awt.*;
+
 import java.util.HashMap;
 
 public class Fireball extends Enemy {
     private float movementSpeed;
-    private Timer existenceTimer = new Timer();
+    private Stopwatch existenceTimer = new Stopwatch();
 
     public Fireball(Point location, float movementSpeed, int existenceTime) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("Fireball.png"), 7, 7), "DEFAULT");

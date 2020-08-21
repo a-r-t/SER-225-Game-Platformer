@@ -6,7 +6,7 @@ import Game.ScreenCoordinator;
 import GameObject.SpriteFont;
 import Maps.TitleScreenMap;
 import Scene.Map;
-import Utils.Timer;
+import Utils.Stopwatch;
 
 import java.awt.*;
 
@@ -17,7 +17,7 @@ public class MenuScreen extends Screen {
     protected SpriteFont playGame;
     protected SpriteFont credits;
     protected Map background;
-    protected Timer keyTimer = new Timer();
+    protected Stopwatch keyTimer = new Stopwatch();
     protected int pointerLocationX, pointerLocationY;
     protected KeyLocker keyLocker = new KeyLocker();
 

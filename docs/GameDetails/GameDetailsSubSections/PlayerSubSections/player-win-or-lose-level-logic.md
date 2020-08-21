@@ -33,7 +33,7 @@ to the `PlayLevelScreen` that the level has been won.
 
 ![level-completed.gif](../../../assets/images/completing-level.gif)
 
-## Player Lose Logic -- Player Died
+## Player Lose Logic -- Player Dead
  
 When the player dies from touching an enemy, it will result in the player's `levelState` being set to `PLAYER_DEAD`. When this hapens,
 the `update` logic changes to use the `updatePlayerDead` method. This method is what performs the death animation where the player falls down until they go

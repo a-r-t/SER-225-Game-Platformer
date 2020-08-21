@@ -2,19 +2,16 @@ package Enemies;
 
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
-import Engine.Keyboard;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Scene.Enemy;
-import Scene.Map;
 import Scene.Player;
 import Utils.Point;
 import Utils.AirGroundState;
 import Utils.Direction;
-import Utils.Timer;
+import Utils.Stopwatch;
 
-import java.awt.*;
 import java.util.HashMap;
 
 public class DinosaurEnemy extends Enemy {
@@ -24,7 +21,7 @@ public class DinosaurEnemy extends Enemy {
     private Direction startFacingDirection;
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
-    protected Timer shootTimer = new Timer();
+    protected Stopwatch shootTimer = new Stopwatch();
     protected DinosaurState dinosaurState;
     protected DinosaurState previousDinosaurState;
 

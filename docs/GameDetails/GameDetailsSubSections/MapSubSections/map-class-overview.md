@@ -33,11 +33,11 @@ class has three key parameters defined:
 - **playerStartTile** -- the x and y index of the map tile the player should start on at the beginning of a level
 
 From there, the map does several setup steps to get all of its resources in order and ready to go for the platformer game:
-1. Read in map file correctly lay out the map tile graphics to the appropriate locations (process detailed [here](map-tiles-and-tilesets.md))
-1. Setup enemies (read more about enemies [here]())
-1. Setup enhanced map tiles (read more about enhanced map tiles [here]())
-1. Setup NPCs (read more about NPCs [here]())
-1. Setup camera which handles what parts of the map are shown on the screen at any given time (read more about the camera [here]())
+1. Read in map file correctly lay out the map tile graphics to the appropriate locations (process detailed [here](/GameDetails/Map/MapTilesAndTilesets))
+1. Setup enemies (read more about enemies [here](/GameDetails/Map/Enemies))
+1. Setup enhanced map tiles (read more about enhanced map tiles [here](/GameDetails/Map/EnhancedMapTiles))
+1. Setup NPCs (read more about NPCs [here](/GameDetails/Map/NPCs))
+1. Setup camera which handles what parts of the map are shown on the screen at any given time (read more about the camera [here](/GameDetails/Map/Camera))
 
 ## Map Class Methods
 

@@ -356,3 +356,20 @@ notably Android development relies heavily on it.
 
 [This video](https://www.youtube.com/watch?v=WRkw0l72BL4) provides a good overview of the Observer Pattern and why it's important
 using real-world examples.
+
+## Utility Enums
+
+There are a two enums defined in the `Utils` package that several classes use: `Direction` and `AirGroundState`.
+
+`Direction` has four possible values: `LEFT`, `RIGHT`, `UP`, and `DOWN`. It is used in various places around the program. Since
+a 2D space only has those four directions, it's a very nice data type to have available.
+
+The `AirGroundState` enum is used mainly for map entities that can have a concept of being on ground vs in the air (such as the `Player` when
+jumping/falling or various enemies). This enum only has two possible values: `GROUND` and `AIR`. Nice and simple but very handy!
+
+## Utility Point
+
+There is a `Point` class in the `Utils` package (do not confuse this with Java's built in `Point` class -- this is a custom `Point` class!)
+that will store "point" data (x, y) as floats and also contains several methods for performing "point math" such as adding
+and subtracting points. It's used in several places over Java's standard `Point` class so these additional methods are always available
+whenever needed.

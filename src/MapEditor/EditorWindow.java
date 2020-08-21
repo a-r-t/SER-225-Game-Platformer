@@ -7,7 +7,7 @@ public class EditorWindow {
     private EditorMainPanel editorMainPanel;
 
     public EditorWindow() {
-        editorWindow = new JFrame("Level Editor");
+        editorWindow = new JFrame("Map Editor");
         editorMainPanel = new EditorMainPanel(editorWindow);
         editorWindow.setContentPane(editorMainPanel);
         editorWindow.setResizable(false);

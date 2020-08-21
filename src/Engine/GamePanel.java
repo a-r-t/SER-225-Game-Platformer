@@ -1,7 +1,7 @@
 package Engine;
 
 import GameObject.Rectangle;
-import GameObject.SpriteFont;
+import SpriteFont.SpriteFont;
 import Utils.Colors;
 
 import javax.swing.*;

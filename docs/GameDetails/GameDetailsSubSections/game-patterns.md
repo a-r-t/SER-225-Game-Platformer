@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Game Patterns
-nav_order: 6
+nav_order: 7
 parent: Game Details
 permalink: /GameDetails/GamePatterns
 ---

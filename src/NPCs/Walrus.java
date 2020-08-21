@@ -3,12 +3,12 @@ package NPCs;
 import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
-import Engine.Keyboard;
 import GameObject.*;
 import GameObject.Frame;
 import Scene.Map;
 import Scene.NPC;
 import Scene.Player;
+import SpriteFont.SpriteFont;
 import Utils.Point;
 import java.awt.*;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class Walrus extends NPC {
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
         graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation() - 2), Math.round(getCalibratedYLocation() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
-        message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation()- 8);
+        message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation() - 8);
         message.draw(graphicsHandler);
     }
 }

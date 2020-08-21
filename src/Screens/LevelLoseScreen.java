@@ -1,7 +1,7 @@
 package Screens;
 
 import Engine.*;
-import GameObject.SpriteFont;
+import SpriteFont.SpriteFont;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package GameObject;
+package SpriteFont;
 
 import Engine.GraphicsHandler;
 

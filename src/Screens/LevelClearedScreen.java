@@ -3,7 +3,7 @@ package Screens;
 import Engine.GraphicsHandler;
 import Engine.Screen;
 import Engine.ScreenManager;
-import GameObject.SpriteFont;
+import SpriteFont.SpriteFont;
 
 import java.awt.*;
 

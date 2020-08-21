@@ -51,12 +51,12 @@ an image (sprite) that is to be attached to a rectangle (x, y, width, height) to
 
 As mentioned earlier, the classes in the `GameObject` package work together and build up to the `GameObject` class.
 
-### Rectangle
+### Rectangle class
 
 The `Rectangle` class is the "base", which is a means to implement the (x, y, width, height) instance variables which every
 `GameObject` needs (it also contains some simple "rectangle" math such as detecting collision and moving a rectangle in different directions).
 
-### Sprite
+### Sprite class
 
 Then, the `Sprite` class extends the `Rectangle` class. The `Sprite` class adds functionality on for storing an image (one image).
 it also optionally allows defining a bounding box `bounds` which is a `Rectangle` used in collision detection -- often times when working with collision detection,
@@ -68,7 +68,7 @@ where the bounding box where collisions can be detected is much smaller than Meg
 When working with 2D games, it's common to leave off limbs like in the above picture and have the core body be able to be
 detected for collision.
 
-### AnimatedSprite
+### AnimatedSprite class
 
 Then, the most complex class of the group pops up -- `AnimatedSprite`. This does NOT extend `Sprite`. Instead, it contains a `HashMap`
 which maps a string value (animation name) to an array of `Frame` type (animation data and graphics). 
@@ -91,7 +91,7 @@ As a result, an `AnimatedSprite` has all the behavior of the `Sprite` class with
 but I originally did have it extend from the `Sprite` class and after some time I found that the drawbacks for doing that greatly
 outweigh the minor inconvenience of having to redefine some methods.
 
-### GameObject
+### GameObject class
 
 And finally, the `GameObject` class extends from the `AnimatedSprite` class. The `GameObject` is to be given an instance
 of the current `Map` being used through its `setMap` method after creation in order for it to provide functionality based on the `Map`,
@@ -100,6 +100,12 @@ The `GameObject` class also does some sneaky constructor crafting in order to al
 or just as one sole sprite (which is done in the `HorizontalMovingPlatform` class).
 
 More details on `GameObject's` collision detection and handling can be found [here](/GameDetails/Player/CollisionDetection).
+
+Finally, `GameObject` adds two methods `getCalibratedXLocation` and `getCalibratedYLocation` which are used in the `draw` cycle
+to properly draw the `GameObject` to the screen in the correct location with account to how much the map's camera has moved. `GameObjects` should
+utilize these methods in their `draw` methods to ensure other graphics are drawn relative to them and still maintain proper draw location
+integrity. The `Walrus` class does this when drawing its speech bubble when talked to, which ensures as the camera moves the speech bubble
+graphics will remain in the correct spot relative to the walrus game object's location.
 
 Note that if no `Map` class instance is passed in a `GameObject` class using the `setMap` method, the `GameObject` will draw itself
 at its exact location on the screen rather than accounting for the map camera moving. This can be desired behavior for certain graphics,

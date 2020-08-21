@@ -42,7 +42,7 @@ essential game resources like the `graphicsHandler` and the Java Swing `Timer` t
 
 The `GamePanel` class is also home to the universal pause function (which is another poor design decision to include in this class). Pressing the `P`
 key at any point while the game is running will immediately stop the game loop's `update` cycle but will continue the game's `draw` cycle,
-which essentially "pauses" the game. It will also show the text "PAUSE" in the middle of the screen while the game is paused. The `pauseLabel` variable
+which essentially "pauses" the game. It will also show the [sprite font](/GameDetails/SpriteFont) text "PAUSE" in the middle of the screen while the game is paused. The `pauseLabel` variable
 is what defines that "PAUSE" text, and the `update` method and `draw` method contain the pause logic.
 
 While the `GamePanel` appears to be doing a lot, at the end of the day it's just a `JPanel` that's doing far more work

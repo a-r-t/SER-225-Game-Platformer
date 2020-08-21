@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Map
-nav_order: 4
+nav_order: 5
 parent: Game Details
 has_children: true
 permalink: /GameDetails/Map

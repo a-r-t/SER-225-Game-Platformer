@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Player
-nav_order: 5
+nav_order: 6
 parent: Game Details
 has_children: true
 permalink: /GameDetails/Player

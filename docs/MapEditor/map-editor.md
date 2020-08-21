@@ -68,6 +68,10 @@ button. The "Set Map Dimensions" button will allow you to change the size of the
 allow you to choose which side of the map to apply changes to when growing/shrinking a map's dimensions -- for example, if increasing
 the width of the map, more tile space can be added either to the right side or the left of the map.
 
+Something to keep in mind is that in a `Tileset's` `defineTiles` method, after a map has been created using that `Tileset`,
+you should not rearrange the order the tiles are defined and added to the list. This will break existing maps. You should ALWAYS
+just append tiles on even though it may feel disorganized.
+
 ## Adding a new map to the map editor
 
 Adding a new map to the map editor (and essentially creating a new map entirely) is a relatively easy process.
@@ -92,6 +96,7 @@ Now, in the `MapEditor` package, go to the `EditorMaps.java` file. In here, you 
 In `getMapNames`, just add an entry to the list for the name you would want the map to be recognized by -- for example, for this map
 I could use "MyMap":
 
+{% raw %}
 ```java
 public static ArrayList<String> getMapNames() {
     return new ArrayList<String>() {{
@@ -101,6 +106,7 @@ public static ArrayList<String> getMapNames() {
     }};
 }
 ```
+{% endraw %}
 
 Then, in the `getMapByName` method, add another switch case for your new map name and return an instance of your new Map class.
 For this example, I would add a switch case for "MyMap" (that is the name it was given in the `getMapNames` method) and then
@@ -125,7 +131,41 @@ The last thing you have to do is open the Map Editor and in the drop down select
 blank map file for it. From there, you can change the map dimensions as desired (it will start at a width and height of (0,0), so
 you have to change them to actually add tiles) and start designing the map! 
 
+Map files can be found in the project's `MapFiles` folder. This folder location can be changed in the [game config](/GameEngine/Config) if desired.
 
+## How does the map editor work?
 
+I used Java Swing components for the GUI and control functionality (such as buttons, drop down menus, etc.).
+The problem with creating complex GUIs purely through code is that A LOT of code and logic is required and it is very easy for it
+to get unruly, as many shortcuts/hacky solutions have to be used to have all components take in the correct input and communicate with one-another.
+As you can imagine, there is quite a bit of code for the map editor broken up between several different classes, and they aren't
+the easiest code files to digest, and as a working unit it isn't immediately obvious which classes work with others -- that will happen
+when using any GUI library, and especially Java Swing due to how old it is. 
 
+I will say that this was NOT easy to code up and get working. It's also a bit fragile as all map editors are, 
+since it has major dependencies on game logic classes that it has no control over such as the `Map`, `MapTile`, and `Tileset` classes,
+and if any of those class change, it can easily break the map editor. Such is life.
 
+While I do not plan on going over the entirety of the map editor code here because it would take me forever to type up and at the end of the day
+I would just be re-describing the entire Java Swing Library, I will instead leave it be and give some generic guidance if you are looking
+to develop it further.
+
+The `EditorWindow` class is the JFrame. It sets the `EditorMainPanel` as its content pane.
+
+The `EditorMainPanel` is a JFrame that holds two other JFrame components: the `EditorControlPanel` (map name selection drop down menu and
+save map button are there, etc.) and the `MapBuilder`, which is the right side where the map is displayed
+and tiles in it can be replaced.
+
+The `EditorControlPanel` utilizes the `TilePicker`, which is ANOTHER JPanel that actually display the tile graphics that can be selected and is where
+that selection logic takes place. The `SelectedTileIndexHolder` class is used to store the currently selected tile.
+
+The `MapBuilder` JPanel defines the scroll pane and map info labels (like "width" and "height" at the bottom of the map display).
+Then inside the scroll pane, it places the `TileBuilder` JPanel. The `TileBuilder` class is where tiles can be replaced
+by the selected tile from the `TilePicker` based on the value in `SelectedTileIndexHolder`.
+
+Both `TilePicker` and `TileBuilder` have listeners for mouse click and hover inputs.
+
+The `ChangeMapSizeWindow` class is specifically for the window that pops up after clicking the "Change Map Size" button
+in the `EditorControlPanel`. This class lets you change the size of the map.
+
+The "Save Map" button will overwrite a map's assigned map file with what it looks like in the editor.

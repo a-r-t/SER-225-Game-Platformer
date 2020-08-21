@@ -3,7 +3,7 @@ package Screens;
 import Engine.*;
 import Game.GameState;
 import Game.ScreenCoordinator;
-import GameObject.SpriteFont;
+import SpriteFont.SpriteFont;
 import Maps.TitleScreenMap;
 import Scene.Map;
 import Utils.Stopwatch;

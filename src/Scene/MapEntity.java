@@ -5,7 +5,6 @@ import GameObject.Frame;
 import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapEntity extends GameObject {
@@ -48,7 +47,7 @@ public class MapEntity extends GameObject {
         this.amountMovedY = 0;
         this.previousX = startPositionX;
         this.previousY = startPositionY;
-        setCurrentSprite();
+        updateCurrentFrame();
     }
 
     public MapEntityStatus getMapEntityStatus() {

@@ -122,7 +122,7 @@ applied to it).
 
 While one frame animations are fine at times, most animations have multiple frames, such as in the above cat sprite sheet 
 where there are four frames for the cat walking. The same method for adding one frame animations also works for multiple frame animations,
-just instead of passing in one `Frame`, an array of `Frame` will be used.
+just instead of just one `Frame` in the array, multiple `Frames` will be included.
 
 Below is an example from the `Cat` class which defines the "WALK_RIGHT" animation, which
 has four frames image indexes (1,0), (1,1), (1,2), and (1,3):

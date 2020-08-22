@@ -50,7 +50,7 @@ public class GameObject extends AnimatedSprite {
 			});
 		}};
 		this.currentAnimationName = "DEFAULT";
-		setCurrentSprite();
+		updateCurrentFrame();
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;
@@ -67,7 +67,7 @@ public class GameObject extends AnimatedSprite {
 			});
 		}};
 		this.currentAnimationName = "DEFAULT";
-		setCurrentSprite();
+		updateCurrentFrame();
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;
@@ -85,7 +85,7 @@ public class GameObject extends AnimatedSprite {
 			});
 		}};
 		this.currentAnimationName = "DEFAULT";
-		setCurrentSprite();
+		updateCurrentFrame();
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;
@@ -104,7 +104,7 @@ public class GameObject extends AnimatedSprite {
 			});
 		}};
 		this.currentAnimationName = "DEFAULT";
-		setCurrentSprite();
+		updateCurrentFrame();
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;

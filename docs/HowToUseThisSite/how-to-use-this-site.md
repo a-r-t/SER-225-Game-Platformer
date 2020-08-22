@@ -33,7 +33,7 @@ The [Game Code Details](../GameCodeDetails/game-code-details.md) section contain
 
 Other pages should be self-explanatory.
 
-The search bar at the top of this site is your best friend. Otherwise you will waste a lot of time combing through pages of text
+The search bar at the top of this site is your best friend. Without it, you will waste a lot of time combing through pages of text
 trying to find what you're looking for. CTRL+F for keywords is another necessity for finding what you're looking for. If you are looking
 at code and do not understand something, try typing it into the search of this website and see what comes up. Looking through subsections on the sidebar
 can also help you find the correct pages you are looking for if in need of adding a feature where you have a general idea of how to do it but

@@ -5,6 +5,7 @@ import Scene.Map;
 import Scene.MapTile;
 import Scene.TileType;
 
+// Builder class to instantiate a MapTile class
 public class MapTileBuilder extends GameObjectBuilder {
 
     private TileType tileType = TileType.PASSABLE;

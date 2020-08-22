@@ -48,11 +48,11 @@ will be tinted.
 The pause game logic is included in the game engine's `GamePanel` class, which is the root of the game loop. This means
 that it is active while any screen is loaded, including things like menu screen...which is definitely not ideal.
 
-![pause-game-1](../assets/images/pause-game-1.PNG)
 This is good.
+![pause-game-1](../assets/images/pause-game-1.PNG)
 
-![pause-game-2](../assets/images/pause-game-2.PNG)
 This is not good.
+![pause-game-2](../assets/images/pause-game-2.PNG)
 
 The reason for this is that I originally made a simple version of this game engine for a class assignment (can be found [here](https://github.com/a-r-t/Simple-2D-Game-Engine)
 that essentially had only one screen, so having the pause functionality be in that "global" space made sense. I never fixed it as I scaled the engine up, which is why

@@ -6,6 +6,7 @@ import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
 
+// Builder class to instantiate a Frame class
 public class FrameBuilder {
     private BufferedImage image;
     private int delay;

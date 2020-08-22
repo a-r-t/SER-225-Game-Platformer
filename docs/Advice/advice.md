@@ -69,7 +69,7 @@ can explain to them for how you got to the point where you ended up stuck. Once 
 this pre-planning step will take far less time to do, to the point where you'll probably just dive right into the code and ask questions
 later.
 
-## Art
+## Creating Game Art
 
 As a developer that has never attempted to make my own game art before creating this game, I have to say it was a lot of fun (even
 though it's not very good). I recommend that everyone give a shot at creating some game art, even if it's just editing the colors

@@ -15,6 +15,9 @@ import Utils.Point;
 import java.awt.*;
 import java.util.HashMap;
 
+// This class is for the black bug enemy
+// enemy behaves like a Mario goomba -- walks forward until it hits something, and then turns around
+// if it ends up in the air from walking off a cliff, it will fall down until it hits the ground again, and then will continue walking
 public class BugEnemy extends Enemy {
 
     private float gravity = .5f;
@@ -27,7 +30,6 @@ public class BugEnemy extends Enemy {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_LEFT");
         this.startFacingDirection = facingDirection;
         this.initialize();
-        isUpdateOffScreen = true;
     }
 
     @Override
@@ -46,8 +48,11 @@ public class BugEnemy extends Enemy {
     public void update(Player player) {
         float moveAmountX = 0;
         float moveAmountY = 0;
+
+        // add gravity (if in air, this will cause bug to fall)
         moveAmountY += gravity;
 
+        // if on ground, walk forward based on facing direction
         if (airGroundState == AirGroundState.GROUND) {
             if (facingDirection == Direction.RIGHT) {
                 moveAmountX += movementSpeed;
@@ -56,6 +61,7 @@ public class BugEnemy extends Enemy {
             }
         }
 
+        // move bug
         moveYHandleCollision(moveAmountY);
         moveXHandleCollision(moveAmountX);
 
@@ -64,6 +70,8 @@ public class BugEnemy extends Enemy {
 
     @Override
     public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+        // if bug has collided into something while walking forward,
+        // it turns around (changes facing direction)
         if (hasCollided) {
             if (direction == Direction.RIGHT) {
                 facingDirection = Direction.LEFT;
@@ -77,6 +85,8 @@ public class BugEnemy extends Enemy {
 
     @Override
     public void onEndCollisionCheckY(boolean hasCollided, Direction direction) {
+        // if bug is colliding with the ground, change its air ground state to GROUND
+        // if it is not colliding with the ground, it means that it's currently in the air, so its air ground state is changed to AIR
         if (direction == Direction.DOWN) {
             if (hasCollided) {
                 airGroundState = AirGroundState.GROUND;
@@ -99,6 +109,7 @@ public class BugEnemy extends Enemy {
                             .withBounds(6, 6, 12, 7)
                             .build()
             });
+
             put("WALK_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0), 100)
                             .withScale(2)

@@ -5,6 +5,7 @@ import Scene.Map;
 import Scene.MapEntity;
 import Scene.MapEntityStatus;
 
+// Builder class to instantiate a MapEntity class
 public class MapEntityBuilder extends GameObjectBuilder {
     protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
     protected boolean isRespawnable = true;

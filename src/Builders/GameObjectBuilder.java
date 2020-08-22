@@ -7,6 +7,7 @@ import Scene.Map;
 import java.util.Arrays;
 import java.util.HashMap;
 
+// Builder class to instantiate a GameObject class
 public class GameObjectBuilder {
     protected HashMap<String, Frame[]> animations = new HashMap<>();
     protected String startingAnimationName = "DEFAULT";

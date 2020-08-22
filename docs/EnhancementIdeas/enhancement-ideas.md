@@ -51,8 +51,9 @@ be added to the actual game engine itself so every class in the game can use it.
 
 ## Slopes
 
-Just putting this here to warn anyone that is interested in implementing slopes that it is HARD and I don't recommend doing it
-without solid programming skills. There are so many ways to implement them with their own different pros and cons, and even games known for their
+Just putting this here to warn anyone that is interested in implementing slope map tile types into the game
+that it is HARD and I don't recommend doing it without a solid understanding of how the game's map tile system works. 
+There are so many ways to implement them with their own different pros and cons, and even games known for their
 slopes like 2D Sonic the Hedgehog games have some bugs (you just don't notice them because in those games you move very fast).
 
 ## Improved jump mechanics

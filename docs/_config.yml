@@ -5,3 +5,5 @@ relative_links:
 search_enabled: true
 search:
   heading_level: 3
+plugins:
+  - jemoji

@@ -84,6 +84,7 @@ In Game Screens (the player character is the adorable cat!)
 
 ![game-screen-2.png](../assets/images/game-screen-2.png)
 
+![playing-level.gif](../assets/images/playing-level.gif)
 
 
 

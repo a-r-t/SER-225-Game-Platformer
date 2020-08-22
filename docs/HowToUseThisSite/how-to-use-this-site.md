@@ -27,9 +27,9 @@ code in order to successfully develop this game further.
 
 Click a link from the sidebar on the left of this site to be taken to its respective webpage.
 
-The [Game Engine](/GameEngine) section contains documents that detail the game engine code (how the game loop cycle works, etc.).
+The [Game Engine](../GameEngine/game-engine.md) section contains documents that detail the game engine code (how the game loop cycle works, etc.).
 
-The [Game Details](/GameDetails) sections contains documents that detail the game logic code (map, player, enemies, etc).
+The [Game Code Details](../GameCodeDetails/game-code-details.md) section contains documents that detail the game logic code (map, player, enemies, etc).
 
 Other pages should be self-explanatory.
 
@@ -62,7 +62,8 @@ but otherwise there wasn't much of a need to do so as this is a static site and 
 Each page of the website has an associated `.md` (markdown) file inside the `docs` folder. It's just a matter of finding the correct one
 for the page to edit and then actually changing the text to update the site. Only changes to the `master` branch will be applied to the website.
 
-If you forked this repo and want GitHub to create a new web page for your version of the game, you need to go to the repo Settings, go to the
+If you forked this repo and want GitHub to create a new web page for your version of the game (that will not conflict with this
+existing website), you need to go to your GitHub repo's Settings, go to the
 GitHub Pages section, and set the source to point to the `docs` folder instead of `none`. That setting should also tell you the new
 url that will lead to your project's site, which will be separate from mine.
 

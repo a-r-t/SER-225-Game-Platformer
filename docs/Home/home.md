@@ -6,24 +6,25 @@ permalink: /
 search_exclude: true
 ---
 
-# Navigation Structure
-{: .no_toc }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 # SER-225-Game Documentation
 
 <div id="cat-image-container">
     <img id="cat-gif" src="/SER-225-Game/assets/images/cat-walking-right.gif" alt="cat-walking-right.gif" style="padding-left:0px;">
 </div>
 
-[Engine Package](../Engine/engine.md)
+Welcome to the unnamed SER-225-Game's website! Here you can find information on the game, documentation on how the code works, 
+and other miscellaneous notes.
+
+## Table of contents
+
+- [How to use this site](../HowToUseThisSite/how-to-use-this-site.md)
+- [Game Overview](../GameOverview/game-overview.md)
+- [Game Engine](../GameEngine/game-engine.md)
+- [Game Code Details](../GameCodeDetails/game-code-details.md)
+- [Map Editor](../MapEditor/map-editor.md)
+- [Bug Report](../BugReport/bug-report.md)
+- [Enhancement Ideas](../EnhancementIdeas/enhancement-ideas.md)
+- [Advice](../Advice/advice.md)
 
 <script>
 let walkDirection = 1;

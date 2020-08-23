@@ -1,4 +1,4 @@
-package Scene;
+package Level;
 
 import Builders.MapTileBuilder;
 import Engine.ImageLoader;

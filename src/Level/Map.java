@@ -1,8 +1,7 @@
-package Scene;
+package Level;
 
 import Engine.Config;
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import Engine.ScreenManager;
 import Utils.Point;
 

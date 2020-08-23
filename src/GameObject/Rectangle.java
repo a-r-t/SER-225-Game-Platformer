@@ -1,7 +1,6 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
-import Scene.MapTile;
 
 import java.awt.*;
 

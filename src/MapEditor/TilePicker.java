@@ -1,10 +1,10 @@
 package MapEditor;
 
 import Engine.GraphicsHandler;
-import Scene.Map;
-import Scene.MapTile;
+import Level.Map;
+import Level.MapTile;
 import Builders.MapTileBuilder;
-import Scene.Tileset;
+import Level.Tileset;
 import Utils.Colors;
 
 import javax.swing.*;

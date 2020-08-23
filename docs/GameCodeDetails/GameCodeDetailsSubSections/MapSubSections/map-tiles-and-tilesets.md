@@ -44,10 +44,10 @@ allows tiles to be placed down on a grid in a desired location of the map. Each 
 location, e.g. the first tile in the top left corner would have an index of (0,0), the tile to the right of it would be (1,0) and the tile below it
 would be (0,1).
 
-The class `MapTile` in the `Scene` package represents a map tile, which is really just a standard sprite with an attribute
+The class `MapTile` in the `Level` package represents a map tile, which is really just a standard sprite with an attribute
 for `TileType`, which determines how the tile is treated by the game -- for example, a tile type of `NOT_PASSABLE` means
 that the `Player` cannot walk or fall through the tile, which is used on tiles like grass in order to have the player walk on it.
-The available tile types are included in the `TileType` enum in the `Scene` package. 
+The available tile types are included in the `TileType` enum in the `Level` package. 
 
 ## Map Tileset
 
@@ -59,7 +59,7 @@ must be the SAME width and height.
 
 ![common-tileset.png](../../../assets/images/common-tileset.png)
 
-The `Tileset` class in the `Scene` package represents a tileset, which contains a collection of `MapTile` object. The way to define
+The `Tileset` class in the `Level` package represents a tileset, which contains a collection of `MapTile` object. The way to define
 a tileset in this game is to create a class that extends from this `Tileset` class, such as the `CommonTileset` class in the `Tilesets` package.
 From there, the extended `Tileset` class (such as `CommonTileset`) must call its super class with the following:
 - The tileset image file to be used -- `CommonTileset` uses the `CommonTileset.png` file shown above

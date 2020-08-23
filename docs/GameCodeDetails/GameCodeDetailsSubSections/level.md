@@ -34,8 +34,8 @@ Documentation for the `Player` class can be found [here](./player.md).
 
 Documentation for usage of the Map Editor can be found [here]().
 
-## The Scene package
+## The Level package
 
-The `Scene` package in this project contains all the "core" classes and game logic necessary for the platformer game to play out. Many of the classes
+The `Level` package in this project contains all the "core" classes and game logic necessary for the platformer game to play out. Many of the classes
 found in here exist solely to be extended from by a different class to be built upon, so you can think of them as a template -- examples of this include the
 `Player`, `Enemy`, `NPC`, `EnhancedMapTile`, and `Tileset` classes.

@@ -5,8 +5,8 @@ import GameObject.Frame;
 import Builders.FrameBuilder;
 import GameObject.ImageEffect;
 import Builders.MapTileBuilder;
-import Scene.TileType;
-import Scene.Tileset;
+import Level.TileType;
+import Level.Tileset;
 
 import java.util.ArrayList;
 

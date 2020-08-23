@@ -22,7 +22,7 @@ permalink: /GameCodeDetails/Map/Enemies
 
 ## What is an enemy?
 
-An enemy (represented by the `Enemy` class in the `Scene` package) is a `MapEntity` subclass. Enemies in a platformer game
+An enemy (represented by the `Enemy` class in the `Level` package) is a `MapEntity` subclass. Enemies in a platformer game
 serve to hinder the player from completing a level. For example, in Mario games, enemies like goombas and koopas can kill Mario
 if Mario intersects with them in a certain way.
  

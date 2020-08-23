@@ -7,11 +7,11 @@ import EnhancedMapTiles.EndLevelBox;
 import EnhancedMapTiles.HorizontalMovingPlatform;
 import GameObject.Rectangle;
 import NPCs.Walrus;
-import Scene.*;
+import Level.*;
 import Tilesets.CommonTileset;
 import Utils.Direction;
 import Utils.Point;
-import java.awt.*;
+
 import java.util.ArrayList;
 
 public class TestMap extends Map {

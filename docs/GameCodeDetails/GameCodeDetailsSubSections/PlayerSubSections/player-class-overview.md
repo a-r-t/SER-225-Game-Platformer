@@ -37,7 +37,7 @@ These are all float values, so decimal precision for movement is available.
 Generally, `Player` subclasses will set those values as desired.
 
 The `Player` has several other important variables it uses to keep track of its current state:
-- **playerState** - based on the `PlayerState` enum in the `Scene` package, a `Player` can be in a certain state which affects its game logic; currently, the supported states are `STANDING`, `WALKING`, `JUMPING`, `CROUCHING`
+- **playerState** - based on the `PlayerState` enum in the `Level` package, a `Player` can be in a certain state which affects its game logic; currently, the supported states are `STANDING`, `WALKING`, `JUMPING`, `CROUCHING`
 - **facingDirection** - which direction the player is facing; can be either `LEFT` or `RIGHT`
 - **airGroundState** - if the player is currently on the ground `GROUND` or in the air `AIR` (what a horrible variable name, what was I thinking...)
 - **levelState** - allows the player to keep track of the current level state so it can track if it has beaten or has died in a level; more details on `LevelState` can be found in the `PlayLevelScreen` documentation [here](../ScreensSubSections/play-level-screen.md)

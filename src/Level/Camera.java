@@ -1,12 +1,9 @@
-package Scene;
+package Level;
 
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import Engine.ScreenManager;
-import Game.Game;
 import GameObject.GameObject;
 import GameObject.Rectangle;
-import NPCs.Walrus;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,7 +14,6 @@ public class Camera extends Rectangle {
     private Map map;
     private int tileWidth, tileHeight;
     private int leftoverSpaceX, leftoverSpaceY;
-    private float amountMovedX, amountMovedY;
     private ArrayList<Enemy> activeEnemies = new ArrayList<>();
     private ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
     private ArrayList<NPC> activeNPCs = new ArrayList<>();

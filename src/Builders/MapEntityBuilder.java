@@ -1,9 +1,9 @@
 package Builders;
 
 import GameObject.Frame;
-import Scene.Map;
-import Scene.MapEntity;
-import Scene.MapEntityStatus;
+import Level.Map;
+import Level.MapEntity;
+import Level.MapEntityStatus;
 
 // Builder class to instantiate a MapEntity class
 public class MapEntityBuilder extends GameObjectBuilder {

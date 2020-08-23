@@ -1,9 +1,8 @@
 package Builders;
 
 import GameObject.Frame;
-import Scene.Map;
-import Scene.MapTile;
-import Scene.TileType;
+import Level.MapTile;
+import Level.TileType;
 
 // Builder class to instantiate a MapTile class
 public class MapTileBuilder extends GameObjectBuilder {

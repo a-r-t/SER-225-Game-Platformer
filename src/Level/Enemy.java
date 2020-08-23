@@ -1,6 +1,5 @@
-package Scene;
+package Level;
 
-import Engine.Keyboard;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;

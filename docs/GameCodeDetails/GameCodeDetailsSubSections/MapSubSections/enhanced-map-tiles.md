@@ -22,7 +22,7 @@ permalink: /GameCodeDetails/Map/EnhancedMapTiles
 
 ## What is an enhanced map tile?
 
-An enhanced map tile (represented by the `EnhancedMapTile` class in the `Scene` package) is a `MapEntity` subclass. The idea behind
+An enhanced map tile (represented by the `EnhancedMapTile` class in the `Level` package) is a `MapEntity` subclass. The idea behind
 this class is that it acts just like a `MapTile` does in every way, but with the ability to define its own `update` and `draw` logic
 instead of just going with the `MapTile's` default logic. This allows a map tile to essentially do whatever it wants while still
 being counted as a map tile, meaning the `Player` will still consider it during its collision checks based on the `EnhancedMapTile's` tile type. Like

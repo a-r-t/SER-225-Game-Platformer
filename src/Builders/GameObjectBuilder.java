@@ -2,7 +2,6 @@ package Builders;
 
 import GameObject.Frame;
 import GameObject.GameObject;
-import Scene.Map;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package Scene;
+package Level;
 
 import GameObject.GameObject;
 import Utils.Direction;

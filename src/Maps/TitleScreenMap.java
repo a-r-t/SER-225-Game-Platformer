@@ -1,13 +1,8 @@
 package Maps;
 
-import Scene.Enemy;
-import Scene.EnhancedMapTile;
-import Scene.Map;
-import Scene.NPC;
+import Level.Map;
 import Tilesets.CommonTileset;
 import Utils.Point;
-import java.awt.*;
-import java.util.ArrayList;
 
 public class TitleScreenMap extends Map {
 

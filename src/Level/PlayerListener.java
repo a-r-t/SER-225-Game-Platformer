@@ -1,4 +1,4 @@
-package Scene;
+package Level;
 
 public interface PlayerListener {
     void onLevelCompleted();

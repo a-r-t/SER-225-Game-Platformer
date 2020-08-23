@@ -6,9 +6,9 @@ import Game.GameState;
 import Game.ScreenCoordinator;
 import Maps.TestMap;
 import Players.Cat;
-import Scene.Map;
-import Scene.Player;
-import Scene.PlayerListener;
+import Level.Map;
+import Level.Player;
+import Level.PlayerListener;
 import Utils.Stopwatch;
 
 public class PlayLevelScreen extends Screen implements PlayerListener {

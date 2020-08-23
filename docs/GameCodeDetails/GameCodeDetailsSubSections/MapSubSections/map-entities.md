@@ -22,7 +22,7 @@ permalink: /GameCodeDetails/Map/MapEntities
 
 ## What is a map entity?
 
-A map entity, represented by the `MapEntity` class in the `Scene` package, is predictably any game object that is a part of a map.
+A map entity, represented by the `MapEntity` class in the `Level` package, is predictably any game object that is a part of a map.
 This includes [map tiles](./map-tiles-and-tilesets.md) (`MapTile` class), [enemies](./enemies.md) (`Enemy` class), 
 [enhanced map tiles](./enhanced-map-tiles.md) (`EnhancedMapTiles` class), and [NPCs](./npcs.md) (`NPC` class).
 

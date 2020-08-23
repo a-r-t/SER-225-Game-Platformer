@@ -2,14 +2,11 @@ package EnhancedMapTiles;
 
 import Builders.FrameBuilder;
 import Engine.ImageLoader;
-import Engine.Keyboard;
-import Scene.LevelState;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
-import Scene.EnhancedMapTile;
-import Scene.Map;
-import Scene.Player;
-import Scene.TileType;
+import Level.EnhancedMapTile;
+import Level.Player;
+import Level.TileType;
 import Utils.Point;
 import java.util.HashMap;
 

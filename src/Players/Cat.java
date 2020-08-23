@@ -3,13 +3,11 @@ package Players;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import Engine.Key;
-import Engine.Keyboard;
 import GameObject.Frame;
 import Builders.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Scene.Map;
-import Scene.Player;
+import Level.Player;
 
 import java.util.HashMap;
 

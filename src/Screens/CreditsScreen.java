@@ -5,7 +5,7 @@ import Game.GameState;
 import Game.ScreenCoordinator;
 import SpriteFont.SpriteFont;
 import Maps.TitleScreenMap;
-import Scene.Map;
+import Level.Map;
 
 import java.awt.*;
 

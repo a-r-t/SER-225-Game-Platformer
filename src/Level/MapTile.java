@@ -1,4 +1,4 @@
-package Scene;
+package Level;
 
 import Engine.GraphicsHandler;
 import GameObject.Frame;
@@ -6,7 +6,6 @@ import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 

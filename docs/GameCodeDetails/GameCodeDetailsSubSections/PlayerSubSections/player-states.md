@@ -23,7 +23,7 @@ permalink: /GameCodeDetails/Player/PlayerStates
 The `Player` has several different states it can be in based on the value of its `playerState` instance variable.
 Each state can lead to another state based on the player's actions each cycle of the game loop. The states also dictate
 which animation/frames the player should switch to (e.g. player walking animation when in the `WALKING` state)
-The `PlayerState` enum in the `Scene` package define the following states that the player can be in:
+The `PlayerState` enum in the `Level` package define the following states that the player can be in:
 - **STANDING** -- player is standing still
 - **WALKING** -- player is walking
 - **JUMPING** -- player is jumping (or falling)

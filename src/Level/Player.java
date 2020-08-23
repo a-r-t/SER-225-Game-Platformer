@@ -256,6 +256,7 @@ public abstract class Player extends GameObject {
             } else {
                 currentAnimationName = "DEATH_LEFT";
             }
+            super.update();
         } else if (currentFrameIndex != getCurrentAnimation().length - 1) {
           super.update();
         } else if (currentFrameIndex == getCurrentAnimation().length - 1) {

@@ -32,6 +32,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     @Override
     public void initialize() {
+        super.initialize();
         direction = startDirection;
     }
 

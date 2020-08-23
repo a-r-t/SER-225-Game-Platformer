@@ -1,8 +1,8 @@
 package MapEditor;
 
+import Level.Map;
 import Maps.TestMap;
 import Maps.TitleScreenMap;
-import Level.Map;
 
 import java.util.ArrayList;
 

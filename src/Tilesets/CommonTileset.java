@@ -1,10 +1,10 @@
 package Tilesets;
 
+import Builders.FrameBuilder;
+import Builders.MapTileBuilder;
 import Engine.ImageLoader;
 import GameObject.Frame;
-import Builders.FrameBuilder;
 import GameObject.ImageEffect;
-import Builders.MapTileBuilder;
 import Level.TileType;
 import Level.Tileset;
 

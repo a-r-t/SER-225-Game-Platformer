@@ -2,7 +2,6 @@ package Game;
 
 import Engine.DefaultScreen;
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import Engine.Screen;
 import Screens.CreditsScreen;
 import Screens.MenuScreen;

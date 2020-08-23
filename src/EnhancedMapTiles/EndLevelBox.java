@@ -8,6 +8,7 @@ import Level.EnhancedMapTile;
 import Level.Player;
 import Level.TileType;
 import Utils.Point;
+
 import java.util.HashMap;
 
 // This class is for the end level gold box tile

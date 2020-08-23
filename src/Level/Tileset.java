@@ -1,8 +1,8 @@
 package Level;
 
+import Builders.FrameBuilder;
 import Builders.MapTileBuilder;
 import Engine.ImageLoader;
-import Builders.FrameBuilder;
 import GameObject.SpriteSheet;
 import Utils.ImageUtils;
 

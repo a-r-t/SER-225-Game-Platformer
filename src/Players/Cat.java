@@ -1,10 +1,10 @@
 package Players;
 
+import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import Engine.Key;
 import GameObject.Frame;
-import Builders.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Player;

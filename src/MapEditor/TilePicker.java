@@ -1,9 +1,9 @@
 package MapEditor;
 
+import Builders.MapTileBuilder;
 import Engine.GraphicsHandler;
 import Level.Map;
 import Level.MapTile;
-import Builders.MapTileBuilder;
 import Level.Tileset;
 import Utils.Colors;
 

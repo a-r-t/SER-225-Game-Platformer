@@ -1,8 +1,6 @@
 package Level;
 
 import GameObject.*;
-import GameObject.Frame;
-import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;

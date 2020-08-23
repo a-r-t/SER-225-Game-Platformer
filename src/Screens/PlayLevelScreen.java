@@ -4,11 +4,11 @@ import Engine.GraphicsHandler;
 import Engine.Screen;
 import Game.GameState;
 import Game.ScreenCoordinator;
-import Maps.TestMap;
-import Players.Cat;
 import Level.Map;
 import Level.Player;
 import Level.PlayerListener;
+import Maps.TestMap;
+import Players.Cat;
 import Utils.Stopwatch;
 
 public class PlayLevelScreen extends Screen implements PlayerListener {

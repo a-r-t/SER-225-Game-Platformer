@@ -1,8 +1,8 @@
 package Enemies;
 
+import Builders.FrameBuilder;
 import Engine.ImageLoader;
 import GameObject.Frame;
-import Builders.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Enemy;

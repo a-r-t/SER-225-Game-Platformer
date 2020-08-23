@@ -1,7 +1,5 @@
 package Utils;
 
-import java.awt.*;
-
 public class Point {
     public final float x;
     public final float y;

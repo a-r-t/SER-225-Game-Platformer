@@ -3,9 +3,9 @@ package Screens;
 import Engine.*;
 import Game.GameState;
 import Game.ScreenCoordinator;
-import SpriteFont.SpriteFont;
-import Maps.TitleScreenMap;
 import Level.Map;
+import Maps.TitleScreenMap;
+import SpriteFont.SpriteFont;
 
 import java.awt.*;
 

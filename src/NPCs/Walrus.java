@@ -3,13 +3,15 @@ package NPCs;
 import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
-import GameObject.*;
 import GameObject.Frame;
+import GameObject.ImageEffect;
+import GameObject.SpriteSheet;
 import Level.Map;
 import Level.NPC;
 import Level.Player;
 import SpriteFont.SpriteFont;
 import Utils.Point;
+
 import java.awt.*;
 import java.util.HashMap;
 

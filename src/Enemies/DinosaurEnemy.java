@@ -7,9 +7,9 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Enemy;
 import Level.Player;
-import Utils.Point;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.Point;
 import Utils.Stopwatch;
 
 import java.util.HashMap;

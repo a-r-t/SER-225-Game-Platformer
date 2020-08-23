@@ -6,6 +6,7 @@ import Level.Map;
 import Level.MapTileCollisionHandler;
 import Utils.Direction;
 import Utils.MathUtils;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;

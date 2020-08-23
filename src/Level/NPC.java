@@ -3,9 +3,10 @@ package Level;
 import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.Keyboard;
-import GameObject.*;
 import GameObject.Frame;
+import GameObject.ImageEffect;
 import GameObject.Rectangle;
+import GameObject.SpriteSheet;
 import SpriteFont.SpriteFont;
 import Utils.Stopwatch;
 

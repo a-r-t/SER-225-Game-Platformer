@@ -79,4 +79,5 @@ starting location if they were previously inactive and then became active again.
 
 The `Camera` class's `loadActiveEnemies`, `loadActiveEnhancedMapTiles`, and `loadActiveNPCs` methods are called each game loop cycle (each frame)
 to determine which map entities are currently active and which ones are not. Frankly, the code for these methods is an abomination
-because I couldn't find an easy way to combine them all, so it's three separate methods that all do relatively the same exact thing.
+because I couldn't find an easy way to combine them all, so it's three long-ish separate methods that all do relatively the same exact thing
+and contain identical code (just on different entity lists).

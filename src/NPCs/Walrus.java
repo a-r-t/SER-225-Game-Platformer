@@ -15,6 +15,7 @@ import Utils.Point;
 import java.awt.*;
 import java.util.HashMap;
 
+// This class is for the walrus NPC
 public class Walrus extends NPC {
 
     public Walrus(Point location, Map map) {
@@ -27,6 +28,7 @@ public class Walrus extends NPC {
     }
 
     public void update(Player player) {
+        // while npc is being talked to, it raises its tail up (in excitement?)
         if (talkedTo) {
             currentAnimationName = "TAIL_UP";
         } else {
@@ -60,7 +62,10 @@ public class Walrus extends NPC {
 
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
+        // draws a box with a border (think like a speech box)
         graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation() - 2), Math.round(getCalibratedYLocation() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
+
+        // draws message "Hello" in the above speech box
         message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation() - 8);
         message.draw(graphicsHandler);
     }

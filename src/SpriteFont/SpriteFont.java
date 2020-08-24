@@ -4,6 +4,7 @@ import Engine.GraphicsHandler;
 
 import java.awt.*;
 
+// This class represents a sprite font, which is graphic text (text drawn to the screen as if it were an image)
 public class SpriteFont {
 	protected String text;
 	protected Font font;
@@ -106,6 +107,7 @@ public class SpriteFont {
 		}
 	}
 
+	// this can be called instead of regular draw to have the text drop to the next line in graphics space on a new line character
 	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
 		int drawLocationY = Math.round(this.y);
 		for (String line: text.split("\n")) {

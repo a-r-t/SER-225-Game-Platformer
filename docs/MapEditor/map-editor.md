@@ -169,3 +169,5 @@ The `ChangeMapSizeWindow` class is specifically for the window that pops up afte
 in the `EditorControlPanel`. This class lets you change the size of the map.
 
 The "Save Map" button will overwrite a map's assigned map file with what it looks like in the editor.
+
+I apologize deeply that there are no comments for the map editor classes, I will go back sometime and fix that

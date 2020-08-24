@@ -3,12 +3,13 @@ package Screens;
 import Engine.*;
 import Game.GameState;
 import Game.ScreenCoordinator;
-import SpriteFont.SpriteFont;
+import Level.Map;
 import Maps.TitleScreenMap;
-import Scene.Map;
+import SpriteFont.SpriteFont;
 
 import java.awt.*;
 
+// This class is for the credits screen
 public class CreditsScreen extends Screen {
     protected ScreenCoordinator screenCoordinator;
     protected Map background;
@@ -24,6 +25,7 @@ public class CreditsScreen extends Screen {
 
     @Override
     public void initialize() {
+        // setup graphics on screen (background map, spritefont text)
         background = new TitleScreenMap();
         background.setAdjustCamera(false);
         creditsLabel = new SpriteFont("Credits", 15, 35, "Times New Roman", 30, Color.white);
@@ -39,6 +41,8 @@ public class CreditsScreen extends Screen {
         if (Keyboard.isKeyUp(Key.SPACE)) {
             keyLocker.unlockKey(Key.SPACE);
         }
+
+        // if space is pressed, go back to main menu
         if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
             screenCoordinator.setGameState(GameState.MENU);
         }

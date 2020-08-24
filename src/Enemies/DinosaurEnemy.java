@@ -5,11 +5,11 @@ import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Scene.Enemy;
-import Scene.Player;
-import Utils.Point;
+import Level.Enemy;
+import Level.Player;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.Point;
 import Utils.Stopwatch;
 
 import java.util.HashMap;

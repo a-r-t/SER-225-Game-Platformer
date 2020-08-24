@@ -22,7 +22,7 @@ permalink: /GameCodeDetails/Map/NPCs
 
 ## What is an NPC?
 
-An NPC (**n**on-**p**layer **c**haracter) (represented by the `NPC` class in the `Scene` package) is a `MapEntity` subclass. This class adds
+An NPC (**n**on-**p**layer **c**haracter) (represented by the `NPC` class in the `Level` package) is a `MapEntity` subclass. This class adds
 a `checkTalkedTo` method that any `NPC` subclass can override, which handles the code that is run if an NPC is talked to by the Player (the player
 character has to be within the NPC's range and then press space to talk to it). An NPC can be given its own animation and graphics information,
 as well as its own `update` cycle which defines its behavior.

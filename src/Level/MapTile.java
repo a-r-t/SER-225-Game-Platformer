@@ -1,4 +1,4 @@
-package Scene;
+package Level;
 
 import Engine.GraphicsHandler;
 import GameObject.Frame;
@@ -6,12 +6,14 @@ import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+// Represents a map tile in a Map's tile map
 public class MapTile extends MapEntity {
+    // this determines a tile's properties, like if it's passable or not
     protected TileType tileType;
+
     private int tileIndex;
 
     public MapTile(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, int tileIndex, TileType tileType) {

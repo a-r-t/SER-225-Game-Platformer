@@ -1,18 +1,16 @@
 package Enemies;
 
-import Engine.ImageLoader;
-import Engine.Keyboard;
-import GameObject.Frame;
 import Builders.FrameBuilder;
+import Engine.ImageLoader;
+import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Scene.Enemy;
-import Scene.Map;
-import Scene.Player;
+import Level.Enemy;
+import Level.Player;
 import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.Point;
-import java.awt.*;
+
 import java.util.HashMap;
 
 // This class is for the black bug enemy

@@ -1,7 +1,6 @@
-package Scene;
+package Level;
 
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
@@ -10,6 +9,7 @@ import GameObject.SpriteSheet;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+// This class is a base class for all enhanced map tiles in the game -- all enhanced map tiles should extend from it
 public class EnhancedMapTile extends MapTile {
 
     public EnhancedMapTile(float x, float y, SpriteSheet spriteSheet, String startingAnimation, TileType tileType) {

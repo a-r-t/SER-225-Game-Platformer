@@ -20,8 +20,7 @@ public class ImageLoader {
     public static BufferedImage load(String imageFileName, Color transparentColor) {
         try {
             BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
-            Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, transparentColor);
-            return ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
+            return ImageUtils.transformColorToTransparency(initialImage, transparentColor);
         } catch (IOException e) {
             System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
             throw new RuntimeException(e);
@@ -37,9 +36,8 @@ public class ImageLoader {
     public static BufferedImage loadSubImage(String imageFileName, Color transparentColor, int x, int y, int width, int height) {
         try {
             BufferedImage initialImage = ImageIO.read(new File(Config.RESOURCES_PATH + imageFileName));
-            Image transparentImage = ImageUtils.transformColorToTransparency(initialImage, transparentColor);
-            BufferedImage image = ImageUtils.convertImageToBufferedImage(transparentImage, transparentImage.getWidth(null), transparentImage.getHeight(null));
-            return image.getSubimage(x, y, width, height);
+            BufferedImage transparentImage = ImageUtils.transformColorToTransparency(initialImage, transparentColor);
+            return transparentImage.getSubimage(x, y, width, height);
         } catch (IOException e) {
             System.out.println("Unable to find file " + Config.RESOURCES_PATH + imageFileName);
             throw new RuntimeException(e);

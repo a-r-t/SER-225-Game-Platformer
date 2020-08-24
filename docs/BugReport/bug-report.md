@@ -71,3 +71,14 @@ is magenta rgb (255,0,255)). Maybe there's a better transparency method out ther
 The good news is this is super easy to work around -- just use a white color with a different rgb in your images, such as (255,255,254) (which will look
 no different in game than (255,255,255) I promise). Off the top of my head, the `Walrus.png` image uses this technique for its tusks because
 pure white wouldn't show, which is how I found out about this bug.
+
+## Moving the player with arrow keys doesn't override previous key press properly
+
+If you are holding the key to move the player to the right and then press left while holding the right key down still,
+the left key overrides the right key and moves the player left. This is ideal. However, if holding the key to move the player to the left
+and then press the right while holding the left key down still, the let key does not override the right key and player will
+continue moving left. This is not ideal. For a more natural feel in a game that moves a player with keyboard input,
+it's generally best to have both keys able to continually override each other.
+
+This is not an arrow key specific thing -- this happens because the left key if statement check comes before the right key check,
+so the right key is able to override the left key, but not vice versa.

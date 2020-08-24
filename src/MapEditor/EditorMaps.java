@@ -1,11 +1,10 @@
 package MapEditor;
 
+import Level.Map;
 import Maps.TestMap;
 import Maps.TitleScreenMap;
-import Scene.Map;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class EditorMaps {
     public static ArrayList<String> getMapNames() {

@@ -1,18 +1,15 @@
 package EnhancedMapTiles;
 
 import Engine.GraphicsHandler;
-import Engine.Keyboard;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
-import Scene.EnhancedMapTile;
-import Scene.Map;
-import Scene.Player;
-import Scene.TileType;
+import Level.EnhancedMapTile;
+import Level.Player;
+import Level.TileType;
 import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.Point;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 // This class is for a horizontal moving platform
@@ -35,6 +32,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
     @Override
     public void initialize() {
+        super.initialize();
         direction = startDirection;
     }
 

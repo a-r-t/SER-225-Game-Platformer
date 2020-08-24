@@ -22,7 +22,7 @@ permalink: /GameCodeDetails/Map/MapCamera
 
 ## What is the map camera?
 
-The map camera, which is represented by the `Camera` class in the `Scene` package, is the class responsible for keeping track of
+The map camera, which is represented by the `Camera` class in the `Level` package, is the class responsible for keeping track of
 which section of a map needs to be shown/updated during a specific time period. If you have ever played a 3D video game, you will have an
 idea of what a game map's camera is -- often times you are given the ability in these games to rotate it yourself to see different
 parts of the map as you play. In a 2D world, the camera is a lot simpler, as there are only four movement directions -- up, down, left, and right.
@@ -79,4 +79,5 @@ starting location if they were previously inactive and then became active again.
 
 The `Camera` class's `loadActiveEnemies`, `loadActiveEnhancedMapTiles`, and `loadActiveNPCs` methods are called each game loop cycle (each frame)
 to determine which map entities are currently active and which ones are not. Frankly, the code for these methods is an abomination
-because I couldn't find an easy way to combine them all, so it's three separate methods that all do relatively the same exact thing.
+because I couldn't find an easy way to combine them all, so it's three long-ish separate methods that all do relatively the same exact thing
+and contain identical code (just on different entity lists).

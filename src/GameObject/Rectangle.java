@@ -1,10 +1,12 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
-import Scene.MapTile;
 
 import java.awt.*;
 
+// This class represents a rectangle, which at its core is (x, y, width, height)
+// it has some properties, rectangle math methods, and draw logic
+// the methods here are pretty self explanatory
 public class Rectangle implements IntersectableRectangle {
     protected float x;
 	protected float y;
@@ -171,6 +173,7 @@ public class Rectangle implements IntersectableRectangle {
 		return new Rectangle(x, y, getScaledWidth(), getScaledHeight());
 	}
 
+	// check if this intersects with another rectangle
 	public boolean intersects(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
@@ -178,6 +181,7 @@ public class Rectangle implements IntersectableRectangle {
 				Math.round(intersectRectangle.getY1()) < Math.round(otherIntersectRectangle.getY2()) && Math.round(intersectRectangle.getY2()) > Math.round(otherIntersectRectangle.getY1());
 	}
 
+	// check if this overlaps with another rectangle
 	public boolean overlaps(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();

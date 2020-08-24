@@ -1,17 +1,19 @@
-package Scene;
+package Level;
 
 import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.Keyboard;
-import GameObject.*;
 import GameObject.Frame;
+import GameObject.ImageEffect;
 import GameObject.Rectangle;
+import GameObject.SpriteSheet;
 import SpriteFont.SpriteFont;
 import Utils.Stopwatch;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+// This class is a base class for all npcs in the game -- all npcs should extend from it
 public class NPC extends MapEntity {
     protected boolean talkedTo = false;
     protected SpriteFont message;
@@ -87,5 +89,6 @@ public class NPC extends MapEntity {
         }
     }
 
+    // A subclass can override this method to specify what message it displays upon being talked to
     public void drawMessage(GraphicsHandler graphicsHandler) {}
 }

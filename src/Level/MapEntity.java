@@ -1,15 +1,19 @@
-package Scene;
+package Level;
 
 import GameObject.*;
-import GameObject.Frame;
-import GameObject.Rectangle;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+// This class represents a map entity, which is any "entity" on a map besides the player
+// it is basically a game object with a few extra features for handling things like respawning
 public class MapEntity extends GameObject {
     protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
+
+    // if true, if entity goes out of the camera's update range, and then ends up back in range, the entity will "respawn" back to its starting parameters
     protected boolean isRespawnable = true;
+
+    // if true, enemy cannot go out of camera's update range
     protected boolean isUpdateOffScreen = false;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {

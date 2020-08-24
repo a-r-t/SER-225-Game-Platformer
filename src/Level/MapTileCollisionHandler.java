@@ -1,9 +1,11 @@
-package Scene;
+package Level;
 
 import GameObject.GameObject;
 import Utils.Direction;
 import Utils.Point;
 
+// This class has methods to check if a game object has collided with a map tile
+// it is used by the game object class to determine if a collision occurred
 public class MapTileCollisionHandler {
     public static float getAdjustedPositionAfterCollisionCheckX(GameObject gameObject, Map map, Direction direction) {
         int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
@@ -65,6 +67,7 @@ public class MapTileCollisionHandler {
         return 0;
     }
 
+    // based on tile type, perform logic to determine if a collision did occur with an intersecting tile or not
     private static boolean hasCollidedWithMapTile(GameObject gameObject, MapTile mapTile, Direction direction) {
         switch (mapTile.getTileType()) {
             case PASSABLE:

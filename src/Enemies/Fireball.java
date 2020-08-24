@@ -4,12 +4,12 @@ import Builders.FrameBuilder;
 import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
-import Scene.Enemy;
-import Scene.MapEntityStatus;
-import Scene.Player;
+import Level.Enemy;
+import Level.MapEntityStatus;
+import Level.Player;
 import Utils.Direction;
-import Utils.Stopwatch;
 import Utils.Point;
+import Utils.Stopwatch;
 
 import java.util.HashMap;
 

@@ -1,18 +1,18 @@
 package Players;
 
+import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
 import Engine.Key;
-import Engine.Keyboard;
 import GameObject.Frame;
-import Builders.FrameBuilder;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Scene.Map;
-import Scene.Player;
+import Level.Player;
 
 import java.util.HashMap;
 
+// This is the class for the Cat player character
+// basically just sets some values for physics and then defines animations
 public class Cat extends Player {
 
     public Cat(float x, float y) {

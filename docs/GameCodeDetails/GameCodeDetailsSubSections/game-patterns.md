@@ -304,7 +304,7 @@ I use the Observer Pattern one time to enable the `Player` class to trigger even
 either completed a level or died, which then lets the `PlayerLevelClass` react to those events.
 
 I'm not going to go into much detail on this pattern since it's only used one time and it's not all that complex. Basically,
-an interface named `PlayerListener` is defined in the `Scene` class, and any class that implements this interface must implement the methods
+an interface named `PlayerListener` is defined in the `Level` class, and any class that implements this interface must implement the methods
 `onLevelCompleted` and `onDeath`. A class would implement this interface to "listen" to events from the `Player` class.
 
 Then in the `Player` class, an `ArrayList` instance variable of type `PlayerListener` is defined (the variable's name is `listeners`). There is also an

@@ -351,8 +351,6 @@ public abstract class Map {
 			player.handleCollisionX(-3);
 		}
 
-		// Can only see in Original (test)
-
 		if (player.getCalibratedXLocation() > xMidPoint && camera.getEndBoundX() < endBoundX) {
 			float xMidPointDifference = xMidPoint - player.getCalibratedXLocation();
 			camera.moveX(-xMidPointDifference);

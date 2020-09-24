@@ -349,7 +349,7 @@ public abstract class Map {
 			player.handleCollisionX(3);
 		} else if (player.getBoundsX2() > endBoundX - 32) {
 			player.handleCollisionX(-3);
-		} //
+		}
 
 		if (player.getCalibratedXLocation() > xMidPoint && camera.getEndBoundX() < endBoundX) {
 			float xMidPointDifference = xMidPoint - player.getCalibratedXLocation();

@@ -8,6 +8,7 @@ import Level.Map;
 import Level.Player;
 import Level.PlayerListener;
 import Maps.TestMap;
+import Maps.TutorialMap;
 import Players.Cat;
 import Utils.Stopwatch;
 

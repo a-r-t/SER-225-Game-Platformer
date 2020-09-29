@@ -16,6 +16,7 @@ public class MenuScreen extends Screen {
     protected int currentMenuItemHovered = 0; // current menu item being "hovered" over
     protected int menuItemSelected = -1;
     protected SpriteFont playGame;
+    protected SpriteFont instructions;
     protected SpriteFont credits;
     protected Map background;
     protected Stopwatch keyTimer = new Stopwatch();

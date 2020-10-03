@@ -11,6 +11,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /*
     This class is for defining a map that is used for a specific level
@@ -62,6 +69,13 @@ public abstract class Map {
 
 	// if set to false, camera will not move as player moves
 	protected boolean adjustCamera = true;
+
+	protected static File audioFile;
+	protected static AudioInputStream audio;
+	protected static AudioFormat format;
+	protected static DataLine.Info info;
+	protected static Clip clip;
+	String file = "Jumper.wav";
 
 	public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
 		this.mapFileName = mapFileName;
@@ -416,5 +430,56 @@ public abstract class Map {
 
 	public void draw(GraphicsHandler graphicsHandler) {
 		camera.draw(graphicsHandler);
+	}
+
+	public static void wait(int seconds) {
+		for (int i = 0; i < seconds; i++) {
+			System.out.println("(" + i + " / " + seconds + ")");
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public static void playAudio(String nameOfFile) {
+		Boolean loop = true;
+		System.out.println(nameOfFile.substring(0, nameOfFile.length() - 4) + " is now playing!");
+		clip = makeClip(nameOfFile);
+		clip.start();
+
+	}
+
+	public static Clip makeClip(String fileName) {
+		try {
+			audioFile = new File(fileName);
+			audio = AudioSystem.getAudioInputStream(audioFile);
+			format = audio.getFormat();
+			info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
+			clip.open(audio);
+			clip.start();
+			return clip;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static void startPlaying() {
+		clip.start();
+	}
+
+	public static void stopPlaying() {
+		clip.stop();
 	}
 }

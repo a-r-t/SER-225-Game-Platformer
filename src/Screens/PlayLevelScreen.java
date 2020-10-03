@@ -10,6 +10,8 @@ import Level.PlayerListener;
 import Maps.TestMap;
 import Players.Cat;
 import Utils.Stopwatch;
+import javax.sound.sampled.Clip;
+import java.util.ArrayList;
 
 // This class is for when the platformer game is actually being played
 public class PlayLevelScreen extends Screen implements PlayerListener {
@@ -20,7 +22,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     protected Stopwatch screenTimer = new Stopwatch();
     protected LevelClearedScreen levelClearedScreen;
     protected LevelLoseScreen levelLoseScreen;
-    String file = "Jumper.wav";
+    protected ArrayList<Clip> audioList;
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -37,7 +39,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.player.addListener(this);
         this.player.setLocation(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
         this.playLevelScreenState = PlayLevelScreenState.RUNNING;
-        map.playAudio(file);
+        audioList = map.loadAudio();
     }
 
     public void update() {
@@ -47,7 +49,6 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             case RUNNING:
                 player.update();
                 map.update(player);
-                map.startPlaying();
                 break;
             // if level has been completed, bring up level cleared screen
             case LEVEL_COMPLETED:
@@ -55,27 +56,27 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 levelClearedScreen.initialize();
                 screenTimer.setWaitTime(2500);
                 playLevelScreenState = PlayLevelScreenState.LEVEL_WIN_MESSAGE;
-                map.stopPlaying();
+                audioList.get(0).stop();
                 break;
             // if level cleared screen is up and the timer is up for how long it should stay out, go back to main menu
             case LEVEL_WIN_MESSAGE:
                 if (screenTimer.isTimeUp()) {
                     levelClearedScreen = null;
+                    audioList.get(0).stop();
                     goBackToMenu();
-                    map.stopPlaying();
                 }
                 break;
             // if player died in level, bring up level lost screen
             case PLAYER_DEAD:
+                audioList.get(0).stop();
                 levelLoseScreen = new LevelLoseScreen(this);
                 levelLoseScreen.initialize();
                 playLevelScreenState = PlayLevelScreenState.LEVEL_LOSE_MESSAGE;
-                map.stopPlaying();
                 break;
             // wait on level lose screen to make a decision (either resets level or sends player back to main menu)
             case LEVEL_LOSE_MESSAGE:
+                audioList.get(0).stop();
                 levelLoseScreen.update();
-                map.stopPlaying();
                 break;
         }
     }

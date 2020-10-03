@@ -98,7 +98,7 @@ public class GamePanel extends JPanel {
 
 		// if game is paused, draw pause gfx over Screen gfx
 		if (isGamePaused) {
-			Map.stopPlaying();
+			Map.getAudioList().get(0).stop();
 			pauseLabel.draw(graphicsHandler);
 			graphicsHandler.drawFilledRectangle(0, 0, ScreenManager.getScreenWidth(), ScreenManager.getScreenHeight(), new Color(0, 0, 0, 100));
 		}

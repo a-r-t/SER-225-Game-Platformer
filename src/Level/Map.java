@@ -70,12 +70,18 @@ public abstract class Map {
 	// if set to false, camera will not move as player moves
 	protected boolean adjustCamera = true;
 
+	// For playing Audio
+	protected static String backgroundAudioString = "Jumper.wav";
+	protected static String winningSoundString = "winningSound.wav";
 	protected static File audioFile;
+	protected static File backgroundAudioFile, winningSoundFile;
 	protected static AudioInputStream audio;
 	protected static AudioFormat format;
 	protected static DataLine.Info info;
-	protected static Clip clip;
-	String file = "Jumper.wav";
+	protected static AudioInputStream backgroundAudio, winningSoundAudio;
+	protected static Clip backgroundClip, winningSoundClip;
+	protected static ArrayList<Clip> audioList2;
+
 
 	public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
 		this.mapFileName = mapFileName;
@@ -445,24 +451,26 @@ public abstract class Map {
 		}
 	}
 
-	public static void playAudio(String nameOfFile) {
-		Boolean loop = true;
-		System.out.println(nameOfFile.substring(0, nameOfFile.length() - 4) + " is now playing!");
-		clip = makeClip(nameOfFile);
-		clip.start();
-
-	}
-
-	public static Clip makeClip(String fileName) {
+	public ArrayList<Clip> loadAudio() {
 		try {
-			audioFile = new File(fileName);
-			audio = AudioSystem.getAudioInputStream(audioFile);
-			format = audio.getFormat();
+			backgroundAudioFile = new File(backgroundAudioString);
+			backgroundAudio = AudioSystem.getAudioInputStream(backgroundAudioFile);
+			format = backgroundAudio.getFormat();
 			info = new DataLine.Info(Clip.class, format);
-			clip = (Clip) AudioSystem.getLine(info);
-			clip.open(audio);
-			clip.start();
-			return clip;
+			backgroundClip = (Clip) AudioSystem.getLine(info);
+			backgroundClip.open(backgroundAudio);
+
+			winningSoundFile = new File(winningSoundString);
+			winningSoundAudio = AudioSystem.getAudioInputStream(winningSoundFile);
+			format = winningSoundAudio.getFormat();
+			info = new DataLine.Info(Clip.class, format);
+			winningSoundClip = (Clip) AudioSystem.getLine(info);
+			winningSoundClip.open(winningSoundAudio);
+			ArrayList<Clip> audioList = new ArrayList();
+			audioList.add(backgroundClip);
+			audioList.add(winningSoundClip);
+			audioList2 = audioList;
+			return audioList;
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -475,11 +483,7 @@ public abstract class Map {
 		return null;
 	}
 
-	public static void startPlaying() {
-		clip.start();
-	}
-
-	public static void stopPlaying() {
-		clip.stop();
+	public static ArrayList<Clip> getAudioList() {
+		return audioList2;
 	}
 }

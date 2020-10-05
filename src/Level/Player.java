@@ -327,7 +327,7 @@ public abstract class Player extends GameObject {
     public void updatePlayerDead() {
         // change player animation to DEATH
         Map.getAudioList().get(0).stop();
-        //  Insert death sound here
+        Map.getAudioList().get(2).start();
         if (!currentAnimationName.startsWith("DEATH")) {
             if (facingDirection == Direction.RIGHT) {
                 currentAnimationName = "DEATH_RIGHT";

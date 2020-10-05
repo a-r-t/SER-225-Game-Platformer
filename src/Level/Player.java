@@ -7,7 +7,6 @@ import GameObject.GameObject;
 import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
-
 import java.util.ArrayList;
 
 public abstract class Player extends GameObject {
@@ -62,6 +61,7 @@ public abstract class Player extends GameObject {
 
         // if player is currently playing through level (has not won or lost)
         if (levelState == LevelState.RUNNING) {
+            Map.startPlaying(Map.getAudioList().get(0));
             applyGravity();
 
             // update player's state and current actions, which includes things like determining how much it should move each frame and if its walking or jumping
@@ -307,6 +307,8 @@ public abstract class Player extends GameObject {
             increaseMomentum();
             super.update();
             moveYHandleCollision(moveAmountY);
+            Map.getAudioList().get(0).stop();
+            Map.getAudioList().get(1).start();
         }
         // move player to the right until it walks off screen
         else if (map.getCamera().containsDraw(this)) {
@@ -324,6 +326,8 @@ public abstract class Player extends GameObject {
     // if player has died, this will be the update cycle
     public void updatePlayerDead() {
         // change player animation to DEATH
+        Map.getAudioList().get(0).stop();
+        Map.getAudioList().get(2).start();
         if (!currentAnimationName.startsWith("DEATH")) {
             if (facingDirection == Direction.RIGHT) {
                 currentAnimationName = "DEATH_RIGHT";

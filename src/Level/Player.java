@@ -61,7 +61,7 @@ public abstract class Player extends GameObject {
 
         // if player is currently playing through level (has not won or lost)
         if (levelState == LevelState.RUNNING) {
-            Map.getAudioList().get(0).start();
+            Map.startPlaying(Map.getAudioList().get(0));
             applyGravity();
 
             // update player's state and current actions, which includes things like determining how much it should move each frame and if its walking or jumping

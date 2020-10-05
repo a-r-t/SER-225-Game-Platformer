@@ -11,13 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 
 /*
     This class is for defining a map that is used for a specific level
@@ -73,14 +67,18 @@ public abstract class Map {
 	// For playing Audio
 	protected static String backgroundAudioString = "Jumper.wav";
 	protected static String winningSoundString = "winningSound.wav";
+	protected static String gameOverString = "gameOver.wav";
 	protected static File audioFile;
-	protected static File backgroundAudioFile, winningSoundFile;
+	protected static File backgroundAudioFile, winningSoundFile, gameOverFile;
 	protected static AudioInputStream audio;
 	protected static AudioFormat format;
 	protected static DataLine.Info info;
-	protected static AudioInputStream backgroundAudio, winningSoundAudio;
-	protected static Clip backgroundClip, winningSoundClip;
+	protected static AudioInputStream backgroundAudio, winningSoundAudio, gameOverAudio;
+	protected static Clip backgroundClip, winningSoundClip, gameOverClip;
 	protected static ArrayList<Clip> audioList2;
+	protected static FloatControl backgroundControl;
+	protected static FloatControl winningControl;
+	protected static FloatControl losingControl;
 
 
 	public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
@@ -466,10 +464,30 @@ public abstract class Map {
 			info = new DataLine.Info(Clip.class, format);
 			winningSoundClip = (Clip) AudioSystem.getLine(info);
 			winningSoundClip.open(winningSoundAudio);
+
+			gameOverFile = new File (gameOverString);
+			gameOverAudio = AudioSystem.getAudioInputStream(gameOverFile);
+			format = gameOverAudio.getFormat();
+			info = new DataLine.Info(Clip.class, format);
+			gameOverClip = (Clip) AudioSystem.getLine(info);
+			gameOverClip.open(gameOverAudio);
+
 			ArrayList<Clip> audioList = new ArrayList();
 			audioList.add(backgroundClip);
 			audioList.add(winningSoundClip);
+			audioList.add(gameOverClip);
 			audioList2 = audioList;
+
+			backgroundControl = (FloatControl) audioList.get(0).getControl(FloatControl.Type.MASTER_GAIN);
+			winningControl = (FloatControl) audioList.get(1).getControl(FloatControl.Type.MASTER_GAIN);
+			losingControl = (FloatControl) audioList.get(2).getControl(FloatControl.Type.MASTER_GAIN);
+			setBackgroundVolume(-10);
+			setWinningVolume(6);
+			setLosingVolume(-20);
+
+
+
+
 			return audioList;
 
 		} catch (IOException e) {
@@ -486,4 +504,36 @@ public abstract class Map {
 	public static ArrayList<Clip> getAudioList() {
 		return audioList2;
 	}
+
+
+	public static void startPlaying(Clip clip) {
+		if (clip.getFramePosition() == clip.getFrameLength()) {
+			clip.setFramePosition(0);
+		} else {
+			clip.start();
+		}
+	}
+
+	public static void setVolume(int volume) {
+		backgroundControl.setValue(volume);
+		winningControl.setValue(volume);
+		losingControl.setValue(volume);
+	}
+
+	public static void setBackgroundVolume(int volume) {
+		backgroundControl.setValue(volume);
+	}
+
+	public static void setWinningVolume(int volume) {
+		winningControl.setValue(volume);
+	}
+
+	public static void setLosingVolume(int volume) {
+		losingControl.setValue(volume);
+	}
+
+	public static float getBackGroundVolume() {
+		return backgroundControl.getValue();
+	}
+
 }

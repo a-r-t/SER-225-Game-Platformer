@@ -28,7 +28,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     public void initialize() {
         // define/setup map
-        this.map = new TestMap();
+        this.map = new TutorialMap(); //TestMap()
         map.reset();
 
         // setup player

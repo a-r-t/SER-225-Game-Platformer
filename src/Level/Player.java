@@ -183,12 +183,10 @@ public abstract class Player extends GameObject {
         // sets animation to a CROUCH animation based on which way player is facing
         currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
 
-        // if crouch key is released, player enters STANDING state
-        if (Keyboard.isKeyUp(CROUCH_KEY)) {
-            playerState = PlayerState.STANDING;
-        }else if(Keyboard.isKeyUp(CROUCH_KEY2)) {
+        if(Keyboard.isKeyUp(CROUCH_KEY) && Keyboard.isKeyUp(CROUCH_KEY2)){
             playerState = PlayerState.STANDING;
         }
+
 
 
         // if jump key is pressed, player enters JUMPING state

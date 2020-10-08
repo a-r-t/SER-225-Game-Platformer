@@ -45,5 +45,18 @@ public enum Key {
     NINE,
     ZERO,
     SPACE,
-    ESC
+    ESC,
+    
+    NUMPAD4,
+    NUMPAD5,
+    NUMPAD6,
+    NUMPAD8,
+    NUMPADperiod,
+    NUMPADenter,
+    
+    currentUP,
+    currentDOWN,
+    currentLEFT,
+    currentRIGHT,
+    currentINTERACT
 }

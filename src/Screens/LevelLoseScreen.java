@@ -19,22 +19,22 @@ public class LevelLoseScreen extends Screen {
     @Override
     public void initialize() {
         loseMessage = new SpriteFont("You lose!", 350, 270, "Comic Sans", 30, Color.white);
-        instructions = new SpriteFont("Press Space to try again or Escape to go back to the main menu", 120, 300,"Comic Sans", 20, Color.white);
-        keyLocker.lockKey(Key.SPACE);
+        instructions = new SpriteFont("Press Interact key to try again or Escape to go back to the main menu", 120, 300,"Comic Sans", 20, Color.white);
+        keyLocker.lockKey(Key.currentINTERACT);
         keyLocker.lockKey(Key.ESC);
     }
 
     @Override
     public void update() {
-        if (Keyboard.isKeyUp(Key.SPACE)) {
-            keyLocker.unlockKey(Key.SPACE);
+        if (Keyboard.isKeyUp(Key.currentINTERACT)) {
+            keyLocker.unlockKey(Key.currentINTERACT);
         }
         if (Keyboard.isKeyUp(Key.ESC)) {
             keyLocker.unlockKey(Key.ESC);
         }
 
         // if space is pressed, reset level. if escape is pressed, go back to main menu
-        if (Keyboard.isKeyDown(Key.SPACE)) {
+        if (Keyboard.isKeyDown(Key.currentINTERACT)) {
             playLevelScreen.resetLevel();
         } else if (Keyboard.isKeyDown(Key.ESC)) {
             playLevelScreen.goBackToMenu();

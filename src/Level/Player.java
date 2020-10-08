@@ -37,10 +37,10 @@ public abstract class Player extends GameObject {
 
     // define keys
     protected KeyLocker keyLocker = new KeyLocker();
-    protected Key JUMP_KEY = Key.UP;
-    protected Key MOVE_LEFT_KEY = Key.LEFT;
-    protected Key MOVE_RIGHT_KEY = Key.RIGHT;
-    protected Key CROUCH_KEY = Key.DOWN;
+    protected Key JUMP_KEY = Key.currentUP;
+    protected Key MOVE_LEFT_KEY = Key.currentLEFT;
+    protected Key MOVE_RIGHT_KEY = Key.currentRIGHT;
+    protected Key CROUCH_KEY = Key.currentDOWN;
 
     // if true, player cannot be hurt by enemies (good for testing)
     protected boolean isInvincible = false;

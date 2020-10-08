@@ -16,12 +16,11 @@ public class InstructionsScreen extends Screen {
     protected KeyLocker keyLocker = new KeyLocker();
     protected SpriteFont goalLabel;
     protected SpriteFont goalExplanationLabel;
-    protected SpriteFont controlsLabel;
-    protected SpriteFont controlsExplanationLabel1;
-    protected SpriteFont controlsExplanationLabel2;
-    protected SpriteFont controlsExplanationLabel3;
-    protected SpriteFont controlsExplanationLabel4;
-    protected SpriteFont controlsExplanationLabel5;
+    protected SpriteFont enemiesLabel;
+    protected SpriteFont enemiesExplanationLabel1;
+    protected SpriteFont enemiesExplanationLabel2;
+    protected SpriteFont hazardsLabel;
+    protected SpriteFont hazardsExplanationLabel1;
     protected SpriteFont returnInstructionsLabel;
 
     public InstructionsScreen(ScreenCoordinator screenCoordinator) {
@@ -33,34 +32,53 @@ public class InstructionsScreen extends Screen {
         // setup graphics on screen (background map, spritefont text)
         background = new TitleScreenMap();
         background.setAdjustCamera(false);
-        
+
         //Goals text
-        goalLabel = new SpriteFont("   GOAL", 60, 180, "Comic Sans", 23, Color.gray);
-        goalExplanationLabel = new SpriteFont("Reach the end while avoiding enemies and hazards.", 60, 200, "Comic Sans", 18, Color.gray);
+        goalLabel = new SpriteFont("   GOAL", 220, 120, "Comic Sans", 23, new Color(49, 207, 240));
+        	goalLabel.setOutlineColor(Color.black);
+        	goalLabel.setOutlineThickness(3);
         
-        //Controls text
-        controlsLabel = new SpriteFont("   CONTROLS", 60, 250, "Comic Sans", 23, Color.gray);
-        controlsExplanationLabel1 = new SpriteFont("Left Arrow & Right Arrow Keys  : Move left and right", 60, 270, "Comic Sans", 18, Color.gray);
-        controlsExplanationLabel2 = new SpriteFont("Up Arrow Key                            : Jump", 60, 290, "Comic Sans", 18, Color.gray);
-        controlsExplanationLabel3 = new SpriteFont("Down Arrow Key                       : Duck", 60, 310, "Comic Sans", 18, Color.gray);
-        controlsExplanationLabel4 = new SpriteFont("SPACE Bar                               : Interact", 60, 330, "Comic Sans", 18, Color.gray);
-        controlsExplanationLabel5 = new SpriteFont("' P '                                            : Pause", 60, 350, "Comic Sans", 18, Color.gray);
+        goalExplanationLabel = new SpriteFont("Reach the end while avoiding enemies and hazards.", 60, 150, "Comic Sans", 18, new Color(255, 215, 0));
+        	goalExplanationLabel.setOutlineColor(Color.black);
+        	goalExplanationLabel.setOutlineThickness(3);
+        
+        //enemies text
+        enemiesLabel = new SpriteFont("   ENEMIES", 200, 200, "Comic Sans", 23, new Color(49, 207, 240));
+        	enemiesLabel.setOutlineColor(Color.black);
+        	enemiesLabel.setOutlineThickness(3);
+
+        enemiesExplanationLabel1 = new SpriteFont("Avoid touching hostile creatures", 140, 230, "Comic Sans", 18, new Color(255, 215, 0));
+        	enemiesExplanationLabel1.setOutlineColor(Color.black);
+        	enemiesExplanationLabel1.setOutlineThickness(3);
+
+        enemiesExplanationLabel2 = new SpriteFont("Watch out for enemy projectiles", 140, 260, "Comic Sans", 18, new Color(255, 215, 0));
+        	enemiesExplanationLabel2.setOutlineColor(Color.black);
+        	enemiesExplanationLabel2.setOutlineThickness(3);
+
+        //hazards text
+        hazardsLabel = new SpriteFont("   HAZARDS", 200, 310, "Comic Sans", 23, new Color(49, 207, 240));
+        	hazardsLabel.setOutlineColor(Color.black);
+        	hazardsLabel.setOutlineThickness(3);
+
+        hazardsExplanationLabel1 = new SpriteFont("Like most cats, you don't like water", 130, 340, "Comic Sans", 18, new Color(255, 215, 0));
+        	hazardsExplanationLabel1.setOutlineColor(Color.black);
+        	hazardsExplanationLabel1.setOutlineThickness(3);
         
         //Return to Main Menu Text
         returnInstructionsLabel = new SpriteFont("Press Space to return to the menu", 20, 560, "Comic Sans", 30, Color.white);
         
-        keyLocker.lockKey(Key.SPACE);
+        keyLocker.lockKey(Key.currentINTERACT);
     }
 
     public void update() {
         background.update(null);
 
-        if (Keyboard.isKeyUp(Key.SPACE)) {
-            keyLocker.unlockKey(Key.SPACE);
+        if (Keyboard.isKeyUp(Key.currentINTERACT)) {
+            keyLocker.unlockKey(Key.currentINTERACT);
         }
 
         // if space is pressed, go back to main menu
-        if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
+        if (!keyLocker.isKeyLocked(Key.currentINTERACT) && Keyboard.isKeyDown(Key.currentINTERACT)) {
             screenCoordinator.setGameState(GameState.MENU);
         }
     }
@@ -69,12 +87,11 @@ public class InstructionsScreen extends Screen {
         background.draw(graphicsHandler);
         goalLabel.draw(graphicsHandler);
         goalExplanationLabel.draw(graphicsHandler);
-        controlsLabel.draw(graphicsHandler);
-        controlsExplanationLabel1.draw(graphicsHandler);
-        controlsExplanationLabel2.draw(graphicsHandler);
-        controlsExplanationLabel3.draw(graphicsHandler);
-        controlsExplanationLabel4.draw(graphicsHandler);
-        controlsExplanationLabel5.draw(graphicsHandler);
+        enemiesLabel.draw(graphicsHandler);
+        enemiesExplanationLabel1.draw(graphicsHandler);
+        enemiesExplanationLabel2.draw(graphicsHandler);
+        hazardsLabel.draw(graphicsHandler);
+        hazardsExplanationLabel1.draw(graphicsHandler);
         returnInstructionsLabel.draw(graphicsHandler);
     }
 }

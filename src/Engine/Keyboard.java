@@ -4,6 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.io.File;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /*
  * This class is used throughout the engine for detecting keyboard state
@@ -125,6 +130,63 @@ public class Keyboard {
 				 put(Key.ZERO, 48);
 				 put(Key.SPACE, 32);
 				 put(Key.ESC, 27);
+
+				 put(Key.NUMPAD4, 100);
+				 put(Key.NUMPAD5, 101);
+				 put(Key.NUMPAD6, 102);
+				 put(Key.NUMPAD8, 104);
+				 put(Key.NUMPADperiod, 110);
+				 put(Key.NUMPADenter, 13);
+				 
+				 File controlsFile = new File("SavedData/ControlPreferences.txt");
+				 Scanner fileInput = null;
+				 try {
+					 fileInput = new Scanner(controlsFile);
+					 String activePreset = fileInput.nextLine();
+					 	//changes controls if preset 1 is selected
+					 if (activePreset.equals("Active Preset: 1")) {
+						 put(Key.currentUP, 87);
+						 put(Key.currentDOWN, 83);
+						 put(Key.currentLEFT, 65);
+						 put(Key.currentRIGHT, 68);
+						 put(Key.currentINTERACT, 32);
+					 }
+					 	//changes controls if preset 2 is selected
+					 if (activePreset.equals("Active Preset: 2")) {
+						 put(Key.currentUP, 87);
+						 put(Key.currentDOWN, 83);
+						 put(Key.currentLEFT, 65);
+						 put(Key.currentRIGHT, 68);
+						 put(Key.currentINTERACT, 70);
+					 }
+					 	//changes controls if preset 3 is selected
+					 if (activePreset.equals("Active Preset: 3")) {
+						 put(Key.currentUP, 38);
+						 put(Key.currentDOWN, 40);
+						 put(Key.currentLEFT, 37);
+						 put(Key.currentRIGHT, 39);
+						 put(Key.currentINTERACT, 32);
+					 }
+					 	//changes controls if preset 4 is selected
+					 if (activePreset.equals("Active Preset: 4")) {
+						 put(Key.currentUP, 38);
+						 put(Key.currentDOWN, 40);
+						 put(Key.currentLEFT, 37);
+						 put(Key.currentRIGHT, 39);
+						 put(Key.currentINTERACT, 110);
+					 }
+					 	//changes controls if preset 5 is selected
+					 if (activePreset.equals("Active Preset: 5")) {
+						 put(Key.currentUP, 104);
+						 put(Key.currentDOWN, 101);
+						 put(Key.currentLEFT, 100);
+						 put(Key.currentRIGHT, 102);
+						 put(Key.currentINTERACT, 37);
+					 }
+				 } catch (FileNotFoundException e) {
+					 System.out.println("Error");
+					 System.exit(1);
+				 }
 			}};
     }
 }

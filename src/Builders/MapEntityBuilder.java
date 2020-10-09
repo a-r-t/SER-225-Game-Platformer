@@ -31,7 +31,7 @@ public class MapEntityBuilder extends GameObjectBuilder {
     }
 
     public MapEntity build(float x, float y, Map map) {
-        MapEntity mapEntity = new MapEntity(x, y, cloneAnimations(), startingAnimationName, null);
+        MapEntity mapEntity = new MapEntity(x, y, cloneAnimations(), startingAnimationName);
         mapEntity.setMapEntityStatus(mapEntityStatus);
         mapEntity.setIsRespawnable(isRespawnable);
         return mapEntity;

@@ -77,8 +77,6 @@ public class MapTileCollisionHandler {
             case JUMP_THROUGH_PLATFORM:
                 return direction == Direction.DOWN && gameObject.intersects(mapTile) &&
                         Math.round(gameObject.getScaledBoundsY2() - 1) == Math.round(mapTile.getScaledBoundsY1());
-            case KILLER:
-            	System.out.println("PLAYER SHOULD DIE HERE");
             default:
                 return false;
         }

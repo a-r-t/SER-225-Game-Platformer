@@ -42,11 +42,6 @@ public abstract class Player extends GameObject {
     protected Key MOVE_LEFT_KEY = Key.LEFT;
     protected Key MOVE_RIGHT_KEY = Key.RIGHT;
     protected Key CROUCH_KEY = Key.DOWN;
-    protected Key JUMP_ALT = Key.W;
-    protected Key LEFT_ALT = Key.A;
-    protected Key RIGHT_ALT = Key.D;
-    protected Key CROUCH_ALT = Key.S;
-    protected Key JUMP_SPACE = Key.SPACE;
 
     // if true, player cannot be hurt by enemies (good for testing)
     protected boolean isInvincible = false;
@@ -127,7 +122,7 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
 
         // if walk left or walk right key is pressed, player enters WALKING state
-        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(LEFT_ALT) || Keyboard.isKeyDown(RIGHT_ALT)) {
+        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
         }
 
@@ -136,16 +131,9 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
-        else if(Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
-        	keyLocker.lockKey(JUMP_ALT);
-            playerState = PlayerState.JUMPING;
-        }
 
         // if crouch key is pressed, player enters CROUCHING state
         else if (Keyboard.isKeyDown(CROUCH_KEY)) {
-            playerState = PlayerState.CROUCHING;
-        }
-        else if (Keyboard.isKeyDown(CROUCH_ALT)) {
             playerState = PlayerState.CROUCHING;
         }
     }
@@ -156,21 +144,17 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
 
         // if walk left key is pressed, move player to the left
-        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(LEFT_ALT)) {
+        if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
             moveAmountX -= walkSpeed;
             facingDirection = Direction.LEFT;
         }
+
         // if walk right key is pressed, move player to the right
-        else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(RIGHT_ALT)) {
+        else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             moveAmountX += walkSpeed;
             facingDirection = Direction.RIGHT;
-        } 
-        else if (Keyboard.isKeyUp(MOVE_LEFT_KEY) && Keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
+        } else if (Keyboard.isKeyUp(MOVE_LEFT_KEY) && Keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.STANDING;
-        }
-        else if (Keyboard.isKeyDown(LEFT_ALT) && Keyboard.isKeyDown(RIGHT_ALT)) {
-            moveAmountX += walkSpeed;
-            facingDirection = Direction.RIGHT;
         }
 
         // if jump key is pressed, player enters JUMPING state
@@ -178,19 +162,11 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
-        else if (Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
-            keyLocker.lockKey(JUMP_ALT);
-            playerState = PlayerState.JUMPING;
-        }
 
         // if crouch key is pressed,
         else if (Keyboard.isKeyDown(CROUCH_KEY)) {
             playerState = PlayerState.CROUCHING;
         }
-        else if (Keyboard.isKeyDown(CROUCH_ALT)) {
-            playerState = PlayerState.CROUCHING;
-        }
-
     }
 
     // player CROUCHING state logic
@@ -199,15 +175,13 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
 
         // if crouch key is released, player enters STANDING state
-        if (Keyboard.isKeyUp(CROUCH_KEY) && Keyboard.isKeyUp(CROUCH_ALT)) {
+        if (Keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
         }
 
         // if jump key is pressed, player enters JUMPING state
-        if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY) || Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
-        	keyLocker.lockKey(JUMP_KEY);
-        	keyLocker.lockKey(JUMP_ALT);
-            keyLocker.lockKey(JUMP_SPACE);
+        if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
+            keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
     }
@@ -250,9 +224,9 @@ public abstract class Player extends GameObject {
             }
 
             // allows you to move left and right while in the air
-            if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(LEFT_ALT)) {
+            if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
                 moveAmountX -= walkSpeed;
-            } else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(RIGHT_ALT)) {
+            } else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
                 moveAmountX += walkSpeed;
             }
 
@@ -277,9 +251,8 @@ public abstract class Player extends GameObject {
     }
 
     protected void updateLockedKeys() {
-        if (Keyboard.isKeyUp(JUMP_KEY) || Keyboard.isKeyUp(JUMP_ALT)) {
+        if (Keyboard.isKeyUp(JUMP_KEY)) {
             keyLocker.unlockKey(JUMP_KEY);
-            keyLocker.unlockKey(JUMP_ALT);
         }
     }
 
@@ -314,15 +287,11 @@ public abstract class Player extends GameObject {
     public void hurtPlayer(MapEntity mapEntity) {
         if (!isInvincible) {
             // if map entity is an enemy, kill player on touch
-            if (mapEntity instanceof Enemy || mapEntity.getTileType()== TileType.KILLER) {
-            	System.out.println(mapEntity.getTileType());
-            	levelState = LevelState.PLAYER_DEAD;
-            } /*else if (mapEntity.getTileType()== TileType.KILLER) {
-            		levelState = LevelState.PLAYER_DEAD;
-            	}*/
+            if (mapEntity instanceof Enemy) {
+                levelState = LevelState.PLAYER_DEAD;
             }
         }
-    //}
+    }
 
     // other entities can call this to tell the player they beat a level
     public void completeLevel() {

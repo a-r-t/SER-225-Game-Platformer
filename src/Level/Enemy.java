@@ -12,31 +12,31 @@ import java.util.HashMap;
 public class Enemy extends MapEntity {
 
     public Enemy(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
-        super(x, y, spriteSheet, startingAnimation);
+        super(x, y, spriteSheet, startingAnimation, null);
     }
 
     public Enemy(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
-        super(x, y, animations, startingAnimation);
+        super(x, y, animations, startingAnimation, null);
     }
 
     public Enemy(BufferedImage image, float x, float y, String startingAnimation) {
-        super(image, x, y, startingAnimation);
+        super(image, x, y, startingAnimation, null);
     }
 
     public Enemy(BufferedImage image, float x, float y) {
-        super(image, x, y);
+        super(image, x, y, null);
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale);
+        super(image, x, y, scale, null);
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
+        super(image, x, y, scale, imageEffect, null);
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
+        super(image, x, y, scale, imageEffect, bounds, null);
     }
 
     @Override
@@ -52,7 +52,11 @@ public class Enemy extends MapEntity {
     }
 
     // A subclass can override this method to specify what it does when it touches the player
-    public void touchedPlayer(Player player) {
-        player.hurtPlayer(this);
+    	public void touchedPlayer(Player player) {
+    	if(getTileType()==TileType.KILLER) {
+    		player.hurtPlayer(this);
+    	}else {
+    		player.hurtPlayer(this);
+    	}
     }
 }

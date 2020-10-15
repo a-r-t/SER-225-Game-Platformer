@@ -11,6 +11,9 @@ import Maps.TestMap;
 import Maps.TutorialMap;
 import Players.Cat;
 import Utils.Stopwatch;
+import Maps.OneMap;
+import Maps.TwoMap;
+import Maps.ThreeMap;
 
 // This class is for when the platformer game is actually being played
 public class PlayLevelScreen extends Screen implements PlayerListener {

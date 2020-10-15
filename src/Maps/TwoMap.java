@@ -24,6 +24,45 @@ public class TwoMap extends Map {
         super("two_map.txt", new CommonTileset(), new Point(1,7));
     }//end constructor
 
+    //ADDING ENEMIES
+    @Override
+    public ArrayList<Enemy> loadEnemies() {
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.add(new DinosaurEnemy(getPositionByTileIndex(10, 7).addY(2), getPositionByTileIndex(15, 7).addY(2), Direction.RIGHT));
+        enemies.add(new DinosaurEnemy(getPositionByTileIndex(25, 8).addY(2), getPositionByTileIndex(22, 1).addY(2), Direction.LEFT));
+        return enemies;
+    }
+
+    //ADDING SPECIAL MAP TILES
+    @Override
+    public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
+        ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
+
+        enhancedMapTiles.add(new HorizontalMovingPlatform(
+                ImageLoader.load("GreenPlatform.png"),
+                getPositionByTileIndex(4, 5),
+                getPositionByTileIndex(9, 5),
+                TileType.JUMP_THROUGH_PLATFORM,
+                3,
+                new Rectangle(0, 6,16,4),
+                Direction.RIGHT
+        ));
+
+        enhancedMapTiles.add(new HorizontalMovingPlatform(
+                ImageLoader.load("GreenPlatform.png"),
+                getPositionByTileIndex(15, 5),
+                getPositionByTileIndex(19, 5),
+                TileType.JUMP_THROUGH_PLATFORM,
+                3,
+                new Rectangle(0, 6,16,4),
+                Direction.RIGHT
+        ));
+
+        enhancedMapTiles.add(new EndLevelBox(
+                getPositionByTileIndex(28, 5)
+        ));
+        return enhancedMapTiles;
+    }
 
 
 

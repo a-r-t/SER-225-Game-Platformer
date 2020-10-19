@@ -87,6 +87,10 @@ public abstract class Player extends GameObject {
             super.moveXHandleCollision(moveAmountX);
 
             updateLockedKeys();
+
+            if(this.y > 800){
+                levelState = LevelState.PLAYER_DEAD;
+            }
         }
 
         // if player has beaten level
@@ -98,6 +102,7 @@ public abstract class Player extends GameObject {
         else if (levelState == LevelState.PLAYER_DEAD) {
             updatePlayerDead();
         }
+
     }
 
     // add gravity to player, which is a downward force

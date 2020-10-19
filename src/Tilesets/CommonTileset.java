@@ -193,7 +193,10 @@ public class CommonTileset extends Tileset {
                 .withScale(tileScale)
                 .build();
 
-        MapTileBuilder topWaterTile = new MapTileBuilder(topWaterFrame);
+        MapTileBuilder topWaterTile = new MapTileBuilder(topWaterFrame)
+                .withTileType(TileType.Kill);
+
+
 
         mapTiles.add(topWaterTile);
 
@@ -202,7 +205,8 @@ public class CommonTileset extends Tileset {
                 .withScale(tileScale)
                 .build();
 
-        MapTileBuilder waterTile = new MapTileBuilder(waterFrame);
+        MapTileBuilder waterTile = new MapTileBuilder(waterFrame)
+                .withTileType(TileType.Kill);
 
         mapTiles.add(waterTile);
 

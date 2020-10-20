@@ -27,11 +27,16 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
+
+    }
+    public void setMap(Map in) {
+        this.map = in;
     }
 
     public void initialize() {
         // define/setup map
-        this.map = new TutorialMap(); //TestMap()
+
+        this.map = screenCoordinator.getMap(); //TestMap()
         map.reset();
 
         // setup player

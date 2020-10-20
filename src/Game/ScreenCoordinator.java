@@ -3,9 +3,12 @@ package Game;
 import Engine.DefaultScreen;
 import Engine.GraphicsHandler;
 import Engine.Screen;
+import Level.Map;
+import Maps.TutorialMap;
 import Screens.CreditsScreen;
 import Screens.MenuScreen;
 import Screens.PlayLevelScreen;
+import Screens.SelectScreen;
 
 /*
  * Based on the current game state, this class determines which Screen should be shown
@@ -18,6 +21,14 @@ public class ScreenCoordinator extends Screen {
 	// keep track of gameState so ScreenCoordinator knows which Screen to show
 	protected GameState gameState;
 	protected GameState previousGameState;
+	public Map curMap = new TutorialMap();
+
+	public void setMap(Map in) {
+		curMap = in;
+	}
+	public Map getMap() {
+		return curMap;
+	}
 
 	public GameState getGameState() {
 		return gameState;
@@ -50,6 +61,8 @@ public class ScreenCoordinator extends Screen {
 					case CREDITS:
 						currentScreen = new CreditsScreen(this);
 						break;
+					case SELECT:
+						currentScreen = new SelectScreen(this);
 				}
 				currentScreen.initialize();
 			}

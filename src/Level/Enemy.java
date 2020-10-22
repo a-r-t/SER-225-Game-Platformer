@@ -24,15 +24,15 @@ public class Enemy extends MapEntity {
     }
 
     public Enemy(BufferedImage image, float x, float y) {
-        super(image, x, y, null);
+        super(image, x, y);
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale, null);
+        super(image, x, y, scale);
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect, null);
+        super(image, x, y, scale, imageEffect);
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
@@ -52,8 +52,7 @@ public class Enemy extends MapEntity {
     }
 
     // A subclass can override this method to specify what it does when it touches the player
-    	public void touchedPlayer(Player player) {
-    		player.hurtPlayer(this);
-    	}
+    public void touchedPlayer(Player player) {
+        player.hurtPlayer(this);
     }
-
+}

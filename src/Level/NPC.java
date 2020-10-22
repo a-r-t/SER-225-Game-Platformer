@@ -39,19 +39,19 @@ public class NPC extends MapEntity {
     }
 
     public NPC(BufferedImage image, float x, float y, int talkedToTime) {
-        super(image, x, y, null);
+        super(image, x, y);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
     public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale) {
-        super(image, x, y, scale, null);
+        super(image, x, y, scale);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
     public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect, null);
+        super(image, x, y, scale, imageEffect);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }

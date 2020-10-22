@@ -35,11 +35,8 @@ public class CommonTileset extends Tileset {
         Frame skyFrame = new FrameBuilder(getSubImage(0, 1), 0)
                 .withScale(tileScale)
                 .build();
-        		
-        
 
-        MapTileBuilder skyTile = new MapTileBuilder(skyFrame)
-        		.withTileType(TileType.PASSABLE);
+        MapTileBuilder skyTile = new MapTileBuilder(skyFrame);
 
         mapTiles.add(skyTile);
 
@@ -63,8 +60,7 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder sunTile = new MapTileBuilder(sunFrames)
-        		.withTileType(TileType.PASSABLE);
+        MapTileBuilder sunTile = new MapTileBuilder(sunFrames);
 
         mapTiles.add(sunTile);
 
@@ -137,8 +133,7 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder yellowFlowerTile = new MapTileBuilder(yellowFlowerFrames)
-        		.withTileType(TileType.PASSABLE);
+        MapTileBuilder yellowFlowerTile = new MapTileBuilder(yellowFlowerFrames);
 
         mapTiles.add(yellowFlowerTile);
 
@@ -158,8 +153,7 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames)
-        		.withTileType(TileType.PASSABLE);
+        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames);
 
         mapTiles.add(purpleFlowerTile);
 
@@ -199,8 +193,7 @@ public class CommonTileset extends Tileset {
                 .withScale(tileScale)
                 .build();
 
-        MapTileBuilder topWaterTile = new MapTileBuilder(topWaterFrame)
-        		.withTileType(TileType.PASSABLE);
+        MapTileBuilder topWaterTile = new MapTileBuilder(topWaterFrame);
 
         mapTiles.add(topWaterTile);
 
@@ -209,9 +202,7 @@ public class CommonTileset extends Tileset {
                 .withScale(tileScale)
                 .build();
 
-
-        MapTileBuilder waterTile = new MapTileBuilder(waterFrame)
-        		.withTileType(TileType.KILLER);
+        MapTileBuilder waterTile = new MapTileBuilder(waterFrame);
 
         mapTiles.add(waterTile);
 

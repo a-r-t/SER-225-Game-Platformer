@@ -21,19 +21,19 @@ public class NPC extends MapEntity {
     protected Stopwatch timer = new Stopwatch();
 
     public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation, int talkedToTime) {
-        super(x, y, spriteSheet, startingAnimation, null);
+        super(x, y, spriteSheet, startingAnimation);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
     public NPC(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, int talkedToTime) {
-        super(x, y, animations, startingAnimation, null);
+        super(x, y, animations, startingAnimation);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
 
     public NPC(BufferedImage image, float x, float y, String startingAnimation, int talkedToTime) {
-        super(image, x, y, startingAnimation, null);
+        super(image, x, y, startingAnimation);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }
@@ -57,7 +57,7 @@ public class NPC extends MapEntity {
     }
 
     public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds, null);
+        super(image, x, y, scale, imageEffect, bounds);
         this.message = createMessage();
         this.talkedToTime = talkedToTime;
     }

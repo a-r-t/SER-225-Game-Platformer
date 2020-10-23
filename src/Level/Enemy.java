@@ -12,15 +12,15 @@ import java.util.HashMap;
 public class Enemy extends MapEntity {
 
     public Enemy(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
-        super(x, y, spriteSheet, startingAnimation, null);
+        super(x, y, spriteSheet, startingAnimation);
     }
 
     public Enemy(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
-        super(x, y, animations, startingAnimation, null);
+        super(x, y, animations, startingAnimation);
     }
 
     public Enemy(BufferedImage image, float x, float y, String startingAnimation) {
-        super(image, x, y, startingAnimation, null);
+        super(image, x, y, startingAnimation);
     }
 
     public Enemy(BufferedImage image, float x, float y) {
@@ -36,7 +36,7 @@ public class Enemy extends MapEntity {
     }
 
     public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds, null);
+        super(image, x, y, scale, imageEffect, bounds);
     }
 
     @Override
@@ -53,10 +53,7 @@ public class Enemy extends MapEntity {
 
     // A subclass can override this method to specify what it does when it touches the player
     	public void touchedPlayer(Player player) {
-    	if(getTileType()==TileType.KILLER) {
-    		player.hurtPlayer(this);
-    	}else {
     		player.hurtPlayer(this);
     	}
     }
-}
+

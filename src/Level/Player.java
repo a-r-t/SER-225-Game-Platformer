@@ -48,7 +48,7 @@ public abstract class Player extends GameObject {
     protected Key CROUCH_ALT = Key.S;
     protected Key JUMP_SPACE = Key.SPACE;
 
-    // if true, player cannot be hurt by enemies (good for testing)
+  // if true, player cannot be hurt by enemies (good for testing)
     protected boolean isInvincible = false;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
@@ -141,14 +141,11 @@ public abstract class Player extends GameObject {
             playerState = PlayerState.JUMPING;
         }
 
+
         // if crouch key is pressed, player enters CROUCHING state
-        else if (Keyboard.isKeyDown(CROUCH_KEY)) {
+        else if (Keyboard.isKeyDown(CROUCH_KEY)||Keyboard.isKeyDown(CROUCH_ALT) {
             playerState = PlayerState.CROUCHING;
         }
-        else if (Keyboard.isKeyDown(CROUCH_ALT)) {
-            playerState = PlayerState.CROUCHING;
-        }
-    }
 
     // player WALKING state logic
     protected void playerWalking() {
@@ -156,12 +153,12 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
 
         // if walk left key is pressed, move player to the left
-        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(LEFT_ALT)) {
+        if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19) || (Keyboard.isKeyDown(LEFT_ALT)&& x > -19)) {
             moveAmountX -= walkSpeed;
             facingDirection = Direction.LEFT;
         }
         // if walk right key is pressed, move player to the right
-        else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(RIGHT_ALT)) {
+        else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY)&& x < 1577) || (Keyboard.isKeyDown(RIGHT_ALT)&& x < 1577)) {
             moveAmountX += walkSpeed;
             facingDirection = Direction.RIGHT;
         } 
@@ -183,6 +180,7 @@ public abstract class Player extends GameObject {
             playerState = PlayerState.JUMPING;
         }
 
+
         // if crouch key is pressed,
         else if (Keyboard.isKeyDown(CROUCH_KEY)) {
             playerState = PlayerState.CROUCHING;
@@ -190,7 +188,6 @@ public abstract class Player extends GameObject {
         else if (Keyboard.isKeyDown(CROUCH_ALT)) {
             playerState = PlayerState.CROUCHING;
         }
-
     }
 
     // player CROUCHING state logic
@@ -199,6 +196,7 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
 
         // if crouch key is released, player enters STANDING state
+
         if (Keyboard.isKeyUp(CROUCH_KEY) && Keyboard.isKeyUp(CROUCH_ALT)) {
             playerState = PlayerState.STANDING;
         }
@@ -207,8 +205,8 @@ public abstract class Player extends GameObject {
         if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY) || Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
         	keyLocker.lockKey(JUMP_KEY);
         	keyLocker.lockKey(JUMP_ALT);
-            keyLocker.lockKey(JUMP_SPACE);
-            playerState = PlayerState.JUMPING;
+          keyLocker.lockKey(JUMP_SPACE);
+          playerState = PlayerState.JUMPING;
         }
     }
 
@@ -250,9 +248,10 @@ public abstract class Player extends GameObject {
             }
 
             // allows you to move left and right while in the air
-            if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(LEFT_ALT)) {
+
+            if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19)|| (Keyboard.isKeyDown(LEFT_ALT) && x > -19)) {
                 moveAmountX -= walkSpeed;
-            } else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(RIGHT_ALT)) {
+            } else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY)&& x < 1577) || (Keyboard.isKeyDown(RIGHT_ALT)&& x < 1577)) {
                 moveAmountX += walkSpeed;
             }
 
@@ -310,8 +309,7 @@ public abstract class Player extends GameObject {
         }
     }
 
-    // other entities can call this method to hurt the player
-    public void hurtPlayer(MapEntity mapEntity) {
+	public void hurtPlayer(MapEntity mapEntity) {
         if (!isInvincible) {
             // if map entity is an enemy, kill player on touch
             if (mapEntity instanceof Enemy) {

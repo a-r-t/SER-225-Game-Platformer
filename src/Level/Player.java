@@ -42,8 +42,13 @@ public abstract class Player extends GameObject {
     protected Key MOVE_LEFT_KEY = Key.LEFT;
     protected Key MOVE_RIGHT_KEY = Key.RIGHT;
     protected Key CROUCH_KEY = Key.DOWN;
+    protected Key JUMP_ALT = Key.W;
+    protected Key LEFT_ALT = Key.A;
+    protected Key RIGHT_ALT = Key.D;
+    protected Key CROUCH_ALT = Key.S;
+    protected Key JUMP_SPACE = Key.SPACE;
 
-    // if true, player cannot be hurt by enemies (good for testing)
+  // if true, player cannot be hurt by enemies (good for testing)
     protected boolean isInvincible = false;
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
@@ -122,7 +127,7 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
 
         // if walk left or walk right key is pressed, player enters WALKING state
-        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
+        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY) || Keyboard.isKeyDown(LEFT_ALT) || Keyboard.isKeyDown(RIGHT_ALT)) {
             playerState = PlayerState.WALKING;
         }
 
@@ -131,12 +136,16 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
+        else if(Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
+        	keyLocker.lockKey(JUMP_ALT);
+            playerState = PlayerState.JUMPING;
+        }
+
 
         // if crouch key is pressed, player enters CROUCHING state
-        else if (Keyboard.isKeyDown(CROUCH_KEY)) {
+        else if (Keyboard.isKeyDown(CROUCH_KEY)||Keyboard.isKeyDown(CROUCH_ALT) {
             playerState = PlayerState.CROUCHING;
         }
-    }
 
     // player WALKING state logic
     protected void playerWalking() {
@@ -144,17 +153,21 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
 
         // if walk left key is pressed, move player to the left
-        if (Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19) {
+        if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19) || (Keyboard.isKeyDown(LEFT_ALT)&& x > -19)) {
             moveAmountX -= walkSpeed;
             facingDirection = Direction.LEFT;
         }
-
         // if walk right key is pressed, move player to the right
-        else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < 1577) {
+        else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY)&& x < 1577) || (Keyboard.isKeyDown(RIGHT_ALT)&& x < 1577)) {
             moveAmountX += walkSpeed;
             facingDirection = Direction.RIGHT;
-        } else if (Keyboard.isKeyUp(MOVE_LEFT_KEY) && Keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
+        } 
+        else if (Keyboard.isKeyUp(MOVE_LEFT_KEY) && Keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.STANDING;
+        }
+        else if (Keyboard.isKeyDown(LEFT_ALT) && Keyboard.isKeyDown(RIGHT_ALT)) {
+            moveAmountX += walkSpeed;
+            facingDirection = Direction.RIGHT;
         }
 
         // if jump key is pressed, player enters JUMPING state
@@ -162,9 +175,17 @@ public abstract class Player extends GameObject {
             keyLocker.lockKey(JUMP_KEY);
             playerState = PlayerState.JUMPING;
         }
+        else if (Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
+            keyLocker.lockKey(JUMP_ALT);
+            playerState = PlayerState.JUMPING;
+        }
+
 
         // if crouch key is pressed,
         else if (Keyboard.isKeyDown(CROUCH_KEY)) {
+            playerState = PlayerState.CROUCHING;
+        }
+        else if (Keyboard.isKeyDown(CROUCH_ALT)) {
             playerState = PlayerState.CROUCHING;
         }
     }
@@ -175,14 +196,17 @@ public abstract class Player extends GameObject {
         currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
 
         // if crouch key is released, player enters STANDING state
-        if (Keyboard.isKeyUp(CROUCH_KEY)) {
+
+        if (Keyboard.isKeyUp(CROUCH_KEY) && Keyboard.isKeyUp(CROUCH_ALT)) {
             playerState = PlayerState.STANDING;
         }
 
         // if jump key is pressed, player enters JUMPING state
-        if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
-            keyLocker.lockKey(JUMP_KEY);
-            playerState = PlayerState.JUMPING;
+        if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY) || Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
+        	keyLocker.lockKey(JUMP_KEY);
+        	keyLocker.lockKey(JUMP_ALT);
+          keyLocker.lockKey(JUMP_SPACE);
+          playerState = PlayerState.JUMPING;
         }
     }
 
@@ -224,9 +248,10 @@ public abstract class Player extends GameObject {
             }
 
             // allows you to move left and right while in the air
-            if (Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19) {
+
+            if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19)|| (Keyboard.isKeyDown(LEFT_ALT) && x > -19)) {
                 moveAmountX -= walkSpeed;
-            } else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < 1577) {
+            } else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY)&& x < 1577) || (Keyboard.isKeyDown(RIGHT_ALT)&& x < 1577)) {
                 moveAmountX += walkSpeed;
             }
 
@@ -251,8 +276,9 @@ public abstract class Player extends GameObject {
     }
 
     protected void updateLockedKeys() {
-        if (Keyboard.isKeyUp(JUMP_KEY)) {
+        if (Keyboard.isKeyUp(JUMP_KEY) || Keyboard.isKeyUp(JUMP_ALT)) {
             keyLocker.unlockKey(JUMP_KEY);
+            keyLocker.unlockKey(JUMP_ALT);
         }
     }
 
@@ -287,98 +313,92 @@ public abstract class Player extends GameObject {
         if (!isInvincible) {
             // if map entity is an enemy, kill player on touch
             if (mapEntity instanceof Enemy) {
-            	levelState = LevelState.PLAYER_DEAD;
-            } else if (mapEntity instanceof MapTile) {
-            	MapTile mapTile = (MapTile) mapEntity;
-            	if (mapTile.getTileType() == TileType.KILLER){
-            		levelState = LevelState.PLAYER_DEAD;
-            }}}
+                levelState = LevelState.PLAYER_DEAD;
+            }
         }
+    }
 
+    // other entities can call this to tell the player they beat a level
+    public void completeLevel() {
+        levelState = LevelState.LEVEL_COMPLETED;
+    }
 
-	// other entities can call this to tell the player they beat a level
-	public void completeLevel() {
-		levelState = LevelState.LEVEL_COMPLETED;
-	}
+    // if player has beaten level, this will be the update cycle
+    public void updateLevelCompleted() {
+        // if player is not on ground, player should fall until it touches the ground
+        if (airGroundState != AirGroundState.GROUND && map.getCamera().containsDraw(this)) {
+            currentAnimationName = "FALL_RIGHT";
+            applyGravity();
+            increaseMomentum();
+            super.update();
+            moveYHandleCollision(moveAmountY);
+        }
+        // move player to the right until it walks off screen
+        else if (map.getCamera().containsDraw(this)) {
+            currentAnimationName = "WALK_RIGHT";
+            super.update();
+            moveXHandleCollision(walkSpeed);
+        } else {
+            // tell all player listeners that the player has finished the level
+            for (PlayerListener listener : listeners) {
+                listener.onLevelCompleted();
+            }
+        }
+    }
 
-	// if player has beaten level, this will be the update cycle
-	public void updateLevelCompleted() {
-		// if player is not on ground, player should fall until it touches the ground
-		if (airGroundState != AirGroundState.GROUND && map.getCamera().containsDraw(this)) {
-			currentAnimationName = "FALL_RIGHT";
-			applyGravity();
-			increaseMomentum();
-			super.update();
-			moveYHandleCollision(moveAmountY);
-		}
-		// move player to the right until it walks off screen
-		else if (map.getCamera().containsDraw(this)) {
-			currentAnimationName = "WALK_RIGHT";
-			super.update();
-			moveXHandleCollision(walkSpeed);
-		} else {
-			// tell all player listeners that the player has finished the level
-			for (PlayerListener listener : listeners) {
-				listener.onLevelCompleted();
-			}
-		}
-	}
+    // if player has died, this will be the update cycle
+    public void updatePlayerDead() {
+        // change player animation to DEATH
+        if (!currentAnimationName.startsWith("DEATH")) {
+            if (facingDirection == Direction.RIGHT) {
+                currentAnimationName = "DEATH_RIGHT";
+            } else {
+                currentAnimationName = "DEATH_LEFT";
+            }
+            super.update();
+        }
+        // if death animation not on last frame yet, continue to play out death animation
+        else if (currentFrameIndex != getCurrentAnimation().length - 1) {
+          super.update();
+        }
+        // if death animation on last frame (it is set up not to loop back to start), player should continually fall until it goes off screen
+        else if (currentFrameIndex == getCurrentAnimation().length - 1) {
+            if (map.getCamera().containsDraw(this)) {
+                moveY(3);
+            } else {
+                // tell all player listeners that the player has died in the level
+                for (PlayerListener listener : listeners) {
+                    listener.onDeath();
+                }
+            }
+        }
+    }
 
-	// if player has died, this will be the update cycle
-	public void updatePlayerDead() {
-		// change player animation to DEATH
-		if (!currentAnimationName.startsWith("DEATH")) {
-			if (facingDirection == Direction.RIGHT) {
-				currentAnimationName = "DEATH_RIGHT";
-			} else {
-				currentAnimationName = "DEATH_LEFT";
-			}
-			super.update();
-		}
-		// if death animation not on last frame yet, continue to play out death
-		// animation
-		else if (currentFrameIndex != getCurrentAnimation().length - 1) {
-			super.update();
-		}
-		// if death animation on last frame (it is set up not to loop back to start),
-		// player should continually fall until it goes off screen
-		else if (currentFrameIndex == getCurrentAnimation().length - 1) {
-			if (map.getCamera().containsDraw(this)) {
-				moveY(3);
-			} else {
-				// tell all player listeners that the player has died in the level
-				for (PlayerListener listener : listeners) {
-					listener.onDeath();
-				}
-			}
-		}
-	}
+    public PlayerState getPlayerState() {
+        return playerState;
+    }
 
-	public PlayerState getPlayerState() {
-		return playerState;
-	}
+    public void setPlayerState(PlayerState playerState) {
+        this.playerState = playerState;
+    }
 
-	public void setPlayerState(PlayerState playerState) {
-		this.playerState = playerState;
-	}
+    public AirGroundState getAirGroundState() {
+        return airGroundState;
+    }
 
-	public AirGroundState getAirGroundState() {
-		return airGroundState;
-	}
+    public Direction getFacingDirection() {
+        return facingDirection;
+    }
 
-	public Direction getFacingDirection() {
-		return facingDirection;
-	}
+    public void setFacingDirection(Direction facingDirection) {
+        this.facingDirection = facingDirection;
+    }
 
-	public void setFacingDirection(Direction facingDirection) {
-		this.facingDirection = facingDirection;
-	}
+    public void setLevelState(LevelState levelState) {
+        this.levelState = levelState;
+    }
 
-	public void setLevelState(LevelState levelState) {
-		this.levelState = levelState;
-	}
-
-	public void addListener(PlayerListener listener) {
-		listeners.add(listener);
-	}
+    public void addListener(PlayerListener listener) {
+        listeners.add(listener);
+    }
 }

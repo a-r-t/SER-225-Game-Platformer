@@ -3,7 +3,7 @@ package Utils;
 import java.awt.*;
 import java.awt.image.*;
 
-// This class hold ssome useful image methods that are used when loading in images to the game
+// This class hold some useful image methods that are used when loading in images to the game
 public class ImageUtils {
 	// https://stackoverflow.com/a/665428
 	// changes desired color to be transparent (the chosen color will not be seen in game when drawn)

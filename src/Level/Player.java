@@ -143,9 +143,10 @@ public abstract class Player extends GameObject {
 
 
         // if crouch key is pressed, player enters CROUCHING state
-        else if (Keyboard.isKeyDown(CROUCH_KEY)||Keyboard.isKeyDown(CROUCH_ALT) {
+        else if (Keyboard.isKeyDown(CROUCH_KEY)||Keyboard.isKeyDown(CROUCH_ALT)){
             playerState = PlayerState.CROUCHING;
         }
+    }    
 
     // player WALKING state logic
     protected void playerWalking() {

@@ -296,6 +296,10 @@ public class GameObject extends AnimatedSprite {
 	public void setMap(Map map) {
 		this.map = map;
 	}
+	
+	/*public void kills(MapTile tile) {
+		
+	}*/
 
 	@Override
 	public void draw(GraphicsHandler graphicsHandler) {

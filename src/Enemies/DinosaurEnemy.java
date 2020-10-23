@@ -86,13 +86,17 @@ public class DinosaurEnemy extends Enemy {
             // if dinosaur reaches the start or end location, it turns around
             // dinosaur may end up going a bit past the start or end location depending on movement speed
             // this calculates the difference and pushes the enemy back a bit so it ends up right on the start or end location
-            if (getX1() + getScaledWidth() - 15 >= endBound) {
+            if (getX1() + getScaledWidth() >= endBound) {
+                float difference = endBound - (getScaledX2());
+                moveXHandleCollision(-difference);
                 facingDirection = Direction.LEFT;
-            } else if (getX1() + 15 <= startBound) {
+            } else if (getX1() <= startBound) {
+                float difference = startBound - getX1();
+                moveXHandleCollision(difference);
                 facingDirection = Direction.RIGHT;
             }
 
-            // if dinosaur is shooting, it first turns red for 1 second
+            // if dinosaur is shooting, it first turns read for 1 second
             // then the fireball is actually shot out
         } else if (dinosaurState == DinosaurState.SHOOT) {
             if (previousDinosaurState == DinosaurState.WALK) {
@@ -106,10 +110,10 @@ public class DinosaurEnemy extends Enemy {
                 float movementSpeed;
                 if (facingDirection == Direction.RIGHT) {
                     fireballX = Math.round(getX()) + getScaledWidth();
-                    movementSpeed = 3f;
+                    movementSpeed = 1.5f;
                 } else {
-                    fireballX = Math.round(getX() - 20);
-                    movementSpeed = -3f;
+                    fireballX = Math.round(getX());
+                    movementSpeed = -1.5f;
                 }
 
                 // define where fireball will spawn on the map (y location) relative to dinosaur enemy's location

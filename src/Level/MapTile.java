@@ -56,7 +56,7 @@ public class MapTile extends MapEntity {
         super(image, x, y, scale, imageEffect, bounds);
         this.tileType = tileType;
     }
-
+    
     public TileType getTileType() {
         return tileType;
     }
@@ -68,9 +68,15 @@ public class MapTile extends MapEntity {
     public void update() {
         super.update();
     }
+    
+    public void touchedPlayer(Player player) {
+        player.hurtPlayer(this);
+    }
 
     public void draw(GraphicsHandler graphicsHandler) {
         super.draw(graphicsHandler);
         //drawBounds(graphicsHandler, new Color(0, 0, 255, 100));
     }
+    
+   
 }

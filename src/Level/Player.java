@@ -260,6 +260,9 @@ public abstract class Player extends GameObject {
             if (moveAmountY > 0) {
                 increaseMomentum();
             }
+            if(y > 700) {
+            	levelState = LevelState.PLAYER_DEAD;
+            }
         }
 
         // if player last frame was in air and this frame is now on ground, player enters STANDING state

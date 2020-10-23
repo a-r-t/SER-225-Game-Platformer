@@ -35,8 +35,11 @@ public class CommonTileset extends Tileset {
         Frame skyFrame = new FrameBuilder(getSubImage(0, 1), 0)
                 .withScale(tileScale)
                 .build();
+        		
+        
 
-        MapTileBuilder skyTile = new MapTileBuilder(skyFrame);
+        MapTileBuilder skyTile = new MapTileBuilder(skyFrame)
+        		.withTileType(TileType.PASSABLE);
 
         mapTiles.add(skyTile);
 
@@ -60,7 +63,8 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder sunTile = new MapTileBuilder(sunFrames);
+        MapTileBuilder sunTile = new MapTileBuilder(sunFrames)
+        		.withTileType(TileType.PASSABLE);
 
         mapTiles.add(sunTile);
 
@@ -133,7 +137,8 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder yellowFlowerTile = new MapTileBuilder(yellowFlowerFrames);
+        MapTileBuilder yellowFlowerTile = new MapTileBuilder(yellowFlowerFrames)
+        		.withTileType(TileType.PASSABLE);
 
         mapTiles.add(yellowFlowerTile);
 
@@ -153,7 +158,8 @@ public class CommonTileset extends Tileset {
                         .build()
         };
 
-        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames);
+        MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames)
+        		.withTileType(TileType.PASSABLE);
 
         mapTiles.add(purpleFlowerTile);
 
@@ -193,7 +199,8 @@ public class CommonTileset extends Tileset {
                 .withScale(tileScale)
                 .build();
 
-        MapTileBuilder topWaterTile = new MapTileBuilder(topWaterFrame);
+        MapTileBuilder topWaterTile = new MapTileBuilder(topWaterFrame)
+        		.withTileType(TileType.PASSABLE);
 
         mapTiles.add(topWaterTile);
 

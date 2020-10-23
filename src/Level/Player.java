@@ -309,11 +309,16 @@ public abstract class Player extends GameObject {
             }
         }
     }
-
+  
 	public void hurtPlayer(MapEntity mapEntity) {
         if (!isInvincible) {
             // if map entity is an enemy, kill player on touch
             if (mapEntity instanceof Enemy) {
+
+            	levelState = LevelState.PLAYER_DEAD;
+            } else if (mapEntity instanceof MapTile) {
+            	MapTile mapTile = (MapTile) mapEntity;
+            	if (mapTile.getTileType() == TileType.KILLER){
                 levelState = LevelState.PLAYER_DEAD;
             }
         }
@@ -362,44 +367,91 @@ public abstract class Player extends GameObject {
         else if (currentFrameIndex != getCurrentAnimation().length - 1) {
           super.update();
         }
-        // if death animation on last frame (it is set up not to loop back to start), player should continually fall until it goes off screen
-        else if (currentFrameIndex == getCurrentAnimation().length - 1) {
-            if (map.getCamera().containsDraw(this)) {
-                moveY(3);
-            } else {
-                // tell all player listeners that the player has died in the level
-                for (PlayerListener listener : listeners) {
-                    listener.onDeath();
-                }
-            }
-        }
-    }
 
-    public PlayerState getPlayerState() {
-        return playerState;
-    }
 
-    public void setPlayerState(PlayerState playerState) {
-        this.playerState = playerState;
-    }
+	// other entities can call this to tell the player they beat a level
+	public void completeLevel() {
+		levelState = LevelState.LEVEL_COMPLETED;
+	}
 
-    public AirGroundState getAirGroundState() {
-        return airGroundState;
-    }
+	// if player has beaten level, this will be the update cycle
+	public void updateLevelCompleted() {
+		// if player is not on ground, player should fall until it touches the ground
+		if (airGroundState != AirGroundState.GROUND && map.getCamera().containsDraw(this)) {
+			currentAnimationName = "FALL_RIGHT";
+			applyGravity();
+			increaseMomentum();
+			super.update();
+			moveYHandleCollision(moveAmountY);
+		}
+		// move player to the right until it walks off screen
+		else if (map.getCamera().containsDraw(this)) {
+			currentAnimationName = "WALK_RIGHT";
+			super.update();
+			moveXHandleCollision(walkSpeed);
+		} else {
+			// tell all player listeners that the player has finished the level
+			for (PlayerListener listener : listeners) {
+				listener.onLevelCompleted();
+			}
+		}
+	}
 
-    public Direction getFacingDirection() {
-        return facingDirection;
-    }
+	// if player has died, this will be the update cycle
+	public void updatePlayerDead() {
+		// change player animation to DEATH
+		if (!currentAnimationName.startsWith("DEATH")) {
+			if (facingDirection == Direction.RIGHT) {
+				currentAnimationName = "DEATH_RIGHT";
+			} else {
+				currentAnimationName = "DEATH_LEFT";
+			}
+			super.update();
+		}
+		// if death animation not on last frame yet, continue to play out death
+		// animation
+		else if (currentFrameIndex != getCurrentAnimation().length - 1) {
+			super.update();
+		}
+		// if death animation on last frame (it is set up not to loop back to start),
+		// player should continually fall until it goes off screen
+		else if (currentFrameIndex == getCurrentAnimation().length - 1) {
+			if (map.getCamera().containsDraw(this)) {
+				moveY(3);
+			} else {
+				// tell all player listeners that the player has died in the level
+				for (PlayerListener listener : listeners) {
+					listener.onDeath();
+				}
+			}
+		}
+	}
 
-    public void setFacingDirection(Direction facingDirection) {
-        this.facingDirection = facingDirection;
-    }
+	public PlayerState getPlayerState() {
+		return playerState;
+	}
 
-    public void setLevelState(LevelState levelState) {
-        this.levelState = levelState;
-    }
+	public void setPlayerState(PlayerState playerState) {
+		this.playerState = playerState;
+	}
 
-    public void addListener(PlayerListener listener) {
-        listeners.add(listener);
-    }
+	public AirGroundState getAirGroundState() {
+		return airGroundState;
+	}
+
+	public Direction getFacingDirection() {
+		return facingDirection;
+	}
+
+	public void setFacingDirection(Direction facingDirection) {
+		this.facingDirection = facingDirection;
+	}
+
+	public void setLevelState(LevelState levelState) {
+		this.levelState = levelState;
+	}
+
+	public void addListener(PlayerListener listener) {
+		listeners.add(listener);
+	}
 }

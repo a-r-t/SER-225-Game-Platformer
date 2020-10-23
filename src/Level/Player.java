@@ -157,6 +157,7 @@ public abstract class Player extends GameObject {
 		// sets animation to a WALK animation based on which way player is facing
 		currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
 
+
 		// if walk left key is pressed, move player to the left
 		if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(LEFT_ALT)) {
 			moveAmountX -= walkSpeed;
@@ -172,6 +173,40 @@ public abstract class Player extends GameObject {
 			moveAmountX += walkSpeed;
 			facingDirection = Direction.RIGHT;
 		}
+        // if player is in air (currently in a jump) and has more jumpForce, continue sending player upwards
+        else if (airGroundState == AirGroundState.AIR) {
+            if (jumpForce > 0) {
+                moveAmountY -= jumpForce;
+                jumpForce -= jumpDegrade;
+                if (jumpForce < 0) {
+                    jumpForce = 0;
+                }
+            }
+
+            // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
+            if (previousY > Math.round(y)) {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            } else {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+            }
+
+            // allows you to move left and right while in the air
+
+            if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19)|| (Keyboard.isKeyDown(LEFT_ALT) && x > -19)) {
+                moveAmountX -= walkSpeed;
+            } else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY)&& x < 1577) || (Keyboard.isKeyDown(RIGHT_ALT)&& x < 1577)) {
+                moveAmountX += walkSpeed;
+            }
+
+            // if player is falling, increases momentum as player falls so it falls faster over time
+            if (moveAmountY > 0) {
+                increaseMomentum();
+            }
+            if(y > 700) {
+            	levelState = LevelState.PLAYER_DEAD;
+            }
+        }
+
 
 		// if jump key is pressed, player enters JUMPING state
 		if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {

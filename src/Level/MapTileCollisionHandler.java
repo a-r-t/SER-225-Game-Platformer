@@ -3,6 +3,7 @@ package Level;
 import GameObject.GameObject;
 import Utils.Direction;
 import Utils.Point;
+import Level.Player;
 
 // This class has methods to check if a game object has collided with a map tile
 // it is used by the game object class to determine if a collision occurred
@@ -77,6 +78,9 @@ public class MapTileCollisionHandler {
             case JUMP_THROUGH_PLATFORM:
                 return direction == Direction.DOWN && gameObject.intersects(mapTile) &&
                         Math.round(gameObject.getScaledBoundsY2() - 1) == Math.round(mapTile.getScaledBoundsY1());
+            case Kill:
+                gameObject.moveY(900);
+                return false;
             default:
                 return false;
         }

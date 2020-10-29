@@ -61,8 +61,12 @@ public class ScreenCoordinator extends Screen {
 					case CREDITS:
 						currentScreen = new CreditsScreen(this);
 						break;
+					case TUTORIAL:
+						currentScreen = new TutorialMap(this);
+						break;
 					case SELECT:
 						currentScreen = new SelectScreen(this);
+            break;
 				}
 				currentScreen.initialize();
 			}

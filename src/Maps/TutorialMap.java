@@ -1,5 +1,6 @@
 package Maps;
 
+import Enemies.TestEnemy;
 import Enemies.BugEnemy;
 import Enemies.DinosaurEnemy;
 import Engine.ImageLoader;
@@ -30,6 +31,7 @@ public class TutorialMap extends Map {
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
         enemies.add(new BugEnemy(getPositionByTileIndex(35, 9), Direction.LEFT));
+        enemies.add(new TestEnemy(getPositionByTileIndex(9, 2), Direction.RIGHT));
         return enemies;
     }
 

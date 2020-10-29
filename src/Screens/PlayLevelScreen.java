@@ -11,6 +11,9 @@ import Maps.TestMap;
 import Maps.TutorialMap;
 import Players.Cat;
 import Utils.Stopwatch;
+import Maps.OneMap;
+import Maps.TwoMap;
+import Maps.ThreeMap;
 
 // This class is for when the platformer game is actually being played
 public class PlayLevelScreen extends Screen implements PlayerListener {
@@ -24,11 +27,16 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
+
+    }
+    public void setMap(Map in) {
+        this.map = in;
     }
 
     public void initialize() {
         // define/setup map
-        this.map = new TutorialMap(); //TestMap()
+
+        this.map = screenCoordinator.getMap(); //TestMap()
         map.reset();
 
         // setup player

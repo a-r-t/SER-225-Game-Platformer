@@ -3,6 +3,7 @@ package Maps;
 import Enemies.BugEnemy;
 import Enemies.DinosaurEnemy;
 import Engine.ImageLoader;
+import EnhancedMapTiles.Coin;
 import EnhancedMapTiles.EndLevelBox;
 import EnhancedMapTiles.HorizontalMovingPlatform;
 import GameObject.GameObject;
@@ -52,6 +53,13 @@ public class TutorialMap extends Map {
 
         enhancedMapTiles.add(new EndLevelBox(
                 getPositionByTileIndex(45, 7)
+        ));
+
+        enhancedMapTiles.add(new Coin(
+                ImageLoader.load("Coin.png"),
+                getPositionByTileIndex(26, 6),
+                TileType.PASSABLE,
+                3
         ));
 
 

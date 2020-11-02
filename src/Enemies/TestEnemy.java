@@ -20,21 +20,23 @@ import java.util.HashMap;
 public class TestEnemy extends Enemy {
 
     private float gravity = .5f;
-    private float movementSpeed = 2f;
+    private float movementSpeed = 1.5f;
     private Direction startFacingDirection;
     private Direction facingDirection;
     private AirGroundState airGroundState;
     private float startX;
     private float startY;
+    private float travelDistance;
 
     protected Stopwatch shootTimer = new Stopwatch();
 
 
-    public TestEnemy(Point location, Direction facingDirection) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("BugEnemy.png"), 24, 15), "WALK_LEFT");
+    public TestEnemy(Point location, Direction facingDirection, float travelDistance) {
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("UFOEnemy.png"), 24, 15), "WALK_LEFT");
         this.startFacingDirection = facingDirection;
         this.startX = location.x;
         this.startY = location.y;
+        this.travelDistance = travelDistance;
         this.initialize();
     }
 
@@ -68,7 +70,8 @@ public class TestEnemy extends Enemy {
         moveYHandleCollision(moveAmountY);
         moveXHandleCollision(moveAmountX);
 
-        if(this.x > startX + 200 || this.x < startX - 200){
+        //makes enemy fky back and forth
+        if(this.x > startX + this.travelDistance || this.x < startX - this.travelDistance){
             if (this.facingDirection == Direction.RIGHT) {
                 facingDirection = Direction.LEFT;
                 currentAnimationName = "WALK_LEFT";
@@ -91,7 +94,7 @@ public class TestEnemy extends Enemy {
             projectileX = Math.round(getX());
             movementSpeed = 2;
 
-            FlyingProjectile projectile = new FlyingProjectile(new Point(projectileX, projectileY), movementSpeed, 3000);
+            FlyingProjectile projectile = new FlyingProjectile(new Point(projectileX, projectileY), movementSpeed, 5000);
 
             map.addEnemy(projectile);
             //delay between shots
@@ -140,7 +143,7 @@ public class TestEnemy extends Enemy {
                             .withScale(2)
                             .withBounds(6, 6, 12, 7)
                             .build(),
-                    new FrameBuilder(spriteSheet.getSprite(0, 1), 100)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 100)
                             .withScale(2)
                             .withBounds(6, 6, 12, 7)
                             .build()
@@ -152,7 +155,7 @@ public class TestEnemy extends Enemy {
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(6, 6, 12, 7)
                             .build(),
-                    new FrameBuilder(spriteSheet.getSprite(0, 1), 100)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 100)
                             .withScale(2)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(6, 6, 12, 7)

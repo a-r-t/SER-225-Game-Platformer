@@ -21,6 +21,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class TutorialMap extends Map {
+    private int score = 0;
     public TutorialMap() {
         super("tutorial_map.txt", new CommonTileset(), new Point(1,9));
     }//end constructor
@@ -58,6 +59,13 @@ public class TutorialMap extends Map {
         enhancedMapTiles.add(new Coin(
                 ImageLoader.load("Coin.png"),
                 getPositionByTileIndex(26, 6),
+                TileType.PASSABLE,
+                3
+        ));
+
+        enhancedMapTiles.add(new Coin(
+                ImageLoader.load("Coin.png"),
+                getPositionByTileIndex(23, 6),
                 TileType.PASSABLE,
                 3
         ));

@@ -19,12 +19,14 @@ public class Coin extends EnhancedMapTile {
     private Point Location;
     private boolean collected = false;
 
+
     public Coin(BufferedImage image, Point Location, TileType tileType, float scale) {
         super(image, Location.x, Location.y, tileType, scale, ImageEffect.NONE);
         this.Location = Location;
 
         this.initialize();
     }
+
 
     @Override
     public void initialize() {
@@ -38,7 +40,10 @@ public class Coin extends EnhancedMapTile {
                 //do nothing if already collected
             } else {
                 collected = true;
-                System.out.println("Score");
+                player.addScore();
+                System.out.println(player.getScore());
+
+                //ADD TO SCORE VARIABLE
             }
         }
 

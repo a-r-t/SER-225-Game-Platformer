@@ -32,18 +32,18 @@ public class CreditsScreen extends Screen {
         createdByLabel = new SpriteFont("Created by Alex Thimineur for Quinnipiac's SER225 Course.", 130, 140, "Times New Roman", 20, Color.white);
         contributorsLabel = new SpriteFont("Thank you to QU Alumni Brian Carducci, Joseph White,\nand Alex Hutman for their contributions.", 60, 220, "Times New Roman",20, Color.white);
         returnInstructionsLabel = new SpriteFont("Press Space to return to the menu", 20, 560, "Times New Roman", 30, Color.white);
-        keyLocker.lockKey(Key.SPACE);
+        keyLocker.lockKey(Key.ENTER);
     }
 
     public void update() {
         background.update(null);
 
-        if (Keyboard.isKeyUp(Key.SPACE)) {
-            keyLocker.unlockKey(Key.SPACE);
+        if (Keyboard.isKeyUp(Key.ENTER)) {
+            keyLocker.unlockKey(Key.ENTER);
         }
 
-        // if space is pressed, go back to main menu
-        if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
+        // if ENTER is pressed, go back to main menu
+        if (!keyLocker.isKeyLocked(Key.ENTER) && Keyboard.isKeyDown(Key.ENTER)) {
             screenCoordinator.setGameState(GameState.MENU);
         }
     }

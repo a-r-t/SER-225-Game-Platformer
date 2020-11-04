@@ -84,6 +84,14 @@ public class MapTileCollisionHandler {
             		player.hurtPlayer(mapTile);
             	}
             	return false;
+            case POWER_UP:
+            	if(gameObject.intersects(mapTile)&& gameObject instanceof Player) {
+            		
+            		Player player = (Player) gameObject;
+            		player.powerUp(mapTile);
+            		
+            	}
+            	return false;
             default:
                 return false;
         }

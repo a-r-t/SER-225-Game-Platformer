@@ -32,20 +32,20 @@ public class InstructionsScreen extends Screen {
         beginningSentenceLabel = new SpriteFont("The instructions for this game are:", 130, 140, "Times New Roman", 20, Color.white);
         actualInstructionsLabel = new SpriteFont("Enter is for menu selection \nThe Up arrow key and/or W is for Jumping \nThe Down arrow key and/or S is for Ducking"
         		+ "\nThe Left arrow key and/or A is for moving left \nThe Right arrow key and/or D is for moving right "
-                + "\nSpace is used for attack", 60, 220, "Times New Roman",20, Color.white);
+            + "\nSpace is used for attack", 60, 220, "Times New Roman",20, Color.white);
         returnInstructionsLabel = new SpriteFont("Press Space to return to the menu", 20, 560, "Times New Roman", 30, Color.white);
-        keyLocker.lockKey(Key.SPACE);
+        keyLocker.lockKey(Key.ENTER);
     }
 
     public void update() {
         background.update(null);
 
-        if (Keyboard.isKeyUp(Key.SPACE)) {
-            keyLocker.unlockKey(Key.SPACE);
+        if (Keyboard.isKeyUp(Key.ENTER)) {
+            keyLocker.unlockKey(Key.ENTER);
         }
 
         // if space is pressed, go back to main menu
-        if (!keyLocker.isKeyLocked(Key.SPACE) && Keyboard.isKeyDown(Key.SPACE)) {
+        if (!keyLocker.isKeyLocked(Key.ENTER) && Keyboard.isKeyDown(Key.ENTER)) {
             screenCoordinator.setGameState(GameState.MENU);
         }
     }

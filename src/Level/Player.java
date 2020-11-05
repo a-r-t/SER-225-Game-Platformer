@@ -4,11 +4,17 @@ import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
 import GameObject.GameObject;
+import GameObject.IntersectableRectangle;
 import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
+import Utils.Point;
 
 import java.util.ArrayList;
+
+import Enemies.Fireball;
+import Enemies.FriendlyFire;
+import Enemies.DinosaurEnemy.DinosaurState;
 
 public abstract class Player extends GameObject {
 	// values that affect player movement
@@ -32,6 +38,7 @@ public abstract class Player extends GameObject {
 	protected AirGroundState airGroundState;
 	protected AirGroundState previousAirGroundState;
 	protected LevelState levelState;
+	protected FriendlyFire currentFireball;
 
 	// classes that listen to player events can be added to this list
 	protected ArrayList<PlayerListener> listeners = new ArrayList<>();
@@ -46,10 +53,11 @@ public abstract class Player extends GameObject {
 	protected Key LEFT_ALT = Key.A;
 	protected Key RIGHT_ALT = Key.D;
 	protected Key CROUCH_ALT = Key.S;
-	protected Key JUMP_SPACE = Key.SPACE;
+	protected Key SHOOT_KEY = Key.SPACE;
 
 	// if true, player cannot be hurt by enemies (good for testing)
 	protected boolean isInvincible = false;
+	protected boolean hasPowerUp = false;
 
 	public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		super(spriteSheet, x, y, startingAnimationName);
@@ -59,6 +67,7 @@ public abstract class Player extends GameObject {
 		playerState = PlayerState.STANDING;
 		previousPlayerState = playerState;
 		levelState = LevelState.RUNNING;
+		currentFireball = null;
 	}
 
 	public void update() {
@@ -121,6 +130,9 @@ public abstract class Player extends GameObject {
 		case JUMPING:
 			playerJumping();
 			break;
+		case SHOOTING:
+			playerShooting();
+			break;
 		}
 	}
 
@@ -150,13 +162,22 @@ public abstract class Player extends GameObject {
 		} else if (Keyboard.isKeyDown(CROUCH_ALT)) {
 			playerState = PlayerState.CROUCHING;
 		}
+
+		// if spacebar pressed, shoot fireball
+		else if (Keyboard.isKeyDown(SHOOT_KEY)) {
+			playerState = PlayerState.SHOOTING;
+		}
+
+		if (Keyboard.isKeyDown(SHOOT_KEY)) {
+			keyLocker.lockKey(SHOOT_KEY);
+			playerState = PlayerState.SHOOTING;
+		}
 	}
 
 	// player WALKING state logic
 	protected void playerWalking() {
 		// sets animation to a WALK animation based on which way player is facing
 		currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-
 
 		// if walk left key is pressed, move player to the left
 		if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(LEFT_ALT)) {
@@ -173,40 +194,43 @@ public abstract class Player extends GameObject {
 			moveAmountX += walkSpeed;
 			facingDirection = Direction.RIGHT;
 		}
-        // if player is in air (currently in a jump) and has more jumpForce, continue sending player upwards
-        else if (airGroundState == AirGroundState.AIR) {
-            if (jumpForce > 0) {
-                moveAmountY -= jumpForce;
-                jumpForce -= jumpDegrade;
-                if (jumpForce < 0) {
-                    jumpForce = 0;
-                }
-            }
+		// if player is in air (currently in a jump) and has more jumpForce, continue
+		// sending player upwards
+		else if (airGroundState == AirGroundState.AIR) {
+			if (jumpForce > 0) {
+				moveAmountY -= jumpForce;
+				jumpForce -= jumpDegrade;
+				if (jumpForce < 0) {
+					jumpForce = 0;
+				}
+			}
 
-            // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
-            if (previousY > Math.round(y)) {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
-            } else {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
-            }
+			// if player is moving upwards, set player's animation to jump. if player moving
+			// downwards, set player's animation to fall
+			if (previousY > Math.round(y)) {
+				currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+			} else {
+				currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+			}
 
-            // allows you to move left and right while in the air
+			// allows you to move left and right while in the air
 
-            if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19)|| (Keyboard.isKeyDown(LEFT_ALT) && x > -19)) {
-                moveAmountX -= walkSpeed;
-            } else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY)&& x < 1577) || (Keyboard.isKeyDown(RIGHT_ALT)&& x < 1577)) {
-                moveAmountX += walkSpeed;
-            }
+			if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19) || (Keyboard.isKeyDown(LEFT_ALT) && x > -19)) {
+				moveAmountX -= walkSpeed;
+			} else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < 1577)
+					|| (Keyboard.isKeyDown(RIGHT_ALT) && x < 1577)) {
+				moveAmountX += walkSpeed;
+			}
 
-            // if player is falling, increases momentum as player falls so it falls faster over time
-            if (moveAmountY > 0) {
-                increaseMomentum();
-            }
-            if(y > 700) {
-            	levelState = LevelState.PLAYER_DEAD;
-            }
-        }
-
+			// if player is falling, increases momentum as player falls so it falls faster
+			// over time
+			if (moveAmountY > 0) {
+				increaseMomentum();
+			}
+			if (y > 700) {
+				levelState = LevelState.PLAYER_DEAD;
+			}
+		}
 
 		// if jump key is pressed, player enters JUMPING state
 		if (Keyboard.isKeyDown(JUMP_KEY) && !keyLocker.isKeyLocked(JUMP_KEY)) {
@@ -224,6 +248,11 @@ public abstract class Player extends GameObject {
 			playerState = PlayerState.CROUCHING;
 		}
 
+		// if shoot key is pressed, enter SHOOTING state
+		if (Keyboard.isKeyDown(SHOOT_KEY)) {
+			keyLocker.lockKey(SHOOT_KEY);
+			playerState = PlayerState.SHOOTING;
+		}
 	}
 
 	// player CROUCHING state logic
@@ -241,7 +270,6 @@ public abstract class Player extends GameObject {
 				|| Keyboard.isKeyDown(JUMP_ALT) && !keyLocker.isKeyLocked(JUMP_ALT)) {
 			keyLocker.lockKey(JUMP_KEY);
 			keyLocker.lockKey(JUMP_ALT);
-			keyLocker.lockKey(JUMP_SPACE);
 			playerState = PlayerState.JUMPING;
 		}
 	}
@@ -316,10 +344,53 @@ public abstract class Player extends GameObject {
 		}
 	}
 
+	protected void playerShooting() {
+
+		if (playerState == PlayerState.SHOOTING) {
+			if (previousPlayerState == PlayerState.WALKING || previousPlayerState == PlayerState.STANDING) {
+				currentAnimationName = facingDirection == Direction.RIGHT ? "SHOOT_RIGHT" : "SHOOT_LEFT";
+			} else {
+				
+					// define where fireball will spawn on map (x location) relative to player's
+					// location
+					// and define its movement speed
+					int fireballX;
+					float movementSpeed;
+					if (facingDirection == Direction.RIGHT) {
+						fireballX = Math.round(getX()) - 8 + getScaledWidth();
+						movementSpeed = 1.5f;
+					} else {
+						fireballX = Math.round(getX()) - 8;
+						movementSpeed = -1.5f;
+					}
+
+					// define where fireball will spawn on the map (y location) relative to dinosaur
+					// enemy's location
+					int fireballY = Math.round(getY()) + 15;
+
+					// create Fireball
+					FriendlyFire fireball = new FriendlyFire(new Point(fireballX, fireballY), movementSpeed, 1000);
+					currentFireball = fireball;
+
+					// add fireball enemy to the map for it to offically spawn in the level
+					if (hasPowerUp == true) {
+					map.addEnemy(fireball);
+					}
+					// change dinosaur back to its WALK state after shooting, reset shootTimer to
+					// wait another 2 seconds before shooting again
+					playerState = PlayerState.WALKING;
+				} 
+				previousPlayerState = playerState;
+			}
+		}
+	
+
 	protected void updateLockedKeys() {
 		if (Keyboard.isKeyUp(JUMP_KEY) || Keyboard.isKeyUp(JUMP_ALT)) {
 			keyLocker.unlockKey(JUMP_KEY);
 			keyLocker.unlockKey(JUMP_ALT);
+		} else if (Keyboard.isKeyUp(SHOOT_KEY)) {
+			keyLocker.unlockKey(SHOOT_KEY);
 		}
 	}
 
@@ -353,17 +424,31 @@ public abstract class Player extends GameObject {
 
 	// other entities can call this method to hurt the player
 	public void hurtPlayer(MapEntity mapEntity) {
-        if (!isInvincible) {
-            // if map entity is an enemy, kill player on touch
-            if (mapEntity instanceof Enemy) {
-            	levelState = LevelState.PLAYER_DEAD;
-            } else if (mapEntity instanceof MapTile) {
-            	MapTile mapTile = (MapTile) mapEntity;
-            	if (mapTile.getTileType() == TileType.KILLER){
-            		levelState = LevelState.PLAYER_DEAD;
-            }}}
-        }
+		if (!isInvincible) {
+			// if map entity is an enemy, kill player on touch
+			if (mapEntity instanceof Enemy) {
+				if (mapEntity instanceof FriendlyFire) {
+					levelState = LevelState.RUNNING;
+				} else {
+					levelState = LevelState.PLAYER_DEAD;
+				}
+			} else if (mapEntity instanceof MapTile) {
+				MapTile mapTile = (MapTile) mapEntity;
+				if (mapTile.getTileType() == TileType.KILLER) {
+					levelState = LevelState.PLAYER_DEAD;
+				}
+			}
+		}
+	}
 
+	public void powerUp(MapEntity mapEntity) {
+		if (mapEntity instanceof MapTile) {
+			MapTile mapTile = (MapTile) mapEntity;
+			if (mapTile.getTileType() == TileType.POWER_UP) {
+				hasPowerUp = true;
+			}
+		}
+	}
 
 	// other entities can call this to tell the player they beat a level
 	public void completeLevel() {
@@ -431,6 +516,10 @@ public abstract class Player extends GameObject {
 		this.playerState = playerState;
 	}
 
+	public void setFireball(FriendlyFire fire) {
+		currentFireball = fire;
+	}
+
 	public AirGroundState getAirGroundState() {
 		return airGroundState;
 	}
@@ -449,5 +538,9 @@ public abstract class Player extends GameObject {
 
 	public void addListener(PlayerListener listener) {
 		listeners.add(listener);
+	}
+
+	public IntersectableRectangle getFire() {
+		return currentFireball.getBounds();
 	}
 }

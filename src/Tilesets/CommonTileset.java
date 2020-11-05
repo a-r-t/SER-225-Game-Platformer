@@ -159,7 +159,7 @@ public class CommonTileset extends Tileset {
         };
 
         MapTileBuilder purpleFlowerTile = new MapTileBuilder(purpleFlowerFrames)
-        		.withTileType(TileType.PASSABLE);
+        		.withTileType(TileType.POWER_UP);
 
         mapTiles.add(purpleFlowerTile);
 

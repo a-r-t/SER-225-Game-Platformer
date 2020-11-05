@@ -30,8 +30,9 @@ public class InstructionsScreen extends Screen {
         background.setAdjustCamera(false);
         instructionsLabel = new SpriteFont("Instructions", 15, 35, "Times New Roman", 30, Color.white);
         beginningSentenceLabel = new SpriteFont("The instructions for this game are:", 130, 140, "Times New Roman", 20, Color.white);
-        actualInstructionsLabel = new SpriteFont("Space is for menu selection \nThe Up arrow key is for Jumping \nThe Down arrow key is for Ducking"
-        		+ "\nThe Left arrow key is for moving left \nThe right arrow key is for moving right ", 60, 220, "Times New Roman",20, Color.white);
+        actualInstructionsLabel = new SpriteFont("Enter is for menu selection \nThe Up arrow key and/or W is for Jumping \nThe Down arrow key and/or S is for Ducking"
+        		+ "\nThe Left arrow key and/or A is for moving left \nThe Right arrow key and/or D is for moving right "
+            + "\nSpace is used for attack", 60, 220, "Times New Roman",20, Color.white);
         returnInstructionsLabel = new SpriteFont("Press Space to return to the menu", 20, 560, "Times New Roman", 30, Color.white);
         keyLocker.lockKey(Key.ENTER);
     }

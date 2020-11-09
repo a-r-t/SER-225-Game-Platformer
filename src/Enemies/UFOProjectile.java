@@ -16,11 +16,11 @@ import java.util.HashMap;
 // This class is for the Flying enemies attack
 // it will travel in a straight line down for a set time before disappearing
 // it will disappear early if it collides with a solid map tile
-public class FlyingProjectile extends Enemy {
+public class UFOProjectile extends Enemy {
     private float movementSpeed;
     private Stopwatch existenceTimer = new Stopwatch();
 
-    public FlyingProjectile(Point location, float movementSpeed, int existenceTime) {
+    public UFOProjectile(Point location, float movementSpeed, int existenceTime) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("Lazer.png"), 7, 7), "DEFAULT");
         this.movementSpeed = movementSpeed;
 

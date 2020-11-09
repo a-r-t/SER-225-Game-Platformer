@@ -2,6 +2,7 @@ package Maps;
 
 import Enemies.BugEnemy;
 import Enemies.DinosaurEnemy;
+import Enemies.UFOEnemy;
 import Engine.ImageLoader;
 import EnhancedMapTiles.EndLevelBox;
 import EnhancedMapTiles.HorizontalMovingPlatform;
@@ -28,8 +29,10 @@ public class TwoMap extends Map {
     @Override
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        enemies.add(new DinosaurEnemy(getPositionByTileIndex(10, 7).addY(2), getPositionByTileIndex(15, 7).addY(2), Direction.RIGHT));
+        enemies.add(new UFOEnemy(getPositionByTileIndex(12, 2), Direction.RIGHT,200));
+        //enemies.add(new DinosaurEnemy(getPositionByTileIndex(10, 7).addY(2), getPositionByTileIndex(15, 7).addY(2), Direction.RIGHT));
         enemies.add(new DinosaurEnemy(getPositionByTileIndex(25, 8).addY(2), getPositionByTileIndex(22, 1).addY(2), Direction.LEFT));
+
         return enemies;
     }
 

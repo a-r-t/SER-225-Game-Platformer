@@ -88,7 +88,7 @@ public abstract class Player extends GameObject {
 
             updateLockedKeys();
 
-            if(this.y > 800){
+            if(this.y > 1500){
                 levelState = LevelState.PLAYER_DEAD;
             }
         }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 
 
-public class TestEnemy extends Enemy {
+public class UFOEnemy extends Enemy {
 
     private float gravity = .5f;
     private float movementSpeed = 1.5f;
@@ -31,7 +31,7 @@ public class TestEnemy extends Enemy {
     protected Stopwatch shootTimer = new Stopwatch();
 
 
-    public TestEnemy(Point location, Direction facingDirection, float travelDistance) {
+    public UFOEnemy(Point location, Direction facingDirection, float travelDistance) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("UFOEnemy.png"), 24, 15), "WALK_LEFT");
         this.startFacingDirection = facingDirection;
         this.startX = location.x;
@@ -94,7 +94,7 @@ public class TestEnemy extends Enemy {
             projectileX = Math.round(getX());
             movementSpeed = 2;
 
-            FlyingProjectile projectile = new FlyingProjectile(new Point(projectileX, projectileY), movementSpeed, 5000);
+            UFOProjectile projectile = new UFOProjectile(new Point(projectileX, projectileY), movementSpeed, 5000);
 
             map.addEnemy(projectile);
             //delay between shots

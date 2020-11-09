@@ -2,6 +2,7 @@ package Maps;
 
 import Enemies.BugEnemy;
 import Enemies.DinosaurEnemy;
+import Enemies.UFOEnemy;
 import Engine.ImageLoader;
 import EnhancedMapTiles.EndLevelBox;
 import EnhancedMapTiles.HorizontalMovingPlatform;
@@ -32,7 +33,7 @@ public class ThreeMap extends Map {
         enemies.add(new BugEnemy(getPositionByTileIndex(12, 13), Direction.LEFT));
         enemies.add(new BugEnemy(getPositionByTileIndex(28, 25), Direction.LEFT));
         enemies.add(new BugEnemy(getPositionByTileIndex(19, 25), Direction.LEFT));
-        enemies.add(new DinosaurEnemy(getPositionByTileIndex(20, 6).addY(2), getPositionByTileIndex(26, 6).addY(2), Direction.LEFT));
+        enemies.add(new UFOEnemy(getPositionByTileIndex(20, 3), Direction.RIGHT,200));
         return enemies;
     }
 

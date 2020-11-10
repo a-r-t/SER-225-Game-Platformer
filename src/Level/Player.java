@@ -11,6 +11,17 @@ import Utils.Direction;
 import java.util.ArrayList;
 
 public abstract class Player extends GameObject {
+    //Score
+    private int score = 0;
+    public void addScore(){
+        score++;
+    }
+    public int getScore(){
+        return score;
+    }
+    //END SCORE
+
+
     // values that affect player movement
     // these should be set in a subclass
     protected float walkSpeed = 0;

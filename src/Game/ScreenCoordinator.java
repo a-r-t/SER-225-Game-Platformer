@@ -2,6 +2,7 @@ package Game;
 
 import Engine.DefaultScreen;
 import Engine.GraphicsHandler;
+import Engine.ImageLoader;
 import Engine.Screen;
 import Level.Map;
 import Maps.TutorialMap;
@@ -9,6 +10,9 @@ import Screens.CreditsScreen;
 import Screens.MenuScreen;
 import Screens.PlayLevelScreen;
 import Screens.SelectScreen;
+import SpriteFont.SpriteFont;
+
+import java.awt.*;
 
 /*
  * Based on the current game state, this class determines which Screen should be shown
@@ -17,6 +21,22 @@ import Screens.SelectScreen;
 public class ScreenCoordinator extends Screen {
 	// currently shown Screen
 	protected Screen currentScreen = new DefaultScreen();
+
+	//LIVES
+	private SpriteFont lives = new SpriteFont("3", 34, 38, "Comic Sans", 30, new Color(238, 232, 170));
+	int numLives = 0;
+	public void setNumLives(int in) {
+		numLives = in;
+	}
+	public int getNumLives() {
+		return numLives;
+	}
+	public void updateLivesText() {
+		lives.setText(String.valueOf(numLives));
+	}
+
+
+	//END LIVES
 
 	// keep track of gameState so ScreenCoordinator knows which Screen to show
 	protected GameState gameState;
@@ -66,7 +86,7 @@ public class ScreenCoordinator extends Screen {
 //						break;
 					case SELECT:
 						currentScreen = new SelectScreen(this);
-            break;
+						break;
 				}
 				currentScreen.initialize();
 			}
@@ -81,5 +101,11 @@ public class ScreenCoordinator extends Screen {
 	public void draw(GraphicsHandler graphicsHandler) {
 		// call the draw method for the currentScreen
 		currentScreen.draw(graphicsHandler);
+
+
+		if(gameState == gameState.LEVEL) {
+			graphicsHandler.drawImage(ImageLoader.load("heart.png"), 20, 2, 45, 45);
+			lives.draw(graphicsHandler);
+		}
 	}
 }

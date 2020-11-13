@@ -30,6 +30,11 @@ public abstract class Player extends GameObject {
     public int getLife() {return life;}
 
     //END LIVES
+    //LIVES TIMER
+    private Stopwatch attackTimer = new Stopwatch();
+    public boolean canHurt() {
+        return(attackTimer.isTimeUp());
+    }
 
 
     // values that affect player movement
@@ -82,6 +87,9 @@ public abstract class Player extends GameObject {
         playerState = PlayerState.STANDING;
         previousPlayerState = playerState;
         levelState = LevelState.RUNNING;
+
+        //player can only be attacked every 2 seconds
+        attackTimer.setWaitTime(2000);
     }
 
     public void update() {
@@ -331,10 +339,14 @@ public abstract class Player extends GameObject {
             // if map entity is an enemy, kill player on touch
             if (mapEntity instanceof Enemy) {
 
-                setPlayerState(PlayerState.JUMPING);
-                life--;
+                if(attackTimer.isTimeUp()) {
+                    attackTimer.reset();
+                    setPlayerState(PlayerState.JUMPING);
+                    life--;
+                    System.out.println("Lives Left" + life);
+                }
 
-                System.out.println("Lives Left" + life);
+
                 //System.out.println(life);
                 if(life <= 0) {
                     levelState = LevelState.PLAYER_DEAD;

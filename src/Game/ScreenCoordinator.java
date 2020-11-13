@@ -22,21 +22,7 @@ public class ScreenCoordinator extends Screen {
 	// currently shown Screen
 	protected Screen currentScreen = new DefaultScreen();
 
-	//LIVES
-	private SpriteFont lives = new SpriteFont("3", 34, 38, "Comic Sans", 30, new Color(238, 232, 170));
-	int numLives = 0;
-	public void setNumLives(int in) {
-		numLives = in;
-	}
-	public int getNumLives() {
-		return numLives;
-	}
-	public void updateLivesText() {
-		lives.setText(String.valueOf(numLives));
-	}
 
-
-	//END LIVES
 
 	// keep track of gameState so ScreenCoordinator knows which Screen to show
 	protected GameState gameState;
@@ -103,9 +89,6 @@ public class ScreenCoordinator extends Screen {
 		currentScreen.draw(graphicsHandler);
 
 
-		if(gameState == gameState.LEVEL) {
-			graphicsHandler.drawImage(ImageLoader.load("heart.png"), 20, 2, 45, 45);
-			lives.draw(graphicsHandler);
-		}
+
 	}
 }

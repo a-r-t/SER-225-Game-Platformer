@@ -1,18 +1,22 @@
 package Level;
 
+import Game.ScreenCoordinator;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import GameObject.SpriteSheet;
+import Utils.Stopwatch;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class is a base class for all enemies in the game -- all enemies should extend from it
 public class Enemy extends MapEntity {
+    private Stopwatch attackTimer = new Stopwatch();
 
     public Enemy(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
         super(x, y, spriteSheet, startingAnimation);
+        attackTimer.setWaitTime(1000);
     }
 
     public Enemy(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
@@ -46,13 +50,22 @@ public class Enemy extends MapEntity {
 
     public void update(Player player) {
         super.update();
-        if (intersects(player)) {
-            touchedPlayer(player);
+
+        if(attackTimer.isTimeUp()){
+            if (intersects(player)) {
+                touchedPlayer(player);
+
+
+            }
         }
     }
 
     // A subclass can override this method to specify what it does when it touches the player
-    public void touchedPlayer(Player player) {
+    public void touchedPlayer(Player player){
         player.hurtPlayer(this);
+        attackTimer.reset();
+
+
     }
 }
+

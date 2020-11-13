@@ -1,6 +1,7 @@
 package Screens;
 
 import Engine.GraphicsHandler;
+import Engine.ImageLoader;
 import Engine.Screen;
 import Game.GameState;
 import Game.ScreenCoordinator;
@@ -10,10 +11,13 @@ import Level.PlayerListener;
 import Maps.TestMap;
 import Maps.TutorialMap;
 import Players.Cat;
+import SpriteFont.SpriteFont;
 import Utils.Stopwatch;
 import Maps.OneMap;
 import Maps.TwoMap;
 import Maps.ThreeMap;
+
+import java.awt.*;
 
 // This class is for when the platformer game is actually being played
 public class PlayLevelScreen extends Screen implements PlayerListener {
@@ -25,6 +29,23 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     protected LevelClearedScreen levelClearedScreen;
     protected LevelLoseScreen levelLoseScreen;
 
+    //LIVES
+    private SpriteFont lives = new SpriteFont("3", 34, 38, "Comic Sans", 30, new Color(238, 232, 170));
+    int numLives = 0;
+    public void setNumLives(int in) {
+        numLives = in;
+    }
+    public int getNumLives() {
+        return numLives;
+    }
+    public void updateLivesText() {
+        lives.setText(String.valueOf(numLives));
+    }
+
+
+    //END LIVES
+
+
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
 
@@ -34,6 +55,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     }
 
     public void initialize() {
+
         // define/setup map
 
         this.map = screenCoordinator.getMap(); //TestMap()
@@ -52,6 +74,9 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         switch (playLevelScreenState) {
             // if level is "running" update player and map to keep game logic for the platformer level going
             case RUNNING:
+                //update score
+                lives.setText(String.valueOf(player.getLife()));
+
                 player.update();
                 map.update(player);
                 break;
@@ -83,6 +108,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     }
 
     public void draw(GraphicsHandler graphicsHandler) {
+
         // based on screen state, draw appropriate graphics
         switch (playLevelScreenState) {
             case RUNNING:
@@ -98,6 +124,9 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 levelLoseScreen.draw(graphicsHandler);
                 break;
         }
+
+        graphicsHandler.drawImage(ImageLoader.load("heart.png"), 20, 2, 45, 45);
+        lives.draw(graphicsHandler);
     }
 
     public PlayLevelScreenState getPlayLevelScreenState() {

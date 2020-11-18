@@ -14,6 +14,7 @@ import Level.Map;
 import Level.Player;
 import Level.PlayerListener;
 import Maps.TestMap;
+import Maps.TestMap2;
 import Players.Cat;
 import SpriteFont.SpriteFont;
 import Utils.Stopwatch;
@@ -31,15 +32,19 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 	private SpriteFont pauseLabel;
 	private KeyLocker keyLocker = new KeyLocker();
 	private final Key pauseKey = Key.P;
+	protected String fileName;
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
+        fileName = "test_map.txt";
     }
 
     public void initialize() {
         // define/setup map
-        this.map = new TestMap();
+
+        this.map = new TestMap(fileName);
         map.reset();
+    	
 
         // setup player
         this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
@@ -74,10 +79,16 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 break;
             // if level has been completed, bring up level cleared screen
             case LEVEL_COMPLETED:
+            	if(fileName == "test_map.txt") {
+            		fileName = "test_map_2.txt";
+            		this.map = new TestMap(fileName);
+            		this.initialize();
+            	} else {
                 levelClearedScreen = new LevelClearedScreen();
                 levelClearedScreen.initialize();
                 screenTimer.setWaitTime(2500);
                 playLevelScreenState = PlayLevelScreenState.LEVEL_WIN_MESSAGE;
+            	}
                 break;
             // if level cleared screen is up and the timer is up for how long it should stay out, go back to main menu
             case LEVEL_WIN_MESSAGE:

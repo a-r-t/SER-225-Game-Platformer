@@ -15,13 +15,13 @@ import Utils.Point;
 import java.util.ArrayList;
 
 // Represents a test map to be used in a level
-public class TestMap extends Map {
+public class TestMap2 extends Map {
 
-    public TestMap(String mapFileName) {
+    public TestMap2(String mapFileName) {
         super(mapFileName, new CommonTileset(), new Point(1, 11));
     }
-    public TestMap() {
-    	super("test_map.txt", new CommonTileset(), new Point(1, 11));
+    public TestMap2() {
+    	super("test_map_2.txt", new CommonTileset(), new Point(1, 11));
     }
     @Override
     public ArrayList<Enemy> loadEnemies() {

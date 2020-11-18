@@ -10,7 +10,15 @@ import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.Point;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Enemies.Fireball;
 import Enemies.FriendlyFire;
@@ -58,6 +66,12 @@ public abstract class Player extends GameObject {
 	// if true, player cannot be hurt by enemies (good for testing)
 	protected boolean isInvincible = false;
 	protected boolean hasPowerUp = false;
+	
+	//Sound Effects
+	File bubbleSound = new File("Resources/bubbles.wav");
+	File powerUp = new File("Resources/powerUp.wav");
+	
+
 
 	public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		super(spriteSheet, x, y, startingAnimationName);
@@ -439,6 +453,18 @@ public abstract class Player extends GameObject {
 			} else if (mapEntity instanceof MapTile) {
 				MapTile mapTile = (MapTile) mapEntity;
 				if (mapTile.getTileType() == TileType.KILLER) {
+					try {
+						AudioInputStream gameSound = AudioSystem.getAudioInputStream(bubbleSound);
+						Clip music = AudioSystem.getClip();
+						music.open(gameSound);
+						music.start();
+					} catch (UnsupportedAudioFileException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						System.out.println("no sound");
+					} catch (LineUnavailableException e) {
+						System.out.println("no sound");
+					}
 					levelState = LevelState.PLAYER_DEAD;
 				}
 			}
@@ -450,6 +476,18 @@ public abstract class Player extends GameObject {
 			MapTile mapTile = (MapTile) mapEntity;
 			if (mapTile.getTileType() == TileType.POWER_UP) {
 				hasPowerUp = true;
+				try {
+					AudioInputStream gameSound = AudioSystem.getAudioInputStream(powerUp);
+					Clip music = AudioSystem.getClip();
+					music.open(gameSound);
+					music.start();
+				} catch (UnsupportedAudioFileException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					System.out.println("no sound");
+				} catch (LineUnavailableException e) {
+					System.out.println("no sound");
+				}
 			}
 		}
 	}

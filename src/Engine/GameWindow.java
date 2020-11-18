@@ -2,6 +2,11 @@ package Engine;
 
 import javax.swing.*;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.*;
+
 /*
  * The JFrame that holds the GamePanel
  * Just does some setup and exposes the gamePanel's screenManager to allow an external class to setup their own content and attach it to this engine.
@@ -22,6 +27,20 @@ public class GameWindow {
 		gameWindow.setVisible(true);
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // it'd be nice if this actually worked more than 1/3rd of the time
 		gamePanel.setupGame();
+		File soundFile = new File("Resources/backgroundMusic.wav");
+		
+		try {
+			AudioInputStream gameSound = AudioSystem.getAudioInputStream(soundFile);
+			Clip music = AudioSystem.getClip();
+			music.open(gameSound);
+			music.start();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("no sound");
+		} catch (LineUnavailableException e) {
+			System.out.println("no sound");
+		}
 	}
 
 	// triggers the game loop to start as defined in the GamePanel class

@@ -316,9 +316,9 @@ public abstract class Player extends GameObject {
 			}
 
 			// allows you to move left and right while in the air
-			if (Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19|| Keyboard.isKeyDown(LEFT_ALT) && x > -19) {
+			if (Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19 || Keyboard.isKeyDown(LEFT_ALT) && x > -19) {
 				moveAmountX -= walkSpeed;
-			} else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < map.getEndBoundX() -50|| Keyboard.isKeyDown(RIGHT_ALT) && x < map.getEndBoundX() -50) {
+			} else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < map.getEndBoundX() -50 || Keyboard.isKeyDown(RIGHT_ALT) && x < map.getEndBoundX() -50) {
 				moveAmountX += walkSpeed;
 			}
 

@@ -42,6 +42,11 @@ public class TestMap extends Map {
         	enemies.add(new BugEnemy(getPositionByTileIndex(27, 11), Direction.LEFT));
         	enemies.add(new BugEnemy(getPositionByTileIndex(29, 11), Direction.LEFT));
         	enemies.add(new BugEnemy(getPositionByTileIndex(31, 11), Direction.LEFT));
+        	enemies.add(new BugEnemy(getPositionByTileIndex(33, 11), Direction.LEFT));
+        	return enemies;
+        } else if (mapFileName == "test_map_3.txt"){
+        	enemies.add(new BugEnemy(getPositionByTileIndex(14, 11), Direction.LEFT));
+        	enemies.add(new BugEnemy(getPositionByTileIndex(20, 11), Direction.LEFT));
         	return enemies;
         } else {
         	return enemies;
@@ -51,7 +56,7 @@ public class TestMap extends Map {
     @Override
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
-        if(mapFileName == "test_map.txt") {
+        if (mapFileName == "test_map.txt") {
         enhancedMapTiles.add(new HorizontalMovingPlatform(
                 ImageLoader.load("GreenPlatform.png"),
                 getPositionByTileIndex(24, 6),
@@ -61,19 +66,94 @@ public class TestMap extends Map {
                 new Rectangle(0, 6,16,4),
                 Direction.RIGHT
         ));
-
         enhancedMapTiles.add(new EndLevelBox(
                 getPositionByTileIndex(32, 7)
         ));
-
         return enhancedMapTiles;
-        } else {
+        } else if (mapFileName == "test_map_2.txt") {
+        	enhancedMapTiles.add(new EndLevelBox(getPositionByTileIndex(36, 3)));
+        	return enhancedMapTiles;
+        } else if (mapFileName == "test_map_3.txt") {
         	enhancedMapTiles.add(new EndLevelBox(
-                    getPositionByTileIndex(36, 5)
+                    getPositionByTileIndex(48, 8)
             ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(2, 10),
+                    getPositionByTileIndex(6, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.LEFT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(8, 10),
+                    getPositionByTileIndex(13, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.RIGHT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(15, 10),
+                    getPositionByTileIndex(19, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.LEFT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(21, 10),
+                    getPositionByTileIndex(23, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.LEFT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(25, 10),
+                    getPositionByTileIndex(29, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.LEFT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(30, 10),
+                    getPositionByTileIndex(34, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.RIGHT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(35, 10),
+                    getPositionByTileIndex(40, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.LEFT
+            ));
+            enhancedMapTiles.add(new HorizontalMovingPlatform(
+                    ImageLoader.load("GreenPlatform.png"),
+                    getPositionByTileIndex(42, 10),
+                    getPositionByTileIndex(48, 10),
+                    TileType.NOT_PASSABLE,
+                    3,
+                    new Rectangle(0, 6,16,4),
+                    Direction.LEFT
+            ));
+            return enhancedMapTiles;
+        } else {
         	return enhancedMapTiles;
         }
-        }
+    }
 
     @Override
     public ArrayList<NPC> loadNPCs() {

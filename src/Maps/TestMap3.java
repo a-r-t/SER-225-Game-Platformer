@@ -27,7 +27,9 @@ public class TestMap3 extends Map {
     public TestMap3() {
     	super("test_map_3.txt", new CommonTileset(), new Point(1, 11));
     }
-    @Override
+    
+    //extraneous code
+    /*@Override
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
         if(mapFileName == "test_map.txt") {
@@ -70,5 +72,5 @@ public class TestMap3 extends Map {
         } else {
         	return npcs;
         }
-    }
+    }*/
 }

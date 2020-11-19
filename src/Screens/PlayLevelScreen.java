@@ -87,6 +87,14 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             		fileName = "test_map_3.txt";
             		this.map = new TestMap(fileName);
             		this.initialize();
+            	} else if (fileName == "test_map_3.txt") {
+            		fileName = "test_map_4.txt";
+            		this.map = new TestMap(fileName);
+            		this.initialize();
+            	} else if (fileName == "test_map_4.txt") {
+            		fileName = "test_map_5.txt";
+            		this.map = new TestMap(fileName);
+            		this.initialize();
             	} else {
                 levelClearedScreen = new LevelClearedScreen();
                 levelClearedScreen.initialize();

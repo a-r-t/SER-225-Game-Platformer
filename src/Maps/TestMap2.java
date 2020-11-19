@@ -1,23 +1,27 @@
 package Maps;
 
+import java.util.ArrayList;
+
 import Enemies.BugEnemy;
 import Enemies.DinosaurEnemy;
 import Engine.ImageLoader;
 import EnhancedMapTiles.EndLevelBox;
 import EnhancedMapTiles.HorizontalMovingPlatform;
 import GameObject.Rectangle;
-import Level.*;
+import Level.Enemy;
+import Level.EnhancedMapTile;
+import Level.Map;
+import Level.NPC;
+import Level.TileType;
 import NPCs.Walrus;
 import Tilesets.CommonTileset;
 import Utils.Direction;
 import Utils.Point;
 
-import java.util.ArrayList;
-
 // Represents a test map to be used in a level
 public class TestMap2 extends Map {
 
-    public TestMap2(String mapFileName) {
+	public TestMap2(String mapFileName) {
         super(mapFileName, new CommonTileset(), new Point(1, 11));
     }
     public TestMap2() {
@@ -31,16 +35,14 @@ public class TestMap2 extends Map {
         	enemies.add(new DinosaurEnemy(getPositionByTileIndex(19, 1).addY(2), getPositionByTileIndex(22, 1).addY(2), Direction.RIGHT));
         	return enemies;
         } else {
-        	enemies.add(new BugEnemy(getPositionByTileIndex(34, 10), Direction.LEFT));
-        	enemies.add(new DinosaurEnemy(getPositionByTileIndex(10, 6).addY(2), getPositionByTileIndex(13, 6).addY(2), Direction.RIGHT));	
-            return enemies;
+        	return enemies;
         }
     }
 
     @Override
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
-        if(mapFileName == "test_map.txt") {
+        if (mapFileName == "test_map.txt") {
         enhancedMapTiles.add(new HorizontalMovingPlatform(
                 ImageLoader.load("GreenPlatform.png"),
                 getPositionByTileIndex(24, 6),
@@ -50,29 +52,24 @@ public class TestMap2 extends Map {
                 new Rectangle(0, 6,16,4),
                 Direction.RIGHT
         ));
-
         enhancedMapTiles.add(new EndLevelBox(
                 getPositionByTileIndex(32, 7)
         ));
-
         return enhancedMapTiles;
         } else {
-        	enhancedMapTiles.add(new EndLevelBox(
-                    getPositionByTileIndex(36, 5)
-            ));
         	return enhancedMapTiles;
         }
-        }
+    }
 
     @Override
     public ArrayList<NPC> loadNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
         if(mapFileName == "test_map.txt") {
         npcs.add(new Walrus(getPositionByTileIndex(30, 10).subtract(new Point(0, 13)), this));
-
         return npcs;
         } else {
         	return npcs;
         }
     }
+    
 }

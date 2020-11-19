@@ -18,14 +18,13 @@ import Tilesets.CommonTileset;
 import Utils.Direction;
 import Utils.Point;
 
-// Represents a test map to be used in a level
-public class TestMap3 extends Map {
+public class TestMap4 extends Map{
 
-	public TestMap3(String mapFileName) {
+	public TestMap4(String mapFileName) {
         super(mapFileName, new CommonTileset(), new Point(1, 11));
     }
-    public TestMap3() {
-    	super("test_map_3.txt", new CommonTileset(), new Point(1, 11));
+    public TestMap4() {
+    	super("test_map_4.txt", new CommonTileset(), new Point(1, 11));
     }
     @Override
     public ArrayList<Enemy> loadEnemies() {

@@ -72,19 +72,7 @@ public class Enemy extends MapEntity {
 			touchedPlayer(player);
 		} else if (player.currentFireball != null) {
 			if (intersects(player.getFire())) {
-				try {
-					AudioInputStream gameSound = AudioSystem.getAudioInputStream(vaporizedSound);
-					Clip music = AudioSystem.getClip();
-					music.open(gameSound);
-					music.start();
-				} catch (UnsupportedAudioFileException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					System.out.println("no sound");
-				} catch (LineUnavailableException e) {
-					System.out.println("no sound");
-				}
-				
+				makeSound(vaporizedSound);
 				this.setMapEntityStatus(MapEntityStatus.REMOVED);
 			}
 		}

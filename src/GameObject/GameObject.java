@@ -9,7 +9,15 @@ import Utils.MathUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /*
 	The all important GameObject class is what every "entity" used in this game should be based off of
@@ -324,6 +332,21 @@ public class GameObject extends AnimatedSprite {
 			scaledCalibratedBounds.draw(graphicsHandler);
 		} else {
 			super.drawBounds(graphicsHandler, color);
+		}
+	}
+	
+	protected void makeSound(File soundFile) {
+		try {
+			AudioInputStream gameSound = AudioSystem.getAudioInputStream(soundFile);
+			Clip music = AudioSystem.getClip();
+			music.open(gameSound);
+			music.start();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("no sound");
+		} catch (LineUnavailableException e) {
+			System.out.println("no sound");
 		}
 	}
 }

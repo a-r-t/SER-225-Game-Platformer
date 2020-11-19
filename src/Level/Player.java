@@ -80,6 +80,7 @@ public abstract class Player extends GameObject {
 		previousPlayerState = playerState;
 		levelState = LevelState.RUNNING;
 		currentFireball = null;
+		
 	}
 
 	public void update() {
@@ -197,7 +198,7 @@ public abstract class Player extends GameObject {
 			facingDirection = Direction.LEFT;
 		}
 		// if walk right key is pressed, move player to the right
-		if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < 1577 || Keyboard.isKeyDown(RIGHT_ALT) && x < 1577) {
+		if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < map.getEndBoundX() -50 || Keyboard.isKeyDown(RIGHT_ALT) && x < map.getEndBoundX() -50) {
 			moveAmountX += walkSpeed;
 			facingDirection = Direction.RIGHT;
 		} else if (Keyboard.isKeyUp(MOVE_LEFT_KEY) && Keyboard.isKeyUp(MOVE_RIGHT_KEY)) {
@@ -229,8 +230,8 @@ public abstract class Player extends GameObject {
 
 			if ((Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19) || (Keyboard.isKeyDown(LEFT_ALT) && x > -19)) {
 				moveAmountX -= walkSpeed;
-			} else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < 1577)
-					|| (Keyboard.isKeyDown(RIGHT_ALT) && x < 1577)) {
+			} else if ((Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < map.getEndBoundX() -50)
+					|| (Keyboard.isKeyDown(RIGHT_ALT) && x < map.getEndBoundX() -50)) {
 				moveAmountX += walkSpeed;
 			}
 
@@ -329,7 +330,7 @@ public abstract class Player extends GameObject {
 			// allows you to move left and right while in the air
 			if (Keyboard.isKeyDown(MOVE_LEFT_KEY) && x > -19 || Keyboard.isKeyDown(LEFT_ALT) && x > -19) {
 				moveAmountX -= walkSpeed;
-			} else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < 1577 || Keyboard.isKeyDown(RIGHT_ALT) && x < 1577) {
+			} else if (Keyboard.isKeyDown(MOVE_RIGHT_KEY) && x < map.getEndBoundX() -50 || Keyboard.isKeyDown(RIGHT_ALT) && x < map.getEndBoundX() -50) {
 				moveAmountX += walkSpeed;
 			}
 

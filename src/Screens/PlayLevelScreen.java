@@ -43,6 +43,10 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     }
 
 
+    public void setLivesColor(Color c){
+        lives.setColor(c);
+    }
+
     //END LIVES
 
 
@@ -76,6 +80,13 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             case RUNNING:
                 //update score
                 lives.setText(String.valueOf(player.getLife()));
+
+                //change color if low lifes
+                if(player.getLife() == 1) {
+                    lives.setColor(Color.BLACK);
+                } else {
+                    lives.setColor(Color.YELLOW);
+                }
 
                 player.update();
                 map.update(player);

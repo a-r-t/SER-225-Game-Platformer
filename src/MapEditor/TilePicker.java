@@ -57,7 +57,7 @@ public class TilePicker extends JPanel {
         if (height == 0) {
             height = 1;
         }
-        setPreferredSize(new Dimension(Math.max(144, width * tileset.getScaledSpriteWidth()), Math.max(391, height * tileset.getScaledSpriteHeight())));
+        setPreferredSize(new Dimension(Math.max(144, width * tileset.getScaledSpriteWidth()), Math.max(391, height * tileset.getScaledSpriteHeight() + (6 * height))));
 
         Integer[] tileKeys = mapTileBuilders.keySet().toArray(new Integer[mapTileBuilders.keySet().size()]);
         Arrays.sort(tileKeys);

@@ -262,18 +262,18 @@ public class GameObject extends AnimatedSprite {
 	// gets x location taking into account map camera position
 	public float getCalibratedXLocation() {
 		if (map != null) {
-			return x - map.getCamera().getX();
+			return Math.round(x) - map.getCamera().getX();
 		} else {
-			return getX();
+			return Math.round(getX());
 		}
 	}
 
 	// gets y location taking into account map camera position
 	public float getCalibratedYLocation() {
 		if (map != null) {
-			return y - map.getCamera().getY();
+			return Math.round(y) - map.getCamera().getY();
 		} else {
-			return getY();
+			return Math.round(getY());
 		}
 	}
 
@@ -282,10 +282,10 @@ public class GameObject extends AnimatedSprite {
 		if (map != null) {
 			Rectangle scaledBounds = getScaledBounds();
 			return new Rectangle(
-					scaledBounds.getX1() - map.getCamera().getX(),
-					scaledBounds.getY1() - map.getCamera().getY(),
-					scaledBounds.getScaledWidth(),
-					scaledBounds.getScaledHeight()
+					Math.round(scaledBounds.getX1()) - Math.round(map.getCamera().getX()),
+					Math.round(scaledBounds.getY1()) - Math.round(map.getCamera().getY()),
+					Math.round(scaledBounds.getScaledWidth()),
+					Math.round(scaledBounds.getScaledHeight())
 			);
 		} else {
 			return getScaledBounds();

@@ -1,8 +1,7 @@
 package MapEditor;
 
 import Engine.GraphicsHandler;
-import Level.Map;
-import Level.MapTile;
+import Level.*;
 import Utils.Colors;
 
 import javax.swing.*;
@@ -17,6 +16,9 @@ public class TileBuilder extends JPanel {
     private SelectedTileIndexHolder controlPanelHolder;
     private GraphicsHandler graphicsHandler = new GraphicsHandler();
     private JLabel hoveredTileIndexLabel;
+    private boolean showNPCs;
+    private boolean showEnhancedMapTiles;
+    private boolean showEnemies;
 
     public TileBuilder(SelectedTileIndexHolder controlPanelHolder, JLabel hoveredTileIndexLabel) {
         setBackground(Colors.MAGENTA);
@@ -70,6 +72,24 @@ public class TileBuilder extends JPanel {
     public void draw() {
         for (MapTile tile : map.getMapTiles()) {
             tile.draw(graphicsHandler);
+        }
+
+        if (showEnhancedMapTiles) {
+            for (EnhancedMapTile enhancedMapTile : map.getEnhancedMapTiles()) {
+                enhancedMapTile.draw(graphicsHandler);
+            }
+        }
+
+        if (showNPCs) {
+            for (NPC npc : map.getNPCs()) {
+                npc.draw(graphicsHandler);
+            }
+        }
+
+        if (showEnemies) {
+            for (Enemy enemy : map.getEnemies()) {
+                enemy.draw(graphicsHandler);
+            }
         }
 
         if (hoveredMapTile != null) {
@@ -135,5 +155,32 @@ public class TileBuilder extends JPanel {
     protected boolean isPointInTile(Point point, MapTile tile) {
         return (point.x >= tile.getX() && point.x <= tile.getX() + tile.getScaledWidth() &&
                 point.y >= tile.getY() && point.y <= tile.getY() + tile.getScaledHeight());
+    }
+
+    public boolean getShowNPCs() {
+        return showNPCs;
+    }
+
+    public void setShowNPCs(boolean showNPCs) {
+        this.showNPCs = showNPCs;
+        repaint();
+    }
+
+    public boolean getShowEnhancedMapTiles() {
+        return showEnhancedMapTiles;
+    }
+
+    public void setShowEnhancedMapTiles(boolean showEnhancedMapTiles) {
+        this.showEnhancedMapTiles = showEnhancedMapTiles;
+        repaint();
+    }
+
+    public boolean getShowEnemies() {
+        return showEnemies;
+    }
+
+    public void setShowEnemies(boolean showEnemies) {
+        this.showEnemies = showEnemies;
+        repaint();
     }
 }

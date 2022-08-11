@@ -55,4 +55,10 @@ public class ImageUtils {
 		g.dispose();
 		return resized;
 	}
+
+	public static BufferedImage getEmptyImage() {
+		BufferedImage nothing = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+		nothing = ImageUtils.transformColorToTransparency(nothing, new Color(255, 0, 255));
+		return nothing;
+	}
 }

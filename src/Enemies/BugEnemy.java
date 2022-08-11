@@ -6,6 +6,7 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Enemy;
+import Level.MapEntity;
 import Level.MapTile;
 import Level.Player;
 import Utils.AirGroundState;
@@ -68,7 +69,7 @@ public class BugEnemy extends Enemy {
     }
 
     @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapTile tileCollidedWith) {
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction,  MapEntity entityCollidedWith) {
         // if bug has collided into something while walking forward,
         // it turns around (changes facing direction)
         if (hasCollided) {
@@ -83,7 +84,7 @@ public class BugEnemy extends Enemy {
     }
 
     @Override
-    public void onEndCollisionCheckY(boolean hasCollided, Direction direction, MapTile tileCollidedWith) {
+    public void onEndCollisionCheckY(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) {
         // if bug is colliding with the ground, change its air ground state to GROUND
         // if it is not colliding with the ground, it means that it's currently in the air, so its air ground state is changed to AIR
         if (direction == Direction.DOWN) {

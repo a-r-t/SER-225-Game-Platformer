@@ -258,4 +258,19 @@ public class Camera extends Rectangle {
     public float getEndBoundY() {
         return y + (height * tileHeight) + leftoverSpaceY;
     }
+
+    public boolean isAtTopOfMap() {
+        return this.getY() <= 0;
+    }
+
+    public boolean isAtBottomOfMap() {
+        return this.getEndBoundY() >= map.getEndBoundY();
+    }
+
+    public boolean isAtRightOfMap() { return this.getEndBoundX() >= map.getEndBoundX(); }
+
+    public boolean isAtLeftOfMap() {
+        return this.getX() <= 0;
+    }
+
 }

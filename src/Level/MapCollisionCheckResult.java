@@ -2,13 +2,13 @@ package Level;
 
 // Return type from MapTileCollisionHandler collision checks
 // Contains adjusted location (where player should be moved to if a collision occurred) and the tile the player collided with (if any)
-public class MapTileCollisionCheckResult {
+public class MapCollisionCheckResult {
     private Float adjustedLocation; // intentionally using the wrapper type due to it being nullable -- somewhat slimy but it gets the job done
-    private MapTile tileCollidedWith;
+    private MapEntity entityCollidedWith;
 
-    public MapTileCollisionCheckResult(Float adjustedLocationAfterCollisionCheck, MapTile tileCollidedWith) {
+    public MapCollisionCheckResult(Float adjustedLocationAfterCollisionCheck, MapEntity entityCollidedWith) {
         this.adjustedLocation = adjustedLocationAfterCollisionCheck;
-        this.tileCollidedWith = tileCollidedWith;
+        this.entityCollidedWith = entityCollidedWith;
     }
 
     public Float getAdjustedLocation() {
@@ -19,11 +19,11 @@ public class MapTileCollisionCheckResult {
         this.adjustedLocation = adjustedLocation;
     }
 
-    public MapTile getTileCollidedWith() {
-        return tileCollidedWith;
+    public MapEntity getEntityCollidedWith() {
+        return entityCollidedWith;
     }
 
-    public void setTileCollidedWith(MapTile tileCollidedWith) {
-        this.tileCollidedWith = tileCollidedWith;
+    public void setEntityCollidedWith(MapTile entityCollidedWith) {
+        this.entityCollidedWith = entityCollidedWith;
     }
 }

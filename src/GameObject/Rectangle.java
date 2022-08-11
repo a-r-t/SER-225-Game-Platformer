@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
+import Utils.Point;
 
 import java.awt.*;
 
@@ -102,7 +103,9 @@ public class Rectangle implements IntersectableRectangle {
 	public void moveUp(float dy) {
 		this.y -= dy;
 	}
-	
+
+	public Point getLocation() { return new Point(x, y); }
+
 	public void setLocation(float x, float y) {
         this.x = x;
         this.y = y;

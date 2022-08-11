@@ -6,6 +6,7 @@ import Level.MapTile;
 import Utils.Colors;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
@@ -22,21 +23,26 @@ public class EditorControlPanel extends JPanel {
     private Map selectedMap;
 
     public EditorControlPanel(SelectedTileIndexHolder selectedTileIndexHolder, MapBuilder mapBuilder, JFrame parent) {
-        setLayout(null);
+        setLayout(new BorderLayout());
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(0, 0);
-        setSize(200, 600);
+        setPreferredSize(new Dimension(200, 600));
 
         mapNames = EditorMaps.getMapNames();
 
         this.selectedTileIndexHolder = selectedTileIndexHolder;
         this.mapBuilder = mapBuilder;
 
+        JPanel mapChoosePanel = new JPanel();
+        mapChoosePanel.setLayout(null);
+        mapChoosePanel.setPreferredSize(new Dimension(200, 80));
+        mapChoosePanel.setBackground(Colors.CORNFLOWER_BLUE);
+
         JLabel mapLabel = new JLabel();
         mapLabel.setLocation(5, 0);
         mapLabel.setText("Choose a Map:");
         mapLabel.setSize(100, 40);
-        add(mapLabel);
+        mapChoosePanel.add(mapLabel);
 
         mapNamesComboBox = new JComboBox();
         mapNamesComboBox.setSize(190, 40);
@@ -51,20 +57,28 @@ public class EditorControlPanel extends JPanel {
                 setMap();
             }
         });
-        add(mapNamesComboBox);
+        mapChoosePanel.add(mapNamesComboBox);
         selectedMap = EditorMaps.getMapByName(mapNamesComboBox.getSelectedItem().toString());
+
+        add(mapChoosePanel, BorderLayout.NORTH);
 
         tilePicker = new TilePicker(selectedTileIndexHolder);
         JScrollPane tilePickerScroll = new JScrollPane();
         tilePickerScroll.setViewportView(tilePicker);
         tilePickerScroll.setLocation(5, 78);
         tilePickerScroll.setSize(190, 394);
-        add(tilePickerScroll);
+        add(tilePickerScroll, BorderLayout.CENTER);
         tilePicker.setTileset(getSelectedMap(), getSelectedMap().getTileset());
+
+
+        JPanel mapButtonsPanel = new JPanel();
+        mapButtonsPanel.setLayout(null);
+        mapButtonsPanel.setPreferredSize(new Dimension(200, 95));
+        mapButtonsPanel.setBackground(Colors.CORNFLOWER_BLUE);
 
         JButton setMapDimensionsButton = new JButton();
         setMapDimensionsButton.setSize(190, 40);
-        setMapDimensionsButton.setLocation(5, 480);
+        setMapDimensionsButton.setLocation(5, 5);
         setMapDimensionsButton.setText("Set Map Dimensions");
         setMapDimensionsButton.addActionListener(new ActionListener() {
             @Override
@@ -73,11 +87,11 @@ public class EditorControlPanel extends JPanel {
                 mapBuilder.refreshTileBuilder();
             }
         });
-        add(setMapDimensionsButton);
+        mapButtonsPanel.add(setMapDimensionsButton);
 
         JButton saveMapButton = new JButton();
         saveMapButton.setSize(190, 40);
-        saveMapButton.setLocation(5, 525);
+        saveMapButton.setLocation(5, 50);
         saveMapButton.setText("Save Map");
         saveMapButton.addActionListener(new ActionListener() {
             @Override
@@ -85,7 +99,9 @@ public class EditorControlPanel extends JPanel {
                 writeSelectedMapToFile();
             }
         });
-        add(saveMapButton);
+        mapButtonsPanel.add(saveMapButton);
+
+        add(mapButtonsPanel, BorderLayout.SOUTH);
     }
 
     public Map getSelectedMap() {

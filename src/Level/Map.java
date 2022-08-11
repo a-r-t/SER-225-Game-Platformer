@@ -377,4 +377,7 @@ public abstract class Map {
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);
     }
+
+    public int getEndBoundX() { return endBoundX; }
+    public int getEndBoundY() { return endBoundY; }
 }

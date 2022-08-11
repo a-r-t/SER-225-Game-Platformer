@@ -6,6 +6,7 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Enemy;
+import Level.MapEntity;
 import Level.MapTile;
 import Level.Player;
 import Utils.AirGroundState;
@@ -135,7 +136,7 @@ public class DinosaurEnemy extends Enemy {
     }
 
     @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapTile tileCollidedWith) {
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) {
         // if dinosaur enemy collides with something on the x axis, it turns around and walks the other way
         if (hasCollided) {
             if (direction == Direction.RIGHT) {

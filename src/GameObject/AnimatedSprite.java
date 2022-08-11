@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
+import Utils.Point;
 import Utils.Stopwatch;
 
 import java.awt.*;
@@ -120,6 +121,17 @@ public class AnimatedSprite implements IntersectableRectangle {
 	// gets the animation that the animated sprite class is currently using
 	protected Frame[] getCurrentAnimation() { return animations.get(currentAnimationName); }
 
+	public String getCurrentAnimationName() { return this.currentAnimationName; }
+	public int getCurrentFrameIndex() { return this.currentFrameIndex; }
+
+	public void setCurrentAnimation(String animationName) {
+		this.currentAnimationName = animationName;
+	}
+
+	public void setCurrentAnimationFrameIndex(int frameIndex) {
+		this.currentFrameIndex = frameIndex;
+	}
+
 	public void draw(GraphicsHandler graphicsHandler) {
 		currentFrame.draw(graphicsHandler);
 	}
@@ -136,6 +148,7 @@ public class AnimatedSprite implements IntersectableRectangle {
 	public float getScaledX2() { return currentFrame.getScaledX2(); }
 	public float getY2() { return currentFrame.getY2(); }
 	public float getScaledY2() { return currentFrame.getScaledY2(); }
+	public Point getLocation() { return currentFrame.getLocation(); }
 
 	public void setX(float x) {
 		this.x = x;

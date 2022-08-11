@@ -9,6 +9,7 @@ import Level.Player;
 import Level.PlayerListener;
 import Maps.TestMap;
 import Players.Cat;
+import Utils.Point;
 import Utils.Stopwatch;
 
 // This class is for when the platformer game is actually being played
@@ -34,7 +35,8 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
         this.player.setMap(map);
         this.player.addListener(this);
-        this.player.setLocation(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+        Point playerStartPosition = map.getPlayerStartPosition();
+        this.player.setLocation(playerStartPosition.x, playerStartPosition.y);
         this.playLevelScreenState = PlayLevelScreenState.RUNNING;
     }
 

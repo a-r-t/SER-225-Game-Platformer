@@ -36,8 +36,8 @@ public abstract class Map {
     // camera class that handles the viewable part of the map that is seen by the player of a game during a level
     protected Camera camera;
 
-    // tile player should start on when this map is first loaded
-    protected Point playerStartTile;
+    // location player should start on when this map is first loaded
+    protected Point playerStartPosition;
 
     // the location of the "mid point" of the screen
     // this is what tells the game that the player has reached the center of the screen, therefore the camera should move instead of the player
@@ -59,7 +59,7 @@ public abstract class Map {
     // if set to false, camera will not move as player moves
     protected boolean adjustCamera = true;
 
-    public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
+    public Map(String mapFileName, Tileset tileset) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
         setupMap();
@@ -69,7 +69,7 @@ public abstract class Map {
         this.endBoundY = height * tileset.getScaledSpriteHeight();
         this.xMidPoint = ScreenManager.getScreenWidth() / 2;
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
-        this.playerStartTile = playerStartTile;
+        this.playerStartPosition = new Point(0, 0);
     }
 
     // sets up map by reading in the map file to create the tile map
@@ -150,8 +150,7 @@ public abstract class Map {
 
     // gets player start position based on player start tile (basically the start tile's position on the map)
     public Point getPlayerStartPosition() {
-        MapTile tile = getMapTile(Math.round(playerStartTile.x), Math.round(playerStartTile.y));
-        return new Point(tile.getX(), tile.getY());
+        return playerStartPosition;
     }
 
     // get position on the map based on a specfic tile index

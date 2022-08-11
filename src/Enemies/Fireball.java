@@ -6,6 +6,7 @@ import GameObject.Frame;
 import GameObject.SpriteSheet;
 import Level.Enemy;
 import Level.MapEntityStatus;
+import Level.MapTile;
 import Level.Player;
 import Utils.Direction;
 import Utils.Point;
@@ -47,7 +48,7 @@ public class Fireball extends Enemy {
     }
 
     @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapTile tileCollidedWith) {
         // if fireball collides with anything solid on the x axis, it is removed
         if (hasCollided) {
             this.mapEntityStatus = MapEntityStatus.REMOVED;

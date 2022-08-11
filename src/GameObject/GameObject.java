@@ -3,6 +3,8 @@ package GameObject;
 import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import Level.Map;
+import Level.MapTile;
+import Level.MapTileCollisionCheckResult;
 import Level.MapTileCollisionHandler;
 import Utils.Direction;
 import Utils.MathUtils;
@@ -175,12 +177,14 @@ public class GameObject extends AnimatedSprite {
 		// move player back to right in front of the "solid" map tile's position, and stop attempting to move further
 		float amountMoved = 0;
 		boolean hasCollided = false;
+		MapTile tileCollidedWith = null;
 		for (int i = 0; i < amountToMove; i++) {
 			moveX(direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
-			if (newLocation != 0) {
+			MapTileCollisionCheckResult collisionCheckResult = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
+			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
-				setX(newLocation);
+				tileCollidedWith = collisionCheckResult.getTileCollidedWith();
+				setX(collisionCheckResult.getAdjustedLocation());
 				break;
 			}
 			amountMoved = (i + 1) * direction.getVelocity();
@@ -192,15 +196,16 @@ public class GameObject extends AnimatedSprite {
 		// if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
 		if (!hasCollided) {
 			moveX(moveAmountXRemainder * direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
-			if (newLocation != 0) {
+			MapTileCollisionCheckResult collisionCheckResult = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
+			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
-				setX(newLocation);
+				tileCollidedWith = collisionCheckResult.getTileCollidedWith();
+				setX(collisionCheckResult.getAdjustedLocation());
 			}
 		}
 
 		// call this method which a game object subclass can override to listen for collision events and react accordingly
-		onEndCollisionCheckX(hasCollided, direction);
+		onEndCollisionCheckX(hasCollided, direction, tileCollidedWith);
 
 		// returns the amount actually moved -- this isn't really used by the game, but I have it here for debug purposes
 		return amountMoved + (moveAmountXRemainder * direction.getVelocity());
@@ -222,12 +227,14 @@ public class GameObject extends AnimatedSprite {
 		// move player back to right in front of the "solid" map tile's position, and stop attempting to move further
 		float amountMoved = 0;
 		boolean hasCollided = false;
+		MapTile tileCollidedWith = null;
 		for (int i = 0; i < amountToMove; i++) {
 			moveY(direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
-			if (newLocation != 0) {
+			MapTileCollisionCheckResult collisionCheckResult = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
+			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
-				setY(newLocation);
+				tileCollidedWith = collisionCheckResult.getTileCollidedWith();
+				setY(collisionCheckResult.getAdjustedLocation());
 				break;
 			}
 			amountMoved = (i + 1) * direction.getVelocity();
@@ -239,25 +246,26 @@ public class GameObject extends AnimatedSprite {
 		// if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
 		if (!hasCollided) {
 			moveY(moveAmountYRemainder * direction.getVelocity());
-			float newLocation = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
-			if (newLocation != 0) {
+			MapTileCollisionCheckResult collisionCheckResult = MapTileCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
+			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
-				setY(newLocation);
+				tileCollidedWith = collisionCheckResult.getTileCollidedWith();
+				setY(collisionCheckResult.getAdjustedLocation());
 			}
 		}
 
 		// call this method which a game object subclass can override to listen for collision events and react accordingly
-		onEndCollisionCheckY(hasCollided, direction);
+		onEndCollisionCheckY(hasCollided, direction, tileCollidedWith);
 
 		// returns the amount actually moved -- this isn't really used by the game, but I have it here for debug purposes
 		return amountMoved + (moveAmountYRemainder * direction.getVelocity());
 	}
 
 	// game object subclass can override this method to listen for x axis collision events and react accordingly after calling "moveXHandleCollision"
-	public void onEndCollisionCheckX(boolean hasCollided, Direction direction) { }
+	public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapTile tileCollidedWith) { }
 
 	// game object subclass can override this method to listen for y axis collision events and react accordingly after calling "moveYHandleCollision"
-	public void onEndCollisionCheckY(boolean hasCollided, Direction direction) { }
+	public void onEndCollisionCheckY(boolean hasCollided, Direction direction, MapTile tileCollidedWith) { }
 
 	// gets x location taking into account map camera position
 	public float getCalibratedXLocation() {

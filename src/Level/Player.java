@@ -1,5 +1,6 @@
 package Level;
 
+import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
@@ -8,6 +9,7 @@ import GameObject.SpriteSheet;
 import Utils.AirGroundState;
 import Utils.Direction;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Player extends GameObject {
@@ -43,8 +45,9 @@ public abstract class Player extends GameObject {
     protected Key MOVE_RIGHT_KEY = Key.RIGHT;
     protected Key CROUCH_KEY = Key.DOWN;
 
-    // if true, player cannot be hurt by enemies (good for testing)
-    protected boolean isInvincible = false;
+    // flags
+    protected boolean isSwimming = false;
+    protected boolean isInvincible = false; // if true, player cannot be hurt by enemies (good for testing)
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -78,7 +81,7 @@ public abstract class Player extends GameObject {
             // move player with respect to map collisions based on how much player needs to move this frame
             super.moveYHandleCollision(moveAmountY);
             super.moveXHandleCollision(moveAmountX);
-
+            applySpecialEffects();
             updateLockedKeys();
         }
 
@@ -120,6 +123,9 @@ public abstract class Player extends GameObject {
     protected void playerStanding() {
         // sets animation to a STAND animation based on which way player is facing
         currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+        if (isSwimming) {
+            currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";
+        }
 
         // if walk left or walk right key is pressed, player enters WALKING state
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
@@ -256,13 +262,28 @@ public abstract class Player extends GameObject {
         }
     }
 
+    // anything extra the player should do based on interactions can be handled here
+    protected void applySpecialEffects() {
+        // handles swimming flag
+        // checks if the center of the player is currently touching a water tile
+        this.isSwimming = false;
+        int centerX = Math.round((getBounds().getX1() + getBounds().getX2()) / 2);
+        int centerY = Math.round((getBounds().getY1() + getBounds().getY2()) / 2);
+        MapTile currentMapTile = map.getTileByPosition(centerX, centerY);
+        if (currentMapTile != null) {
+            if (currentMapTile.getTileType() == TileType.WATER) {
+                this.isSwimming = true;
+            }
+        }
+    }
+
     @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapTile tileCollidedWith) {
 
     }
 
     @Override
-    public void onEndCollisionCheckY(boolean hasCollided, Direction direction) {
+    public void onEndCollisionCheckY(boolean hasCollided, Direction direction, MapTile tileCollidedWith) {
         // if player collides with a map tile below it, it is now on the ground
         // if player does not collide with a map tile below, it is in air
         if (direction == Direction.DOWN) {

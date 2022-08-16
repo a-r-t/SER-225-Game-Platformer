@@ -249,41 +249,37 @@ public abstract class Player extends GameObject {
     protected void handlePlayerAnimation() {
         if (playerState == PlayerState.STANDING) {
             // sets animation to a STAND animation based on which way player is facing
-            currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
 
             // handles putting goggles on when standing in water
             // checks if the center of the player is currently touching a water tile
             int centerX = Math.round((getBounds().getX1() + getBounds().getX2()) / 2);
             int centerY = Math.round((getBounds().getY1() + getBounds().getY2()) / 2);
             MapTile currentMapTile = map.getTileByPosition(centerX, centerY);
-            if (currentMapTile != null) {
-                if (currentMapTile.getTileType() == TileType.WATER && playerState == PlayerState.STANDING) {
-                    this.currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";
-                }
+            if (currentMapTile != null && currentMapTile.getTileType() == TileType.WATER) {
+                this.currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";
             }
         }
         else if (playerState == PlayerState.WALKING) {
             // sets animation to a WALK animation based on which way player is facing
-            currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
         }
         else if (playerState == PlayerState.CROUCHING) {
             // sets animation to a CROUCH animation based on which way player is facing
-            currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
         }
         else if (playerState == PlayerState.JUMPING) {
             // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
-            if (lastAmountMovedY < 0) {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            if (lastAmountMovedY <= 0) {
+                this.currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
             } else {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+                this.currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
             }
         }
     }
 
     @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) {
-
-    }
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) { }
 
     @Override
     public void onEndCollisionCheckY(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) {

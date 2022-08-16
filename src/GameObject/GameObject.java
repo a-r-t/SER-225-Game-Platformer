@@ -148,31 +148,33 @@ public class GameObject extends AnimatedSprite {
 
 	@Override
 	public void update() {
-		// call to animation logic
-		super.update();
-
 		// update previous position to be the current position
 		previousX = x;
 		previousY = y;
+
+		// call to animation logic
+		super.update();
 	}
 
 	// move game object along the x axis
 	// will stop object from moving based on map collision logic (such as if it hits a solid tile)
-	public void moveXHandleCollision(float dx) {
+	public float moveXHandleCollision(float dx) {
 		if (map != null) {
-			handleCollisionX(dx);
+			return handleCollisionX(dx);
 		} else {
 			super.moveX(dx);
+			return dx;
 		}
 	}
 
 	// move game object along the y axis
 	// will stop object from moving based on map collision logic (such as if it hits a solid tile)
-	public void moveYHandleCollision(float dy) {
+	public float moveYHandleCollision(float dy) {
 		if (map != null) {
-			handleCollisionY(dy);
+			return handleCollisionY(dy);
 		} else {
 			super.moveY(dy);
+			return dy;
 		}
 	}
 

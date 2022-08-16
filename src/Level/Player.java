@@ -26,6 +26,7 @@ public abstract class Player extends GameObject {
     protected float jumpForce = 0;
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
+    protected float lastAmountMovedX, lastAmountMovedY;
 
     // values used to keep track of player's current state
     protected PlayerState playerState;
@@ -74,15 +75,16 @@ public abstract class Player extends GameObject {
 
             previousAirGroundState = airGroundState;
 
-            applySpecialEffects();
+            // move player with respect to map collisions based on how much player needs to move this frame
+            lastAmountMovedY = super.moveYHandleCollision(moveAmountY);
+            lastAmountMovedX = super.moveXHandleCollision(moveAmountX);
+
+            handlePlayerAnimation();
+
+            updateLockedKeys();
 
             // update player's animation
             super.update();
-
-            // move player with respect to map collisions based on how much player needs to move this frame
-            super.moveYHandleCollision(moveAmountY);
-            super.moveXHandleCollision(moveAmountX);
-            updateLockedKeys();
         }
 
         // if player has beaten level
@@ -121,9 +123,6 @@ public abstract class Player extends GameObject {
 
     // player STANDING state logic
     protected void playerStanding() {
-        // sets animation to a STAND animation based on which way player is facing
-        currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-
         // if walk left or walk right key is pressed, player enters WALKING state
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
@@ -143,9 +142,6 @@ public abstract class Player extends GameObject {
 
     // player WALKING state logic
     protected void playerWalking() {
-        // sets animation to a WALK animation based on which way player is facing
-        currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-
         // if walk left key is pressed, move player to the left
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
             moveAmountX -= walkSpeed;
@@ -174,9 +170,6 @@ public abstract class Player extends GameObject {
 
     // player CROUCHING state logic
     protected void playerCrouching() {
-        // sets animation to a CROUCH animation based on which way player is facing
-        currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
-
         // if crouch key is released, player enters STANDING state
         if (Keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
@@ -219,13 +212,6 @@ public abstract class Player extends GameObject {
                 }
             }
 
-            // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
-            if (previousY > Math.round(y)) {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
-            } else {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
-            }
-
             // allows you to move left and right while in the air
             if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
                 moveAmountX -= walkSpeed;
@@ -260,15 +246,36 @@ public abstract class Player extends GameObject {
     }
 
     // anything extra the player should do based on interactions can be handled here
-    protected void applySpecialEffects() {
-        // handles putting goggles on when standing in water
-        // checks if the center of the player is currently touching a water tile
-        int centerX = Math.round((getBounds().getX1() + getBounds().getX2()) / 2);
-        int centerY = Math.round((getBounds().getY1() + getBounds().getY2()) / 2);
-        MapTile currentMapTile = map.getTileByPosition(centerX, centerY);
-        if (currentMapTile != null) {
-            if (currentMapTile.getTileType() == TileType.WATER && playerState == PlayerState.STANDING) {
-                this.currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";
+    protected void handlePlayerAnimation() {
+        if (playerState == PlayerState.STANDING) {
+            // sets animation to a STAND animation based on which way player is facing
+            currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
+
+            // handles putting goggles on when standing in water
+            // checks if the center of the player is currently touching a water tile
+            int centerX = Math.round((getBounds().getX1() + getBounds().getX2()) / 2);
+            int centerY = Math.round((getBounds().getY1() + getBounds().getY2()) / 2);
+            MapTile currentMapTile = map.getTileByPosition(centerX, centerY);
+            if (currentMapTile != null) {
+                if (currentMapTile.getTileType() == TileType.WATER && playerState == PlayerState.STANDING) {
+                    this.currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";
+                }
+            }
+        }
+        else if (playerState == PlayerState.WALKING) {
+            // sets animation to a WALK animation based on which way player is facing
+            currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+        }
+        else if (playerState == PlayerState.CROUCHING) {
+            // sets animation to a CROUCH animation based on which way player is facing
+            currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+        }
+        else if (playerState == PlayerState.JUMPING) {
+            // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
+            if (lastAmountMovedY < 0) {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            } else {
+                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
             }
         }
     }

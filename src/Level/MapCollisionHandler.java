@@ -32,7 +32,7 @@ public class MapCollisionHandler {
             }
         }
         for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
-            if (hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
+            if (!gameObject.equals(enhancedMapTile) && hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
                 entityCollidedWith = enhancedMapTile;
                 if (direction == Direction.RIGHT) {
                     float boundsDifference = gameObject.getScaledX2() - gameObject.getScaledBoundsX2();
@@ -74,7 +74,7 @@ public class MapCollisionHandler {
             }
         }
         for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
-            if (hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
+            if (!gameObject.equals(enhancedMapTile) && hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
                 entityCollidedWith = enhancedMapTile;
                 if (direction == Direction.DOWN) {
                     float boundsDifference = gameObject.getScaledY2() - gameObject.getScaledBoundsY2();

@@ -253,8 +253,8 @@ public abstract class Player extends GameObject {
 
             // handles putting goggles on when standing in water
             // checks if the center of the player is currently touching a water tile
-            int centerX = Math.round((getBounds().getX1() + getBounds().getX2()) / 2);
-            int centerY = Math.round((getBounds().getY1() + getBounds().getY2()) / 2);
+            int centerX = Math.round(getBounds().getX1()) + Math.round(getBounds().getWidth() / 2f);
+            int centerY = Math.round(getBounds().getY1()) + Math.round(getBounds().getHeight() / 2f);
             MapTile currentMapTile = map.getTileByPosition(centerX, centerY);
             if (currentMapTile != null && currentMapTile.getTileType() == TileType.WATER) {
                 this.currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";

@@ -9,24 +9,21 @@ import Utils.Point;
 public class MapCollisionHandler {
 
     public static MapCollisionCheckResult getAdjustedPositionAfterCollisionCheckX(GameObject gameObject, Map map, Direction direction) {
-        int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
-        float edgeBoundX = direction == Direction.LEFT ? gameObject.getScaledBounds().getX1() : gameObject.getScaledBounds().getX2();
-        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, gameObject.getScaledBounds().getY1());
-        if (direction == Direction.LEFT) {
-            tileIndex = tileIndex.subtractX(1);
-        }
+        int numberOfTilesToCheck = Math.max(gameObject.getBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
+        float edgeBoundX = direction == Direction.LEFT ? gameObject.getBounds().getX1() : gameObject.getBounds().getX2();
+        Point tileIndex = map.getTileIndexByPosition(edgeBoundX, gameObject.getBounds().getY1());
         MapTile entityCollidedWith = null;
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
             MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + j));
             if (mapTile != null && hasCollidedWithMapEntity(gameObject, mapTile, direction)) {
                 entityCollidedWith = mapTile;
                 if (direction == Direction.RIGHT) {
-                    float boundsDifference = gameObject.getScaledX2() - gameObject.getScaledBoundsX2();
-                    float adjustedPosition = mapTile.getScaledBoundsX1() - gameObject.getScaledWidth() + boundsDifference;
+                    float boundsDifference = gameObject.getX2() - gameObject.getBoundsX2();
+                    float adjustedPosition = mapTile.getBoundsX1() - gameObject.getWidth() + boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 } else if (direction == Direction.LEFT) {
-                    float boundsDifference = gameObject.getScaledBoundsX1() - gameObject.getX();
-                    float adjustedPosition = mapTile.getScaledBoundsX2() - boundsDifference;
+                    float boundsDifference = gameObject.getBoundsX1() - gameObject.getX();
+                    float adjustedPosition = mapTile.getBoundsX2() - boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 }
             }
@@ -35,12 +32,12 @@ public class MapCollisionHandler {
             if (!gameObject.equals(enhancedMapTile) && hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
                 entityCollidedWith = enhancedMapTile;
                 if (direction == Direction.RIGHT) {
-                    float boundsDifference = gameObject.getScaledX2() - gameObject.getScaledBoundsX2();
-                    float adjustedPosition = enhancedMapTile.getScaledBoundsX1() - gameObject.getScaledWidth() + boundsDifference;
+                    float boundsDifference = gameObject.getX2() - gameObject.getBoundsX2();
+                    float adjustedPosition = enhancedMapTile.getBoundsX1() - gameObject.getWidth() + boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 } else if (direction == Direction.LEFT) {
-                    float boundsDifference = gameObject.getScaledBoundsX1() - gameObject.getX();
-                    float adjustedPosition = enhancedMapTile.getScaledBoundsX2() - boundsDifference;
+                    float boundsDifference = gameObject.getBoundsX1() - gameObject.getX();
+                    float adjustedPosition = enhancedMapTile.getBoundsX2() - boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 }
             }
@@ -51,24 +48,21 @@ public class MapCollisionHandler {
     }
 
     public static MapCollisionCheckResult getAdjustedPositionAfterCollisionCheckY(GameObject gameObject, Map map, Direction direction) {
-        int numberOfTilesToCheck = Math.max(gameObject.getScaledBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
-        float edgeBoundY = direction == Direction.UP ? gameObject.getScaledBounds().getY() : gameObject.getScaledBounds().getY2();
-        Point tileIndex = map.getTileIndexByPosition(gameObject.getScaledBounds().getX1(), edgeBoundY);
-        if (direction == Direction.UP) {
-            tileIndex = tileIndex.subtractY(1);
-        }
+        int numberOfTilesToCheck = Math.max(gameObject.getBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
+        float edgeBoundY = direction == Direction.UP ? gameObject.getBounds().getY() : gameObject.getBounds().getY2();
+        Point tileIndex = map.getTileIndexByPosition(gameObject.getBounds().getX1(), edgeBoundY);
         MapTile entityCollidedWith = null;
         for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
             MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y));
             if (mapTile != null && hasCollidedWithMapEntity(gameObject, mapTile, direction)) {
                 entityCollidedWith = mapTile;
                 if (direction == Direction.DOWN) {
-                    float boundsDifference = gameObject.getScaledY2() - gameObject.getScaledBoundsY2();
-                    float adjustedPosition = mapTile.getScaledBoundsY1() - gameObject.getScaledHeight() + boundsDifference;
+                    float boundsDifference = gameObject.getY2() - gameObject.getBoundsY2();
+                    float adjustedPosition = mapTile.getBoundsY1() - gameObject.getHeight() + boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 } else if (direction == Direction.UP) {
-                    float boundsDifference = gameObject.getScaledBoundsY1() - gameObject.getY();
-                    float adjustedPosition = mapTile.getScaledBoundsY2() - boundsDifference;
+                    float boundsDifference = gameObject.getBoundsY1() - gameObject.getY();
+                    float adjustedPosition = mapTile.getBoundsY2() - boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 }
             }
@@ -77,12 +71,12 @@ public class MapCollisionHandler {
             if (!gameObject.equals(enhancedMapTile) && hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
                 entityCollidedWith = enhancedMapTile;
                 if (direction == Direction.DOWN) {
-                    float boundsDifference = gameObject.getScaledY2() - gameObject.getScaledBoundsY2();
-                    float adjustedPosition = enhancedMapTile.getScaledBoundsY1() - gameObject.getScaledHeight() + boundsDifference;
+                    float boundsDifference = gameObject.getY2() - gameObject.getBoundsY2();
+                    float adjustedPosition = enhancedMapTile.getBoundsY1() - gameObject.getHeight() + boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 } else if (direction == Direction.UP) {
-                    float boundsDifference = gameObject.getScaledBoundsY1() - gameObject.getY();
-                    float adjustedPosition = enhancedMapTile.getScaledBoundsY2() - boundsDifference;
+                    float boundsDifference = gameObject.getBoundsY1() - gameObject.getY();
+                    float adjustedPosition = enhancedMapTile.getBoundsY2() - boundsDifference;
                     return new MapCollisionCheckResult(adjustedPosition, entityCollidedWith);
                 }
             }
@@ -103,7 +97,7 @@ public class MapCollisionHandler {
                     return gameObject.intersects(mapTile);
                 case JUMP_THROUGH_PLATFORM:
                     return direction == Direction.DOWN && gameObject.intersects(mapTile) &&
-                            Math.round(gameObject.getScaledBoundsY2() - 1) == Math.round(mapTile.getScaledBoundsY1());
+                            Math.round(gameObject.getBoundsY2() - 1) == Math.round(mapTile.getBoundsY1());
                 default:
                     return false;
             }

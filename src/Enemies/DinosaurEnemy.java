@@ -88,8 +88,8 @@ public class DinosaurEnemy extends Enemy {
             // if dinosaur reaches the start or end location, it turns around
             // dinosaur may end up going a bit past the start or end location depending on movement speed
             // this calculates the difference and pushes the enemy back a bit so it ends up right on the start or end location
-            if (getX1() + getScaledWidth() >= endBound) {
-                float difference = endBound - (getScaledX2());
+            if (getX1() + getWidth() >= endBound) {
+                float difference = endBound - (getX2());
                 moveXHandleCollision(-difference);
                 facingDirection = Direction.LEFT;
             } else if (getX1() <= startBound) {
@@ -111,7 +111,7 @@ public class DinosaurEnemy extends Enemy {
                 int fireballX;
                 float movementSpeed;
                 if (facingDirection == Direction.RIGHT) {
-                    fireballX = Math.round(getX()) + getScaledWidth();
+                    fireballX = Math.round(getX()) + getWidth();
                     movementSpeed = 1.5f;
                 } else {
                     fireballX = Math.round(getX());

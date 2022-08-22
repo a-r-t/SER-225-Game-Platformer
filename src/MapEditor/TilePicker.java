@@ -89,8 +89,8 @@ public class TilePicker extends JPanel {
         graphicsHandler.drawRectangle(
                 Math.round(selectedTile.getX()) - 2,
                 Math.round(selectedTile.getY()) - 2,
-                selectedTile.getScaledWidth() + 4,
-                selectedTile.getScaledHeight() + 4,
+                selectedTile.getWidth() + 4,
+                selectedTile.getHeight() + 4,
                 Color.YELLOW,
                 4
         );
@@ -139,7 +139,7 @@ public class TilePicker extends JPanel {
     }
 
     protected boolean isPointInTile(Point point, MapTile tile) {
-        return (point.x >= tile.getX() && point.x <= tile.getX() + tile.getScaledWidth() &&
-                point.y >= tile.getY() && point.y <= tile.getY() + tile.getScaledHeight());
+        return (point.x >= tile.getX() && point.x <= tile.getX() + tile.getWidth() &&
+                point.y >= tile.getY() && point.y <= tile.getY() + tile.getHeight());
     }
 }

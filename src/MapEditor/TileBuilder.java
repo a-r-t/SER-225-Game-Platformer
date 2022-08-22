@@ -96,8 +96,8 @@ public class TileBuilder extends JPanel {
             graphicsHandler.drawRectangle(
                     Math.round(hoveredMapTile.getX()) + 2,
                     Math.round(hoveredMapTile.getY()) + 2,
-                    hoveredMapTile.getScaledWidth() - 5,
-                    hoveredMapTile.getScaledHeight() - 5,
+                    hoveredMapTile.getWidth() - 5,
+                    hoveredMapTile.getHeight() - 5,
                     Color.YELLOW,
                     5
             );
@@ -153,8 +153,8 @@ public class TileBuilder extends JPanel {
     }
 
     protected boolean isPointInTile(Point point, MapTile tile) {
-        return (point.x >= tile.getX() && point.x <= tile.getX() + tile.getScaledWidth() &&
-                point.y >= tile.getY() && point.y <= tile.getY() + tile.getScaledHeight());
+        return (point.x >= tile.getX() && point.x <= tile.getX() + tile.getWidth() &&
+                point.y >= tile.getY() && point.y <= tile.getY() + tile.getHeight());
     }
 
     public boolean getShowNPCs() {

@@ -303,17 +303,17 @@ public class GameObject extends AnimatedSprite {
 	}
 
 	// gets scaled bounds taking into account map camera position
-	public Rectangle getCalibratedScaledBounds() {
+	public Rectangle getCalibratedBounds() {
 		if (map != null) {
-			Rectangle scaledBounds = getScaledBounds();
+			Rectangle bounds = getBounds();
 			return new Rectangle(
-					Math.round(scaledBounds.getX1()) - Math.round(map.getCamera().getX()),
-					Math.round(scaledBounds.getY1()) - Math.round(map.getCamera().getY()),
-					Math.round(scaledBounds.getScaledWidth()),
-					Math.round(scaledBounds.getScaledHeight())
+					Math.round(bounds.getX1()) - Math.round(map.getCamera().getX()),
+					Math.round(bounds.getY1()) - Math.round(map.getCamera().getY()),
+					Math.round(bounds.getWidth()),
+					Math.round(bounds.getHeight())
 			);
 		} else {
-			return getScaledBounds();
+			return getBounds();
 		}
 	}
 
@@ -329,9 +329,12 @@ public class GameObject extends AnimatedSprite {
 					currentFrame.getImage(),
 					Math.round(getCalibratedXLocation()),
 					Math.round(getCalibratedYLocation()),
-					currentFrame.getScaledWidth(),
-					currentFrame.getScaledHeight(),
+					currentFrame.getWidth(),
+					currentFrame.getHeight(),
 					currentFrame.getImageEffect());
+//			if (this instanceof Player) {
+//				drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
+//			}
 		} else {
 			super.draw(graphicsHandler);
 		}
@@ -340,9 +343,9 @@ public class GameObject extends AnimatedSprite {
 	@Override
 	public void drawBounds(GraphicsHandler graphicsHandler, Color color) {
 		if (map != null) {
-			Rectangle scaledCalibratedBounds = getCalibratedScaledBounds();
-			scaledCalibratedBounds.setColor(color);
-			scaledCalibratedBounds.draw(graphicsHandler);
+			Rectangle calibratedBounds = getCalibratedBounds();
+			calibratedBounds.setColor(color);
+			calibratedBounds.draw(graphicsHandler);
 		} else {
 			super.drawBounds(graphicsHandler, color);
 		}

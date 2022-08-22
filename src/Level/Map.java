@@ -225,8 +225,8 @@ public abstract class Map {
 
     // returns the index of a tile (x index and y index) based on a position in the map
     public Point getTileIndexByPosition(float xPosition, float yPosition) {
-        int xIndex = Math.round(xPosition / tileset.getScaledSpriteWidth());
-        int yIndex = Math.round(yPosition / tileset.getScaledSpriteHeight());
+        int xIndex = Math.round(xPosition) / tileset.getScaledSpriteWidth();
+        int yIndex = Math.round(yPosition) / tileset.getScaledSpriteHeight();
         return new Point(xIndex, yIndex);
     }
 

@@ -16,44 +16,29 @@ public class MapTile extends MapEntity {
 
     private int tileIndex;
 
-    public MapTile(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, int tileIndex, TileType tileType) {
-        super(x, y, animations, startingAnimation);
+    public MapTile(float x, float y, HashMap<String, Frame[]> animations, TileType tileType, int tileIndex) {
+        super(x, y, animations, "DEFAULT");
         this.tileType = tileType;
         this.tileIndex = tileIndex;
     }
 
-    public MapTile(float x, float y, SpriteSheet spriteSheet, String startingAnimation, TileType tileType) {
-        super(x, y, spriteSheet, startingAnimation);
+    public MapTile(float x, float y, HashMap<String, Frame[]> animations, TileType tileType) {
+        super(x, y, animations, "DEFAULT");
         this.tileType = tileType;
     }
 
-    public MapTile(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, TileType tileType) {
-        super(x, y, animations, startingAnimation);
+    public MapTile(float x, float y, SpriteSheet spriteSheet, TileType tileType) {
+        super(x, y, spriteSheet, "DEFAULT");
         this.tileType = tileType;
     }
 
-    public MapTile(BufferedImage image, float x, float y, String startingAnimation, TileType tileType) {
-        super(image, x, y, startingAnimation);
+    public MapTile(float x, float y, Frame[] frames, TileType tileType) {
+        super(x, y, frames);
         this.tileType = tileType;
     }
 
-    public MapTile(BufferedImage image, float x, float y, TileType tileType) {
-        super(image, x, y);
-        this.tileType = tileType;
-    }
-
-    public MapTile(BufferedImage image, float x, float y, float scale, TileType tileType) {
-        super(image, x, y, scale);
-        this.tileType = tileType;
-    }
-
-    public MapTile(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, TileType tileType) {
-        super(image, x, y, scale, imageEffect);
-        this.tileType = tileType;
-    }
-
-    public MapTile(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds, TileType tileType) {
-        super(image, x, y, scale, imageEffect, bounds);
+    public MapTile(float x, float y, Frame frame, TileType tileType) {
+        super(x, y, frame);
         this.tileType = tileType;
     }
 
@@ -65,6 +50,7 @@ public class MapTile extends MapEntity {
         return tileIndex;
     }
 
+    // determines if tile is animated or not
     public boolean isAnimated() {
         return getCurrentAnimation().length > 1;
     }

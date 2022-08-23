@@ -49,6 +49,6 @@ public class FrameBuilder {
     }
 
     public Frame build() {
-        return new Frame(image, scale, imageEffect, bounds, delay);
+        return new Frame(image, imageEffect, scale, bounds, delay);
     }
 }

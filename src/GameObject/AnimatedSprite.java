@@ -42,34 +42,38 @@ public class AnimatedSprite implements IntersectableRectangle {
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		this.x = x;
 		this.y = y;
-		this.animations = getAnimations(spriteSheet);
+		this.animations = loadAnimations(spriteSheet);
 		this.currentAnimationName = startingAnimationName;
 		updateCurrentFrame();
 	}
 
-    public AnimatedSprite(float x, float y, HashMap<String, Frame[]> animations, String startingAnimationName) {
-        this.x = x;
-        this.y = y;
-        this.animations = animations;
-        this.currentAnimationName = startingAnimationName;
-        updateCurrentFrame();
-    }
-
-	public AnimatedSprite(BufferedImage image, float x, float y, String startingAnimationName) {
+	public AnimatedSprite(float x, float y, HashMap<String, Frame[]> animations, String startingAnimationName) {
 		this.x = x;
 		this.y = y;
-		SpriteSheet spriteSheet = new SpriteSheet(image, image.getWidth(), image.getHeight());
-        this.animations = getAnimations(spriteSheet);
-        this.currentAnimationName = startingAnimationName;
+		this.animations = animations;
+		this.currentAnimationName = startingAnimationName;
 		updateCurrentFrame();
 	}
 
-    public AnimatedSprite(float x, float y) {
-        this.x = x;
-        this.y = y;
-        this.animations = new HashMap<>();
-        this.currentAnimationName = "";
-    }
+	public AnimatedSprite(float x, float y, Frame[] frames) {
+		this.x = x;
+		this.y = y;
+		this.animations = new HashMap<String, Frame[]>() {{
+			put("DEFAULT", frames);
+		}};
+		this.currentAnimationName = "DEFAULT";
+		updateCurrentFrame();
+	}
+
+	public AnimatedSprite(float x, float y, Frame frame) {
+		this.x = x;
+		this.y = y;
+		this.animations = new HashMap<String, Frame[]>() {{
+			put("DEFAULT", new Frame[] { frame });
+		}};
+		this.currentAnimationName = "DEFAULT";
+		updateCurrentFrame();
+	}
 
 	public void update() {
 		// if animation name has been changed (previous no longer equals current), setup for the new animation and start using it
@@ -100,7 +104,7 @@ public class AnimatedSprite implements IntersectableRectangle {
 	}
 
 	// Subclasses can override this method in order to add their own animations, which will be loaded in at initialization time
-	public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
+	public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
 	    return null;
     }
 

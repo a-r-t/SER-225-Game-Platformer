@@ -19,7 +19,8 @@ import java.util.HashMap;
 public class Walrus extends NPC {
 
     public Walrus(Point location) {
-        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "TAIL_DOWN", 5000);
+        super(location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "TAIL_DOWN");
+        this.talkedToTime = 5000;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class Walrus extends NPC {
     }
 
     @Override
-    public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
+    public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
            put("TAIL_DOWN", new Frame[] {
                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)

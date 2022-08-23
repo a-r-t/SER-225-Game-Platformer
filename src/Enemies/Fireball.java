@@ -60,7 +60,7 @@ public class Fireball extends Enemy {
     }
 
     @Override
-    public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
+    public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("DEFAULT", new Frame[]{
                     new FrameBuilder(spriteSheet.getSprite(0, 0), 0)

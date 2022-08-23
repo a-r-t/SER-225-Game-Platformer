@@ -24,24 +24,16 @@ public class MapEntity extends GameObject {
         super(x, y, animations, startingAnimation);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, String startingAnimation) {
-        super(image, x, y, startingAnimation);
+    public MapEntity(float x, float y, Frame[] frames) {
+        super(x, y, frames);
     }
 
-    public MapEntity(BufferedImage image, float x, float y) {
-        super(image, x, y);
+    public MapEntity(float x, float y, Frame frame) {
+        super(x, y, frame);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale);
-    }
-
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
-    }
-
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
+    public MapEntity(float x, float y) {
+        super(x, y);
     }
 
     public void initialize() {

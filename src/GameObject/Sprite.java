@@ -20,21 +20,21 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
         this.imageEffect = ImageEffect.NONE;
     }
 
-    public Sprite (BufferedImage image, float scale, ImageEffect imageEffect) {
-        super(0, 0, image.getWidth(), image.getHeight(), scale);
+    public Sprite (BufferedImage image, float x, float y) {
+        super(x, y, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
+        this.imageEffect = ImageEffect.NONE;;
+    }
+
+    public Sprite(BufferedImage image, float x, float y, ImageEffect imageEffect) {
+        super(x, y, image.getWidth(), image.getHeight());
         this.image = image;
         this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
         this.imageEffect = imageEffect;
     }
 
-    public Sprite(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(x, y, image.getWidth(), image.getHeight(), scale);
-        this.image = image;
-        this.bounds = new Rectangle(0, 0, image.getWidth(), image.getHeight(), scale);
-        this.imageEffect = imageEffect;
-    }
-	
-	public BufferedImage getImage() {
+    public BufferedImage getImage() {
 		return image;
 	}
 	

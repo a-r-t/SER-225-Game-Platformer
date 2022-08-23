@@ -37,6 +37,7 @@ public class GameObject extends AnimatedSprite {
 	// the map instance this game object "belongs" to.
 	protected Map map;
 
+
 	public GameObject(SpriteSheet spriteSheet, float x, float y, String startingAnimation) {
 		super(spriteSheet, x, y, startingAnimation);
 		this.startPositionX = x;
@@ -53,77 +54,16 @@ public class GameObject extends AnimatedSprite {
 		this.previousY = y;
 	}
 
-	public GameObject(BufferedImage image, float x, float y, String startingAnimation) {
-		super(image, x, y, startingAnimation);
+	public GameObject(float x, float y, Frame[] frames) {
+		super(x, y, frames);
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;
 		this.previousY = y;
 	}
 
-	public GameObject(BufferedImage image, float x, float y) {
-		super(x, y);
-		this.animations = new HashMap<String, Frame[]>() {{
-			put("DEFAULT", new Frame[] {
-					new FrameBuilder(image, 0).build()
-			});
-		}};
-		this.currentAnimationName = "DEFAULT";
-		updateCurrentFrame();
-		this.startPositionX = x;
-		this.startPositionY = y;
-		this.previousX = x;
-		this.previousY = y;
-	}
-
-	public GameObject(BufferedImage image, float x, float y, float scale) {
-		super(x, y);
-		this.animations = new HashMap<String, Frame[]>() {{
-			put("DEFAULT", new Frame[] {
-					new FrameBuilder(image, 0)
-							.withScale(scale)
-							.build()
-			});
-		}};
-		this.currentAnimationName = "DEFAULT";
-		updateCurrentFrame();
-		this.startPositionX = x;
-		this.startPositionY = y;
-		this.previousX = x;
-		this.previousY = y;
-	}
-
-	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-		super(x, y);
-		this.animations = new HashMap<String, Frame[]>() {{
-			put("DEFAULT", new Frame[] {
-					new FrameBuilder(image, 0)
-							.withScale(scale)
-							.withImageEffect(imageEffect)
-							.build()
-			});
-		}};
-		this.currentAnimationName = "DEFAULT";
-		updateCurrentFrame();
-		this.startPositionX = x;
-		this.startPositionY = y;
-		this.previousX = x;
-		this.previousY = y;
-	}
-
-	public GameObject(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-		super(x, y);
-		this.animations = new HashMap<String, Frame[]>() {{
-			put("DEFAULT", new Frame[]{
-					new FrameBuilder(image, 0)
-							.withScale(scale)
-							.withImageEffect(imageEffect)
-							.withBounds(bounds)
-							.build()
-			});
-		}};
-		this.currentAnimationName = "DEFAULT";
-		updateCurrentFrame();
+	public GameObject(float x, float y, Frame frame) {
+		super(x, y, frame);
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;
@@ -131,15 +71,7 @@ public class GameObject extends AnimatedSprite {
 	}
 
 	public GameObject(float x, float y) {
-		super(x, y);
-		this.animations = new HashMap<String, Frame[]>() {{
-			put("DEFAULT", new Frame[]{
-					new FrameBuilder(ImageUtils.getEmptyImage(), 0)
-							.build()
-			});
-		}};
-		this.currentAnimationName = "DEFAULT";
-		updateCurrentFrame();
+		super(x, y, new Frame(ImageUtils.createSolidImage(new Color(255, 0, 255)), ImageEffect.NONE, 1, null, 0));
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;

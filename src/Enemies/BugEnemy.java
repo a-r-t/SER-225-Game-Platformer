@@ -97,7 +97,7 @@ public class BugEnemy extends Enemy {
     }
 
     @Override
-    public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
+    public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("WALK_LEFT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0), 100)

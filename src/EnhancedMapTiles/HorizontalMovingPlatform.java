@@ -1,5 +1,6 @@
 package EnhancedMapTiles;
 
+import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
 import GameObject.ImageEffect;
 import GameObject.Rectangle;
@@ -23,7 +24,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
     private Direction direction;
 
     public HorizontalMovingPlatform(BufferedImage image, Point startLocation, Point endLocation, TileType tileType, float scale, Rectangle bounds, Direction startDirection) {
-        super(image, startLocation.x, startLocation.y, tileType, scale, ImageEffect.NONE, bounds);
+        super(startLocation.x, startLocation.y, new FrameBuilder(image, 0).withBounds(bounds).withScale(scale).build(), tileType);
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.startDirection = startDirection;

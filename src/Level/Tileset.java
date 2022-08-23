@@ -2,7 +2,6 @@ package Level;
 
 import Builders.FrameBuilder;
 import Builders.MapTileBuilder;
-import Engine.ImageLoader;
 import GameObject.SpriteSheet;
 import Utils.ImageUtils;
 

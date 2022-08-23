@@ -1,11 +1,8 @@
 package Level;
 
 import GameObject.Frame;
-import GameObject.ImageEffect;
-import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class is a base class for all enemies in the game -- all enemies should extend from it

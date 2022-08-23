@@ -1,15 +1,15 @@
 package GameObject;
 
-import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
-import Level.*;
+import Level.Map;
 import Level.MapCollisionCheckResult;
+import Level.MapCollisionHandler;
+import Level.MapEntity;
 import Utils.Direction;
 import Utils.ImageUtils;
 import Utils.MathUtils;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /*

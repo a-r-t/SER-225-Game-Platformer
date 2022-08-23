@@ -1,8 +1,9 @@
 package Level;
 
-import GameObject.*;
+import GameObject.Frame;
+import GameObject.GameObject;
+import GameObject.SpriteSheet;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class represents a map entity, which is any "entity" on a map besides the player

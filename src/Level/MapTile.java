@@ -2,11 +2,8 @@ package Level;
 
 import Engine.GraphicsHandler;
 import GameObject.Frame;
-import GameObject.ImageEffect;
-import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // Represents a map tile in a Map's tile map

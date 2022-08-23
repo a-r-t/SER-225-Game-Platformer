@@ -5,7 +5,6 @@ import Utils.Point;
 import Utils.Stopwatch;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /*

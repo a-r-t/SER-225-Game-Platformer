@@ -2,7 +2,6 @@ package EnhancedMapTiles;
 
 import Builders.FrameBuilder;
 import Engine.GraphicsHandler;
-import GameObject.ImageEffect;
 import GameObject.Rectangle;
 import Level.EnhancedMapTile;
 import Level.Player;

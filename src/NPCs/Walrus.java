@@ -6,7 +6,6 @@ import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
-import Level.Map;
 import Level.NPC;
 import Level.Player;
 import SpriteFont.SpriteFont;

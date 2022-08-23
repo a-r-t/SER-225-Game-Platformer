@@ -4,13 +4,10 @@ import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.Keyboard;
 import GameObject.Frame;
-import GameObject.ImageEffect;
-import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 import SpriteFont.SpriteFont;
 import Utils.Stopwatch;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class is a base class for all npcs in the game -- all npcs should extend from it

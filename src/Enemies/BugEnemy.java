@@ -7,7 +7,6 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Enemy;
 import Level.MapEntity;
-import Level.MapTile;
 import Level.Player;
 import Utils.AirGroundState;
 import Utils.Direction;

@@ -2,17 +2,11 @@ package Maps;
 
 import Engine.GraphicsHandler;
 import Engine.ImageLoader;
-import GameObject.ImageEffect;
 import GameObject.Sprite;
 import Level.Map;
-import Level.NPC;
-import NPCs.Walrus;
-import Players.Cat;
 import Tilesets.CommonTileset;
 import Utils.Colors;
 import Utils.Point;
-
-import java.util.ArrayList;
 
 // Represents the map that is used as a background for the main menu and credits menu screen
 public class TitleScreenMap extends Map {

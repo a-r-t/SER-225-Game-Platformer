@@ -52,13 +52,11 @@ public class Camera extends Rectangle {
         updateMapEntities(player);
     }
 
-    // for each map tile that is determined to be "active" (within camera's current range)
     private void updateMapTiles() {
-        Point tileIndex = getTileIndexByCameraPosition();
-        for (int i = tileIndex.y - UPDATE_OFF_SCREEN_RANGE; i <= tileIndex.y + height + UPDATE_OFF_SCREEN_RANGE; i++) {
-            for (int j = tileIndex.x - UPDATE_OFF_SCREEN_RANGE; j <= tileIndex.x + width + UPDATE_OFF_SCREEN_RANGE; j++) {
-                MapTile tile = map.getMapTile(j, i);
-                if (tile != null) {
+        for (MapTile tile : map.getMapTiles()) {
+            if (tile != null) {
+                // update each map tile if it is animated in order to keep animations consistent
+                if (tile.isAnimated()) {
                     tile.update();
                 }
             }
@@ -175,7 +173,8 @@ public class Camera extends Rectangle {
     /*
         determines if map entity (enemy, enhanced map tile, or npc) is active by the camera's standards
         1. if entity's status is REMOVED, it is not active, no questions asked
-        2. if entity's status is not REMOVED, then there's additional checks that take place:
+        2. if an entity is hidden, it is not active
+        3. if entity's status is not REMOVED and the entity is not hidden, then there's additional checks that take place:
             1. if entity's isUpdateOffScreen attribute is true, it is active
             2. OR if the camera determines that it is in its boundary range, it is active
      */

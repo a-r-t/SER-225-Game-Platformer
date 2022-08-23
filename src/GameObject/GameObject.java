@@ -302,7 +302,7 @@ public class GameObject extends AnimatedSprite {
 		}
 	}
 
-	// gets scaled bounds taking into account map camera position
+	// gets bounds taking into account map camera position
 	public Rectangle getCalibratedBounds() {
 		if (map != null) {
 			Rectangle bounds = getBounds();
@@ -332,9 +332,13 @@ public class GameObject extends AnimatedSprite {
 					currentFrame.getWidth(),
 					currentFrame.getHeight(),
 					currentFrame.getImageEffect());
-//			if (this instanceof Player) {
-//				drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
-//			}
+
+			// Uncomment this to draw player's bounds to screen -- useful for debugging
+			/*
+			if (this instanceof Player) {
+				drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
+			}
+			*/
 		} else {
 			super.draw(graphicsHandler);
 		}

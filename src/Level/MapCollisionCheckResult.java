@@ -1,7 +1,7 @@
 package Level;
 
 // Return type from MapTileCollisionHandler collision checks
-// Contains adjusted location (where player should be moved to if a collision occurred) and the tile the player collided with (if any)
+// Contains adjusted location (where player should be moved to if a collision occurred) and the entity the player collided with (if any)
 public class MapCollisionCheckResult {
     private Float adjustedLocation; // intentionally using the wrapper type due to it being nullable -- somewhat slimy but it gets the job done
     private MapEntity entityCollidedWith;

@@ -4,8 +4,8 @@ import GameObject.GameObject;
 import Utils.Direction;
 import Utils.Point;
 
-// This class has methods to check if a game object has collided with a map tile
-// it is used by the game object class to determine if a collision occurred
+// This class has methods to check if a game object has collided with a map tile or an enhanced map tile
+// it is used by the game object class to determine if and where a collision occurred
 public class MapCollisionHandler {
 
     public static MapCollisionCheckResult getAdjustedPositionAfterCollisionCheckX(GameObject gameObject, Map map, Direction direction) {

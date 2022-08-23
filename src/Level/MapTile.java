@@ -65,6 +65,10 @@ public class MapTile extends MapEntity {
         return tileIndex;
     }
 
+    public boolean isAnimated() {
+        return getCurrentAnimation().length > 1;
+    }
+
     public void update() {
         super.update();
     }

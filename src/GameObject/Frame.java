@@ -17,6 +17,15 @@ public class Frame extends Sprite {
 		this.delay = delay;
 	}
 
+	public Frame(BufferedImage image, ImageEffect imageEffect, float scale, Rectangle bounds) {
+		super(image, 0, 0, imageEffect);
+		this.scale = scale;
+		if (bounds != null) {
+			this.bounds = bounds;
+		}
+		this.bounds.setScale(scale);
+	}
+
 	public int getDelay() {
 		return delay;
 	}

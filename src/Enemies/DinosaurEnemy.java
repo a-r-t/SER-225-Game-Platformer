@@ -176,14 +176,14 @@ public class DinosaurEnemy extends Enemy {
             });
 
             put("SHOOT_LEFT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(1, 0), 0)
+                    new FrameBuilder(spriteSheet.getSprite(1, 0))
                             .withScale(3)
                             .withBounds(4, 2, 5, 13)
                             .build(),
             });
 
             put("SHOOT_RIGHT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(1, 0), 0)
+                    new FrameBuilder(spriteSheet.getSprite(1, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(4, 2, 5, 13)

@@ -71,7 +71,7 @@ public class GameObject extends AnimatedSprite {
 	}
 
 	public GameObject(float x, float y) {
-		super(x, y, new Frame(ImageUtils.createSolidImage(new Color(255, 0, 255)), ImageEffect.NONE, 1, null, 0));
+		super(x, y, new Frame(ImageUtils.createSolidImage(new Color(255, 0, 255)), ImageEffect.NONE, 1, null));
 		this.startPositionX = x;
 		this.startPositionY = y;
 		this.previousX = x;

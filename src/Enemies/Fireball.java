@@ -66,7 +66,7 @@ public class Fireball extends Enemy {
     public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("DEFAULT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 0)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0))
                             .withScale(3)
                             .withBounds(1, 1, 5, 5)
                             .build()

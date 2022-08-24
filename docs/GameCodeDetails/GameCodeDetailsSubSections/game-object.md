@@ -28,9 +28,8 @@ together which ultimately build up to the `GameObject` class containing all nece
 which makes it quick and easy to use without requiring the code logic used to be rewritten again and again.
 
 In this game, the `GameObject` class is subclassed by every map entity, which includes the [player](./player.md), 
-and any subclasses of `MapEntity` which include [enemies](./MapSubSections/enemies.md), [npcs](./MapSubSections/npcs.md), and [map tiles](/GameDetails/Map/MapTilesAndTilesets) (as well as
-[enhanced map tiles](./MapSubSections/enhanced-map-tiles.md)). That means that all of these subclasses (and their subclasses) include
-all functionality of the `GameObject` class under the hood.
+and any subclasses of `MapEntity` which include [enemies](./MapSubSections/enemies.md), [npcs](./MapSubSections/npcs.md), and [map tiles](/GameDetails/Map/MapTilesAndTilesets) (as well as [enhanced map tiles](./MapSubSections/enhanced-map-tiles.md), which derive from the `MapTile` class).
+That means that all of these subclasses (and their subclasses) include all functionality of the `GameObject` class under the hood.
 
 ## Features of the GameObject class
 
@@ -38,7 +37,7 @@ The `GameObject` class provides the following features for every subclass:
 
 1. Sprite logic (loading in images, scaling images, flipping images, defining a bounding box which can be thought of as a "hurtbox")
 2. Animation support and logic (and the ability to switch between different animations)
-3. Graphical support -- will automatically handle drawing graphics in correct location based on map/camera position
+3. Graphical support -- will automatically handle drawing graphics at the correct screen location based on map/camera position
 4. Collision detection with other GameObjects, including collision detection with map set pieces (like map tiles)
 
 ## Subclassing GameObject

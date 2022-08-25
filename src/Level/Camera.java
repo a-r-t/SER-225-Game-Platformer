@@ -53,11 +53,9 @@ public class Camera extends Rectangle {
     }
 
     private void updateMapTiles() {
-        for (MapTile tile : map.getMapTiles()) {
-            if (tile != null && tile.isAnimated()) {
-                // update each map tile if it is animated in order to keep animations consistent
-                tile.update();
-            }
+        for (MapTile tile : map.getAnimatedMapTiles()) {
+            // update each animated map tile in order to keep animations consistent
+            tile.update();
         }
     }
 

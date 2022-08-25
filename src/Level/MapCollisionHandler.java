@@ -105,6 +105,5 @@ public class MapCollisionHandler {
         else {
             return mapEntity.intersects(gameObject);
         }
-
     }
 }

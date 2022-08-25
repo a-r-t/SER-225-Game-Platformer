@@ -81,13 +81,7 @@ public class Camera extends Rectangle {
         }
     }
 
-    // determine which enemies are active (within range of the camera)
-    // if enemy is currently active and was also active last frame, nothing special happens and enemy is included in active list
-    // if enemy is currently active but last frame was inactive, it will have its status set to active and enemy is included in active list
-    // if enemy is currently inactive but last frame was active, it will have its status set to inactive, have its initialize method called if its respawnable
-    //      (which will set it back up to its default state), and not include it in the active list
-    //      next time a respawnable enemy is determined active, since it was reset back to default state upon going inactive, it will essentially be "respawned" in its starting state
-    // if enemy is currently set to REMOVED, it is permanently removed from the map's list of enemies and will never be able to be active again
+    // determine which enemies are active (exist and are within range of the camera)
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (int i = map.getEnemies().size() - 1; i >= 0; i--) {
@@ -110,13 +104,7 @@ public class Camera extends Rectangle {
         return activeEnemies;
     }
 
-    // determine which enhanced map tiles are active (within range of the camera)
-    // if enhanced map tile is currently active and was also active last frame, nothing special happens and enhanced map tile is included in active list
-    // if enhanced map tile is currently active but last frame was inactive, it will have its status set to active and enhanced map tile is included in active list
-    // if enhanced map tile is currently inactive but last frame was active, it will have its status set to inactive, have its initialize method called if its respawnable
-    //      (which will set it back up to its default state), and not include it in the active list
-    //      next time a respawnable enemy is determined active, since it was reset back to default state upon going inactive, it will essentially be "respawned" in its starting state
-    // if enhanced map tile is currently set to REMOVED, it is permanently removed from the map's list of enemies and will never be able to be active again
+    // determine which enhanced map tiles are active (exist and are within range of the camera)
     private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
         for (int i = map.getEnhancedMapTiles().size() - 1; i >= 0; i--) {
@@ -139,13 +127,7 @@ public class Camera extends Rectangle {
         return activeEnhancedMapTiles;
     }
 
-    // determine which npcs are active (within range of the camera)
-    // if npc is currently active and was also active last frame, nothing special happens and npc is included in active list
-    // if npc is currently active but last frame was inactive, it will have its status set to active and npc is included in active list
-    // if npc is currently inactive but last frame was active, it will have its status set to inactive, have its initialize method called if its respawnable
-    //      (which will set it back up to its default state), and not include it in the active list
-    //      next time a respawnable enemy is determined active, since it was reset back to default state upon going inactive, it will essentially be "respawned" in its starting state
-    // if npc is currently set to REMOVED, it is permanently removed from the map's list of enemies and will never be able to be active again
+    // determine which npcs are active (exist and are within range of the camera)
     private ArrayList<NPC> loadActiveNPCs() {
         ArrayList<NPC> activeNPCs = new ArrayList<>();
         for (int i = map.getNPCs().size() - 1; i >= 0; i--) {

@@ -7,9 +7,6 @@ has_children: true
 permalink: /GameCodeDetails/Screens
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

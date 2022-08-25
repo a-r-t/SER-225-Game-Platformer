@@ -6,9 +6,6 @@ permalink: /EnhancementIdeas
 search_exclude: true
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

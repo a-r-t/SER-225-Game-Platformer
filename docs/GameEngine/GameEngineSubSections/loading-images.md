@@ -6,9 +6,6 @@ nav_order: 4
 permalink: /GameEngine/LoadingImages
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

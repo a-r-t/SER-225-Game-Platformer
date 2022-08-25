@@ -5,9 +5,6 @@ nav_order: 6
 permalink: /MapEditor
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

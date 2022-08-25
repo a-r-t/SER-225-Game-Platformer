@@ -34,6 +34,10 @@ public class Walrus extends NPC {
         } else {
             currentAnimationName = "TAIL_DOWN";
         }
+
+        // set message box relative to walrus's current calibrated location
+        message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation() - 8);
+
         super.update(player);
     }
 
@@ -66,7 +70,6 @@ public class Walrus extends NPC {
         graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation() - 2), Math.round(getCalibratedYLocation() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
 
         // draws message "Hello" in the above speech box
-        message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation() - 8);
         message.draw(graphicsHandler);
     }
 }

@@ -6,9 +6,6 @@ permalink: /HowToUseThisSite
 search_exclude: true
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -84,5 +81,5 @@ To run this site locally:
 1. Run `bundle install` to install all required external packages for the website.
 1. Run `bundle exec jekyll serve` to build and serve the site. If there are no errors and you see **Server address: http://127.0.0.1:4000**, that means it worked. In a web browser (preferably Google Chrome), type **localhost:4000** in the address bar and hit enter. You should see the site.
 
-If you make changes to the site's code while running the site locally, you can refresh the webpage to see your new changes. Sometimes it takes a few seconds to propegate. If you are still not seeing your changes applied, it might be due to cacheing -- in which case, do a hard refresh on the webpage. To do a hard refresh on Windows in Google Chrome, hold the Ctrl button and hit the refresh button at the same time. To do a hard refresh on MacOS in Google Chrome, hold the Shift button and hit the refresh button at the samew time.
+If you make changes to the site's code while running the site locally, you can refresh the webpage to see your new changes. Sometimes it takes a few seconds to propegate. If you are still not seeing your changes applied, it might be due to caching -- in which case, do a hard refresh on the webpage. To do a hard refresh on Windows in Google Chrome, hold the Ctrl button and hit the refresh button at the same time. To do a hard refresh on MacOS in Google Chrome, hold the Shift button and hit the refresh button at the samew time.
 

@@ -6,9 +6,6 @@ nav_order: 1
 permalink: /GameEngine/GameLoop
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

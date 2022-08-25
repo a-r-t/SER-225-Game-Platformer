@@ -6,9 +6,6 @@ nav_order: 5
 permalink: /GameEngine/DrawingGraphics
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

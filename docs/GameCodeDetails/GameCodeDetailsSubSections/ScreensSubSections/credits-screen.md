@@ -7,9 +7,6 @@ grand_parent: Game Code Details
 permalink: /GameCodeDetails/Screens/CreditsScreen
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 

@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 public class Frame extends Sprite {
 	private int delay;
 
+	public Frame(BufferedImage image) {
+		super(image, 0, 0);
+	}
+
 	public Frame(BufferedImage image, ImageEffect imageEffect, float scale, Rectangle bounds, int delay) {
 		super(image, 0, 0, imageEffect);
 		this.scale = scale;

@@ -67,8 +67,9 @@ This allows for graphics to be drawn on top of each other without having to worr
 
 ![game-screen-3.png](../../assets/images/game-screen-3.png)
 
-Before you ask "why can't you just use a tool like photoshop to add a transparency to an image", the answer is that it is not advisable to do this
-for games because it bloats the image's file size, which leads to longer load times, and does not always work out as expected (especially with Java's limited image loading capabilities).
+If you're wondering why I didn't just load up a program like PhotoShop and create an alpha channel for image transparency,
+it's because I'm not very experience with image editing, and those tools are massive overkill for working with tiny pixel art images.
+It's a lot faster and easier to load up an image in Microsoft Paint and fill the background in.
 
 If you have an image file that requires a different transparent color other than magenta (R255 G0 B255), the `ImageLoader` class has alternate methods
 to allow for a transparent color to be specified instead of just using the default one.

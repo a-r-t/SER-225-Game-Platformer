@@ -56,7 +56,7 @@ made a duplicate of this game, and wanted to see if I could transform this platf
 while changing as little as possible. 
 
 Surprisingly...things started working out, and then I got super into it, and
-then...well now there's two games. It ended up being a lot more work than I had initially intended,
+then...well now there are two games. It ended up being a lot more work than I had initially intended,
 but going into the semester having two game options to make the experience even better for my students was well worth it.
 
-The "other" game's GitHub repo can be found [here](), and its documentation website [here]().
+The other game's GitHub repo can be found [here](https://github.com/a-r-t/SER-225-Game-RPG), and its documentation website [here](https://a-r-t.github.io/SER-225-Game-RPG/).

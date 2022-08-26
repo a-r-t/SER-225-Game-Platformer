@@ -49,6 +49,6 @@ is "pasted" on over whatever was there beforehand.
 
 For an in game example, the map tiles (light blue sky, tree, etc) in the below image are drawn BEFORE the cat image to ensure
 that the map tiles do not cover up the cat. This also ensures that every time the cat moves, the map tiles
-continue to stay behind it.
+continue to stay behind.
 
 ![game-screen-3.png](../../assets/images/game-screen-3.png)

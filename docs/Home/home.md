@@ -19,6 +19,7 @@ GitHub Repo: [https://github.com/a-r-t/SER-225-Game](https://github.com/a-r-t/SE
 
 ## Table of contents
 
+- [About](../About/about.md)
 - [How to use this site](../HowToUseThisSite/how-to-use-this-site.md)
 - [Game Overview](../GameOverview/game-overview.md)
 - [Game Engine](../GameEngine/game-engine.md)

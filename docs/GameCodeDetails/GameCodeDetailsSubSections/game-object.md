@@ -56,12 +56,13 @@ The `Rectangle` class is the "base", which is a means to implement the `x`, `y`,
 
 The `Sprite` class extends the `Rectangle` class. The `Sprite` class adds functionality for "attaching" an image.
 It also optionally allows for defining a bounding box `bounds`, which is a `Rectangle` used in collision detection -- often times when working with collision detection,
-only a part of a sprite's image should be able to be "touched". An example of this can be seen in nearly any video game. If you look at the following Megaman sprites, the bounding box where collisions can be detected on the player in the game [Megaman 2](https://www.youtube.com/watch?v=vuJ8Qr-3_zg) is much smaller than Megaman himself:
+only a part of a sprite's image should be able to be "touched". An example of this can be seen in nearly any video game. 
+If you look at the following Megaman sprites, the bounding box where collisions can be detected on the player in the game [Megaman 2](https://www.youtube.com/watch?v=vuJ8Qr-3_zg) is much smaller than Megaman himself:
 
 ![megaman-bounds.png](../../assets/images/megaman-bounds.png)
 
 When working with 2D games, it's common to leave off limbs like in the above picture and only have the core body be able to be
-detected for collision. Otherwise weird graphical oddities can happen, and the player can end up feeling too "big" and clunky.
+detected for collision. Otherwise, weird graphical oddities can happen, and the player can end up feeling too "big" and clunky.
 
 ### AnimatedSprite class
 

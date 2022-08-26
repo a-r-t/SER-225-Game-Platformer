@@ -25,7 +25,7 @@ The class file for it is `PlayLevelScreen.java` which can be found in the `Scree
 
 ## Functionality
 
-This is the screen where the platformer game happens. The map and player are loaded and the game carries out from here until the level
+This is the screen where the platformer game happens. The map and player are loaded and the game carries out from there until the level
 is beaten or the player dies. Despite the `PlayLevelScreen` class having to seemingly do so much, a vast majority of the platformer game code
 is abstracted away from it (mostly residing in the `Player` and `Map` classes) which keeps the screen's code pretty simple and easy to follow.
 
@@ -40,7 +40,8 @@ its "current state" is stored in the `playLevelScreenState` instance variable. T
 The `RUNNING` state is the default state that the `PlayLevelScreen` is set to when it first loads.
 
 As mentioned earlier, while this state does have the most going on considering it's the actual game itself being run,
-nearly all of the game code is abstracted away to the `Map` and `Player` classes, meaning this is the only thing `PlayLevelScreen` has to do for this state during its update and draw cycles:
+nearly all of the game code is abstracted away to the `Map` and `Player` classes. 
+This is the only thing `PlayLevelScreen` has to do for this state during its update and draw cycles:
 
 `update` method:
 ```java
@@ -78,7 +79,7 @@ a separate `Screen` class (`LevelClearedScreen.java`).
 The "Level Cleared" screen's only job is to paint the entire screen black and 
 show the "Level Cleared" text. The `PlayLevelScreen` sets up and loads the `LevelClearedScreen` from within itself,
 rather than making a separate entry in the `ScreenCoordinator` class. This structure is important in order to not bloat the `ScreenCoordinator` class, as the `ScreenCoordinator` class should really only be used for the "core" screens of the game. While it may seem to not make much sense to have created an entire separate screen class for `LevelClearedScreen` for such a tiny amount of functionality, it keeps the game code organized -- if in the future the graphics for the level cleared
-screen were to get more complex and involved, keeping the screens separate prevent bloating of the `PlayLevelScreen` class.
+screen were to get more complex and involved, keeping the screens separate prevents bloating of the `PlayLevelScreen` class.
 
 After the Level Cleared screen is displayed for a set amount of time, it automatically switches the game state back to the main menu.
 
@@ -97,9 +98,10 @@ the escape key to go back to the main menu). The `LevelLoseScreen` class handles
 accordingly based on what the user presses -- which is essentially just this:
 
 ```java
-if (Keyboard.isKeyDown(Key.SPACE)) {
+// if space is pressed, reset level. if escape is pressed, go back to main menu
+if (Keyboard.isKeyDown(Key.SPACE) && !keyLocker.isKeyLocked(Key.SPACE)) {
     playLevelScreen.resetLevel();
-} else if (Keyboard.isKeyDown(Key.ESC)) {
+} else if (Keyboard.isKeyDown(Key.ESC) && !keyLocker.isKeyLocked(Key.ESC)) {
     playLevelScreen.goBackToMenu();
 }
 ```

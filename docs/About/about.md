@@ -47,7 +47,7 @@ were given a version of the game that had been worked on by a team from the Fall
 
 In Fall 2022, I became the instructor for SER225, so I am naturally using the game a third time. However,
 before the semester started, I did a lot more work to the codebase to make things a bit tighter and organized,
-which will hopefully give my students a better experience working with it..
+which will hopefully give my students a better experience working with it.
 
 # The "other" game
 

@@ -19,8 +19,8 @@ search_exclude: true
 This game (which has no title as of now) is a traditional platformer where you play as a cat and have to traverse from the beginning to the end of 
 a level while avoiding enemies. Upon hitting the gold box at the end of a level, the level is completed. Touching an enemy results in a game over and the level must be restarted.
 
-Inspiration for this game came from popular 2D platformers such as Mario and Megaman. The player currently can walk around, jump, and duck as standard to the genre,
-and enemy/level design and graphics were heavily influenced by the games [Super Mario World](https://www.youtube.com/watch?v=ta7ufW0Prws) and [Megaman 2](https://www.youtube.com/watch?v=vuJ8Qr-3_zg).
+Inspiration for this game came from popular 2D platformers such as Mario and Megaman. The player currently can walk around, jump, and duck as is standard to the genre.
+Enemy, level, and graphics design were heavily influenced by the games [Super Mario World](https://www.youtube.com/watch?v=ta7ufW0Prws) and [Megaman 2](https://www.youtube.com/watch?v=vuJ8Qr-3_zg).
 
 The art direction was intended to create a "happy" vibe, and follows a blocky minimalistic style ~~because I am a horrible artist~~.
 The sun shines, the flowers dance, and a bright color palette is used ~~which is totally not just the result of me only using Microsoft Paint default colors~~.
@@ -54,10 +54,10 @@ and the backing game engine was built to support a wide variety of options that 
 
 # Tools used to make this game
 
-This game was written in Java (version 8 or later) and uses no external libraries. It was developed using the IntelliJ IDE,
+This game was written in Java and uses no external libraries. It was developed using the IntelliJ IDE,
 although it should work out of the box with any other Java IDEs such as Eclipse. 
 
-All of the game's art was created from scratch using the almighty Microsoft Paint.
+All the game's art was created from scratch using the almighty Microsoft Paint.
 
 # Running the game
 
@@ -68,6 +68,9 @@ The `main` method for the game is in the `Game` package > `Game.java` file.
 
 The `main` method for the map editor is in the `MapEditor` package > `MapEditor.java` file. This is a separate program
 from the game.
+
+Java version 8 or later is required to run this game.
+To verify your Java version, run the `java -version` command in your CLI.
 
 # Game Screenshots
 

@@ -21,14 +21,14 @@ In this project, there is another "sub" project called the Map Editor (all locat
 a GUI for designing game [tile maps](/GameDetails/Map/MapTilesAndTilesets) with a visual display instead of having to do so through
 code and not being able to see the how things look as you go. Nearly every video game uses a map editor (level editor, level maker, etc.)
 that game developers use to design the game's maps. Games like [Mario Maker](https://www.youtube.com/watch?v=tZ5g5n-6OFg) are literally
-just one big map editor (a REALLY good one).
+just one big map editor.
 
 ## This game's map editor
 
 The inspiration behind the design of the map editor for this game engine came from the old CD-ROM game [Speedy Eggbert](https://en.wikipedia.org/wiki/Speedy_Eggbert),
 which was a staple of my childhood. It was a standard platformer game (with some VERY odd design choices), but the level editor included with it
-was the same one used by the game developers to actually make the game -- it was so fun as a child to be able to make levels
-for a game I really liked.
+was the same one used by the game developers to actually make the game -- it was so fun as a child to be able to create my own levels
+for a game I really liked. If you're curious, [here](https://www.youtube.com/watch?v=haRt2Z8-7-A) is a video of the Speedy Eggbert map editor being used.
 
 While this game's map editor is limited compared to commercial map editors for other video games you may have seen/used, it is still very useful for designing
 a map and being able to see what you are doing as you go. It is current only usable for placing map tiles -- other entities like enemies must be created and added through code.

@@ -31,17 +31,23 @@ So I had quite some time to work on the game, which needed to be done by the fir
 This sounds like a lot of time, but I was so busy with finishing grad school, working and teaching that
 I only was able to get a few things started around May, where I created a "simple game engine" to test out some ideas, and even used it
 for a class assignment in the Spring 2020 semester. The repo for that precursor simple game engine can be found [here](https://github.com/a-r-t/Simple-2D-Game-Engine). 
+
 And then...well I waited until the last minute to start working on the game again.
 Before you judge me, I swear I must have entered a time warp or something, because one second I had like a year to get this game done,
-and then the next second I have like three weeks left to go. Nothing you will say will convince me otherwise,
+and then the next second I have like three weeks left. Nothing you will say will convince me otherwise,
 that time was somehow stolen from me.
-Anyway, I started working on the game again in August and basically shotgunned out the rest of it in a couple of weeks.
 
-The game was used for two cycles of SER225 (Fall 2020 and Fall 2021).
+I started working on the game again in August and basically shotgunned out the rest of it in a couple of weeks.
+That not only includes writing the code, but also creating all the art and documenting everything on this website.
+It was A LOT of work...
+
+The game was used for two iterations of the SER225 course (Fall 2020 and Fall 2021).
+In the Fall 2020 semester, the teams were given the game as I left it, while the Fall 2021 semester students
+were given a version of the game that had been worked on by a team from the Fall 2020 semester.
 
 In Fall 2022, I became the instructor for SER225, so I am naturally using the game a third time. However,
 before the semester started, I did a lot more work to the codebase to make things a bit tighter and organized,
-which will hopefully give my students a better experience working with it.
+which will hopefully give my students a better experience working with it..
 
 # The "other" game
 

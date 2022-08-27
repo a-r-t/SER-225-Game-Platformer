@@ -99,6 +99,8 @@ private static boolean hasCollidedWithMapEntity(GameObject gameObject, MapEntity
             case JUMP_THROUGH_PLATFORM:
                 return direction == Direction.DOWN && gameObject.intersects(mapTile) &&
                         Math.round(gameObject.getBoundsY2() - 1) == Math.round(mapTile.getBoundsY1());
+            case WATER:
+                return false;
             default:
                 return false;
         }

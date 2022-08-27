@@ -57,7 +57,7 @@ As the player moves throughout the map, the camera follows it to show different 
 
 The camera is also responsible for determining which map tiles, enemies, enhanced map tiles (like the floating platform), and npcs
 are a part of the current area of the map that is being shown, meaning those entities need to be a part of the `update` and `draw` cycle. In order to not
-waste computing resources, the camera is constantly checking if a map item is not in the "active" area (such as an enemy that is too far outside of the camera's bounds).
+waste computing resources, the camera is constantly checking if a map entity is not in the "active" area (such as an enemy that is too far outside of the camera's bounds).
 This is important as wasting time updating and drawing items that do not affect the player can negatively affect FPS and cause the game to slow down.
 
 Map entities that are to be included in the `update` and `draw` cycle at any given time are considered "active".
@@ -65,12 +65,13 @@ The `Map` class exposes three methods for `getActiveEnemies`, `getActiveEnhanced
 These methods contain a subsection of each map entity resource that is currently active. This is useful for certain pieces of the game logic, such as collision detection -- instead of having to check against every entity in the game, only a subsection of the entities will be checked against, which saves time and computing resources. 
 Looking at the above images of the camera example on the entire map image, it's more apparent how only certain enemies that are in the camera's range need to be included in the `update` and `draw` cycles at any given time. If you look at the first image, there's no reason to update the dinosaur enemy during that time, as it is way off screen and the player won't be interacting with it until they move a bit.
 
-The variable `UPDATE_OFF_SCREEN_RANGE` determines the "tile range" threshold that a map resource can be off screen until it is considered inactive.
-It is currently set to 4, so if any map resource is more than 5 tiles away off screen, it will be removed from the game cycle until
+The variable `UPDATE_OFF_SCREEN_RANGE` determines the "tile range" threshold that a map resource can be off-screen until it is considered inactive.
+It is currently set to 4, so if any map resource is more than 5 tiles away off-screen, it will be removed from the game cycle until
 it comes back into range. Some resources (specifically enemies) have the ability to respawn, meaning they will go back to their
 starting location if they were previously inactive and then became active again. This can be toggled on or off by changing an entity's `isRespawnable` instance variable.
 Entities also have an `isUpdateOffScreen` instance variable that when toggled on will keep the entity in the update cycle regardless of where it is on the map.
 This could be useful for something like a boss battle to prevent the player from being able to break the boss by moving the camera too far away.
 
 The `Camera` class's `loadActiveEnemies`, `loadActiveEnhancedMapTiles`, and `loadActiveNPCs` methods are called each game loop cycle (each frame)
-to determine which map entities are currently active and which ones are not. Frankly, the code for these methods is an abomination -- it's three long-ish separate methods that all do relatively the same exact thing and contain near identical code for separate entity lists. I tried to modularize the algorithm, but Java was fighting against me too much and I just stopped caring.
+to determine which map entities are currently active and which ones are not. Frankly, the code for these methods is an abomination -- it's three long-ish separate methods that all do relatively the same exact thing and contain near identical code for separate entity lists. 
+I tried to modularize the algorithm, but Java was fighting against me too much and I just stopped caring.

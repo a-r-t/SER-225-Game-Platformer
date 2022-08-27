@@ -175,7 +175,7 @@ The `AnimatedSprite` class provides some instance variables that can be used to 
 - **currentFrameIndex** -- the current frame index of an animation
 - **hasAnimationLooped** -- will be true if an animation has looped at least one time (transitioned from the last frame index back to the first frame)
 
-For example, in the `Player` class's `update` logic for when the player is standing and the right key is pressed, it will change the player's state to "WALKING".
+For example, in the `Player` class's `update` logic for when the player is standing and the left or right key is pressed, it will change the player's state to "WALKING".
 
 ```java
 // ...
@@ -200,7 +200,8 @@ else if (playerState == PlayerState.WALKING) {
 ```
 
 Lastly, the `update` logic at some point must make a call out to the base class's method in order for the `AnimatedSprite` class to run the required animation logic.
-Otherwise, a `GameObject` will never be able to switch animations or transition between animation frames. Typically this call should be made at the end of the subclass's `update` method.
+Otherwise, a `GameObject` will never be able to switch animations or transition between animation frames. 
+Typically, this call should be made at the end of the subclass's `update` method.
 
 ```java
 public void update(Player player) {

@@ -51,7 +51,7 @@ The available tile types are included in the `TileType` enum in the `Level` pack
 A tileset is a collection of map tiles. Easy enough.
 
 Graphic wise, a tileset defines each tile in one image. Below is the `CommonTileset.png` which is used by `TestMap`
-to construct its tile map. You will notice that the common tileset image is one big image with each individual map tile defined. Note that each map tile in a tileset
+to construct its tile map. You will notice that the common tileset image is one big image with each individual map tile defined. Each map tile in a tileset
 must be the SAME width and height.
 
 ![common-tileset.png](../../../assets/images/common-tileset.png)
@@ -213,8 +213,8 @@ Each frame in this animation has a delay of 500 milliseconds (half a second). Th
 ![purple-flower-image-1.png](../../../assets/images/purple-flower-image-1.png)
 ![purple-flower-image-1.png](../../../assets/images/purple-flower-image-3.png)
 
-After each animation cycle, the animation will loop back to the beginning again (unless the delay is set to -1, in which case
-it will never move on from an animation frame without something else explicitly telling it to).
+After each animation cycle, the animation will loop back to the beginning again. If the delay is set to -1, in which case
+it will never move on from an animation frame without something else explicitly telling it to.
 
 ### Tile Types
 
@@ -223,3 +223,4 @@ The available tile types are defined in the `TileType` enum, and include:
 - **NOT_PASSABLE** -- player cannot pass through it, they are "solid", such as the grass tiles
 - **PASSABLE** -- player can pass through it, such as the sky tiles
 - **JUMP_THROUGH_PLATFORM** -- the player can walk on top of it and cannot pass through it when coming downwards from above, but can pass through it when coming upwards from below, such as the tree branch tiles
+- **WATER** -- the player can pass through it; this tile type is just for informational purposes so an entity can react to touching it (which the player does by changing to its swim animation)

@@ -19,7 +19,7 @@ permalink: /GameCodeDetails/CreatingSimpleGameObject
 
 The `GameObject` class can be used for just a single image (one graphic). Even though `GameObject` extends from
 `AnimatedSprite`, if no animation is desired for a specific game object, it provides certain constructors to essentially
-treat itself as a one frame animation that never changes (which results in one image being used).
+treat itself as a one frame animation that never changes. This results in only one image being used.
 
 For example, the following `GameObject` constructor can be used to define just a simple one image sprite:
 

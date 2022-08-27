@@ -23,7 +23,8 @@ The `Map` class does A LOT of setup upon instantiation for resources such as the
 Since the `Map` class handles so many different aspects of the platformer game logic, getting the setup step perfect is key
 for a successful platformer level. Most of the game logic in the `Map` class goes towards this setup step.
 
-The `Map` class is `abstract`, meaning it cannot be instantiated without a subclass. The constructor for the `Map` class has three key parameters defined:
+The `Map` class is `abstract`, meaning it cannot be instantiated without a subclass. 
+The constructor for the `Map` class has two parameters defined:
 - **mapFileName** -- the map file name that defines the tile layout and map dimensions, which are text files located in the `MapFiles` folder of this project
 - **tileset** -- which tiles this map uses -- this along with the map file will determine which map tile graphics are loaded in which locations
 
@@ -37,28 +38,28 @@ From there, the map does several setup steps to get all of its resources in orde
 
 ## Map Class Methods
 
-The `Map` class has A LOT of methods, but most of them are very simple, and many of them are just getters.
+The `Map` class has a lot of methods, but most of them are very simple, and many of them are just getters.
 Nearly all of these methods will be covered in the other setup pages linked above, as most are directly involved with
-the setup step. Something to note is that the methods `loadEnemies`, `loadEnhancedMapTiles`, and `loadNPCs` are all intended
+the setup step. The methods `loadEnemies`, `loadEnhancedMapTiles`, and `loadNPCs` are all intended
 to be overridden by a subclass of the `Map` class.
 
 The `update` method is very simple, as the `Camera` class does most of the work updating the map, however
 there are two very important methods it does call itself: `adjustMovementX` and `adjustMovementY`. These are covered
 in the `Player` class documentation [here](../player.md), and are critical to allowing the map to properly "scroll" as the player moves.
 These methods were honestly such a PITA to get working correctly in conjunction with the `Player` class's movement and the `Camera` class's
-game logic so I highly recommend not trying to edit them because one tiny change will most likely cause the entire platformer game to break.
+game logic. I do not recommend editing them because one tiny change will most likely cause the game's movement and collisions to break.
 
 The `draw` method just tells the `Camera` class to `draw` what should be shown of the map to the screen.
 
 ## Map Subclasses
 
 Game maps are defined by subclassing the `Map` class. These are found in the `Maps` package.
-The level's map class (the only level in the game) is `TestMap`. 
+Currently, `TestMap` is the only map in the game that plays out a level. There is also `TitleScreenMap` which just acts as the background to the title screen.
 
-Each `Map` subclass must satisfy the super class and specify the map file name, tileset, and player start location (as mentioned earlier in the
-[map resources setup](#map-resources-setup) section).
+Each `Map` subclass must satisfy the super class and specify the map file name and tileset. 
+It is also a good idea to set the `playerStartLocation` in the map subclass's constructor.
 
-`TestMap` defines a map file of `test_map.txt`, the `CommonTileset` class as its tileset choice (more on tilesets [here](./map-tiles-and-tilesets.md)),
+`TestMap` defines a map file of `test_map.txt`, and the `CommonTileset` class as its tileset choice (more on tilesets [here](./map-tiles-and-tilesets.md)),
 
 ```java
 public TestMap() {
@@ -67,9 +68,9 @@ public TestMap() {
 }
 ```
 
-It also sets the `playerStartLocation` variable to a specific location, which is what tells the game where to start the player at in the map.
+It also sets the `playerStartLocation` variable to a specific location, which is what tells the game where to start the player at in the map when it's first loaded.
 
-Each map subclass can also override the `loadEnemies`, `loadEnhancedMapTiles`, and `loadNPCs` in order to define
+Each map subclass can also override the `loadEnemies`, `loadEnhancedMapTiles`, and `loadNPCs` methods in order to define
 [enemies](./enemies.md), [enhanced map tiles](./enhanced-map-tiles.md), and [npcs](./npcs.md) for a map.
 
 For example, in `TestMap`, the `loadEnemies` override method looks like this:

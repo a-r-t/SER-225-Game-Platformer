@@ -57,7 +57,7 @@ protected void playerStanding() {
 
 It really just checks for key presses and if so sets the player to a new state. Not much else to do when you're standing still.
 
-While standing, the player uses either the `STAND_RIGHT` or `STAND_LEFT` animation..
+While standing, the player uses either the `STAND_RIGHT` or `STAND_LEFT` animation.
 
 ### Player Walking State
 

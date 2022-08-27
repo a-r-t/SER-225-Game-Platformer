@@ -29,9 +29,12 @@ and each entity needs to react accordingly to the collision. All map entities in
 which thankfully lessens a lot of the complexity that other shapes would introduce. Rectangles are the easiest shape to work with by far due to
 "rectangle math" being relatively simple and it works out very nicely in a 2D space where only the x and y axis exist.
 
-Also, collision detection is always the hardest part about creating a game, and anyone will tell you that writing your own collision detection is the WORST when it comes to platformers. This is especially true when it comes to 3D games -- it is difficult, complex math can be involved, and tiny errors randomly creep up just when you finally think you've gotten everything down pact.
-In this game's case, getting proper decimal movement caused me a whole lot of trouble -- and I've even written code like this before for another game! It's just hard stuff, 
-but I believe this game's collision detection is in a good state right now (it better be after all the time I put into it). I know it doesn't sound difficult, but trust me...there's a lot of problems that rear their ugly heads when you work on implementing it.
+Also, collision detection is always the hardest part about creating a game, and anyone will tell you that writing your own collision detection is the WORST when it comes to platformers. 
+This is especially true when it comes to 3D games -- it is difficult, complex math can be involved, and tiny errors randomly creep up just when you finally think you've gotten everything down pact.
+Luckily, with 2D games, things are a lot simpler, but still can be a real painpoint. 
+In this game's case, getting proper decimal movement caused me a whole lot of trouble -- and I've even written code like this before for another game!
+It's just hard stuff, but I believe this game's collision detection is in a good state right now (it better be after all the time I put into it). 
+I know it doesn't sound difficult, but trust me...there's a lot of problems that rear their ugly heads when you work on implementing it.
 
 ## Player collision detection with Map Tiles
 
@@ -149,7 +152,7 @@ to abide by tile type rules.
 
 The `GameObject` method provides two methods that are intended to be overridden by a subclass: `onEndCollisionCheckX` and `onEndCollisionCheckY`.
 After a collision check has occurred, the collision methods will let the `Player` class (or any other `GameObject` subclass like the `Enemy` class that moves
-while checking for collisions) know if a collision occurred and what direction the collision happend from (left, right, up, or down).
+while checking for collisions) know if a collision occurred and what direction the collision happened from (left, right, up, or down).
 
 The `Player` class uses the `onEndCollisionCheckY` method to determine its `airGroundState` -- if a the player collides
 with a map tile downwards, it means that the player has landed on the ground and is no longer in the air. This causes

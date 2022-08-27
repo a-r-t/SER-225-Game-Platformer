@@ -106,15 +106,15 @@ The image file for the cat player is `Cat.png`.
 ## Player Moving
 
 When the player moves through the level, you may notice that most of the time the player is not actually moving around screen, and instead
-stays in the middle of the screen while the map's camera moves to show more of the map. The only time the player actaully moves is when
-the map's camera reaches the end of the map and has no more map to show. You can see it in the below gif (notice the player is kept in the middle
-of the screen a majority of the time while the camera continually shows different parts of the map).
+stays in the middle of the screen while the map's camera moves to show more of the map. The only time the player actually moves is when
+the map's camera reaches the end of the map and has no more map to show. You can see this behavior in the below gif. Notice how the player is kept in the middle
+of the screen a majority of the time while the camera continually shows different parts of the map.
 
 ![game-screen-1.gif](../../../assets/images/playing-level.gif)
 
 While the player is in charge of the overall movement of the game, the map class's `adjustMovementX` and `adjustMovementY` methods are called
 each frame which adjusts the player's position and the camera's position as needed. Usually, what happens is the player will move forward
-while at the center of the screen, and then the adjust methods will move the player back to the center of the screen and move teh camera instead to show more of the map. 
+while at the center of the screen, and then the adjust methods will move the player back to the center of the screen and move the camera instead to show more of the map. 
 This gives the appearance that the map is "scrolling". 
 And yes, nearly all games do this: 99% of the time your player character is not actually moving; instead the map's camera is.
 

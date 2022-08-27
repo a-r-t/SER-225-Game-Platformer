@@ -18,6 +18,8 @@ public class EditorWindow {
         editorWindow.setVisible(true);
         editorWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // it'd be nice if this actually worked more than 1/3rd of the time
         editorWindow.setJMenuBar(new MenuBar(editorMainPanel.getMapBuilder().getTileBuilder()));
+        editorWindow.validate();
+        editorMainPanel.getMapBuilder().scrollToMaxY();
     }
 
 }

@@ -59,4 +59,10 @@ that will likely steer you away from wanting to implement this feature...but it 
 
 In nearly all platformer games, the player will jump at different heights based on how long the jump button is held.
 I think this would make the controls feel a lot smoother, as the player jumping right now feels really high and it's impossible
-to shorten the jump. Additionally, I think the jumping physics can definitely be updated/changed to make the player feel more in control and allow for more precise platforming. There are like 100 different ways to implement jump code all with different pros and cons, so it's definitely worth playing around with and seeing if you can make the jumping feel better.
+to shorten the jump. Additionally, I think the jumping physics can definitely be updated/changed to make the player feel more in control and allow for more precise platforming. 
+There are like 100 different ways to implement jump code all with different pros and cons, so it's definitely worth playing around with and seeing if you can make the jumping feel better.
+
+# More Set Pieces
+
+The game could use more variety, from map tile graphics to enemy types to level design.
+It would make the game a lot more interesting to look at and traverse through.

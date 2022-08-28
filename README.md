@@ -14,7 +14,7 @@ The main method for the map editor is in the `MapEditor` package > `MapEditor.ja
 
 ## Documentation
 This project includes a GitHub pages website in the `docs` folder where the documentation resides.<br>
-It can be accessed at [https://a-r-t.github.io/SER-225-Game/](https://a-r-t.github.io/SER-225-Game/).
+It can be accessed at [https://a-r-t.github.io/SER-225-Game-Platformer/](https://a-r-t.github.io/SER-225-Game-Platformer/).
 
 Changes to content in the `docs` folder will not show up on the website unless they are pushed to the `master` branch.
 

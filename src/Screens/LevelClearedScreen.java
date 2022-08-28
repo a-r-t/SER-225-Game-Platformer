@@ -12,6 +12,7 @@ public class LevelClearedScreen extends Screen {
     protected SpriteFont winMessage;
 
     public LevelClearedScreen() {
+        initialize();
     }
 
     @Override

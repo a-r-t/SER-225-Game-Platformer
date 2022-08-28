@@ -52,16 +52,10 @@ public class Camera extends Rectangle {
         updateMapEntities(player);
     }
 
-    // for each map tile that is determined to be "active" (within camera's current range)
     private void updateMapTiles() {
-        Point tileIndex = getTileIndexByCameraPosition();
-        for (int i = tileIndex.y - UPDATE_OFF_SCREEN_RANGE; i <= tileIndex.y + height + UPDATE_OFF_SCREEN_RANGE; i++) {
-            for (int j = tileIndex.x - UPDATE_OFF_SCREEN_RANGE; j <= tileIndex.x + width + UPDATE_OFF_SCREEN_RANGE; j++) {
-                MapTile tile = map.getMapTile(j, i);
-                if (tile != null) {
-                    tile.update();
-                }
-            }
+        for (MapTile tile : map.getAnimatedMapTiles()) {
+            // update each animated map tile in order to keep animations consistent
+            tile.update();
         }
     }
 
@@ -85,13 +79,7 @@ public class Camera extends Rectangle {
         }
     }
 
-    // determine which enemies are active (within range of the camera)
-    // if enemy is currently active and was also active last frame, nothing special happens and enemy is included in active list
-    // if enemy is currently active but last frame was inactive, it will have its status set to active and enemy is included in active list
-    // if enemy is currently inactive but last frame was active, it will have its status set to inactive, have its initialize method called if its respawnable
-    //      (which will set it back up to its default state), and not include it in the active list
-    //      next time a respawnable enemy is determined active, since it was reset back to default state upon going inactive, it will essentially be "respawned" in its starting state
-    // if enemy is currently set to REMOVED, it is permanently removed from the map's list of enemies and will never be able to be active again
+    // determine which enemies are active (exist and are within range of the camera)
     private ArrayList<Enemy> loadActiveEnemies() {
         ArrayList<Enemy> activeEnemies = new ArrayList<>();
         for (int i = map.getEnemies().size() - 1; i >= 0; i--) {
@@ -114,13 +102,7 @@ public class Camera extends Rectangle {
         return activeEnemies;
     }
 
-    // determine which enhanced map tiles are active (within range of the camera)
-    // if enhanced map tile is currently active and was also active last frame, nothing special happens and enhanced map tile is included in active list
-    // if enhanced map tile is currently active but last frame was inactive, it will have its status set to active and enhanced map tile is included in active list
-    // if enhanced map tile is currently inactive but last frame was active, it will have its status set to inactive, have its initialize method called if its respawnable
-    //      (which will set it back up to its default state), and not include it in the active list
-    //      next time a respawnable enemy is determined active, since it was reset back to default state upon going inactive, it will essentially be "respawned" in its starting state
-    // if enhanced map tile is currently set to REMOVED, it is permanently removed from the map's list of enemies and will never be able to be active again
+    // determine which enhanced map tiles are active (exist and are within range of the camera)
     private ArrayList<EnhancedMapTile> loadActiveEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> activeEnhancedMapTiles = new ArrayList<>();
         for (int i = map.getEnhancedMapTiles().size() - 1; i >= 0; i--) {
@@ -143,13 +125,7 @@ public class Camera extends Rectangle {
         return activeEnhancedMapTiles;
     }
 
-    // determine which npcs are active (within range of the camera)
-    // if npc is currently active and was also active last frame, nothing special happens and npc is included in active list
-    // if npc is currently active but last frame was inactive, it will have its status set to active and npc is included in active list
-    // if npc is currently inactive but last frame was active, it will have its status set to inactive, have its initialize method called if its respawnable
-    //      (which will set it back up to its default state), and not include it in the active list
-    //      next time a respawnable enemy is determined active, since it was reset back to default state upon going inactive, it will essentially be "respawned" in its starting state
-    // if npc is currently set to REMOVED, it is permanently removed from the map's list of enemies and will never be able to be active again
+    // determine which npcs are active (exist and are within range of the camera)
     private ArrayList<NPC> loadActiveNPCs() {
         ArrayList<NPC> activeNPCs = new ArrayList<>();
         for (int i = map.getNPCs().size() - 1; i >= 0; i--) {
@@ -175,7 +151,8 @@ public class Camera extends Rectangle {
     /*
         determines if map entity (enemy, enhanced map tile, or npc) is active by the camera's standards
         1. if entity's status is REMOVED, it is not active, no questions asked
-        2. if entity's status is not REMOVED, then there's additional checks that take place:
+        2. if an entity is hidden, it is not active
+        3. if entity's status is not REMOVED and the entity is not hidden, then there's additional checks that take place:
             1. if entity's isUpdateOffScreen attribute is true, it is active
             2. OR if the camera determines that it is in its boundary range, it is active
      */
@@ -224,17 +201,17 @@ public class Camera extends Rectangle {
 
     // checks if a game object's position falls within the camera's current radius
     public boolean containsUpdate(GameObject gameObject) {
-        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < gameObject.getX() + gameObject.getScaledWidth() &&
+        return getX1() - (tileWidth * UPDATE_OFF_SCREEN_RANGE) < gameObject.getX() + gameObject.getWidth() &&
                 getEndBoundX() + (tileWidth * UPDATE_OFF_SCREEN_RANGE) > gameObject.getX() &&
-                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  gameObject.getY() + gameObject.getScaledHeight()
+                getY1() - (tileHeight * UPDATE_OFF_SCREEN_RANGE) <  gameObject.getY() + gameObject.getHeight()
                 && getEndBoundY() + (tileHeight * UPDATE_OFF_SCREEN_RANGE) > gameObject.getY();
     }
 
     // checks if a game object's position falls within the camera's current radius
     // this does not include the extra range granted by the UDPATE_OFF_SCREEN_RANGE value, because there is no point to drawing graphics that can't be seen
     public boolean containsDraw(GameObject gameObject) {
-        return getX1() - tileWidth < gameObject.getX() + gameObject.getScaledWidth() && getEndBoundX() + tileWidth > gameObject.getX() &&
-                getY1() - tileHeight <  gameObject.getY() + gameObject.getScaledHeight() && getEndBoundY() + tileHeight >  gameObject.getY();
+        return getX1() - tileWidth < gameObject.getX() + gameObject.getWidth() && getEndBoundX() + tileWidth > gameObject.getX() &&
+                getY1() - tileHeight <  gameObject.getY() + gameObject.getHeight() && getEndBoundY() + tileHeight >  gameObject.getY();
     }
 
     public ArrayList<Enemy> getActiveEnemies() {
@@ -258,4 +235,19 @@ public class Camera extends Rectangle {
     public float getEndBoundY() {
         return y + (height * tileHeight) + leftoverSpaceY;
     }
+
+    public boolean isAtTopOfMap() {
+        return this.getY() <= 0;
+    }
+
+    public boolean isAtBottomOfMap() {
+        return this.getEndBoundY() >= map.getEndBoundY();
+    }
+
+    public boolean isAtRightOfMap() { return this.getEndBoundX() >= map.getEndBoundX(); }
+
+    public boolean isAtLeftOfMap() {
+        return this.getX() <= 0;
+    }
+
 }

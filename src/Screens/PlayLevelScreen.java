@@ -9,6 +9,7 @@ import Level.Player;
 import Level.PlayerListener;
 import Maps.TestMap;
 import Players.Cat;
+import Utils.Point;
 import Utils.Stopwatch;
 
 // This class is for when the platformer game is actually being played
@@ -20,6 +21,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     protected Stopwatch screenTimer = new Stopwatch();
     protected LevelClearedScreen levelClearedScreen;
     protected LevelLoseScreen levelLoseScreen;
+    protected boolean levelCompletedStateChangeStart;
 
     public PlayLevelScreen(ScreenCoordinator screenCoordinator) {
         this.screenCoordinator = screenCoordinator;
@@ -34,8 +36,12 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
         this.player.setMap(map);
         this.player.addListener(this);
-        this.player.setLocation(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
+        Point playerStartPosition = map.getPlayerStartPosition();
+        this.player.setLocation(playerStartPosition.x, playerStartPosition.y);
         this.playLevelScreenState = PlayLevelScreenState.RUNNING;
+
+        levelClearedScreen = new LevelClearedScreen();
+        levelLoseScreen = new LevelLoseScreen(this);
     }
 
     public void update() {
@@ -48,26 +54,18 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 break;
             // if level has been completed, bring up level cleared screen
             case LEVEL_COMPLETED:
-                levelClearedScreen = new LevelClearedScreen();
-                levelClearedScreen.initialize();
-                screenTimer.setWaitTime(2500);
-                playLevelScreenState = PlayLevelScreenState.LEVEL_WIN_MESSAGE;
-                break;
-            // if level cleared screen is up and the timer is up for how long it should stay out, go back to main menu
-            case LEVEL_WIN_MESSAGE:
-                if (screenTimer.isTimeUp()) {
-                    levelClearedScreen = null;
-                    goBackToMenu();
+                if (levelCompletedStateChangeStart) {
+                    screenTimer.setWaitTime(2500);
+                    levelCompletedStateChangeStart = false;
+                } else {
+                    levelClearedScreen.update();
+                    if (screenTimer.isTimeUp()) {
+                        goBackToMenu();
+                    }
                 }
                 break;
-            // if player died in level, bring up level lost screen
-            case PLAYER_DEAD:
-                levelLoseScreen = new LevelLoseScreen(this);
-                levelLoseScreen.initialize();
-                playLevelScreenState = PlayLevelScreenState.LEVEL_LOSE_MESSAGE;
-                break;
             // wait on level lose screen to make a decision (either resets level or sends player back to main menu)
-            case LEVEL_LOSE_MESSAGE:
+            case LEVEL_LOSE:
                 levelLoseScreen.update();
                 break;
         }
@@ -77,15 +75,13 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         // based on screen state, draw appropriate graphics
         switch (playLevelScreenState) {
             case RUNNING:
-            case LEVEL_COMPLETED:
-            case PLAYER_DEAD:
                 map.draw(graphicsHandler);
                 player.draw(graphicsHandler);
                 break;
-            case LEVEL_WIN_MESSAGE:
+            case LEVEL_COMPLETED:
                 levelClearedScreen.draw(graphicsHandler);
                 break;
-            case LEVEL_LOSE_MESSAGE:
+            case LEVEL_LOSE:
                 levelLoseScreen.draw(graphicsHandler);
                 break;
         }
@@ -97,12 +93,17 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     @Override
     public void onLevelCompleted() {
-        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        if (playLevelScreenState != PlayLevelScreenState.LEVEL_COMPLETED) {
+            playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+            levelCompletedStateChangeStart = true;
+        }
     }
 
     @Override
     public void onDeath() {
-        playLevelScreenState = PlayLevelScreenState.PLAYER_DEAD;
+        if (playLevelScreenState != PlayLevelScreenState.LEVEL_LOSE) {
+            playLevelScreenState = PlayLevelScreenState.LEVEL_LOSE;
+        }
     }
 
     public void resetLevel() {
@@ -115,6 +116,6 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     // This enum represents the different states this screen can be in
     private enum PlayLevelScreenState {
-        RUNNING, LEVEL_COMPLETED, PLAYER_DEAD, LEVEL_WIN_MESSAGE, LEVEL_LOSE_MESSAGE
+        RUNNING, LEVEL_COMPLETED, LEVEL_LOSE
     }
 }

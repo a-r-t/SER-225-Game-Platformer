@@ -6,17 +6,20 @@ permalink: /
 search_exclude: true
 ---
 
-# SER-225-Game Documentation
+# SER225 Platformer Game Documentation
 
 <div id="cat-image-container">
     <img id="cat-gif" src="/SER-225-Game/assets/images/cat-walking-right.gif" alt="cat-walking-right.gif" style="padding-left:0px;">
 </div>
 
-Welcome to the unnamed SER-225-Game's website! Here you can find information on the game, documentation on how the code works, 
+Welcome to the website for the unnamed SER225 platformer game! Here you can find information on the game, documentation on how the code works, 
 and other miscellaneous notes.
+
+GitHub Repo: [https://github.com/a-r-t/SER-225-Game](https://github.com/a-r-t/SER-225-Game)
 
 ## Table of contents
 
+- [About](../About/about.md)
 - [How to use this site](../HowToUseThisSite/how-to-use-this-site.md)
 - [Game Overview](../GameOverview/game-overview.md)
 - [Game Engine](../GameEngine/game-engine.md)
@@ -40,11 +43,11 @@ function moveCat() {
     
     if (currentLeft + catImageWidth >= containerWidth) {
         walkDirection = -1;
-        catImage.src = "/SER-225-Game/assets/images/cat-walking-left.gif";
+        catImage.src = "/SER-225-Game-Platformer/assets/images/cat-walking-left.gif";
         catImage.alt = "cat-walking-left.gif";
     } else if (currentLeft <= 0) {
         walkDirection = 1;
-        catImage.src = "/SER-225-Game/assets/images/cat-walking-right.gif";
+        catImage.src = "/SER-225-Game-Platformer/assets/images/cat-walking-right.gif";
         catImage.alt = "cat-walking-right.gif";
     }
 

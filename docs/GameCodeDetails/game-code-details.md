@@ -6,9 +6,6 @@ has_children: true
 permalink: /GameCodeDetails
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -25,7 +22,7 @@ Utilizing the supplied game engine, the game code "hooks" on to the engine's gam
 and from there the game is directed by the various `Screen` classes (which exist in the `Screens` package). The subsections
 of this document will go over how this game is made and how everything works.
 
-Before reading on, it is important to understand how the game engine works at a surface level as described in the documentation [here](../GameEngine/game-engine.md).
+Before reading on, it is important to understand how the game's update and draw cycle works at a surface level, which is described in the documentation [here](../GameEngine/GameEngineSubSections/game-loop.md).
 
 Below are documents which go over difference pieces of the game code:
 

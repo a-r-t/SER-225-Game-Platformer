@@ -6,9 +6,6 @@ parent: Game Code Details
 permalink: /GameCodeDetails/GamePatterns
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -85,7 +82,7 @@ public void update() {
 }
 ```
 
-The menu screens use `KeyLocker` a lot to prevent spamming certain keys, as it can make the menu really hard to navigate if a button can be held down.
+The menu screens uses `KeyLocker` a lot to prevent spamming certain keys, as it can make the menu really hard to navigate if a button can be held down.
 This is especially true due to how quickly (in real time) each game loop iteration happens -- without the `KeyLocker` pattern shown above, one key press
 can easily count as multiple key presses due to the game loop iterating quicker than a human can lift their finger off the key. Sometimes this is fine,
 like when moving a player throughout the level, but sometimes this is not desired which is what this pattern resolves.
@@ -106,10 +103,10 @@ Upon initializing a `Stopwatch` class, the method `setWaitTime` is where the num
 in case you forgot.
 
 ```java
-timer.setWaitTime(10000); // wait for 10 seconds
+timer.setWaitTime(1000); // wait for 1 second
 ```
 
-The `isTimeUp` method will return true or false based on if the amount of seconds since calling `setWaitTime` have passed by.
+The `isTimeUp` method will return true or false based on if wait time set by the `setWaitTime` method has completed.
 ```java
 if (timer.isTimeUp()) {
     
@@ -139,6 +136,7 @@ public void update() {
 ```
 
 The above forces 1 second to pass by each time for the space key detection to cause an action to occur even if it is held down.
+This pattern is common in games that include a shooting mechanic to prevent the player from being able to continuously spam projectiles even when holding down the "shoot" key input.
 
 ## Builder Pattern
 
@@ -146,9 +144,9 @@ I use the Builder Pattern around the code base, and all builder classes are defi
 into detail on what the Builder Pattern is and how it makes Java programming life easier.
 
 The Builder Pattern is a code pattern that is used in the Java programming language a lot out of necessity because there are no
-default parameters in the language. Java is one of the only modern day programming languages to not have this feature. Default parameters (also often called
+default parameters in the language. Java is one of the only modern day programming languages to not have default parameters. Default parameters (also often called
 named parameters or optional parameters) are the ability to specify a method parameter and give it a default value, 
-and allow any class to optionally pass in a value for that value -- if no value is passed in, that parameter will just use its default value. 
+and allow any class to optionally pass in an argument for that value -- if no value is passed in, that parameter will just use its default value. 
 An example of how this looks in the C# programming language is below:
 
 ```cs
@@ -191,10 +189,10 @@ Cat cat = new Cat("Callie", "Beeboo", 2, "tortoiseshell", 7, true, true);
 
 Which argument is age and which one is weight? Name vs nickname? Rabies shot vs distemper shot?
 It's hard to tell without looking back at the `Cat` class, and even then lining each argument up is a pain. Imagine
-if these were all more complicated data types as well...it really is a huge issue with this programming language.
+if these were all more complicated data types as well...it really is a huge issue with this programming language. Add on the fact that there is no ability to create objects or dictionaries "on the fly" to make creating a param grouping easier (which languages like JavaScript and Python have), class constrcutors can quickly become bloated and difficult to read/manage.
 
 The builder pattern attempts to alleviate this issue by creating a class called a "builder" class which will "build" and then
-instantiate/initialize a class for you. For my `Cat` class example, I would create a `CatBuilder` class SEPARATE from the `Cat` class.
+instantiate/initialize a class for you. For my `Cat` class example above, I would create a `CatBuilder` class SEPARATE from the `Cat` class.
 The `CatBuilder` class's job is to help setup and instantiate/intialize a `Cat` object, and additionally this class can define its own
 default values so not every single parameter needs to be passed in. Lastly, each parameter is set using a specific method call,
 meaning it's super obvious to determine which argument goes where.
@@ -261,7 +259,7 @@ public class CatBuilder {
 ```
 
 Whew, what a weird looking class. What is going on here? Well, the result is that the actual call to the `Cat` class's
-constructor is now abstracted away behind this `build` method. This class as a result of its structure allows us to create a new
+constructor is now abstracted away behind the builder's `build` method. This class as a result of its structure allows us to create a new
 `Cat` in a much cleaner way:
 
 ```java
@@ -277,33 +275,30 @@ Cat cat = new CatBuilder("Callie", 2)
 With this pattern, it's very obvious which argument goes to which parameter. Additionally, the actual call to the `Cat` constructor is abstracted
 away behind the `build` method, so the messy call is hidden. Finally, default parameters now exist -- if I left off `hasRabiesShot(true)`,
 the `CatBuilder` class will just default it to false and construct the `Cat` using that. Even just immediately doing a `build` without
-any of the other optional parameters works, as all those values have default values (e.g. `nickname` would be "N/A", `weight` would be -1, etc.).
+any of the other optional parameters works, as all of them have default values (e.g. `nickname` would be "N/A", `weight` would be -1, etc.).
 
 ```java
 Cat cat = new CatBuilder("Callie", 2).build();
 ```
 
-One more thing this pattern does is removes the need for multiple constructors, which as you may have seen from the `GameObject` class
-and its subclasses that they have A LOT of constructors due to Java having no default parameters. Unfortunately it wasn't feasible to make
-a builder class for every single subclass that extends from `GameObject` so constructor hell exists over there.
+One more thing this pattern does is removes the need for multiple constructors. The `GameObject` class and its subclasses that they have A LOT of constructors due to Java's limitations. Unfortunately it wasn't feasible to make a builder class for every single subclass that extends from `GameObject`, so as a result, constructor hell exists over there.
 
 The builder pattern is used in the code base where the constructor for a class was getting too crazy, which commonly happens
 with game code due to how much setup is required for resources like graphics. It really isn't scary once you know what it's doing.
 
 A nice side effect of the bulider pattern also is it allows an object's instantiation to be delayed, as the `build` method
-can be called whenever to actually instantiate the object. This technique is used in the `Map` class when loading a map file -- the `Tileset` defines
-all tiles using the `MapTileBuilder`, but it doesn't `build` them and instead lets the `Map` class bulid them since they require information from the `Map` class
+can be called at any point in time to actually instantiate the object. This technique is used in the `Map` class when loading a map file -- the `Tileset` defines
+all tiles using the `MapTileBuilder`, but it doesn't `build` them and instead lets the `Map` class build them since they require additional information from the `Map` class
 to finish their creation.
 
-In hte `Builders` package, there are four builders defined, but the only two that you will really see come up are
-`FrameBuilder` (for creating a `Frame` object instance) and `MapTileBuilder` (for creating a `MapTile` object instance).
+In the `Builders` package, there are two builders defined: `FrameBuilder` (for creating a `Frame` object instance) and `MapTileBuilder` (for creating a `MapTile` object instance). Both are used heavily in the `CommonTileset` class to construct `MapTile` class instances, and the `FrameBuilder` is used in nearly every game object's `loadAnimations` method (such as the player, enemies, etc.).
 
 ## Observer Pattern
 
 I use the Observer Pattern one time to enable the `Player` class to trigger events in the `PlayLevelClass` when the `Player` has
 either completed a level or died, which then lets the `PlayerLevelClass` react to those events.
 
-I'm not going to go into much detail on this pattern since it's only used one time and it's not all that complex. Basically,
+I'm not going to go into much detail on this pattern since it's only used one time. Basically,
 an interface named `PlayerListener` is defined in the `Level` class, and any class that implements this interface must implement the methods
 `onLevelCompleted` and `onDeath`. A class would implement this interface to "listen" to events from the `Player` class.
 
@@ -336,12 +331,15 @@ looks like this:
 ```java
 @Override
 public void onLevelCompleted() {
-    playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+    if (playLevelScreenState != PlayLevelScreenState.LEVEL_COMPLETED) {
+        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
+        levelCompletedStateChangeStart = true;
+    }
 }
 ```
 
 Essentially it just updates its own level state here and then its `update` cycle logic will see that change and perform the
-desired actions (in this case, will load the level win message screen).
+desired actions (in this case, will load the level cleared message screen).
 
 Now, while I could have just passed in the `PlayLevelScreen` instance to the `Player` class, I didn't want to do that because it really
 didn't belong in the `Player` class. The `PlayLevelScreen` has nothing to do with the `Player` class, and if I ever wanted to use the `Player` class
@@ -351,8 +349,8 @@ would be unavailable to be passed in. Instead, with this pattern, ANY class can 
 and `onPlayerDeath`, and the `Player` is free to trigger them by just calling those methods on its `listeners` when its ready to.
 
 Like I said, this pattern is only used in that one place, so you won't see it or have to interact with it much. The Observer Pattern
-is actually really easy once you take a look at it (assuming you understand how interfaces work) and is very commonly used elsewhere in programming,
-notably Android development relies heavily on it.
+is actually really simple assuming you understand how interfaces work and is very commonly used elsewhere in programming.
+Notably, Android development relies heavily on the observer pattern.
 
 [This video](https://www.youtube.com/watch?v=WRkw0l72BL4) provides a good overview of the Observer Pattern and why it's important
 using real-world examples.
@@ -365,11 +363,9 @@ There are a two enums defined in the `Utils` package that several classes use: `
 a 2D space only has those four directions, it's a very nice data type to have available.
 
 The `AirGroundState` enum is used mainly for map entities that can have a concept of being on ground vs in the air (such as the `Player` when
-jumping/falling or various enemies). This enum only has two possible values: `GROUND` and `AIR`. Nice and simple but very handy!
+jumping/falling or various enemies). This enum only has two possible values: `GROUND` and `AIR`. Nice and simple but very handy! Wish I could've come up with a better name for the class, but you know what, the name is self-documenting and I've grown to like it.
 
 ## Utility Point
 
-There is a `Point` class in the `Utils` package (do not confuse this with Java's built in `Point` class -- this is a custom `Point` class!)
-that will store "point" data (x, y) as floats and also contains several methods for performing "point math" such as adding
-and subtracting points. It's used in several places over Java's standard `Point` class so these additional methods are always available
-whenever needed.
+There is a `Point` class in the `Utils` package that will store "point" data (x, y) as floats and also contains several methods for performing "point math" such as adding
+and subtracting points. Do not confuse this with Java's built in `Point` class -- this is a custom `Point` class! It's used in several places over Java's standard `Point` class so these additional methods are always available whenever needed.

@@ -6,9 +6,6 @@ nav_order: 4
 permalink: /GameEngine/LoadingImages
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -27,7 +24,7 @@ The Image Loader provides two methods:
 - **load** -- reads an image into the game
 - **loadSubImage** -- reads a piece of an image into the game
 
-Pass the method an image file and it will read it in, no questions asked.
+Pass either method an image file and it will read it in.
 
 ## Resources Directory
 
@@ -65,15 +62,16 @@ For example, the following cat image used in game has its background set as mage
 
 ![cat-sprite.png](../../assets/images/cat-sprite.png)
 
-When loading this image into the game, the transparent color of magenta is set, meaning in game, the magenta color will not be shown,
-allowing it to blend in with whatever color is shown in the background of it:
+When loading this image into the game, magenta is set as the transparent color, meaning in game, the magenta color will not be shown.
+This allows for graphics to be drawn on top of each other without having to worry about unused background space in the image.
 
 ![game-screen-3.png](../../assets/images/game-screen-3.png)
 
-Before you ask "why can't you just use a tool like photoshop to add a transparency to an image", the answer is that it is not advisable to do this
-for games because it bloats the file size (leading to longer load times), takes additional time, and does not always work out as expected (especially with Java's limited image loading capabilities).
+If you're wondering why I didn't just load up a program like PhotoShop and create an alpha channel for image transparency,
+it's because I'm not very experience with image editing, and those tools are massive overkill for working with tiny pixel art images.
+It's a lot faster and easier to load up an image in Microsoft Paint and fill the background in.
 
-If you have an image file that requires a different transparent color, the `ImageLoader` class has alternate methods
+If you have an image file that requires a different transparent color other than magenta (R255 G0 B255), the `ImageLoader` class has alternate methods
 to allow for a transparent color to be specified instead of just using the default one.
 
 ```java
@@ -84,3 +82,4 @@ BufferedImage catImage = ImageLoader.load("cat.png", Color.blue);
 ### Changing default transparent color
 
 A new color can be set as the default transparent color by changing the `TRANSPARENT_COLOR` variable in the `Config` class.
+I don't advise doing this as every image in the game currently is setup to use magenta as the transparent color, but the option to change it is there.

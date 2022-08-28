@@ -6,9 +6,6 @@ parent: Game Code Details
 permalink: /GameCodeDetails/Level
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -37,5 +34,5 @@ Documentation for usage of the Map Editor can be found [here]().
 ## The Level package
 
 The `Level` package in this project contains all the "core" classes and game logic necessary for the platformer game to play out. Many of the classes
-found in here exist solely to be extended from by a different class to be built upon, so you can think of them as a template -- examples of this include the
+found in the `Level` package exist solely to be extended from. You can think of them as templates -- examples of this include the
 `Player`, `Enemy`, `NPC`, `EnhancedMapTile`, and `Tileset` classes.

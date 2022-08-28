@@ -1,11 +1,8 @@
 package Level;
 
 import GameObject.Frame;
-import GameObject.ImageEffect;
-import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class is a base class for all enemies in the game -- all enemies should extend from it
@@ -19,24 +16,16 @@ public class Enemy extends MapEntity {
         super(x, y, animations, startingAnimation);
     }
 
-    public Enemy(BufferedImage image, float x, float y, String startingAnimation) {
-        super(image, x, y, startingAnimation);
+    public Enemy(float x, float y, Frame[] frames) {
+        super(x, y, frames);
     }
 
-    public Enemy(BufferedImage image, float x, float y) {
-        super(image, x, y);
+    public Enemy(float x, float y, Frame frame) {
+        super(x, y, frame);
     }
 
-    public Enemy(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale);
-    }
-
-    public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
-    }
-
-    public Enemy(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
+    public Enemy(float x, float y) {
+        super(x, y);
     }
 
     @Override

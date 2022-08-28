@@ -124,7 +124,7 @@ Click the button below for a live simulation of how this example `CatImage` clas
 <button id="run-simulation-button" onclick="triggerSimulation()">Run Simulation</button>
 
 <div id="cat-image-container" style="border:1px solid black;">
-    <img id="pusheen-image" src="/SER-225-Game/assets/images/pusheen.png" alt="pusheen.png" style="padding-left:0px;">
+    <img id="pusheen-image" src="/SER-225-Game-Platformer/assets/images/pusheen.png" alt="pusheen.png" style="padding-left:0px;">
 </div>
 
 <script>

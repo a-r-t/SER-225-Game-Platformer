@@ -7,13 +7,27 @@ import java.awt.image.BufferedImage;
 public class Frame extends Sprite {
 	private int delay;
 
-	public Frame(BufferedImage image, float scale, ImageEffect imageEffect, Rectangle bounds, int delay) {
-		super(image, scale, imageEffect);
+	public Frame(BufferedImage image) {
+		super(image, 0, 0);
+	}
+
+	public Frame(BufferedImage image, ImageEffect imageEffect, float scale, Rectangle bounds, int delay) {
+		super(image, 0, 0, imageEffect);
+		this.scale = scale;
 		if (bounds != null) {
 			this.bounds = bounds;
-			this.bounds.setScale(scale);
 		}
+		this.bounds.setScale(scale);
 		this.delay = delay;
+	}
+
+	public Frame(BufferedImage image, ImageEffect imageEffect, float scale, Rectangle bounds) {
+		super(image, 0, 0, imageEffect);
+		this.scale = scale;
+		if (bounds != null) {
+			this.bounds = bounds;
+		}
+		this.bounds.setScale(scale);
 	}
 
 	public int getDelay() {
@@ -21,6 +35,6 @@ public class Frame extends Sprite {
 	}
 
 	public Frame copy() {
-		return new Frame(image, scale, imageEffect, bounds, delay);
+		return new Frame(image, imageEffect, scale, bounds, delay);
 	}
 }

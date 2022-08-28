@@ -8,13 +8,16 @@ public class EditorMainPanel extends JPanel {
     private MapBuilder mapBuilder;
 
     public EditorMainPanel(JFrame parent) {
-        setLayout(null);
+        setLayout(new BorderLayout());
         setBackground(Color.BLACK);
         SelectedTileIndexHolder selectedTileIndexHolder = new SelectedTileIndexHolder();
         mapBuilder = new MapBuilder(selectedTileIndexHolder);
-        add(mapBuilder);
+        add(mapBuilder, BorderLayout.CENTER);
         editorControlPanel = new EditorControlPanel(selectedTileIndexHolder, mapBuilder, parent);
-        mapBuilder.setMap(editorControlPanel.getSelectedMap());
-        add(editorControlPanel);
+        mapBuilder.setMap(editorControlPanel.getSelectedMap());;
+        add(editorControlPanel, BorderLayout.WEST);
     }
+
+    public EditorControlPanel getEditorControlPanel() { return editorControlPanel; }
+    public MapBuilder getMapBuilder() { return mapBuilder; }
 }

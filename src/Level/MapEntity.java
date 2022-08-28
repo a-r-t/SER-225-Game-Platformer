@@ -1,8 +1,9 @@
 package Level;
 
-import GameObject.*;
+import GameObject.Frame;
+import GameObject.GameObject;
+import GameObject.SpriteSheet;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class represents a map entity, which is any "entity" on a map besides the player
@@ -13,7 +14,7 @@ public class MapEntity extends GameObject {
     // if true, if entity goes out of the camera's update range, and then ends up back in range, the entity will "respawn" back to its starting parameters
     protected boolean isRespawnable = true;
 
-    // if true, enemy cannot go out of camera's update range
+    // if true, entity cannot go out of camera's update range
     protected boolean isUpdateOffScreen = false;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
@@ -24,24 +25,16 @@ public class MapEntity extends GameObject {
         super(x, y, animations, startingAnimation);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, String startingAnimation) {
-        super(image, x, y, startingAnimation);
+    public MapEntity(float x, float y, Frame[] frames) {
+        super(x, y, frames);
     }
 
-    public MapEntity(BufferedImage image, float x, float y) {
-        super(image, x, y);
+    public MapEntity(float x, float y, Frame frame) {
+        super(x, y, frame);
     }
 
-    public MapEntity(BufferedImage image, float x, float y, float scale) {
-        super(image, x, y, scale);
-    }
-
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
-    }
-
-    public MapEntity(BufferedImage image, float x, float y, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
+    public MapEntity(float x, float y) {
+        super(x, y);
     }
 
     public void initialize() {

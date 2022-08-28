@@ -1,6 +1,7 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
+import Utils.Point;
 
 import java.awt.*;
 
@@ -48,11 +49,7 @@ public class Rectangle implements IntersectableRectangle {
     }
 
     public float getX2() {
-        return x + width;
-    }
-
-    public float getScaledX2() {
-		return x + getScaledWidth();
+		return x + getWidth();
 	}
 	
 	public void setX(float x) {
@@ -79,12 +76,8 @@ public class Rectangle implements IntersectableRectangle {
         return y;
     }
 
-    public float getY2() {
-        return y + height;
-    }
-
-	public float getScaledY2() {
-		return y + getScaledHeight();
+	public float getY2() {
+		return y + getHeight();
 	}
 
     public void setY(float y) {
@@ -102,34 +95,28 @@ public class Rectangle implements IntersectableRectangle {
 	public void moveUp(float dy) {
 		this.y -= dy;
 	}
-	
+
+	public Point getLocation() { return new Point(x, y); }
+
 	public void setLocation(float x, float y) {
         this.x = x;
         this.y = y;
 	}
 
 	public int getWidth() {
-	    return width;
-    }
+		return Math.round(width * scale);
+	}
 
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	public int getHeight() {
-	    return height;
-    }
-	
+		return Math.round(height * scale);
+	}
+
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	public int getScaledWidth() {
-		return Math.round(width * scale);
-	}
-
-	public int getScaledHeight() {
-		return Math.round(height * scale);
 	}
 
 	public float getScale() { return scale; }
@@ -156,21 +143,21 @@ public class Rectangle implements IntersectableRectangle {
 
 	@Override
 	public String toString() {
-		return String.format("Rectangle: x=%s y=%s width=%s height=%s", getX(), getY(), getScaledWidth(), getScaledHeight());
+		return String.format("Rectangle: x=%s y=%s width=%s height=%s", getX(), getY(), getWidth(), getHeight());
 	}
 
 	public void update() { }
 
 	public void draw(GraphicsHandler graphicsHandler) {
-		graphicsHandler.drawFilledRectangle(Math.round(getX()), Math.round(getY()), getScaledWidth(), getScaledHeight(), color);
+		graphicsHandler.drawFilledRectangle(Math.round(getX()), Math.round(getY()), getWidth(), getHeight(), color);
 		if (borderColor != null && !borderColor.equals(color)) {
-			graphicsHandler.drawRectangle(Math.round(getX()), Math.round(getY()), getScaledWidth(), getScaledHeight(), borderColor, borderThickness);
+			graphicsHandler.drawRectangle(Math.round(getX()), Math.round(getY()), getWidth(), getHeight(), borderColor, borderThickness);
 		}
 	}
 
 	@Override
 	public Rectangle getIntersectRectangle() {
-		return new Rectangle(x, y, getScaledWidth(), getScaledHeight());
+		return new Rectangle(x, y, getWidth(), getHeight());
 	}
 
 	// check if this intersects with another rectangle

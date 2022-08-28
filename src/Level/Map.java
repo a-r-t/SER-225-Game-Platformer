@@ -36,8 +36,8 @@ public abstract class Map {
     // camera class that handles the viewable part of the map that is seen by the player of a game during a level
     protected Camera camera;
 
-    // tile player should start on when this map is first loaded
-    protected Point playerStartTile;
+    // location player should start on when this map is first loaded
+    protected Point playerStartPosition;
 
     // the location of the "mid point" of the screen
     // this is what tells the game that the player has reached the center of the screen, therefore the camera should move instead of the player
@@ -59,7 +59,10 @@ public abstract class Map {
     // if set to false, camera will not move as player moves
     protected boolean adjustCamera = true;
 
-    public Map(String mapFileName, Tileset tileset, Point playerStartTile) {
+    // map tiles in map that are animated
+    protected ArrayList<MapTile> animatedMapTiles;
+
+    public Map(String mapFileName, Tileset tileset) {
         this.mapFileName = mapFileName;
         this.tileset = tileset;
         setupMap();
@@ -69,13 +72,15 @@ public abstract class Map {
         this.endBoundY = height * tileset.getScaledSpriteHeight();
         this.xMidPoint = ScreenManager.getScreenWidth() / 2;
         this.yMidPoint = (ScreenManager.getScreenHeight() / 2);
-        this.playerStartTile = playerStartTile;
+        this.playerStartPosition = new Point(0, 0);
     }
 
     // sets up map by reading in the map file to create the tile map
     // loads in enemies, enhanced map tiles, and npcs
     // and instantiates a Camera
     public void setupMap() {
+        this.animatedMapTiles = new ArrayList<>();
+
         loadMapFile();
 
         this.enemies = loadEnemies();
@@ -133,6 +138,10 @@ public abstract class Map {
                 MapTile tile = tileset.getTile(tileIndex).build(xLocation, yLocation);
                 tile.setMap(this);
                 setMapTile(j, i, tile);
+
+                if (tile.isAnimated()) {
+                    animatedMapTiles.add(tile);
+                }
             }
         }
 
@@ -150,8 +159,7 @@ public abstract class Map {
 
     // gets player start position based on player start tile (basically the start tile's position on the map)
     public Point getPlayerStartPosition() {
-        MapTile tile = getMapTile(Math.round(playerStartTile.x), Math.round(playerStartTile.y));
-        return new Point(tile.getX(), tile.getY());
+        return playerStartPosition;
     }
 
     // get position on the map based on a specfic tile index
@@ -211,7 +219,14 @@ public abstract class Map {
 
     // set specific map tile from tile map to a new map tile
     public void setMapTile(int x, int y, MapTile tile) {
-        mapTiles[getConvertedIndex(x, y)] = tile;
+        if (isInBounds(x, y)) {
+            MapTile oldMapTile = getMapTile(x, y);
+            animatedMapTiles.remove(oldMapTile);
+            mapTiles[getConvertedIndex(x, y)] = tile;
+            if (tile.isAnimated()) {
+                animatedMapTiles.add(tile);
+            }
+        }
     }
 
     // returns a tile based on a position in the map
@@ -269,6 +284,10 @@ public abstract class Map {
     }
     public ArrayList<NPC> getNPCs() {
         return npcs;
+    }
+
+    public ArrayList<MapTile> getAnimatedMapTiles() {
+        return animatedMapTiles;
     }
 
     // returns all active enemies (enemies that are a part of the current update cycle) -- this changes every frame by the Camera class
@@ -377,4 +396,7 @@ public abstract class Map {
     public void draw(GraphicsHandler graphicsHandler) {
         camera.draw(graphicsHandler);
     }
+
+    public int getEndBoundX() { return endBoundX; }
+    public int getEndBoundY() { return endBoundY; }
 }

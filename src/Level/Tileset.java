@@ -2,10 +2,10 @@ package Level;
 
 import Builders.FrameBuilder;
 import Builders.MapTileBuilder;
-import Engine.ImageLoader;
 import GameObject.SpriteSheet;
 import Utils.ImageUtils;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public abstract class Tileset extends SpriteSheet {
     }
 
     public MapTileBuilder getDefaultTile() {
-        BufferedImage defaultTileImage = ImageLoader.load("DefaultTile.png");
+        BufferedImage defaultTileImage = ImageUtils.createSolidImage(new Color(0, 0, 0));
         return new MapTileBuilder(new FrameBuilder(ImageUtils.resizeImage(defaultTileImage, spriteWidth, spriteHeight), 0).withScale(tileScale).build());
     }
 }

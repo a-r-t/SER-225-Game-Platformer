@@ -55,4 +55,16 @@ public class ImageUtils {
 		g.dispose();
 		return resized;
 	}
+
+	public static BufferedImage createSolidImage(Color color) {
+		BufferedImage nothing = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+		nothing = ImageUtils.transformColorToTransparency(nothing, color);
+		return nothing;
+	}
+
+	public static BufferedImage createSolidImage(Color color, int width, int height) {
+		BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+		image = ImageUtils.transformColorToTransparency(image, color);
+		return resizeImage(image, width, height);
+	}
 }

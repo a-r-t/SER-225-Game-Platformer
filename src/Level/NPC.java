@@ -4,13 +4,10 @@ import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.Keyboard;
 import GameObject.Frame;
-import GameObject.ImageEffect;
-import GameObject.Rectangle;
 import GameObject.SpriteSheet;
 import SpriteFont.SpriteFont;
 import Utils.Stopwatch;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 // This class is a base class for all npcs in the game -- all npcs should extend from it
@@ -20,46 +17,29 @@ public class NPC extends MapEntity {
     protected int talkedToTime;
     protected Stopwatch timer = new Stopwatch();
 
-    public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation, int talkedToTime) {
+    public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
         super(x, y, spriteSheet, startingAnimation);
         this.message = createMessage();
-        this.talkedToTime = talkedToTime;
     }
 
-    public NPC(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation, int talkedToTime) {
+    public NPC(float x, float y, HashMap<String, Frame[]> animations, String startingAnimation) {
         super(x, y, animations, startingAnimation);
         this.message = createMessage();
-        this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, String startingAnimation, int talkedToTime) {
-        super(image, x, y, startingAnimation);
+    public NPC(float x, float y, Frame[] frames) {
+        super(x, y, frames);
         this.message = createMessage();
-        this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, int talkedToTime) {
-        super(image, x, y);
+    public NPC(float x, float y, Frame frame) {
+        super(x, y, frame);
         this.message = createMessage();
-        this.talkedToTime = talkedToTime;
     }
 
-    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale) {
-        super(image, x, y, scale);
+    public NPC(float x, float y) {
+        super(x, y);
         this.message = createMessage();
-        this.talkedToTime = talkedToTime;
-    }
-
-    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect) {
-        super(image, x, y, scale, imageEffect);
-        this.message = createMessage();
-        this.talkedToTime = talkedToTime;
-    }
-
-    public NPC(BufferedImage image, float x, float y, int talkedToTime, float scale, ImageEffect imageEffect, Rectangle bounds) {
-        super(image, x, y, scale, imageEffect, bounds);
-        this.message = createMessage();
-        this.talkedToTime = talkedToTime;
     }
 
     protected SpriteFont createMessage() {

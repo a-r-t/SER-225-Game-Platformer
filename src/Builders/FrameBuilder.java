@@ -24,6 +24,12 @@ public class FrameBuilder {
         this.imageEffect = ImageEffect.NONE;
     }
 
+    public FrameBuilder(BufferedImage image) {
+        this.image = image;
+        this.scale = 1;
+        this.imageEffect = ImageEffect.NONE;
+    }
+
     public FrameBuilder withBounds(Rectangle bounds) {
         this.bounds = bounds;
         return this;
@@ -49,6 +55,6 @@ public class FrameBuilder {
     }
 
     public Frame build() {
-        return new Frame(image, scale, imageEffect, bounds, delay);
+        return new Frame(image, imageEffect, scale, bounds, delay);
     }
 }

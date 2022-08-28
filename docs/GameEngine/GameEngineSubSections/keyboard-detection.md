@@ -6,9 +6,6 @@ nav_order: 3
 permalink: /GameEngine/KeyboardDetection
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -23,7 +20,7 @@ permalink: /GameEngine/KeyboardDetection
 
 There is a `Keyboard` class in the engine that handles detecting if a key is currently pressed (or not pressed)
 on the keyboard at any point while the game is running. The class is a "static" class (meaning it can't be instantiated) and exists
-solely to poll the global keyboard state, which is generally used in `update` methods to be used to check if a certain key is currently being pressed or not. 
+solely to poll the global keyboard state, which is generally used in `update` methods to check if a certain key is currently being pressed or not. 
 Every class has the ability to detect keyboard input and multiple classes can detect keyboard input at the same time and react to it as desired.
 
 ## Key Detection Methods
@@ -65,7 +62,7 @@ public void update() {
 ## Supported Keys
 
 <details>
-  <summary>The following keys are supported:</summary>
+  <summary>List of supported keys</summary>
   <ul>
     <li>UP</li>
     <li>DOWN</li>

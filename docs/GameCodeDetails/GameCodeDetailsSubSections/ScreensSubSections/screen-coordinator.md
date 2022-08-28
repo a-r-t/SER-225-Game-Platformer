@@ -7,9 +7,6 @@ grand_parent: Game Code Details
 permalink: /GameCodeDetails/Screens/ScreenCoordinator
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -51,7 +48,7 @@ can be of any type defined in the `GameState` enum, which can be found in the `G
 
 The current states defined in the `GameState` enum are `MENU`, `LEVEL`, `CREDITS`, which all coincide with a specific screen.
 Based on the value of the `gameState` instnace variable, the `ScreenCoordinator` will choose to load its corresponding screen. How
-this is done can be seen in the below snippet of `ScreenCoordinator's` `update` method:
+this is done can be seen in the below snippet of the `ScreenCoordinator's` `update` method:
 
 ```java
 switch(gameState) {

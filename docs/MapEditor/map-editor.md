@@ -5,9 +5,6 @@ nav_order: 6
 permalink: /MapEditor
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -22,20 +19,19 @@ permalink: /MapEditor
 
 In this project, there is another "sub" project called the Map Editor (all located in the `MapEditor` package) that will load up
 a GUI for designing game [tile maps](/GameDetails/Map/MapTilesAndTilesets) with a visual display instead of having to do so through
-code and not being able to see the map that is being built. Nearly every video game uses a map editor (level editor, level maker, etc.)
+code and not being able to see the how things look as you go. Nearly every video game uses a map editor (level editor, level maker, etc.)
 that game developers use to design the game's maps. Games like [Mario Maker](https://www.youtube.com/watch?v=tZ5g5n-6OFg) are literally
-just one big map editor (a REALLY good one).
+just one big map editor.
 
 ## This game's map editor
 
 The inspiration behind the design of the map editor for this game engine came from the old CD-ROM game [Speedy Eggbert](https://en.wikipedia.org/wiki/Speedy_Eggbert),
-which was a staple of my childhood. It was a standard platformer game (with some VERY odd design choices), but the level editor it included with it
-was the same one used by the game developers to actually make the game -- it was so fun as a child to be able to make levels
-for a game I really liked with ease.
+which was a staple of my childhood. It was a standard platformer game (with some VERY odd design choices), but the level editor included with it
+was the same one used by the game developers to actually make the game -- it was so fun as a child to be able to create my own levels
+for a game I really liked. If you're curious, [here](https://www.youtube.com/watch?v=haRt2Z8-7-A) is a video of the Speedy Eggbert map editor being used.
 
-While this game's map editor is limited compared to other commercial map editors for other video games you may have seen/used
-(it is only for placing map tiles -- things like enemies must be created and added through code), it is still very useful for designing
-a map and being able to see what you are doing as you go.
+While this game's map editor is limited compared to commercial map editors for other video games you may have seen/used, it is still very useful for designing
+a map and being able to see what you are doing as you go. It is current only usable for placing map tiles -- other entities like enemies must be created and added through code.
 
 To run this game's map editor, the `main` method in the `MapEditor` class must be run. Remember this is a separate program
 from the actual game code, although both make use of the same classes in this project. You can have both the map editor and the game
@@ -53,24 +49,24 @@ This Map Editor allows you to do the following:
 
 ## How to use the map editor
 
-It should be pretty self-explanatory how to use the map editor after playing around with it for 5 minutes. 
+It should be pretty self-explanatory how to use the map editor after playing around with it for a few minutes. 
 
-On the left-hand sidebar are the tiles that can be used for the map. Since each `Map` subclass (such as `TestMap`) must define
-its own `Tileset` (such as `CommonTileset`) (if this doesn't make sense to you, you can read more about the `Map` class [here](/GameDetails/Map) and 
-about map tiles and tilesets [here](/GameDetails/Map/MapTilesAndTilesets)). From here, any tile on the left-hand sidebar can be clicked to "select" it
-(you will know it has been selected when the tile is highlighted with a yellow box). Afterwards, going to the map and clicking will
+The left-hand sidebar contain the tiles that can be used for the map. Each `Map` subclass (such as `TestMap`) defines
+its own `Tileset` (such as `CommonTileset`) which is where these tile options come from. You can read more about the `Map` class [here](/GameDetails/Map) and about map tiles and tilesets [here](/GameDetails/Map/MapTilesAndTilesets). 
+
+Any tile on the left-hand sidebar can be clicked to "select" it. The tile is highlighted with a yellow box. Afterwards, going to the map and clicking will
 replace whichever tile was hovered by the mouse with the selected tile. Below is a gif of this process.
 
 ![map-editor-usage.gif](../assets/images/map-editor-usage.gif)
 
-The map being edited can be changed using the dropdown on the top left. To save any changes to a map, hit the "Save Map"
-button. The "Set Map Dimensions" button will allow you to change the size of the map (number of tiles width and height). It'll also
+The map that is currently being edited can be changed using the dropdown on the top left. To save any changes to a map, hit the "Save Map"
+button. Do not forget to do this -- switching maps or existing the program without saving the map changes will cause any changes to be discarded.
+
+The "Set Map Dimensions" button will allow you to change the size of the map (number of tiles width and height). It'll also
 allow you to choose which side of the map to apply changes to when growing/shrinking a map's dimensions -- for example, if increasing
 the width of the map, more tile space can be added either to the right side or the left of the map.
 
-Something to keep in mind is that in a `Tileset's` `defineTiles` method, after a map has been created using that `Tileset`,
-you should not rearrange the order the tiles are defined and added to the list. This will break existing maps. You should ALWAYS
-just append tiles on even though it may feel disorganized.
+Something to keep in mind is after a map has been created using that `Tileset`, you should not rearrange the order the tiles are defined and added to the list in a `Tileset's` `defineTiles` method. Doing so will break existing maps. You should ALWAYS just append tiles on to the end of the `defineTiles` method even though it may feel disorganized in order to preserve the tile map's integrity.
 
 ## Adding a new map to the map editor
 
@@ -82,19 +78,19 @@ Then for now, all that's needed is a constructor to define the map file name, ti
 ```java
 public class MyMap extends Map {
     public MyMap() {
-        super("my_map.txt", new CommonTileset(), new Point(1, 11));
+        super("my_map.txt", new CommonTileset());
+        this.playerStartPosition = new Point(1, 11);
     }
 }
 ```
 
-In the above example, the map's file will be named "my_map.txt" (which has not been created yet -- the Map Editor will create it for you once its added),
-the tilset will use the `CommonTileset` (which can be found in the `Tileset` package), and the player start tile is set to tile index (1, 11). Be sure
-that two maps do not share the same map file name, or one will overwrite the other!
+In the above example, the map's file will be named "my_map.txt", and the `CommonTileset` class will be used as the map's tileset.
+The map file "my_map.txt" has not been created yet, but the Map Editor will do so for you momentarily. 
+Make sure that two maps do not share the same map file name, or one will overwrite the other!
 
-Now, in the `MapEditor` package, go to the `EditorMaps.java` file. In here, you will need to add your new map class to these methods.
+Now, in the `MapEditor` package, go to the `EditorMaps.java` file. In here, you will need to add your new map to some of the class's methods.
 
-In `getMapNames`, just add an entry to the list for the name you would want the map to be recognized by -- for example, for this map
-I could use "MyMap":
+In the `getMapNames` method, add an entry to the list for the name you would want the map to be recognized by -- for this example, I will be using "MyMap".
 
 {% raw %}
 ```java
@@ -109,8 +105,7 @@ public static ArrayList<String> getMapNames() {
 {% endraw %}
 
 Then, in the `getMapByName` method, add another switch case for your new map name and return an instance of your new Map class.
-For this example, I would add a switch case for "MyMap" (that is the name it was given in the `getMapNames` method) and then
-I would return `new MyMap()`:
+For this example, I am adding a switch case for "MyMap" (that is the name it was given in the `getMapNames` method) and it is returning `new MyMap()`:
 
 ```java
 public static Map getMapByName(String mapName) {
@@ -128,16 +123,20 @@ public static Map getMapByName(String mapName) {
 ```
 
 The last thing you have to do is open the Map Editor and in the drop down select your new map. The Map Editor will create a new
-blank map file for it. From there, you can change the map dimensions as desired (it will start at a width and height of (0,0), so
-you have to change them to actually add tiles) and start designing the map! 
+blank map file for it upon saving the map. From there, you can change the map dimensions as desired -- it will start at a width and height of (0,0), so
+you have to change the dimensions to actually add tiles. From here, you can start designing the map!
 
 Map files can be found in the project's `MapFiles` folder. This folder location can be changed in the [game config](/GameEngine/Config) if desired.
+
+## Options Menu
+
+At the top left of the Map Editor window, there is a menu strip with an "Options" menu item. Clicking it will reveal three options - "Show NPCs", "Show Enhanced Map Tiles", and "Show Enemies". Toggling an option on will show the desired entities in the map editor. The entities cannot be moved or interacted with in the editor, but it does at least show you where these entities are placed on the map.
 
 ## How does the map editor work?
 
 I used Java Swing components for the GUI and control functionality (such as buttons, drop down menus, etc.).
 The problem with creating complex GUIs purely through code is that A LOT of code and logic is required and it is very easy for it
-to get unruly, as many shortcuts/hacky solutions have to be used to have all components take in the correct input and communicate with one-another.
+to get unruly, as many shortcuts/hacky solutions have to be used for all components take in the correct input and communicate with one-another.
 As you can imagine, there is quite a bit of code for the map editor broken up between several different classes, and they aren't
 the easiest code files to digest, and as a working unit it isn't immediately obvious which classes work with others -- that will happen
 when using any GUI library, and especially Java Swing due to how old it is. 
@@ -170,4 +169,5 @@ in the `EditorControlPanel`. This class lets you change the size of the map.
 
 The "Save Map" button will overwrite a map's assigned map file with what it looks like in the editor.
 
-I apologize deeply that there are no comments for the map editor classes, I will go back sometime and fix that
+I apologize deeply that there are no comments for the map editor classes, I will go back sometime and fix that. Maybe. I'm not going to do it.
+

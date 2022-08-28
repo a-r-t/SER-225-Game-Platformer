@@ -6,6 +6,7 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.Enemy;
+import Level.MapEntity;
 import Level.Player;
 import Utils.AirGroundState;
 import Utils.Direction;
@@ -86,8 +87,8 @@ public class DinosaurEnemy extends Enemy {
             // if dinosaur reaches the start or end location, it turns around
             // dinosaur may end up going a bit past the start or end location depending on movement speed
             // this calculates the difference and pushes the enemy back a bit so it ends up right on the start or end location
-            if (getX1() + getScaledWidth() >= endBound) {
-                float difference = endBound - (getScaledX2());
+            if (getX1() + getWidth() >= endBound) {
+                float difference = endBound - (getX2());
                 moveXHandleCollision(-difference);
                 facingDirection = Direction.LEFT;
             } else if (getX1() <= startBound) {
@@ -109,7 +110,7 @@ public class DinosaurEnemy extends Enemy {
                 int fireballX;
                 float movementSpeed;
                 if (facingDirection == Direction.RIGHT) {
-                    fireballX = Math.round(getX()) + getScaledWidth();
+                    fireballX = Math.round(getX()) + getWidth();
                     movementSpeed = 1.5f;
                 } else {
                     fireballX = Math.round(getX());
@@ -134,7 +135,7 @@ public class DinosaurEnemy extends Enemy {
     }
 
     @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) {
         // if dinosaur enemy collides with something on the x axis, it turns around and walks the other way
         if (hasCollided) {
             if (direction == Direction.RIGHT) {
@@ -148,7 +149,7 @@ public class DinosaurEnemy extends Enemy {
     }
 
     @Override
-    public HashMap<String, Frame[]> getAnimations(SpriteSheet spriteSheet) {
+    public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("WALK_LEFT", new Frame[]{
                     new FrameBuilder(spriteSheet.getSprite(0, 0), 200)
@@ -175,14 +176,14 @@ public class DinosaurEnemy extends Enemy {
             });
 
             put("SHOOT_LEFT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(1, 0), 0)
+                    new FrameBuilder(spriteSheet.getSprite(1, 0))
                             .withScale(3)
                             .withBounds(4, 2, 5, 13)
                             .build(),
             });
 
             put("SHOOT_RIGHT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(1, 0), 0)
+                    new FrameBuilder(spriteSheet.getSprite(1, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(4, 2, 5, 13)

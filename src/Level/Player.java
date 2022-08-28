@@ -24,6 +24,7 @@ public abstract class Player extends GameObject {
     protected float jumpForce = 0;
     protected float momentumY = 0;
     protected float moveAmountX, moveAmountY;
+    protected float lastAmountMovedX, lastAmountMovedY;
 
     // values used to keep track of player's current state
     protected PlayerState playerState;
@@ -43,8 +44,8 @@ public abstract class Player extends GameObject {
     protected Key MOVE_RIGHT_KEY = Key.RIGHT;
     protected Key CROUCH_KEY = Key.DOWN;
 
-    // if true, player cannot be hurt by enemies (good for testing)
-    protected boolean isInvincible = false;
+    // flags
+    protected boolean isInvincible = false; // if true, player cannot be hurt by enemies (good for testing)
 
     public Player(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
         super(spriteSheet, x, y, startingAnimationName);
@@ -72,14 +73,16 @@ public abstract class Player extends GameObject {
 
             previousAirGroundState = airGroundState;
 
-            // update player's animation
-            super.update();
-
             // move player with respect to map collisions based on how much player needs to move this frame
-            super.moveYHandleCollision(moveAmountY);
-            super.moveXHandleCollision(moveAmountX);
+            lastAmountMovedY = super.moveYHandleCollision(moveAmountY);
+            lastAmountMovedX = super.moveXHandleCollision(moveAmountX);
+
+            handlePlayerAnimation();
 
             updateLockedKeys();
+
+            // update player's animation
+            super.update();
         }
 
         // if player has beaten level
@@ -118,9 +121,6 @@ public abstract class Player extends GameObject {
 
     // player STANDING state logic
     protected void playerStanding() {
-        // sets animation to a STAND animation based on which way player is facing
-        currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
-
         // if walk left or walk right key is pressed, player enters WALKING state
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY) || Keyboard.isKeyDown(MOVE_RIGHT_KEY)) {
             playerState = PlayerState.WALKING;
@@ -140,9 +140,6 @@ public abstract class Player extends GameObject {
 
     // player WALKING state logic
     protected void playerWalking() {
-        // sets animation to a WALK animation based on which way player is facing
-        currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
-
         // if walk left key is pressed, move player to the left
         if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
             moveAmountX -= walkSpeed;
@@ -171,9 +168,6 @@ public abstract class Player extends GameObject {
 
     // player CROUCHING state logic
     protected void playerCrouching() {
-        // sets animation to a CROUCH animation based on which way player is facing
-        currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
-
         // if crouch key is released, player enters STANDING state
         if (Keyboard.isKeyUp(CROUCH_KEY)) {
             playerState = PlayerState.STANDING;
@@ -216,13 +210,6 @@ public abstract class Player extends GameObject {
                 }
             }
 
-            // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
-            if (previousY > Math.round(y)) {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
-            } else {
-                currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
-            }
-
             // allows you to move left and right while in the air
             if (Keyboard.isKeyDown(MOVE_LEFT_KEY)) {
                 moveAmountX -= walkSpeed;
@@ -256,13 +243,44 @@ public abstract class Player extends GameObject {
         }
     }
 
-    @Override
-    public void onEndCollisionCheckX(boolean hasCollided, Direction direction) {
+    // anything extra the player should do based on interactions can be handled here
+    protected void handlePlayerAnimation() {
+        if (playerState == PlayerState.STANDING) {
+            // sets animation to a STAND animation based on which way player is facing
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "STAND_RIGHT" : "STAND_LEFT";
 
+            // handles putting goggles on when standing in water
+            // checks if the center of the player is currently touching a water tile
+            int centerX = Math.round(getBounds().getX1()) + Math.round(getBounds().getWidth() / 2f);
+            int centerY = Math.round(getBounds().getY1()) + Math.round(getBounds().getHeight() / 2f);
+            MapTile currentMapTile = map.getTileByPosition(centerX, centerY);
+            if (currentMapTile != null && currentMapTile.getTileType() == TileType.WATER) {
+                this.currentAnimationName = facingDirection == Direction.RIGHT ? "SWIM_STAND_RIGHT" : "SWIM_STAND_LEFT";
+            }
+        }
+        else if (playerState == PlayerState.WALKING) {
+            // sets animation to a WALK animation based on which way player is facing
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "WALK_RIGHT" : "WALK_LEFT";
+        }
+        else if (playerState == PlayerState.CROUCHING) {
+            // sets animation to a CROUCH animation based on which way player is facing
+            this.currentAnimationName = facingDirection == Direction.RIGHT ? "CROUCH_RIGHT" : "CROUCH_LEFT";
+        }
+        else if (playerState == PlayerState.JUMPING) {
+            // if player is moving upwards, set player's animation to jump. if player moving downwards, set player's animation to fall
+            if (lastAmountMovedY <= 0) {
+                this.currentAnimationName = facingDirection == Direction.RIGHT ? "JUMP_RIGHT" : "JUMP_LEFT";
+            } else {
+                this.currentAnimationName = facingDirection == Direction.RIGHT ? "FALL_RIGHT" : "FALL_LEFT";
+            }
+        }
     }
 
     @Override
-    public void onEndCollisionCheckY(boolean hasCollided, Direction direction) {
+    public void onEndCollisionCheckX(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) { }
+
+    @Override
+    public void onEndCollisionCheckY(boolean hasCollided, Direction direction, MapEntity entityCollidedWith) {
         // if player collides with a map tile below it, it is now on the ground
         // if player does not collide with a map tile below, it is in air
         if (direction == Direction.DOWN) {

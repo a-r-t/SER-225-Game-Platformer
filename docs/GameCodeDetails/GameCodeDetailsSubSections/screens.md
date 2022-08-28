@@ -7,9 +7,6 @@ has_children: true
 permalink: /GameCodeDetails/Screens
 ---
 
-# Navigation Structure
-{: .no_toc }
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -22,8 +19,8 @@ permalink: /GameCodeDetails/Screens
 
 ## What is a Screen?
 
-This engine uses a concept of "screens" to split up sections of a game into logical separate classes. Games tend to be heavy on code,
-so it is important to use screens as a means to organize different pieces of the game to keep the codebase maintainable and navigable. 
+This engine uses a concept of "screens" to split up sections of a game into logical separate classes. Games tend to be heavy on code, so
+screens are used as a means to organize different pieces of the game to keep the codebase maintainable and navigable. 
 Screens have their own instance variables and `update`/`draw` methods that are crafted specifically for its owned part of the game code.
 
 The `ScreenCoordinator` class, which details on can be found [here](./ScreensSubSections/screen-coordinator.md), is the most important `Screen` in the codebase,
@@ -52,10 +49,10 @@ for screens that it handles. `Screen` classes can load other screen themselves, 
 the game loop cycle properly (usually just by calling its `update` and `draw` calls as a part of its own cycle). The `initialize` method
 "sets up" a screen and is usually called immediately after the screen is instantiated -- it is very similar to a constructor in this regard, however constructors
 cannot be called again while it is often useful to call the `initialize` method again to "reset" a screen. An example of this is resetting a level from the beginning
-by calling its `initialize` method and letting it handle re-setting everything up.
+by calling the associated screen's `initialize` method and letting it handle re-setting everything up.
 
-The `update` method is passed the `Keyboard` class so it can always be used to detect keyboard input, and the
-`draw` method is passed the `GraphicsHandler` class in order to paint to the engine's backing JPanel.]
+All screens can detect keyboard input through the `Keyboard` class, and the
+`draw` methods are always passed the `GraphicsHandler` class instance in order to allow painting to the engine's backing JPanel.
 
 ## How to add a new Screen class?
 
@@ -83,8 +80,8 @@ From there, the code added to those methods should handle setting up the instruc
 the game logic for the instructions screen, and finally what graphics should be shown on the JPanel while the instruction screen
 is loaded.
 
-A way for this screen to be loaded will also need to be added to the game logic, either adding it to the `ScreenCoordniator` or setting up an existing screen to handle it.
+A way for this screen to be loaded will also need to be added to the game logic, by either adding it to the `ScreenCoordniator` or setting up an existing screen to handle it.
 The `PlayLevelScreen` is the most bulky screen in this game, but it's a good example of how a screen can be loaded from another screen
-(upon beating a level or dying in a level, the `LevelClearedScreen` or `LevelLoseScreen` is loaded up while the `PlayLevelScreen` is still active). 
+(upon beating a level or dying in a level, the `LevelClearedScreen` or `LevelLoseScreen` is loaded up while the `PlayLevelScreen` is still active).
 
 

@@ -25,7 +25,7 @@ together which ultimately build up to the `GameObject` class containing all nece
 which makes it quick and easy to use without requiring the code logic used to be rewritten again and again.
 
 In this game, the `GameObject` class is subclassed by every map entity, which includes the [player](./player.md), 
-and any subclasses of `MapEntity` which include [enemies](./MapSubSections/enemies.md), [npcs](./MapSubSections/npcs.md), and [map tiles](/GameDetails/Map/MapTilesAndTilesets) (as well as [enhanced map tiles](./MapSubSections/enhanced-map-tiles.md), which derive from the `MapTile` class).
+and any subclasses of `MapEntity` which include [enemies](./MapSubSections/enemies.md), [NPCs](./MapSubSections/npcs.md), and [map tiles](/GameDetails/Map/MapTilesAndTilesets) (as well as [enhanced map tiles](./MapSubSections/enhanced-map-tiles.md), which derive from the `MapTile` class).
 That means that all of these subclasses (and their subclasses) include all functionality of the `GameObject` class under the hood.
 
 ## Features of the GameObject class

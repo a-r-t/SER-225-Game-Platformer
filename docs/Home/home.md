@@ -43,11 +43,11 @@ function moveCat() {
     
     if (currentLeft + catImageWidth >= containerWidth) {
         walkDirection = -1;
-        catImage.src = "/SER-225-Game/assets/images/cat-walking-left.gif";
+        catImage.src = "/SER-225-Game-Platformer/assets/images/cat-walking-left.gif";
         catImage.alt = "cat-walking-left.gif";
     } else if (currentLeft <= 0) {
         walkDirection = 1;
-        catImage.src = "/SER-225-Game/assets/images/cat-walking-right.gif";
+        catImage.src = "/SER-225-Game-Platformer/assets/images/cat-walking-right.gif";
         catImage.alt = "cat-walking-right.gif";
     }
 

@@ -11,6 +11,7 @@ public class MapTileBuilder {
     private HashMap<String, Frame[]> animations = new HashMap<>();
     private TileType tileType = TileType.PASSABLE;
     private int tileIndex = -1;
+    private int[][] layout = null;
 
     public MapTileBuilder(Frame frame) {
         this.animations.put("DEFAULT", new Frame[] { frame });
@@ -30,6 +31,11 @@ public class MapTileBuilder {
         return this;
     }
 
+    public MapTileBuilder withLayout(int[][] layout) {
+        this.layout = layout;
+        return this;
+    }
+
     public HashMap<String, Frame[]> cloneAnimations() {
         HashMap<String, Frame[]> animationsCopy = new HashMap<>();
         for (String key : animations.keySet()) {
@@ -44,6 +50,10 @@ public class MapTileBuilder {
     }
 
     public MapTile build(float x, float y) {
-        return new MapTile(x, y, cloneAnimations(), tileType, tileIndex);
+        MapTile mapTile = new MapTile(x, y, cloneAnimations(), tileType, tileIndex);
+        if (layout != null) {
+            mapTile.setLayout(layout);
+        }
+        return mapTile;
     }
 }

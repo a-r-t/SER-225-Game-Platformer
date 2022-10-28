@@ -7,8 +7,10 @@ import GameObject.Frame;
 import GameObject.ImageEffect;
 import Level.TileType;
 import Level.Tileset;
+import Utils.SlopeTileLayoutUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // This class represents a "common" tileset of standard tiles defined in the CommonTileset.png file
 public class CommonTileset extends Tileset {
@@ -216,6 +218,36 @@ public class CommonTileset extends Tileset {
                 .withTileType(TileType.NOT_PASSABLE);
 
         mapTiles.add(greyRockTile);
+
+        // left slope
+        Frame leftSlopeFrame = new FrameBuilder(getSubImage(3, 3))
+                .withScale(tileScale)
+                .build();
+
+        MapTileBuilder leftSlopeTile = new MapTileBuilder(leftSlopeFrame)
+                .withTileType(TileType.SLOPE)
+                .withLayout(SlopeTileLayoutUtils.createLeft45SlopeLayout(spriteWidth, (int)tileScale));
+
+//        int[][] test = SlopeTileLayoutUtils.createRight45SlopeLayout(spriteWidth, (int)tileScale);
+//        for (int i = 0; i < test.length; i++) {
+//            for (int j = 0; j < test[i].length; j++) {
+//                System.out.print(test[i][j] + " ");
+//            }
+//            System.out.print("\n");
+//        }
+
+        mapTiles.add(leftSlopeTile);
+
+        // right slope
+        Frame rightSlopeFrame = new FrameBuilder(getSubImage(3, 4))
+                .withScale(tileScale)
+                .build();
+
+        MapTileBuilder rightSlopeTile = new MapTileBuilder(rightSlopeFrame)
+                .withTileType(TileType.SLOPE)
+                .withLayout(SlopeTileLayoutUtils.createRight45SlopeLayout(spriteWidth, (int)tileScale));
+
+        mapTiles.add(rightSlopeTile);
 
         return mapTiles;
     }

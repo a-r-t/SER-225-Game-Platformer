@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class MapTile extends MapEntity {
     // this determines a tile's properties, like if it's passable or not
     protected TileType tileType;
+    protected int[][] layout; // only used for slopes
 
     private int tileIndex;
 
@@ -51,6 +52,10 @@ public class MapTile extends MapEntity {
     public boolean isAnimated() {
         return getCurrentAnimation().length > 1;
     }
+
+    public int[][] getLayout() { return layout; }
+
+    public void setLayout(int[][] layout) { this.layout = layout; }
 
     public void update() {
         super.update();

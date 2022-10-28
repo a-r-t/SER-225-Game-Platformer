@@ -133,7 +133,8 @@ public class GameObject extends AnimatedSprite {
 			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
 				entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-				setX(collisionCheckResult.getAdjustedLocation());
+				setX(collisionCheckResult.getAdjustedLocation().x);
+				setY(collisionCheckResult.getAdjustedLocation().y);
 				break;
 			}
 			amountMoved = (i + 1) * direction.getVelocity();
@@ -149,7 +150,8 @@ public class GameObject extends AnimatedSprite {
 			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
 				entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-				setX(collisionCheckResult.getAdjustedLocation());
+				setX(collisionCheckResult.getAdjustedLocation().x);
+				setY(collisionCheckResult.getAdjustedLocation().y);
 			}
 		}
 
@@ -183,7 +185,8 @@ public class GameObject extends AnimatedSprite {
 			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
 				entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-				setY(collisionCheckResult.getAdjustedLocation());
+				setX(collisionCheckResult.getAdjustedLocation().x);
+				setY(collisionCheckResult.getAdjustedLocation().y);
 				break;
 			}
 			amountMoved = (i + 1) * direction.getVelocity();
@@ -199,7 +202,8 @@ public class GameObject extends AnimatedSprite {
 			if (collisionCheckResult.getAdjustedLocation() != null) {
 				hasCollided = true;
 				entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-				setY(collisionCheckResult.getAdjustedLocation());
+				setX(collisionCheckResult.getAdjustedLocation().x);
+				setY(collisionCheckResult.getAdjustedLocation().y);
 			}
 		}
 

@@ -7,6 +7,7 @@ import Game.ScreenCoordinator;
 import Level.Map;
 import Level.Player;
 import Level.PlayerListener;
+import Maps.SlopeTestMap;
 import Maps.TestMap;
 import Players.Cat;
 import Utils.Point;
@@ -29,7 +30,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     public void initialize() {
         // define/setup map
-        this.map = new TestMap();
+        this.map = new SlopeTestMap();
         map.reset();
 
         // setup player

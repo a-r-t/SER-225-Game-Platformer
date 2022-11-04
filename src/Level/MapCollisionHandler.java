@@ -20,6 +20,7 @@ public class MapCollisionHandler {
                 float adjustedPositionX = gameObject.getX();
                 float adjustedPositionY = gameObject.getY();
                 if (entityCollidedWith.getTileType() != TileType.SLOPE) {
+                    System.out.println("COLLIDE WITH SOMETHING ELSE");
                     if (direction == Direction.RIGHT) {
                         float boundsDifference = gameObject.getX2() - gameObject.getBoundsX2();
                         adjustedPositionX = mapTile.getBoundsX1() - gameObject.getWidth() + boundsDifference;
@@ -29,16 +30,34 @@ public class MapCollisionHandler {
                     }
                 }
                 else {
-                    int centerBoundX = Math.round(gameObject.getBoundsX1() + (gameObject.getBounds().getWidth() / 2f));
+                    System.out.println("COLLIDE WITH SLOPE");
+                    int centerBoundX = Math.round(gameObject.getBoundsX2());
                     int xLocationInTile = centerBoundX - Math.round(entityCollidedWith.getX());
-                    if (xLocationInTile >= 0 && centerBoundX < entityCollidedWith.getX2()) {
-                        int row = 0;
-                        while (entityCollidedWith.getLayout()[row][xLocationInTile] != 1) {
-                            row++;
+                    System.out.println("X LOC IN TILE: " + xLocationInTile);
+                    if (xLocationInTile >= 0 && xLocationInTile < entityCollidedWith.getX2()) {
+                        int centerBoundY = Math.round(gameObject.getBoundsY2());
+                        int row = centerBoundY - Math.round(entityCollidedWith.getY()) - 1;
+                        System.out.println("ROW start: " + row);
+
+//                        for (int i = 0; i < entityCollidedWith.getLayout().length; i++) {
+//                            for (int k = 0; k < entityCollidedWith.getLayout()[j].length; k++) {
+//                                System.out.print(entityCollidedWith.getLayout()[i][k]);
+//                            }
+//                            System.out.print("\n");
+//                        }
+                        int offset = 0;
+                        while (row >= 0 && row < entityCollidedWith.getLayout().length && entityCollidedWith.getLayout()[row][xLocationInTile] == 1) {
+                            row--;
+                            offset--;
                         }
-                        adjustedPositionY = (entityCollidedWith.getY() - gameObject.getHeight()) + row;
+                        System.out.println("ROW: " + row);
+                        System.out.println("OFFSET: " + offset);
+
+                        adjustedPositionY = gameObject.getY() + offset;
+                        System.out.println("entity y pos: " + entityCollidedWith.getY());
+                        System.out.println("ori: " + gameObject.getY());
                         System.out.println("ady: " + adjustedPositionY);
-                        System.out.println("ori: " + entityCollidedWith.getY() + entityCollidedWith.getHeight());
+//                        System.exit(1);
                     }
                 }
 

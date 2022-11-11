@@ -20,7 +20,6 @@ public class MapCollisionHandler {
                 float adjustedPositionX = gameObject.getX();
                 float adjustedPositionY = gameObject.getY();
                 if (entityCollidedWith.getTileType() != TileType.SLOPE) {
-                    System.out.println("COLLIDE WITH SOMETHING ELSE");
                     if (direction == Direction.RIGHT) {
                         float boundsDifference = gameObject.getX2() - gameObject.getBoundsX2();
                         adjustedPositionX = mapTile.getBoundsX1() - gameObject.getWidth() + boundsDifference;
@@ -30,35 +29,34 @@ public class MapCollisionHandler {
                     }
                 }
                 else {
-                    System.out.println("COLLIDE WITH SLOPE");
-                    int centerBoundX = Math.round(gameObject.getBoundsX2());
-                    int xLocationInTile = centerBoundX - Math.round(entityCollidedWith.getX());
-                    System.out.println("X LOC IN TILE: " + xLocationInTile);
-                    if (xLocationInTile >= 0 && xLocationInTile < entityCollidedWith.getX2()) {
-                        int centerBoundY = Math.round(gameObject.getBoundsY2());
-                        int row = centerBoundY - Math.round(entityCollidedWith.getY()) - 1;
-                        System.out.println("ROW start: " + row);
-
-//                        for (int i = 0; i < entityCollidedWith.getLayout().length; i++) {
-//                            for (int k = 0; k < entityCollidedWith.getLayout()[j].length; k++) {
-//                                System.out.print(entityCollidedWith.getLayout()[i][k]);
-//                            }
-//                            System.out.print("\n");
+//                    System.out.println("COLLIDE WITH SLOPE");
+//                    int centerBoundX = Math.round(gameObject.getBoundsX2());
+//                    int xLocationInTile = centerBoundX - Math.round(entityCollidedWith.getX());
+//                    System.out.println("X LOC IN TILE: " + xLocationInTile);
+//                    if (xLocationInTile >= 0 && xLocationInTile < entityCollidedWith.getLayout().length) {
+//                        int centerBoundY = Math.round(gameObject.getBoundsY2());
+//                        int row = centerBoundY - Math.round(entityCollidedWith.getY()) - 1;
+//                        System.out.println("ROW start: " + row);
+//
+////                        for (int i = 0; i < entityCollidedWith.getLayout().length; i++) {
+////                            for (int k = 0; k < entityCollidedWith.getLayout()[j].length; k++) {
+////                                System.out.print(entityCollidedWith.getLayout()[i][k]);
+////                            }
+////                            System.out.print("\n");
+////                        }
+//                        int offset = 0;
+//                        while (row >= 0 && row < entityCollidedWith.getLayout().length && entityCollidedWith.getLayout()[row][xLocationInTile] == 1) {
+//                            row--;
+//                            offset--;
 //                        }
-                        int offset = 0;
-                        while (row >= 0 && row < entityCollidedWith.getLayout().length && entityCollidedWith.getLayout()[row][xLocationInTile] == 1) {
-                            row--;
-                            offset--;
-                        }
-                        System.out.println("ROW: " + row);
-                        System.out.println("OFFSET: " + offset);
-
-                        adjustedPositionY = gameObject.getY() + offset;
-                        System.out.println("entity y pos: " + entityCollidedWith.getY());
-                        System.out.println("ori: " + gameObject.getY());
-                        System.out.println("ady: " + adjustedPositionY);
-//                        System.exit(1);
-                    }
+//                        System.out.println("ROW: " + row);
+//                        System.out.println("OFFSET: " + offset);
+//
+//                        adjustedPositionY = gameObject.getY() + offset;
+//                        System.out.println("entity y pos: " + entityCollidedWith.getY());
+//                        System.out.println("ori: " + gameObject.getY());
+//                        System.out.println("ady: " + adjustedPositionY);
+//                    }
                 }
 
                 return new MapCollisionCheckResult(new Point(adjustedPositionX, adjustedPositionY), entityCollidedWith);
@@ -105,6 +103,35 @@ public class MapCollisionHandler {
                     }
                 }
                 else {
+//                    System.out.println("COLLIDE WITH SLOPE");
+//                    int centerBoundX = Math.round(gameObject.getBoundsX2());
+//                    int xLocationInTile = centerBoundX - Math.round(entityCollidedWith.getX());
+//                    System.out.println("X LOC IN TILE: " + xLocationInTile);
+//                    if (xLocationInTile >= 0 && xLocationInTile < entityCollidedWith.getLayout().length) {
+//                        int centerBoundY = Math.round(gameObject.getBoundsY2());
+//                        int row = centerBoundY - Math.round(entityCollidedWith.getY()) - 1;
+//                        System.out.println("ROW start: " + row);
+//
+////                        for (int i = 0; i < entityCollidedWith.getLayout().length; i++) {
+////                            for (int k = 0; k < entityCollidedWith.getLayout()[j].length; k++) {
+////                                System.out.print(entityCollidedWith.getLayout()[i][k]);
+////                            }
+////                            System.out.print("\n");
+////                        }
+//                        int offset = 0;
+//                        while (row >= 0 && row < entityCollidedWith.getLayout().length && entityCollidedWith.getLayout()[row][xLocationInTile] == 1) {
+//                            row--;
+//                            offset--;
+//                        }
+//                        System.out.println("ROW: " + row);
+//                        System.out.println("OFFSET: " + offset);
+//
+//                        adjustedPositionY = gameObject.getY() + offset;
+//                        System.out.println("entity y pos: " + entityCollidedWith.getY());
+//                        System.out.println("ori: " + gameObject.getY());
+//                        System.out.println("ady: " + adjustedPositionY);
+////                        System.exit(1);
+//                    }
 //                    int centerBoundX = Math.round(gameObject.getBoundsX1() + (gameObject.getBounds().getWidth() / 2f));
 //                    int xLocationInTile = centerBoundX - Math.round(entityCollidedWith.getX());
 //                    if (xLocationInTile >= 0 && centerBoundX < entityCollidedWith.getX2()) {
@@ -137,6 +164,23 @@ public class MapCollisionHandler {
         return new MapCollisionCheckResult(null, null);
     }
 
+    public static void slopeAdjustment(GameObject gameObject, Map map, Direction direction) {
+        int numberOfTilesToCheck = Math.max(gameObject.getBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
+        int centerBoundX = Math.round(gameObject.getBoundsX1() + (gameObject.getBounds().getWidth() / 2f));
+        int centerBoundY = Math.round(gameObject.getBoundsY1() + (gameObject.getBounds().getHeight() / 2f));
+        Point tileIndex = map.getTileIndexByPosition(centerBoundX, centerBoundY);
+        MapTile entityCollidedWith = null;
+        for (int i = -1; i <= numberOfTilesToCheck + 1; i++) {
+            for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
+                MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y) + i);
+                if (mapTile != null && mapTile.tileType == TileType.SLOPE && gameObject.intersects(mapTile)) {
+                    
+                }
+            }
+        }
+
+    }
+
     // based on tile type, perform logic to determine if a collision did occur with an intersecting tile or not
     private static boolean hasCollidedWithMapEntity(GameObject gameObject, MapEntity mapEntity, Direction direction) {
         if (mapEntity instanceof MapTile) {
@@ -152,7 +196,7 @@ public class MapCollisionHandler {
                 case WATER:
                     return false;
                 case SLOPE:
-                    return gameObject.intersects(mapTile);
+                    return false;
                 default:
                     return false;
             }

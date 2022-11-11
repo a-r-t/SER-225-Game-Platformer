@@ -1,10 +1,7 @@
 package GameObject;
 
 import Engine.GraphicsHandler;
-import Level.Map;
-import Level.MapCollisionCheckResult;
-import Level.MapCollisionHandler;
-import Level.MapEntity;
+import Level.*;
 import Utils.Direction;
 import Utils.ImageUtils;
 import Utils.MathUtils;
@@ -207,6 +204,8 @@ public class GameObject extends AnimatedSprite {
 			}
 		}
 
+		MapCollisionHandler.slopeAdjustment(this, map, direction);
+
 		// call this method which a game object subclass can override to listen for collision events and react accordingly
 		onEndCollisionCheckY(hasCollided, direction, entityCollidedWith);
 
@@ -270,11 +269,11 @@ public class GameObject extends AnimatedSprite {
 					currentFrame.getImageEffect());
 
 			// Uncomment this to draw player's bounds to screen -- useful for debugging
-			/*
+
 			if (this instanceof Player) {
 				drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
 			}
-			*/
+
 		} else {
 			super.draw(graphicsHandler);
 		}

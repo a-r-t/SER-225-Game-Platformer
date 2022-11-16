@@ -46,6 +46,7 @@ public class TilePicker extends JPanel {
     }
 
     public void setTileset(Map map, Tileset tileset) {
+        mapTiles.clear();
         this.tileset = tileset;
         HashMap<Integer, MapTileBuilder> mapTileBuilders = this.tileset.mapDefinedTilesToIndex();
 

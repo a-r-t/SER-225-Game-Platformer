@@ -25,8 +25,6 @@ public class Cat extends Player {
     }
 
     public void update() {
-        System.out.println("LOCATION X: " + getX());
-        System.out.println("LOCATION Y: " + getY());
         super.update();
     }
 

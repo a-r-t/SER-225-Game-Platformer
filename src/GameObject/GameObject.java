@@ -109,7 +109,7 @@ public class GameObject extends AnimatedSprite {
 
     // performs collision check logic for moving along the x axis against the map's tiles
     public float handleCollisionX(float moveAmountX) {
-        System.out.println("HANDLE COLLISION X");
+//        System.out.println("HANDLE COLLISION X");
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountX);
 
@@ -153,19 +153,36 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
-        if (direction == Direction.RIGHT) {
-            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
-            //System.out.println("NORM: " + getBounds().getX2() + ", " + (getBounds().getY() + getBounds().getHeight()));
-            //System.out.println("ROUND: " + Math.round(getBounds().getX2()) + ", " + (Math.round(getBounds().getY1()) + getBounds().getHeight()));
-            System.out.println("BOUNDS: "  + getBounds());
-            System.out.println("CAL BOUNDS: " + getCalibratedBounds());
-//            System.out.println("LOCATION X: " + getX());
-            if (currentTile.getTileType() == TileType.SLOPE) {
-                int rightBoundX = Math.round(getBoundsX2());
-                int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
-                System.out.println("SLOPE");
-            }
-        }
+//        if (direction == Direction.RIGHT) {
+//            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
+//            //System.out.println("NORM: " + getBounds().getX2() + ", " + (getBounds().getY() + getBounds().getHeight()));
+//            //System.out.println("ROUND: " + Math.round(getBounds().getX2()) + ", " + (Math.round(getBounds().getY1()) + getBounds().getHeight()));
+////            System.out.println("BOUNDS: "  + getBounds());
+////            System.out.println("CAL BOUNDS: " + getCalibratedBounds());
+////            System.out.println("LOCATION X: " + getX());
+//            if (currentTile.getTileType() == TileType.SLOPE) {
+//                int rightBoundX = Math.round(getBoundsX2());
+//                int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
+//                int southBoundY = Math.round(getBoundsY2());
+//                int yLocationInTile = southBoundY - Math.round(currentTile.getY());
+//                int counter = 0;
+//                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
+//                        && yLocationInTile < currentTile.getLayout().length) {
+//                    System.out.println(xLocationInTile + ", " + yLocationInTile);
+//                    System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+//                    while (currentTile.getLayout()[yLocationInTile + counter][xLocationInTile] == 1) {
+//                        counter--;
+//                        if (counter < 0) {
+//                            break;
+//                        }
+//                    }
+//                    System.out.println("SLOPE");
+//                    moveY(counter);
+//                    hasCollided = true;
+//                    entityCollidedWith = currentTile;
+//                }
+//            }
+//        }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
         onEndCollisionCheckX(hasCollided, direction, entityCollidedWith);
@@ -176,7 +193,7 @@ public class GameObject extends AnimatedSprite {
 
     // performs collision check logic for moving along the y axis against the map's tiles
     public float handleCollisionY(float moveAmountY) {
-        System.out.println("HANDLE COLLISION Y");
+//        System.out.println("HANDLE COLLISION Y");
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountY);
 
@@ -220,8 +237,32 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
-//        MapCollisionHandler.slopeAdjustment(this, map, direction);
-
+        MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
+        if (currentTile.getTileType() == TileType.SLOPE) {
+            int rightBoundX = Math.round(getBoundsX2());
+            int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
+            int southBoundY = Math.round(getBoundsY2());
+            int yLocationInTile = southBoundY - Math.round(currentTile.getY());
+            int counter = 0;
+            if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
+                    && yLocationInTile < currentTile.getLayout().length) {
+                //System.out.println(xLocationInTile + ", " + yLocationInTile);
+                //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+                while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
+//                    System.out.println("Counter: " + counter);
+                    counter++;
+                    if (yLocationInTile - counter < 0) {
+                        break;
+                    }
+                }
+                if (counter > 0) {
+                    System.out.println("SLOPE");
+                    moveY(-counter);
+                    hasCollided = true;
+                    entityCollidedWith = currentTile;
+                }
+            }
+        }
         // call this method which a game object subclass can override to listen for collision events and react accordingly
         onEndCollisionCheckY(hasCollided, direction, entityCollidedWith);
 
@@ -292,8 +333,8 @@ public class GameObject extends AnimatedSprite {
                 //drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
                 graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), getBounds().getHeight(), new Color(255, 0, 0, 100));
                 graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.BLUE);
-                System.out.println("X + W: " + (Math.round(getBounds().getX1()) + getBounds().getWidth()));
-                System.out.println("X2: " + (Math.round(getBounds().getX2())));
+//                System.out.println("X + W: " + (Math.round(getBounds().getX1()) + getBounds().getWidth()));
+//                System.out.println("X2: " + (Math.round(getBounds().getX2())));
                 graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.yellow);
                 //graphicsHandler.drawRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.YELLOW);
                 //graphicsHandler.drawRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.YELLOW);

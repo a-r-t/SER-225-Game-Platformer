@@ -49,7 +49,7 @@ public class Rectangle implements IntersectableRectangle {
     }
 
     public float getX2() {
-		return x + getWidth();
+		return (x + getWidth()) - 1;
 	}
 	
 	public void setX(float x) {
@@ -77,7 +77,7 @@ public class Rectangle implements IntersectableRectangle {
     }
 
 	public float getY2() {
-		return y + getHeight();
+		return (y + getHeight()) - 1;
 	}
 
     public void setY(float y) {

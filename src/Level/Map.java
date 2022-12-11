@@ -230,8 +230,9 @@ public abstract class Map {
     }
 
     // returns a tile based on a position in the map
-    public MapTile getTileByPosition(int xPosition, int yPosition) {
+    public MapTile getTileByPosition(float xPosition, float yPosition) {
         Point tileIndex = getTileIndexByPosition(xPosition, yPosition);
+        System.out.println("tile index: " + tileIndex.x + ", " + tileIndex.y + " ... rounded: " + Math.round(tileIndex.x) + ", " + Math.round(tileIndex.y));
         if (isInBounds(Math.round(tileIndex.x), Math.round(tileIndex.y))) {
             return getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y));
         } else {

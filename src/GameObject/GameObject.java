@@ -153,6 +153,33 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
+//        MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
+//        if (currentTile.getTileType() == TileType.SLOPE) {
+//            int rightBoundX = Math.round(getBoundsX2());
+//            int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
+//            int southBoundY = Math.round(getBoundsY2());
+//            int yLocationInTile = southBoundY - Math.round(currentTile.getY());
+//            int counter = 0;
+//            if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
+//                    && yLocationInTile < currentTile.getLayout().length) {
+//                //System.out.println(xLocationInTile + ", " + yLocationInTile);
+//                //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+//                while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
+////                    System.out.println("Counter: " + counter);
+//                    counter++;
+//                    if (yLocationInTile - counter < 0) {
+//                        break;
+//                    }
+//                }
+//                if (counter > 0) {
+//                    System.out.println("SLOPE");
+//                    moveY(-counter);
+////                    hasCollided = true;
+////                    entityCollidedWith = currentTile;
+//                }
+//            }
+//        }
+
 //        if (direction == Direction.RIGHT) {
 //            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
 //            //System.out.println("NORM: " + getBounds().getX2() + ", " + (getBounds().getY() + getBounds().getHeight()));
@@ -211,6 +238,34 @@ public class GameObject extends AnimatedSprite {
         MapEntity entityCollidedWith = null;
         for (int i = 0; i < amountToMove; i++) {
             moveY(direction.getVelocity());
+
+            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
+            if (direction == Direction.DOWN && currentTile.getTileType() == TileType.SLOPE) {
+                int rightBoundX = Math.round(getBoundsX2());
+                int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
+                int southBoundY = Math.round(getBoundsY2());
+                int yLocationInTile = southBoundY - Math.round(currentTile.getY());
+                int counter = 0;
+                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
+                        && yLocationInTile < currentTile.getLayout().length) {
+                    //System.out.println(xLocationInTile + ", " + yLocationInTile);
+                    //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+                    while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
+                        counter++;
+                        if (yLocationInTile - counter < 0) {
+                            break;
+                        }
+                    }
+                    if (counter > 0) {
+                        System.out.println("SLOPE MAIN");
+                        moveY(-counter);
+                        hasCollided = true;
+                        entityCollidedWith = currentTile;
+                        break;
+                    }
+                }
+            }
+
             MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
@@ -219,6 +274,7 @@ public class GameObject extends AnimatedSprite {
                 setY(collisionCheckResult.getAdjustedLocation().y);
                 break;
             }
+
             amountMoved = (i + 1) * direction.getVelocity();
         }
 
@@ -237,32 +293,34 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
-        MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
-        if (currentTile.getTileType() == TileType.SLOPE) {
-            int rightBoundX = Math.round(getBoundsX2());
-            int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
-            int southBoundY = Math.round(getBoundsY2());
-            int yLocationInTile = southBoundY - Math.round(currentTile.getY());
-            int counter = 0;
-            if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
-                    && yLocationInTile < currentTile.getLayout().length) {
-                //System.out.println(xLocationInTile + ", " + yLocationInTile);
-                //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
-                while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
-//                    System.out.println("Counter: " + counter);
-                    counter++;
-                    if (yLocationInTile - counter < 0) {
-                        break;
+        if (direction == Direction.DOWN) {
+            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
+            if (currentTile.getTileType() == TileType.SLOPE) {
+                int rightBoundX = Math.round(getBoundsX2());
+                int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
+                int southBoundY = Math.round(getBoundsY2());
+                int yLocationInTile = southBoundY - Math.round(currentTile.getY());
+                int counter = 0;
+                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
+                        && yLocationInTile < currentTile.getLayout().length) {
+                    //System.out.println(xLocationInTile + ", " + yLocationInTile);
+                    //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+                    while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
+                        counter++;
+                        if (yLocationInTile - counter <= 0) {
+                            break;
+                        }
                     }
-                }
-                if (counter > 0) {
-                    System.out.println("SLOPE");
-                    moveY(-counter);
-                    hasCollided = true;
-                    entityCollidedWith = currentTile;
+                    if (counter > 0) {
+                        System.out.println("SLOPE LAST CHANCE");
+                        moveY(-counter); // TODO: only move player up as much as necessary, this is doing too much, e.g. this will do 1 when it should only do sommething like .5
+                        hasCollided = true;
+                        entityCollidedWith = currentTile;
+                    }
                 }
             }
         }
+
         // call this method which a game object subclass can override to listen for collision events and react accordingly
         onEndCollisionCheckY(hasCollided, direction, entityCollidedWith);
 

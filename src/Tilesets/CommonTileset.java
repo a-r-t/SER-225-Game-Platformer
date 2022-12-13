@@ -5,8 +5,10 @@ import Builders.MapTileBuilder;
 import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.ImageEffect;
+import Level.TileLayout;
 import Level.TileType;
 import Level.Tileset;
+import Utils.Direction;
 import Utils.SlopeTileLayoutUtils;
 
 import java.util.ArrayList;
@@ -226,15 +228,7 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder leftSlopeTile = new MapTileBuilder(leftSlopeFrame)
                 .withTileType(TileType.SLOPE)
-                .withLayout(SlopeTileLayoutUtils.createLeft45SlopeLayout(spriteWidth, (int)tileScale));
-
-//        int[][] test = SlopeTileLayoutUtils.createRight45SlopeLayout(spriteWidth, (int)tileScale);
-//        for (int i = 0; i < test.length; i++) {
-//            for (int j = 0; j < test[i].length; j++) {
-//                System.out.print(test[i][j] + " ");
-//            }
-//            System.out.print("\n");
-//        }
+                .withTileLayout(SlopeTileLayoutUtils.createLeft45SlopeLayout(spriteWidth, (int)tileScale));
 
         mapTiles.add(leftSlopeTile);
 
@@ -245,7 +239,7 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder rightSlopeTile = new MapTileBuilder(rightSlopeFrame)
                 .withTileType(TileType.SLOPE)
-                .withLayout(SlopeTileLayoutUtils.createRight45SlopeLayout(spriteWidth, (int)tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createRight45SlopeLayout(spriteWidth, (int)tileScale));
 
         mapTiles.add(rightSlopeTile);
 

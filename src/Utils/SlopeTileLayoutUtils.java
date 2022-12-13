@@ -1,5 +1,7 @@
 package Utils;
 
+import Level.TileLayout;
+
 public class SlopeTileLayoutUtils {
 //    public static final int[] LEFT_45 = new int[] {
 //            0, 0, 1,
@@ -13,7 +15,7 @@ public class SlopeTileLayoutUtils {
 //            0, 0, 1
 //    };
 
-public static int[][] createLeft45SlopeLayout(int tileSize, int scale) {
+public static TileLayout createLeft45SlopeLayout(int tileSize, int scale) {
     int[][] slopeLayout = new int[(tileSize * scale)][(tileSize * scale)];
     int col = slopeLayout[0].length - 1;
     for (int i = 0; i < slopeLayout.length; i++) {
@@ -21,10 +23,10 @@ public static int[][] createLeft45SlopeLayout(int tileSize, int scale) {
             slopeLayout[i][j] = 1;
         }
     }
-    return slopeLayout;
+    return new TileLayout(slopeLayout, Direction.LEFT);
 }
 
-    public static int[][] createRight45SlopeLayout(int tileSize, int scale) {
+    public static TileLayout createRight45SlopeLayout(int tileSize, int scale) {
         int[][] slopeLayout = new int[(tileSize * scale)][(tileSize * scale)];
         int col = 0;
         for (int i = 0; i < slopeLayout.length; i++) {
@@ -32,7 +34,7 @@ public static int[][] createLeft45SlopeLayout(int tileSize, int scale) {
                 slopeLayout[i][j] = 1;
             }
         }
-        return slopeLayout;
+        return new TileLayout(slopeLayout, Direction.RIGHT);
     }
     
 }

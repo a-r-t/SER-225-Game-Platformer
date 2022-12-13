@@ -2,6 +2,7 @@ package Builders;
 
 import GameObject.Frame;
 import Level.MapTile;
+import Level.TileLayout;
 import Level.TileType;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class MapTileBuilder {
     private HashMap<String, Frame[]> animations = new HashMap<>();
     private TileType tileType = TileType.PASSABLE;
     private int tileIndex = -1;
-    private int[][] layout = null;
+    private TileLayout tileLayout = null;
 
     public MapTileBuilder(Frame frame) {
         this.animations.put("DEFAULT", new Frame[] { frame });
@@ -31,8 +32,8 @@ public class MapTileBuilder {
         return this;
     }
 
-    public MapTileBuilder withLayout(int[][] layout) {
-        this.layout = layout;
+    public MapTileBuilder withTileLayout(TileLayout tileLayout) {
+        this.tileLayout = tileLayout;
         return this;
     }
 
@@ -51,8 +52,8 @@ public class MapTileBuilder {
 
     public MapTile build(float x, float y) {
         MapTile mapTile = new MapTile(x, y, cloneAnimations(), tileType, tileIndex);
-        if (layout != null) {
-            mapTile.setLayout(layout);
+        if (tileLayout != null) {
+            mapTile.setLayout(tileLayout);
         }
         return mapTile;
     }

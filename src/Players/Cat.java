@@ -39,7 +39,7 @@ public class Cat extends Player {
             put("STAND_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(0, 0))
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
@@ -47,26 +47,26 @@ public class Cat extends Player {
                     new FrameBuilder(spriteSheet.getSprite(0, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
             put("WALK_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(1, 0), 200)
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build(),
                     new FrameBuilder(spriteSheet.getSprite(1, 1), 200)
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build(),
                     new FrameBuilder(spriteSheet.getSprite(1, 2), 200)
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build(),
                     new FrameBuilder(spriteSheet.getSprite(1, 3), 200)
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
@@ -74,29 +74,29 @@ public class Cat extends Player {
                     new FrameBuilder(spriteSheet.getSprite(1, 0), 200)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build(),
                     new FrameBuilder(spriteSheet.getSprite(1, 1), 200)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build(),
                     new FrameBuilder(spriteSheet.getSprite(1, 2), 200)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build(),
                     new FrameBuilder(spriteSheet.getSprite(1, 3), 200)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
             put("JUMP_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(2, 0))
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
@@ -104,14 +104,14 @@ public class Cat extends Player {
                     new FrameBuilder(spriteSheet.getSprite(2, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
             put("FALL_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(3, 0))
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
@@ -119,14 +119,14 @@ public class Cat extends Player {
                     new FrameBuilder(spriteSheet.getSprite(3, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
             put("CROUCH_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(4, 0))
                             .withScale(3)
-                            .withBounds(8, 12, 8, 6)
+                            .withBounds(8, 12, 7, 6)
                             .build()
             });
 
@@ -134,7 +134,7 @@ public class Cat extends Player {
                     new FrameBuilder(spriteSheet.getSprite(4, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 12, 8, 6)
+                            .withBounds(8, 12, 7, 6)
                             .build()
             });
 
@@ -168,7 +168,7 @@ public class Cat extends Player {
             put("SWIM_STAND_RIGHT", new Frame[] {
                     new FrameBuilder(spriteSheet.getSprite(6, 0))
                             .withScale(3)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
 
@@ -176,7 +176,7 @@ public class Cat extends Player {
                     new FrameBuilder(spriteSheet.getSprite(6, 0))
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                            .withBounds(8, 9, 8, 9)
+                            .withBounds(8, 9, 7, 9)
                             .build()
             });
         }};

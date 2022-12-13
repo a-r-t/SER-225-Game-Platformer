@@ -255,11 +255,11 @@ public class GameObject extends AnimatedSprite {
                 int southBoundY = Math.round(getBoundsY2());
                 int yLocationInTile = southBoundY - Math.round(currentTile.getY());
                 int counter = 0;
-                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
-                        && yLocationInTile < currentTile.getLayout().length) {
+                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+                        && yLocationInTile < currentTile.getLayout().getBounds().length) {
                     //System.out.println(xLocationInTile + ", " + yLocationInTile);
                     //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
-                    while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
+                    while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
                         counter++;
                         if (yLocationInTile - counter < 0) {
                             break;
@@ -316,11 +316,11 @@ public class GameObject extends AnimatedSprite {
                 int southBoundY = Math.round(getBoundsY2());
                 int yLocationInTile = southBoundY - Math.round(currentTile.getY());
                 int counter = 0;
-                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout()[0].length && yLocationInTile >= 0
-                        && yLocationInTile < currentTile.getLayout().length) {
+                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+                        && yLocationInTile < currentTile.getLayout().getBounds().length) {
                     System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
                     //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
-                    while (currentTile.getLayout()[yLocationInTile - counter][xLocationInTile] == 1) {
+                    while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
                         counter++;
                         if (yLocationInTile - counter < 0) {
                             break;
@@ -416,11 +416,11 @@ public class GameObject extends AnimatedSprite {
 
             if (this instanceof Player) {
                 //drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
-                graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), getBounds().getHeight(), new Color(255, 0, 0, 100));
-                graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.BLUE);
+                //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), getBounds().getHeight(), new Color(255, 0, 0, 100));
+                //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.BLUE);
 //                System.out.println("X + W: " + (Math.round(getBounds().getX1()) + getBounds().getWidth()));
 //                System.out.println("X2: " + (Math.round(getBounds().getX2())));
-                graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.yellow);
+                //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.yellow);
                 //graphicsHandler.drawRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.YELLOW);
                 //graphicsHandler.drawRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.YELLOW);
             }

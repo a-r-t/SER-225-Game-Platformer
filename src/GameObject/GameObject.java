@@ -298,6 +298,7 @@ public class GameObject extends AnimatedSprite {
                             System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
                             hasCollided = true;
                             entityCollidedWith = currentTile;
+                            break;
                         }
                     }
                 }
@@ -367,6 +368,7 @@ public class GameObject extends AnimatedSprite {
                             System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
                             hasCollided = true;
                             entityCollidedWith = currentTile;
+                            break;
                         }
                     }
                 }

@@ -92,13 +92,13 @@ public class MapCollisionHandler {
                 entityCollidedWith = mapTile;
                 float adjustedPositionX = gameObject.getX();
                 float adjustedPositionY = gameObject.getY();
-                    if (direction == Direction.DOWN) {
-                        float boundsDifference = gameObject.getY2() - gameObject.getBoundsY2();
-                        adjustedPositionY = mapTile.getBoundsY1() - gameObject.getHeight() + boundsDifference;
-                    } else if (direction == Direction.UP) {
-                        float boundsDifference = gameObject.getBoundsY1() - gameObject.getY();
-                        adjustedPositionY = mapTile.getBoundsY2() - boundsDifference;
-                    }
+                if (direction == Direction.DOWN) {
+                    float boundsDifference = gameObject.getY2() - gameObject.getBoundsY2();
+                    adjustedPositionY = mapTile.getBoundsY1() - gameObject.getHeight() + boundsDifference;
+                } else if (direction == Direction.UP) {
+                    float boundsDifference = gameObject.getBoundsY1() - gameObject.getY();
+                    adjustedPositionY = mapTile.getBoundsY2() - boundsDifference;
+                }
 
 //                    System.out.println("COLLIDE WITH SLOPE");
 //                    int centerBoundX = Math.round(gameObject.getBoundsX2());
@@ -161,23 +161,6 @@ public class MapCollisionHandler {
         return new MapCollisionCheckResult(null, null);
     }
 
-    public static void slopeAdjustment(GameObject gameObject, Map map, Direction direction) {
-        int numberOfTilesToCheck = Math.max(gameObject.getBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
-        int centerBoundX = Math.round(gameObject.getBoundsX1() + (gameObject.getBounds().getWidth() / 2f));
-        int centerBoundY = Math.round(gameObject.getBoundsY1() + (gameObject.getBounds().getHeight() / 2f));
-        Point tileIndex = map.getTileIndexByPosition(centerBoundX, centerBoundY);
-        MapTile entityCollidedWith = null;
-        for (int i = -1; i <= numberOfTilesToCheck + 1; i++) {
-            for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-                MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y) + i);
-                if (mapTile != null && mapTile.tileType == TileType.SLOPE && gameObject.intersects(mapTile)) {
-                    
-                }
-            }
-        }
-
-    }
-
     // based on tile type, perform logic to determine if a collision did occur with an intersecting tile or not
     private static boolean hasCollidedWithMapEntity(GameObject gameObject, MapEntity mapEntity, Direction direction) {
         if (mapEntity instanceof MapTile) {
@@ -202,4 +185,54 @@ public class MapCollisionHandler {
             return mapEntity.intersects(gameObject);
         }
     }
+
+    // special collision logic handling for slopes
+//    public static void getAdjustedPositionAfterCollisionSlopeCheckY(GameObject gameObject, Map map, Direction currentYDirection, Direction currentXDirection) {
+//        if (currentYDirection == Direction.DOWN) {
+//            int yBound = Math.round(gameObject.getBounds().getY2());
+//            int xBound = 0;
+//            if (currentXDirection == Direction.LEFT) {
+//                xBound = Math.round(gameObject.getBounds().getX1());
+//            }
+//            else if (currentXDirection == Direction.RIGHT) {
+//                xBound = Math.round(gameObject.getBounds().getX2());
+//            }
+//            MapTile currentTile = map.getTileByPosition(xBound, yBound);
+//            if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
+//                int xLocationInTile = xBound - Math.round(currentTile.getX());
+//                int yLocationInTile = yBound - Math.round(currentTile.getY());
+//                int counter = 0;
+//                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+//                        && yLocationInTile < currentTile.getLayout().getBounds().length) {
+//                    System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
+//                    //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+//                    while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
+//                        counter++;
+//                        if (yLocationInTile - counter < 0) {
+//                            break;
+//                        }
+//                    }
+//                    if (counter > 0) {
+//                        System.out.println("SLOPE LAST CHANCE");
+//                        float currentTileYLocation = currentTile.getBoundsY1();
+//                        System.out.println("Current Tile Y Location: " + currentTileYLocation);
+//                        int targetSlopeLocationIndex = yLocationInTile - counter;
+//                        System.out.println("Target slope location index: " + targetSlopeLocationIndex);
+//                        float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
+//                        System.out.println("Target slope y location: " + targetSlopeYLocation);
+//                        float boundsDifference = gameObject.getY2() - gameObject.getBoundsY2();
+//                        System.out.println("Bounds difference: " + boundsDifference);
+//                        float targetYLocation = targetSlopeYLocation - (gameObject.getHeight() - 1) + boundsDifference;
+//                        System.out.println("Target Y Location: " + targetYLocation);
+//                        gameObject.setY(targetYLocation);
+//                        System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + gameObject.getBounds().getY2());
+//                        hasCollided = true;
+//                        entityCollidedWith = currentTile;
+//                    }
+//
+//                }
+//            }
+//        }
+
+    //}
 }

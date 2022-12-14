@@ -442,7 +442,7 @@ public class GameObject extends AnimatedSprite {
             // Uncomment this to draw player's bounds to screen -- useful for debugging
 
             if (this instanceof Player) {
-                //drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
+                drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
                 //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), getBounds().getHeight(), new Color(255, 0, 0, 100));
                 //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.BLUE);
 //                System.out.println("X + W: " + (Math.round(getBounds().getX1()) + getBounds().getWidth()));

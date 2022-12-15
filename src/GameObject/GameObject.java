@@ -258,47 +258,48 @@ public class GameObject extends AnimatedSprite {
                 setY(collisionCheckResult.getAdjustedLocation().y);
             }
 
-            for (int j = 0; j < 2; j++) {
-                int yBound = Math.round(getBounds().getY2());
-                int xBound = 0;
-                if (j == 0) {
-                    xBound = Math.round(getBounds().getX1());
-                }
-                else if (j == 1) {
-                    xBound = Math.round(getBounds().getX2());
-                }
-                MapTile currentTile = map.getTileByPosition(xBound, yBound);
-                if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
-                    int xLocationInTile = xBound - Math.round(currentTile.getX());
-                    int yLocationInTile = yBound - Math.round(currentTile.getY());
-                    int counter = 0;
-                    if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
-                            && yLocationInTile < currentTile.getLayout().getBounds().length) {
-                        System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
-                        //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
-                        while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
-                            counter++;
-                            if (yLocationInTile - counter < 0) {
+            if (currentYDirection == Direction.DOWN) {
+                for (int j = 0; j < 2; j++) {
+                    int yBound = Math.round(getBounds().getY2());
+                    int xBound = 0;
+                    if (j == 0) {
+                        xBound = Math.round(getBounds().getX1());
+                    } else if (j == 1) {
+                        xBound = Math.round(getBounds().getX2());
+                    }
+                    MapTile currentTile = map.getTileByPosition(xBound, yBound);
+                    if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
+                        int xLocationInTile = xBound - Math.round(currentTile.getX());
+                        int yLocationInTile = yBound - Math.round(currentTile.getY());
+                        int counter = 0;
+                        if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+                                && yLocationInTile < currentTile.getLayout().getBounds().length) {
+                            System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
+                            //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+                            while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
+                                counter++;
+                                if (yLocationInTile - counter < 0) {
+                                    break;
+                                }
+                            }
+                            if (counter > 0) {
+                                System.out.println("SLOPE LAST CHANCE");
+                                float currentTileYLocation = currentTile.getBoundsY1();
+                                System.out.println("Current Tile Y Location: " + currentTileYLocation);
+                                int targetSlopeLocationIndex = yLocationInTile - counter;
+                                System.out.println("Target slope location index: " + targetSlopeLocationIndex);
+                                float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
+                                System.out.println("Target slope y location: " + targetSlopeYLocation);
+                                float boundsDifference = getY2() - getBoundsY2();
+                                System.out.println("Bounds difference: " + boundsDifference);
+                                float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
+                                System.out.println("Target Y Location: " + targetYLocation);
+                                setY(targetYLocation);
+                                System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
+                                hasCollided = true;
+                                entityCollidedWith = currentTile;
                                 break;
                             }
-                        }
-                        if (counter > 0) {
-                            System.out.println("SLOPE LAST CHANCE");
-                            float currentTileYLocation = currentTile.getBoundsY1();
-                            System.out.println("Current Tile Y Location: " + currentTileYLocation);
-                            int targetSlopeLocationIndex = yLocationInTile - counter;
-                            System.out.println("Target slope location index: " + targetSlopeLocationIndex);
-                            float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
-                            System.out.println("Target slope y location: " + targetSlopeYLocation);
-                            float boundsDifference = getY2() - getBoundsY2();
-                            System.out.println("Bounds difference: " + boundsDifference);
-                            float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
-                            System.out.println("Target Y Location: " + targetYLocation);
-                            setY(targetYLocation);
-                            System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
-                            hasCollided = true;
-                            entityCollidedWith = currentTile;
-                            break;
                         }
                     }
                 }

@@ -31,6 +31,12 @@ public class GameObject extends AnimatedSprite {
     // previous location the game object was in from the last frame
     protected float previousX, previousY;
 
+    // current direction game object is attempting to move in
+    protected Direction currentXDirection, currentYDirection;
+
+    // previous direction game object attempted to move in on the last frame
+    protected Direction previousXDirection, previousYDirection;
+
     // the map instance this game object "belongs" to.
     protected Map map;
 
@@ -88,6 +94,8 @@ public class GameObject extends AnimatedSprite {
     // move game object along the x axis
     // will stop object from moving based on map collision logic (such as if it hits a solid tile)
     public float moveXHandleCollision(float dx) {
+        previousXDirection = currentXDirection;
+        currentXDirection = dx < 0 ? Direction.LEFT : Direction.RIGHT;
         if (map != null) {
             return handleCollisionX(dx);
         } else {
@@ -99,6 +107,8 @@ public class GameObject extends AnimatedSprite {
     // move game object along the y axis
     // will stop object from moving based on map collision logic (such as if it hits a solid tile)
     public float moveYHandleCollision(float dy) {
+        previousYDirection = currentYDirection;
+        currentYDirection = dy < 0 ? Direction.UP : Direction.DOWN;
         if (map != null) {
             return handleCollisionY(dy);
         } else {
@@ -108,7 +118,7 @@ public class GameObject extends AnimatedSprite {
     }
 
     // performs collision check logic for moving along the x axis against the map's tiles
-    public float handleCollisionX(float moveAmountX) {
+    private float handleCollisionX(float moveAmountX) {
 //        System.out.println("HANDLE COLLISION X");
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountX);
@@ -116,8 +126,8 @@ public class GameObject extends AnimatedSprite {
         // gets decimal remainder from amount to move
         float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 
-        // determines direction that will be moved in based on if moveAmountX is positive or negative
-        Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
+//        // determines direction that will be moved in based on if moveAmountX is positive or negative
+//        Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
 
         // moves game object one pixel at a time until total move amount is reached
         // if at any point a map tile collision is determined to have occurred from the move,
@@ -126,8 +136,8 @@ public class GameObject extends AnimatedSprite {
         boolean hasCollided = false;
         MapEntity entityCollidedWith = null;
         for (int i = 0; i < amountToMove; i++) {
-            moveX(direction.getVelocity());
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
+            moveX(currentXDirection.getVelocity());
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
@@ -135,7 +145,7 @@ public class GameObject extends AnimatedSprite {
                 setY(collisionCheckResult.getAdjustedLocation().y);
                 break;
             }
-            amountMoved = (i + 1) * direction.getVelocity();
+            amountMoved = (i + 1) * currentXDirection.getVelocity();
         }
 
         // if no collision occurred in the above steps, this deals with the decimal remainder from the original move amount (stored in moveAmountXRemainder)
@@ -143,8 +153,8 @@ public class GameObject extends AnimatedSprite {
         // it then does one more check for a collision in the case that this added decimal amount was enough to change the rounding and move the game object to the next pixel over
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
         if (!hasCollided) {
-            moveX(moveAmountXRemainder * direction.getVelocity());
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
+            moveX(moveAmountXRemainder * currentXDirection.getVelocity());
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
@@ -212,14 +222,14 @@ public class GameObject extends AnimatedSprite {
 //        }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
-        onEndCollisionCheckX(hasCollided, direction, entityCollidedWith);
+        onEndCollisionCheckX(hasCollided, currentXDirection, entityCollidedWith);
 
         // returns the amount actually moved -- this isn't really used by the game, but I have it here for debug purposes
-        return amountMoved + (moveAmountXRemainder * direction.getVelocity());
+        return amountMoved + (moveAmountXRemainder * currentXDirection.getVelocity());
     }
 
     // performs collision check logic for moving along the y axis against the map's tiles
-    public float handleCollisionY(float moveAmountY) {
+    private float handleCollisionY(float moveAmountY) {
 //        System.out.println("HANDLE COLLISION Y");
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountY);
@@ -227,8 +237,8 @@ public class GameObject extends AnimatedSprite {
         // gets decimal remainder from amount to move
         float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 
-        // determines direction that will be moved in based on if moveAmountY is positive or negative
-        Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
+//        // determines direction that will be moved in based on if moveAmountY is positive or negative
+//        Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
 
         // moves game object one pixel at a time until total move amount is reached
         // if at any point a map tile collision is determined to have occurred from the move,
@@ -238,9 +248,9 @@ public class GameObject extends AnimatedSprite {
         MapEntity entityCollidedWith = null;
 //        System.out.println("AMOUNT TO MOVE: " + moveAmountY);
         for (int i = 0; i < amountToMove; i++) {
-            moveY(direction.getVelocity());
+            moveY(currentYDirection.getVelocity());
 
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, currentYDirection);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
@@ -248,44 +258,53 @@ public class GameObject extends AnimatedSprite {
                 setY(collisionCheckResult.getAdjustedLocation().y);
             }
 
-            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
-            if (currentTile != null && direction == Direction.DOWN && currentTile.getTileType() == TileType.SLOPE) {
-                int rightBoundX = Math.round(getBoundsX2());
-                int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
-                int southBoundY = Math.round(getBoundsY2());
-                int yLocationInTile = southBoundY - Math.round(currentTile.getY());
-                int counter = 0;
-                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
-                        && yLocationInTile < currentTile.getLayout().getBounds().length) {
-                    //System.out.println(xLocationInTile + ", " + yLocationInTile);
-                    //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
-                    while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
-                        counter++;
-                        if (yLocationInTile - counter < 0) {
+            for (int j = 0; j < 2; j++) {
+                int yBound = Math.round(getBounds().getY2());
+                int xBound = 0;
+                if (j == 0) {
+                    xBound = Math.round(getBounds().getX1());
+                }
+                else if (j == 1) {
+                    xBound = Math.round(getBounds().getX2());
+                }
+                MapTile currentTile = map.getTileByPosition(xBound, yBound);
+                if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
+                    int xLocationInTile = xBound - Math.round(currentTile.getX());
+                    int yLocationInTile = yBound - Math.round(currentTile.getY());
+                    int counter = 0;
+                    if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+                            && yLocationInTile < currentTile.getLayout().getBounds().length) {
+                        System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
+                        //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+                        while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
+                            counter++;
+                            if (yLocationInTile - counter < 0) {
+                                break;
+                            }
+                        }
+                        if (counter > 0) {
+                            System.out.println("SLOPE LAST CHANCE");
+                            float currentTileYLocation = currentTile.getBoundsY1();
+                            System.out.println("Current Tile Y Location: " + currentTileYLocation);
+                            int targetSlopeLocationIndex = yLocationInTile - counter;
+                            System.out.println("Target slope location index: " + targetSlopeLocationIndex);
+                            float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
+                            System.out.println("Target slope y location: " + targetSlopeYLocation);
+                            float boundsDifference = getY2() - getBoundsY2();
+                            System.out.println("Bounds difference: " + boundsDifference);
+                            float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
+                            System.out.println("Target Y Location: " + targetYLocation);
+                            setY(targetYLocation);
+                            System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
+                            hasCollided = true;
+                            entityCollidedWith = currentTile;
                             break;
                         }
-                    }
-                    if (counter > 0) {
-                        System.out.println("SLOPE MAIN");
-                        float currentTileYLocation = currentTile.getBoundsY1();
-                        System.out.println("Current Tile Y Location: " + currentTileYLocation);
-                        int targetSlopeLocationIndex = yLocationInTile - counter;
-                        System.out.println("Target slope location index: " + targetSlopeLocationIndex);
-                        float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
-                        System.out.println("Target slope y location: " + targetSlopeYLocation);
-                        float boundsDifference = getY2() - getBoundsY2();
-                        System.out.println("Bounds difference: " + boundsDifference);
-                        float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
-                        System.out.println("Target Y Location: " + targetYLocation);
-                        setY(targetYLocation);
-                        System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
-                        hasCollided = true;
-                        entityCollidedWith = currentTile;
                     }
                 }
             }
 
-            amountMoved = (i + 1) * direction.getVelocity();
+            amountMoved = (i + 1) * currentYDirection.getVelocity();
             if (hasCollided) {
                 break;
             }
@@ -296,8 +315,8 @@ public class GameObject extends AnimatedSprite {
         // it then does one more check for a collision in the case that this added decimal amount was enough to change the rounding and move the game object to the next pixel over
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
         if (!hasCollided) {
-            moveY(moveAmountYRemainder * direction.getVelocity());
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
+            moveY(moveAmountYRemainder * currentYDirection.getVelocity());
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, currentYDirection);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
@@ -306,53 +325,61 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
-        System.out.println("REMAINDER AMOUNT TO MOVE: " + moveAmountYRemainder * direction.getVelocity());
+        System.out.println("REMAINDER AMOUNT TO MOVE: " + moveAmountYRemainder * currentYDirection.getVelocity());
         System.out.println("PLAYER Y2: " + getBounds().getY2());
-        if (direction == Direction.DOWN) {
-            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
-            if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
-                int rightBoundX = Math.round(getBoundsX2());
-                int xLocationInTile = rightBoundX - Math.round(currentTile.getX());
-                int southBoundY = Math.round(getBoundsY2());
-                int yLocationInTile = southBoundY - Math.round(currentTile.getY());
-                int counter = 0;
-                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
-                        && yLocationInTile < currentTile.getLayout().getBounds().length) {
-                    System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
-                    //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
-                    while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
-                        counter++;
-                        if (yLocationInTile - counter < 0) {
+        if (currentYDirection == Direction.DOWN) {
+            for (int i = 0; i < 2; i++) {
+                int yBound = Math.round(getBounds().getY2());
+                int xBound = 0;
+                if (i == 0) {
+                    xBound = Math.round(getBounds().getX1());
+                }
+                else if (i == 1) {
+                    xBound = Math.round(getBounds().getX2());
+                }
+                MapTile currentTile = map.getTileByPosition(xBound, yBound);
+                if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
+                    int xLocationInTile = xBound - Math.round(currentTile.getX());
+                    int yLocationInTile = yBound - Math.round(currentTile.getY());
+                    int counter = 0;
+                    if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+                            && yLocationInTile < currentTile.getLayout().getBounds().length) {
+                        System.out.println("LOCATION IN TILE: " + xLocationInTile + ", " + yLocationInTile);
+                        //System.out.println(currentTile.getLayout()[yLocationInTile - counter][xLocationInTile]);
+                        while (currentTile.getLayout().getBounds()[yLocationInTile - counter][xLocationInTile] == 1) {
+                            counter++;
+                            if (yLocationInTile - counter < 0) {
+                                break;
+                            }
+                        }
+                        if (counter > 0) {
+                            System.out.println("SLOPE LAST CHANCE");
+                            float currentTileYLocation = currentTile.getBoundsY1();
+                            System.out.println("Current Tile Y Location: " + currentTileYLocation);
+                            int targetSlopeLocationIndex = yLocationInTile - counter;
+                            System.out.println("Target slope location index: " + targetSlopeLocationIndex);
+                            float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
+                            System.out.println("Target slope y location: " + targetSlopeYLocation);
+                            float boundsDifference = getY2() - getBoundsY2();
+                            System.out.println("Bounds difference: " + boundsDifference);
+                            float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
+                            System.out.println("Target Y Location: " + targetYLocation);
+                            setY(targetYLocation);
+                            System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
+                            hasCollided = true;
+                            entityCollidedWith = currentTile;
                             break;
                         }
                     }
-                    if (counter > 0) {
-                        System.out.println("SLOPE LAST CHANCE");
-                        float currentTileYLocation = currentTile.getBoundsY1();
-                        System.out.println("Current Tile Y Location: " + currentTileYLocation);
-                        int targetSlopeLocationIndex = yLocationInTile - counter;
-                        System.out.println("Target slope location index: " + targetSlopeLocationIndex);
-                        float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
-                        System.out.println("Target slope y location: " + targetSlopeYLocation);
-                        float boundsDifference = getY2() - getBoundsY2();
-                        System.out.println("Bounds difference: " + boundsDifference);
-                        float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
-                        System.out.println("Target Y Location: " + targetYLocation);
-                        setY(targetYLocation);
-                        System.out.println("PLAYER Y2 AFTER ADJUSTMENT: " + getBounds().getY2());
-                        hasCollided = true;
-                        entityCollidedWith = currentTile;
-                    }
-
                 }
             }
         }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
-        onEndCollisionCheckY(hasCollided, direction, entityCollidedWith);
+        onEndCollisionCheckY(hasCollided, currentYDirection, entityCollidedWith);
 
         // returns the amount actually moved -- this isn't really used by the game, but I have it here for debug purposes
-        return amountMoved + (moveAmountYRemainder * direction.getVelocity());
+        return amountMoved + (moveAmountYRemainder * currentYDirection.getVelocity());
     }
 
     // game object subclass can override this method to listen for x axis collision events and react accordingly after calling "moveXHandleCollision"

@@ -243,6 +243,28 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(rightSlopeTile);
 
+        // left stairs bottom
+        Frame leftStairsBottomFrame = new FrameBuilder(getSubImage(4, 0))
+                .withScale(tileScale)
+                .build();
+
+        MapTileBuilder leftStairsBottomTile = new MapTileBuilder(leftStairsBottomFrame)
+                .withTileType(TileType.SLOPE)
+                .withTileLayout(SlopeTileLayoutUtils.createBottomStairs((int)tileScale));
+
+        mapTiles.add(leftStairsBottomTile);
+
+        // left stairs top
+        Frame leftStairsTopFrame = new FrameBuilder(getSubImage(4, 1))
+                .withScale(tileScale)
+                .build();
+
+        MapTileBuilder leftStairsTopTile = new MapTileBuilder(leftStairsTopFrame)
+                .withTileType(TileType.SLOPE)
+                .withTileLayout(SlopeTileLayoutUtils.createTopStairs((int)tileScale));
+
+        mapTiles.add(leftStairsTopTile);
+
         return mapTiles;
     }
 }

@@ -290,6 +290,7 @@ public abstract class Player extends GameObject {
             } else {
                 playerState = PlayerState.JUMPING;
                 airGroundState = AirGroundState.AIR;
+                System.out.println("AIR");
             }
         }
 

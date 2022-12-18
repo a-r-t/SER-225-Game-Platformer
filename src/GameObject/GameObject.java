@@ -5,6 +5,7 @@ import Level.*;
 import Utils.Direction;
 import Utils.ImageUtils;
 import Utils.MathUtils;
+import Utils.Point;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -136,6 +137,32 @@ public class GameObject extends AnimatedSprite {
         boolean hasCollided = false;
         MapEntity entityCollidedWith = null;
         for (int i = 0; i < amountToMove; i++) {
+            boolean isOnSlope = false;
+            boolean isOnTopOfSlope = false;
+            MapTile currentTile = map.getTileByPosition(getBounds().getX2(), getBounds().getY2());
+            if (currentTile.getTileType() == TileType.SLOPE) {
+                if (currentTile.getLayout().getDirection() == Direction.LEFT && currentXDirection == Direction.LEFT) {
+                    int xLocationInTile = Math.round(getBounds().getX2()) - Math.round(currentTile.getX());
+                    int yLocationInTile = Math.round(getBounds().getY2()) - Math.round(currentTile.getY());
+                    if (currentTile.getLayout().getBounds()[yLocationInTile][xLocationInTile] == 0 && currentTile.getLayout().getBounds()[yLocationInTile + 1][xLocationInTile] == 1) {
+                        isOnSlope = true;
+                    }
+                }
+            }
+            if (!isOnSlope) {
+                Point currentTile2p = map.getTileIndexByPosition(getBounds().getX2(), getBounds().getY2());
+                currentTile = map.getMapTile(Math.round(currentTile2p.x), Math.round(currentTile2p.y + 1));
+                if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
+                    if (currentTile.getLayout().getDirection() == Direction.LEFT && currentXDirection == Direction.LEFT) {
+                        int xLocationInTile = Math.round(getBounds().getX2()) - Math.round(currentTile.getX());
+                        int yLocationInTile = Math.round(getBounds().getY2()) - Math.round(currentTile.getY());
+                        if (currentTile.getLayout().getBounds()[0][currentTile.getLayout().getBounds()[0].length - 1] == 1 && currentTile.getBoundsY1() == getBounds().getY2() + 1) {
+                            isOnTopOfSlope = true;
+                        }
+                    }
+                }
+            }
+
             moveX(currentXDirection.getVelocity());
             MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
             if (collisionCheckResult.getAdjustedLocation() != null) {
@@ -152,6 +179,40 @@ public class GameObject extends AnimatedSprite {
                 setX(slopeCollisionCheckResult.getAdjustedLocation().x);
                 setY(slopeCollisionCheckResult.getAdjustedLocation().y);
             }
+
+            if (isOnSlope) {
+                int xLocationInTile = Math.round(getBounds().getX2()) - Math.round(currentTile.getX());
+                int yLocationInTile = Math.round(getBounds().getY2()) - Math.round(currentTile.getY());
+                int counter = 0;
+                if (xLocationInTile >= 0 && xLocationInTile < currentTile.getLayout().getBounds()[0].length && yLocationInTile >= 0
+                        && yLocationInTile < currentTile.getLayout().getBounds().length) {
+                    while (currentTile.getLayout().getBounds()[yLocationInTile + counter][xLocationInTile] == 0) {
+                        counter++;
+                        if (yLocationInTile + counter > currentTile.getLayout().getBounds().length - 1) {
+                            break;
+                        }
+                    }
+                    if (counter > 0) {
+                        float currentTileYLocation = currentTile.getBoundsY1();
+                        int targetSlopeLocationIndex = yLocationInTile + counter;
+                        float targetSlopeYLocation = currentTileYLocation + targetSlopeLocationIndex;
+                        float boundsDifference = getY2() - getBoundsY2();
+                        float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
+                        setY(targetYLocation);
+                    }
+                }
+            }
+            else if (isOnTopOfSlope) {
+                float currentTileYLocation = currentTile.getBoundsY1();
+                float targetSlopeYLocation = currentTileYLocation;
+                float boundsDifference = getY2() - getBoundsY2();
+                float targetYLocation = targetSlopeYLocation - (getHeight() - 1) + boundsDifference;
+                setY(targetYLocation);
+            }
+
+            // logic for making player "stick" to slope when walking down it
+
+
             amountMoved = (i + 1) * currentXDirection.getVelocity();
         }
 
@@ -159,23 +220,23 @@ public class GameObject extends AnimatedSprite {
         // it starts by moving the game object by that decimal amount
         // it then does one more check for a collision in the case that this added decimal amount was enough to change the rounding and move the game object to the next pixel over
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
-        if (!hasCollided) {
-            moveX(moveAmountXRemainder * currentXDirection.getVelocity());
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
-            if (collisionCheckResult.getAdjustedLocation() != null) {
-                hasCollided = true;
-                entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-                setX(collisionCheckResult.getAdjustedLocation().x);
-                setY(collisionCheckResult.getAdjustedLocation().y);
-            }
-        }
-
-        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
-            entityCollidedWith = slopeCollisionCheckResult.getEntityCollidedWith();
-            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
-        }
+//        if (!hasCollided) {
+//            moveX(moveAmountXRemainder * currentXDirection.getVelocity());
+//            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
+//            if (collisionCheckResult.getAdjustedLocation() != null) {
+//                hasCollided = true;
+//                entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
+//                setX(collisionCheckResult.getAdjustedLocation().x);
+//                setY(collisionCheckResult.getAdjustedLocation().y);
+//            }
+//        }
+//
+//        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+//        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
+//            entityCollidedWith = slopeCollisionCheckResult.getEntityCollidedWith();
+//            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
+//            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+//        }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
         onEndCollisionCheckX(hasCollided, currentXDirection, entityCollidedWith);

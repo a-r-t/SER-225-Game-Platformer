@@ -287,11 +287,9 @@ public abstract class Player extends GameObject {
             if (hasCollided) {
                 momentumY = 0;
                 airGroundState = AirGroundState.GROUND;
-                System.out.println("GROUND");
             } else {
                 playerState = PlayerState.JUMPING;
                 airGroundState = AirGroundState.AIR;
-                System.out.println("AIR");
             }
         }
 

@@ -31,7 +31,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
 
     public void initialize() {
         // define/setup map
-        this.map = new SlopeTestMap2();
+        this.map = new SlopeTestMap();
         map.reset();
 
         // setup player

@@ -180,30 +180,30 @@ public class GameObject extends AnimatedSprite {
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
         SlopeProximityStatus slopeProximityStatus = MapCollisionHandler.getCurrentSlopeProximityStatus(this, map, currentXDirection);
 
-//        if (!hasCollided) {
-//            moveX(moveAmountXRemainder * currentXDirection.getVelocity());
-//            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
-//            if (collisionCheckResult.getAdjustedLocation() != null) {
-//                hasCollided = true;
-//                entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-//                setX(collisionCheckResult.getAdjustedLocation().x);
-//                setY(collisionCheckResult.getAdjustedLocation().y);
-//            }
-//        }
-//
-//        // adjust y position if moving up a slope
-//        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-//        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
-//            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-//            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
-//        }
-//
-//        // adjust y position if moving down a slope
-//        MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
-//        if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
-//            setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
-//            setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
-//        }
+        if (!hasCollided) {
+            moveX(moveAmountXRemainder * currentXDirection.getVelocity());
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
+            if (collisionCheckResult.getAdjustedLocation() != null) {
+                hasCollided = true;
+                entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
+                setX(collisionCheckResult.getAdjustedLocation().x);
+                setY(collisionCheckResult.getAdjustedLocation().y);
+            }
+        }
+
+        // adjust y position if moving up a slope
+        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
+            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
+            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+        }
+
+        // adjust y position if moving down a slope
+        MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
+        if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
+            setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
+            setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
+        }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
         onEndCollisionCheckX(hasCollided, currentXDirection, entityCollidedWith);
@@ -350,7 +350,7 @@ public class GameObject extends AnimatedSprite {
             // Uncomment this to draw player's bounds to screen -- useful for debugging
 
             if (this instanceof Player) {
-                drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
+                //drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
                 //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), getBounds().getHeight(), new Color(255, 0, 0, 100));
                 //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.BLUE);
 //                System.out.println("X + W: " + (Math.round(getBounds().getX1()) + getBounds().getWidth()));

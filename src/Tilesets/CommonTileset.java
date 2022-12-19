@@ -5,14 +5,11 @@ import Builders.MapTileBuilder;
 import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.ImageEffect;
-import Level.TileLayout;
 import Level.TileType;
 import Level.Tileset;
-import Utils.Direction;
 import Utils.SlopeTileLayoutUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 // This class represents a "common" tileset of standard tiles defined in the CommonTileset.png file
 public class CommonTileset extends Tileset {
@@ -250,7 +247,7 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder leftStairsBottomTile = new MapTileBuilder(leftStairsBottomFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createBottomStairs((int)tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createBottomStairsLeft((int)tileScale));
 
         mapTiles.add(leftStairsBottomTile);
 
@@ -261,9 +258,33 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder leftStairsTopTile = new MapTileBuilder(leftStairsTopFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createTopStairs((int)tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createTopStairsLeft((int)tileScale));
 
         mapTiles.add(leftStairsTopTile);
+
+        // right stairs bottom
+        Frame rightStairsBottomFrame = new FrameBuilder(getSubImage(4, 0))
+                .withScale(tileScale)
+                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                .build();
+
+        MapTileBuilder rightStairsBottomTile = new MapTileBuilder(rightStairsBottomFrame)
+                .withTileType(TileType.SLOPE)
+                .withTileLayout(SlopeTileLayoutUtils.createBottomStairsRight((int)tileScale));
+
+        mapTiles.add(rightStairsBottomTile);
+
+        // right stairs top
+        Frame rightStairsTopFrame = new FrameBuilder(getSubImage(4, 1))
+                .withScale(tileScale)
+                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
+                .build();
+
+        MapTileBuilder rightStairsTopTile = new MapTileBuilder(rightStairsTopFrame)
+                .withTileType(TileType.SLOPE)
+                .withTileLayout(SlopeTileLayoutUtils.createTopStairsRight((int)tileScale));
+
+        mapTiles.add(rightStairsTopTile);
 
         return mapTiles;
     }

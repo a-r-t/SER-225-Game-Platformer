@@ -191,18 +191,20 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
-        // adjust y position if moving up a slope
-        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
-            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
-        }
+
 
         // adjust y position if moving down a slope
         MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
         if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
             setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
             setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
+        }
+
+        // adjust y position if moving up a slope
+        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
+            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
+            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
         }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly

@@ -116,14 +116,9 @@ public class MapCollisionHandler {
 
     // special collision logic handling for detecting collision with slopes in the y direction
     public static MapCollisionCheckResult getAdjustedPositionAfterCollisionSlopeCheckY(GameObject gameObject, Map map) {
-        for (int j = 0; j < 2; j++) {
+        for (int j = 0; j < gameObject.getBounds().getWidth(); j++) {
             int yBound = Math.round(gameObject.getBounds().getY2());
-            int xBound = 0;
-            if (j == 0) {
-                xBound = Math.round(gameObject.getBounds().getX1());
-            } else if (j == 1) {
-                xBound = Math.round(gameObject.getBounds().getX2());
-            }
+            int xBound = Math.round(gameObject.getBounds().getX1() + j);
             MapTile currentTile = map.getTileByPosition(xBound, yBound);
             if (currentTile != null && currentTile.getTileType() == TileType.SLOPE) {
                 int xLocationInTile = xBound - Math.round(currentTile.getX());

@@ -191,8 +191,6 @@ public class GameObject extends AnimatedSprite {
             }
         }
 
-
-
         // adjust y position if moving down a slope
         MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
         if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {

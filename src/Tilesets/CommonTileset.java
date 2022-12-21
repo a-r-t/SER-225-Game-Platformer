@@ -249,7 +249,7 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder leftStairsBottomTile = new MapTileBuilder(leftStairsBottomFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createBottomStairsLeft((int) tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createBottomStairsLeft(spriteWidth, (int) tileScale));
 
         mapTiles.add(leftStairsBottomTile);
 
@@ -260,33 +260,9 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder leftStairsTopTile = new MapTileBuilder(leftStairsTopFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createTopStairsLeft((int) tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createTopStairsLeft(spriteWidth, (int) tileScale));
 
         mapTiles.add(leftStairsTopTile);
-
-        // right stairs bottom
-        Frame rightStairsBottomFrame = new FrameBuilder(getSubImage(4, 0))
-                .withScale(tileScale)
-                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                .build();
-
-        MapTileBuilder rightStairsBottomTile = new MapTileBuilder(rightStairsBottomFrame)
-                .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createBottomStairsRight((int) tileScale));
-
-        mapTiles.add(rightStairsBottomTile);
-
-        // right stairs top
-        Frame rightStairsTopFrame = new FrameBuilder(getSubImage(4, 1))
-                .withScale(tileScale)
-                .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
-                .build();
-
-        MapTileBuilder rightStairsTopTile = new MapTileBuilder(rightStairsTopFrame)
-                .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createTopStairsRight((int) tileScale));
-
-        mapTiles.add(rightStairsTopTile);
 
         // left medium slope bottom
         Frame mediumSlopeBottomLeftFrame = new FrameBuilder(getSubImage(4, 2))
@@ -295,27 +271,7 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder mediumSlopeBottomLeftTile = new MapTileBuilder(mediumSlopeBottomLeftFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(new TileLayout(
-                        SlopeTileLayoutUtils.scaleSlopeLayout(new int[][]{
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-                        }, 3),
-                        Direction.LEFT
-                ));
+                .withTileLayout(SlopeTileLayoutUtils.createLeft45HalfSlopeBottomLayout(spriteWidth, (int)tileScale));
 
         mapTiles.add(mediumSlopeBottomLeftTile);
 
@@ -326,60 +282,20 @@ public class CommonTileset extends Tileset {
 
         MapTileBuilder mediumSlopeMiddleLeftTile = new MapTileBuilder(mediumSlopeMiddleLeftFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(new TileLayout(
-                        SlopeTileLayoutUtils.scaleSlopeLayout(new int[][]{
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-                        }, 3),
-                        Direction.LEFT
-                ));
+                .withTileLayout(SlopeTileLayoutUtils.createLeft45HalfSlopeTopLayout(spriteWidth, (int)tileScale));
 
         mapTiles.add(mediumSlopeMiddleLeftTile);
 
-        // left medium slope top
-        Frame mediumSlopeTopLeftFrame = new FrameBuilder(getSubImage(4, 4))
+        // cut off grass block
+        Frame cutOffGrassFrame = new FrameBuilder(getSubImage(4, 4))
                 .withScale(tileScale)
+                .withBounds(0, 8, 16, 8)
                 .build();
 
-        MapTileBuilder mediumSlopeTopLeftTile = new MapTileBuilder(mediumSlopeTopLeftFrame)
-                .withTileType(TileType.SLOPE)
-                .withTileLayout(new TileLayout(
-                        SlopeTileLayoutUtils.scaleSlopeLayout(new int[][]{
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-                        }, 3),
-                        Direction.LEFT
-                ));
+        MapTileBuilder cutOffGrassTile = new MapTileBuilder(cutOffGrassFrame)
+                .withTileType(TileType.NOT_PASSABLE);
 
-        mapTiles.add(mediumSlopeTopLeftTile);
+        mapTiles.add(cutOffGrassTile);
 
         return mapTiles;
     }

@@ -26,114 +26,51 @@ public class SlopeTileLayoutUtils {
         return new TileLayout(slopeLayout, Direction.RIGHT);
     }
 
-    public static TileLayout createBottomStairsLeft(int scale) {
-        int[][] slopeLayout = new int[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-        };
-        if (scale > 1) {
-            slopeLayout = scaleSlopeLayout(slopeLayout, scale);
-        }
-        return new TileLayout(slopeLayout, Direction.LEFT);
-    }
-
-    public static TileLayout createTopStairsLeft(int scale) {
-        int[][] slopeLayout = new int[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        };
-        if (scale > 1) {
-            slopeLayout = scaleSlopeLayout(slopeLayout, scale);
-        }
-        return new TileLayout(slopeLayout, Direction.LEFT);
-    }
-
-    public static TileLayout createBottomStairsRight(int scale) {
-        int[][] slopeLayout = new int[][]{
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-        };
-        if (scale > 1) {
-            slopeLayout = scaleSlopeLayout(slopeLayout, scale);
-        }
-        return new TileLayout(slopeLayout, Direction.RIGHT);
-    }
-
-    public static TileLayout createTopStairsRight(int scale) {
-        int[][] slopeLayout = new int[][]{
-                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-        };
-        if (scale > 1) {
-            slopeLayout = scaleSlopeLayout(slopeLayout, scale);
-        }
-        return new TileLayout(slopeLayout, Direction.RIGHT);
-    }
-
-    public static int[][] scaleSlopeLayout(int[][] slopeLayout, int scale) {
-        int[][] scaledLayout = new int[slopeLayout.length * scale][slopeLayout[0].length * scale];
-        for (int i = 0; i < scaledLayout.length; i++) {
-            for (int j = 0; j < scaledLayout[0].length; j++) {
-                scaledLayout[i][j] = slopeLayout[i / scale][j / scale];
+    public static TileLayout createLeft45HalfSlopeBottomLayout(int tileSize, int scale) {
+        int[][] slopeLayout = new int[(tileSize * scale)][(tileSize * scale)];
+        int col = slopeLayout[0].length - 1;
+        for (int i = slopeLayout.length / 2; i < slopeLayout.length; i++) {
+            for (int j = col; j >= col - i; j--) {
+                slopeLayout[i][j] = 1;
             }
         }
-        return scaledLayout;
+        return new TileLayout(slopeLayout, Direction.LEFT);
     }
 
+    public static TileLayout createLeft45HalfSlopeTopLayout(int tileSize, int scale) {
+        int[][] slopeLayout = new int[(tileSize * scale)][(tileSize * scale)];
+        int col = slopeLayout[0].length - 1;
+        for (int i = 0; i < (slopeLayout.length / 2) + 1; i++) {
+            for (int j = col; j >= col - i; j--) {
+                slopeLayout[i][j] = 1;
+            }
+        }
+        return new TileLayout(slopeLayout, Direction.LEFT);
+    }
+
+    public static TileLayout createBottomStairsLeft(int tileSize, int scale) {
+        int[][] slopeLayout = new int[(tileSize * scale)][(tileSize * scale)];
+        int colCounter = 0;
+        for (int i = slopeLayout.length - 1; i >= slopeLayout.length / 2; i--) {
+            for (int j = colCounter; j < slopeLayout[i].length; j++) {
+                slopeLayout[i][j] = 1;
+            }
+            colCounter += 2;
+        }
+        return new TileLayout(slopeLayout, Direction.LEFT);
+    }
+
+    public static TileLayout createTopStairsLeft(int tileSize, int scale) {
+        int[][] slopeLayout = new int[(tileSize * scale)][(tileSize * scale)];
+        int colCounter = 0;
+        for (int i = slopeLayout.length - 1; i >= 0; i--) {
+            for (int j = colCounter; j < slopeLayout[i].length; j++) {
+                slopeLayout[i][j] = 1;
+            }
+            if (i < slopeLayout.length / 2) {
+                colCounter += 2;
+            }
+        }
+        return new TileLayout(slopeLayout, Direction.LEFT);
+    }
 }

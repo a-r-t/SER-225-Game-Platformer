@@ -12,7 +12,7 @@ public class SlopeTestMap2 extends Map {
 
     public SlopeTestMap2() {
         super("slope_test_map2.txt", new CommonTileset());
-        this.playerStartPosition = getMapTile(1, 10).getLocation();
+        this.playerStartPosition = getMapTile(19, 8).getLocation();
     }
 
     @Override

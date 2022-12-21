@@ -150,14 +150,6 @@ public class GameObject extends AnimatedSprite {
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
                 setX(collisionCheckResult.getAdjustedLocation().x);
                 setY(collisionCheckResult.getAdjustedLocation().y);
-                // break;
-            }
-
-            // adjust y position if moving up a slope
-            MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-            if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
-                setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-                setY(slopeCollisionCheckResult.getAdjustedLocation().y);
             }
 
             // adjust y position if moving down a slope
@@ -165,6 +157,13 @@ public class GameObject extends AnimatedSprite {
             if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
                 setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
                 setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
+            }
+
+            // adjust y position if moving up a slope
+            MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+            if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
+                setX(slopeCollisionCheckResult.getAdjustedLocation().x);
+                setY(slopeCollisionCheckResult.getAdjustedLocation().y);
             }
 
             if (hasCollided) {

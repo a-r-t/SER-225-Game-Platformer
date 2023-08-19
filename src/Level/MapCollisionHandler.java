@@ -104,6 +104,7 @@ public class MapCollisionHandler {
                 case WATER:
                     return false;
                 case SLOPE:
+                    // slopes have special collision logic that is handled elsewhere -- they are technically not considered "solid" by the game
                     return false;
                 default:
                     return false;

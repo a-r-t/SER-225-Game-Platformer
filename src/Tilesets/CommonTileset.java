@@ -264,39 +264,6 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(leftStairsTopTile);
 
-        // left medium slope bottom
-        Frame mediumSlopeBottomLeftFrame = new FrameBuilder(getSubImage(4, 2))
-                .withScale(tileScale)
-                .build();
-
-        MapTileBuilder mediumSlopeBottomLeftTile = new MapTileBuilder(mediumSlopeBottomLeftFrame)
-                .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createLeft45HalfSlopeBottomLayout(spriteWidth, (int)tileScale));
-
-        mapTiles.add(mediumSlopeBottomLeftTile);
-
-        // left medium slope middle
-        Frame mediumSlopeMiddleLeftFrame = new FrameBuilder(getSubImage(4, 3))
-                .withScale(tileScale)
-                .build();
-
-        MapTileBuilder mediumSlopeMiddleLeftTile = new MapTileBuilder(mediumSlopeMiddleLeftFrame)
-                .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createLeft45HalfSlopeTopLayout(spriteWidth, (int)tileScale));
-
-        mapTiles.add(mediumSlopeMiddleLeftTile);
-
-        // cut off grass block
-        Frame cutOffGrassFrame = new FrameBuilder(getSubImage(4, 4))
-                .withScale(tileScale)
-                .withBounds(0, 8, 16, 8)
-                .build();
-
-        MapTileBuilder cutOffGrassTile = new MapTileBuilder(cutOffGrassFrame)
-                .withTileType(TileType.NOT_PASSABLE);
-
-        mapTiles.add(cutOffGrassTile);
-
         return mapTiles;
     }
 }

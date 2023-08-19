@@ -49,7 +49,7 @@ public class Rectangle implements IntersectableRectangle {
     }
 
     public float getX2() {
-		return x + getWidth();
+		return (x + getWidth()) - 1;
 	}
 	
 	public void setX(float x) {
@@ -77,7 +77,7 @@ public class Rectangle implements IntersectableRectangle {
     }
 
 	public float getY2() {
-		return y + getHeight();
+		return (y + getHeight()) - 1;
 	}
 
     public void setY(float y) {
@@ -164,15 +164,15 @@ public class Rectangle implements IntersectableRectangle {
 	public boolean intersects(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
-		return Math.round(intersectRectangle.getX1()) < Math.round(otherIntersectRectangle.getX2()) && Math.round(intersectRectangle.getX2()) > Math.round(otherIntersectRectangle.getX1()) &&
-				Math.round(intersectRectangle.getY1()) < Math.round(otherIntersectRectangle.getY2()) && Math.round(intersectRectangle.getY2()) > Math.round(otherIntersectRectangle.getY1());
+		return Math.round(intersectRectangle.getX1()) < Math.round(otherIntersectRectangle.getX2() + 1) && Math.round(intersectRectangle.getX2() + 1) > Math.round(otherIntersectRectangle.getX1()) &&
+				Math.round(intersectRectangle.getY1()) < Math.round(otherIntersectRectangle.getY2() + 1) && Math.round(intersectRectangle.getY2() + 1) > Math.round(otherIntersectRectangle.getY1());
 	}
 
 	// check if this overlaps with another rectangle
 	public boolean overlaps(IntersectableRectangle other) {
 		Rectangle intersectRectangle = getIntersectRectangle();
 		Rectangle otherIntersectRectangle = other.getIntersectRectangle();
-		return Math.round(intersectRectangle.getX1()) <= Math.round(otherIntersectRectangle.getX2()) && Math.round(intersectRectangle.getX2()) >= Math.round(otherIntersectRectangle.getX1()) &&
-				Math.round(intersectRectangle.getY1()) <= Math.round(otherIntersectRectangle.getY2()) && Math.round(intersectRectangle.getY2()) >= Math.round(otherIntersectRectangle.getY1());
+		return Math.round(intersectRectangle.getX1()) <= Math.round(otherIntersectRectangle.getX2() + 1) && Math.round(intersectRectangle.getX2() + 1) >= Math.round(otherIntersectRectangle.getX1()) &&
+				Math.round(intersectRectangle.getY1()) <= Math.round(otherIntersectRectangle.getY2() + 1) && Math.round(intersectRectangle.getY2() + 1) >= Math.round(otherIntersectRectangle.getY1());
 	}
 }

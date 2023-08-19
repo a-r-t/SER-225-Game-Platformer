@@ -1,5 +1,6 @@
 package Level;
 
+import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;
@@ -74,8 +75,8 @@ public abstract class Player extends GameObject {
             previousAirGroundState = airGroundState;
 
             // move player with respect to map collisions based on how much player needs to move this frame
-            lastAmountMovedY = super.moveYHandleCollision(moveAmountY);
             lastAmountMovedX = super.moveXHandleCollision(moveAmountX);
+            lastAmountMovedY = super.moveYHandleCollision(moveAmountY);
 
             handlePlayerAnimation();
 

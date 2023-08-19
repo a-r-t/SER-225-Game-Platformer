@@ -78,7 +78,7 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
         // if player is on standing on top of platform, move player by the amount the platform is moving
         // this will cause the player to "ride" with the moving platform
         // without this code, the platform would slide right out from under the player
-        if (overlaps(player) && player.getBoundsY2() == getBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
+        if (overlaps(player) && (player.getBoundsY2() + 1) == getBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
             player.moveXHandleCollision(moveAmountX);
         }
 

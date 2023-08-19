@@ -7,8 +7,6 @@ import Game.ScreenCoordinator;
 import Level.Map;
 import Level.Player;
 import Level.PlayerListener;
-import Maps.SlopeTestMap;
-import Maps.SlopeTestMap2;
 import Maps.TestMap;
 import Players.Cat;
 import Utils.Point;

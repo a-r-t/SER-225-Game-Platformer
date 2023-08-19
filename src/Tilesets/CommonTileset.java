@@ -5,10 +5,8 @@ import Builders.MapTileBuilder;
 import Engine.ImageLoader;
 import GameObject.Frame;
 import GameObject.ImageEffect;
-import Level.TileLayout;
 import Level.TileType;
 import Level.Tileset;
-import Utils.Direction;
 import Utils.SlopeTileLayoutUtils;
 
 import java.util.ArrayList;
@@ -121,7 +119,7 @@ public class CommonTileset extends Tileset {
         mapTiles.add(treeTopLeavesTile);
 
         // yellow flower
-        Frame[] yellowFlowerFrames = new Frame[]{
+        Frame[] yellowFlowerFrames = new Frame[] {
                 new FrameBuilder(getSubImage(1, 2), 500)
                         .withScale(tileScale)
                         .build(),
@@ -141,7 +139,7 @@ public class CommonTileset extends Tileset {
         mapTiles.add(yellowFlowerTile);
 
         // purple flower
-        Frame[] purpleFlowerFrames = new Frame[]{
+        Frame[] purpleFlowerFrames = new Frame[] {
                 new FrameBuilder(getSubImage(0, 3), 500)
                         .withScale(tileScale)
                         .build(),
@@ -220,7 +218,7 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(greyRockTile);
 
-        // left slope
+        // left 45 degree slope
         Frame leftSlopeFrame = new FrameBuilder(getSubImage(3, 3))
                 .withScale(tileScale)
                 .build();
@@ -231,7 +229,7 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(leftSlopeTile);
 
-        // right slope
+        // right 45 degree slope
         Frame rightSlopeFrame = new FrameBuilder(getSubImage(3, 4))
                 .withScale(tileScale)
                 .build();
@@ -242,25 +240,25 @@ public class CommonTileset extends Tileset {
 
         mapTiles.add(rightSlopeTile);
 
-        // left stairs bottom
+        // left 30 degree slope bottom
         Frame leftStairsBottomFrame = new FrameBuilder(getSubImage(4, 0))
                 .withScale(tileScale)
                 .build();
 
         MapTileBuilder leftStairsBottomTile = new MapTileBuilder(leftStairsBottomFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createBottomStairsLeft(spriteWidth, (int) tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createBottomLeft30SlopeLayout(spriteWidth, (int) tileScale));
 
         mapTiles.add(leftStairsBottomTile);
 
-        // left stairs top
+        // left 30 degree slope top
         Frame leftStairsTopFrame = new FrameBuilder(getSubImage(4, 1))
                 .withScale(tileScale)
                 .build();
 
         MapTileBuilder leftStairsTopTile = new MapTileBuilder(leftStairsTopFrame)
                 .withTileType(TileType.SLOPE)
-                .withTileLayout(SlopeTileLayoutUtils.createTopStairsLeft(spriteWidth, (int) tileScale));
+                .withTileLayout(SlopeTileLayoutUtils.createTopLeft30SlopeLayout(spriteWidth, (int) tileScale));
 
         mapTiles.add(leftStairsTopTile);
 

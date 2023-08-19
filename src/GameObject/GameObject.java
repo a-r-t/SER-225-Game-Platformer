@@ -120,19 +120,15 @@ public class GameObject extends AnimatedSprite {
 
     // performs collision check logic for moving along the x axis against the map's tiles
     private float handleCollisionX(float moveAmountX) {
-//        System.out.println("HANDLE COLLISION X");
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountX);
 
         // gets decimal remainder from amount to move
         float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
 
-//        // determines direction that will be moved in based on if moveAmountX is positive or negative
-//        Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
-
         // moves game object one pixel at a time until total move amount is reached
-        // if at any point a map tile collision is determined to have occurred from the move,
-        // move player back to right in front of the "solid" map tile's position, and stop attempting to move further
+        // if at any point a map tile collision is determined to have occurred from the move, adjust player position to right in front of the "solid" map tile's position, and stop attempting to move further
+        // there is special logic to handle movement across slope map tiles
         float amountMoved = 0;
         boolean hasCollided = false;
         MapEntity entityCollidedWith = null;
@@ -153,17 +149,17 @@ public class GameObject extends AnimatedSprite {
             }
 
             // adjust y position if moving down a slope
-            MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
-            if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
-                setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
-                setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
-            }
-
-            // adjust y position if moving up a slope
-            MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+            MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
             if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
                 setX(slopeCollisionCheckResult.getAdjustedLocation().x);
                 setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+            }
+
+            // adjust y position if moving up a slope
+            MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+            if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
+                setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
+                setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
             }
 
             if (hasCollided) {
@@ -177,6 +173,7 @@ public class GameObject extends AnimatedSprite {
         // it starts by moving the game object by that decimal amount
         // it then does one more check for a collision in the case that this added decimal amount was enough to change the rounding and move the game object to the next pixel over
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
+        // there is special logic to handle movement across slope map tiles
         SlopeProximityStatus slopeProximityStatus = MapCollisionHandler.getCurrentSlopeProximityStatus(this, map, currentXDirection);
 
         if (!hasCollided) {
@@ -191,17 +188,17 @@ public class GameObject extends AnimatedSprite {
         }
 
         // adjust y position if moving down a slope
-        MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
-        if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
-            setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
-            setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
-        }
-
-        // adjust y position if moving up a slope
-        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
         if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
             setX(slopeCollisionCheckResult.getAdjustedLocation().x);
             setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+        }
+
+        // adjust y position if moving up a slope
+        MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+        if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
+            setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
+            setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
         }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
@@ -213,23 +210,18 @@ public class GameObject extends AnimatedSprite {
 
     // performs collision check logic for moving along the y axis against the map's tiles
     private float handleCollisionY(float moveAmountY) {
-//        System.out.println("HANDLE COLLISION Y");
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountY);
 
         // gets decimal remainder from amount to move
         float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 
-//        // determines direction that will be moved in based on if moveAmountY is positive or negative
-//        Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
-
         // moves game object one pixel at a time until total move amount is reached
-        // if at any point a map tile collision is determined to have occurred from the move,
-        // move player back to right in front of the "solid" map tile's position, and stop attempting to move further
+        // if at any point a map tile collision is determined to have occurred from the move, adjust player position back to right in front of the "solid" map tile's position, and stop attempting to move further
+        // there is special logic to handle movement across slope map tiles
         float amountMoved = 0;
         boolean hasCollided = false;
         MapEntity entityCollidedWith = null;
-//        System.out.println("AMOUNT TO MOVE: " + moveAmountY);
         for (int i = 0; i < amountToMove; i++) {
             moveY(currentYDirection.getVelocity());
 
@@ -261,6 +253,7 @@ public class GameObject extends AnimatedSprite {
         // it starts by moving the game object by that decimal amount
         // it then does one more check for a collision in the case that this added decimal amount was enough to change the rounding and move the game object to the next pixel over
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
+        // there is special logic to handle movement across slope map tiles
         if (!hasCollided) {
             moveY(moveAmountYRemainder * currentYDirection.getVelocity());
             MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, currentYDirection);
@@ -347,18 +340,11 @@ public class GameObject extends AnimatedSprite {
                     currentFrame.getImageEffect());
 
             // Uncomment this to draw player's bounds to screen -- useful for debugging
-
+            /*
             if (this instanceof Player) {
-                //drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
-                //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), getBounds().getHeight(), new Color(255, 0, 0, 100));
-                //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.BLUE);
-//                System.out.println("X + W: " + (Math.round(getBounds().getX1()) + getBounds().getWidth()));
-//                System.out.println("X2: " + (Math.round(getBounds().getX2())));
-                //graphicsHandler.drawFilledRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.yellow);
-                //graphicsHandler.drawRectangle(Math.round(getBounds().getX1()), Math.round(getBounds().getY1()), getBounds().getWidth(), 1, Color.YELLOW);
-                //graphicsHandler.drawRectangle(Math.round(getBounds().getX2()), Math.round(getBounds().getY2()), 1, 1, Color.YELLOW);
+                drawBounds(graphicsHandler, new Color(255, 0, 0, 100));
             }
-
+            */
         } else {
             super.draw(graphicsHandler);
         }

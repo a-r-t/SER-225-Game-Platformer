@@ -3,44 +3,32 @@ package Utils;
 import java.awt.*;
 import java.awt.image.*;
 
-// This class hold ssome useful image methods that are used when loading in images to the game
+// This class has some useful image methods that are used when loading in images to the game
 public class ImageUtils {
-	// https://stackoverflow.com/a/665428
 	// changes desired color to be transparent (the chosen color will not be seen in game when drawn)
-	public static BufferedImage transformColorToTransparency(BufferedImage image, Color c1) {
-		// Primitive test, just an example
-		final int r1 = c1.getRed();
-		final int g1 = c1.getGreen();
-		final int b1 = c1.getBlue();
-		final int r2 = 255;
-		final int g2 = 255;
-		final int b2 = 255;
-		ImageFilter filter = new RGBImageFilter() {
-			public final int filterRGB(int x, int y, int rgb) {
-				int r = (rgb & 0xFF0000) >> 16;
-				int g = (rgb & 0xFF00) >> 8;
-				int b = rgb & 0xFF;
-				if (r >= r1 && r <= r2 && g >= g1 && g <= g2 && b >= b1 && b <= b2) {
-					// Set fully transparent but keep color
-					return rgb & 0xFFFFFF;
+	public static BufferedImage transformColorToTransparency(BufferedImage image, Color transparentColor) {
+		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = newImage.createGraphics();
+		int transparentColorIndex = transparentColor.getRGB();
+
+		// iterates through each pixel of the image
+		// if pixel is equal to the transparent color, changes that pixel to be fully transparent
+		for (int i = 0; i < image.getWidth(); i++) {
+			for (int j = 0; j < image.getHeight(); j++) {
+				int rgb = image.getRGB(i, j);
+				if (rgb == transparentColorIndex) {
+					g.setColor(new Color(0, true));
+					g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 				}
-				return rgb;
+				else {
+					g.setColor(new Color(rgb, false));
+					g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+				}
+				g.drawRect(i, j, 1, 1);
 			}
-		};
-
-		ImageProducer ip = new FilteredImageSource(image.getSource(), filter);
-		Image result = Toolkit.getDefaultToolkit().createImage(ip);
-		return convertImageToBufferedImage(result, image.getWidth(), image.getHeight());
-	}
-
-	// https://stackoverflow.com/a/665428
-	// converts Image data type to BufferedImage data type -- needed for the transformColorToTransparency method because it returns just an Image and not a BufferedImage
-	public static BufferedImage convertImageToBufferedImage(Image image, int width, int height) {
-		BufferedImage dest = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = dest.createGraphics();
-		g2.drawImage(image, 0, 0, null);
-		g2.dispose();
-		return dest;
+		}
+		g.dispose();
+		return newImage;
 	}
 
 	// https://stackoverflow.com/a/4216315

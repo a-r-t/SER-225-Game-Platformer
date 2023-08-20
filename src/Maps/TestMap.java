@@ -25,8 +25,12 @@ public class TestMap extends Map {
     @Override
     public ArrayList<Enemy> loadEnemies() {
         ArrayList<Enemy> enemies = new ArrayList<>();
-        enemies.add(new BugEnemy(getMapTile(15, 8).getLocation().addY(20), Direction.LEFT));
-        enemies.add(new DinosaurEnemy(getMapTile(19, 1).getLocation().addY(2), getMapTile(22, 1).getLocation().addY(2), Direction.RIGHT));
+        BugEnemy bugEnemy = new BugEnemy(getMapTile(16, 10).getLocation().subtractY(20), Direction.LEFT);
+        enemies.add(bugEnemy);
+
+        DinosaurEnemy dinosaurEnemy = new DinosaurEnemy(getMapTile(19, 1).getLocation().addY(2), getMapTile(22, 1).getLocation().addY(2), Direction.RIGHT);
+        enemies.add(dinosaurEnemy);
+
         return enemies;
     }
 
@@ -34,7 +38,7 @@ public class TestMap extends Map {
     public ArrayList<EnhancedMapTile> loadEnhancedMapTiles() {
         ArrayList<EnhancedMapTile> enhancedMapTiles = new ArrayList<>();
 
-        enhancedMapTiles.add(new HorizontalMovingPlatform(
+        HorizontalMovingPlatform hmp = new HorizontalMovingPlatform(
                 ImageLoader.load("GreenPlatform.png"),
                 getMapTile(24, 6).getLocation(),
                 getMapTile(27, 6).getLocation(),
@@ -42,11 +46,11 @@ public class TestMap extends Map {
                 3,
                 new Rectangle(0, 6,16,4),
                 Direction.RIGHT
-        ));
+        );
+        enhancedMapTiles.add(hmp);
 
-        enhancedMapTiles.add(new EndLevelBox(
-                getMapTile(32, 7).getLocation()
-        ));
+        EndLevelBox endLevelBox = new EndLevelBox(getMapTile(32, 7).getLocation());
+        enhancedMapTiles.add(endLevelBox);
 
         return enhancedMapTiles;
     }
@@ -55,7 +59,8 @@ public class TestMap extends Map {
     public ArrayList<NPC> loadNPCs() {
         ArrayList<NPC> npcs = new ArrayList<>();
 
-        npcs.add(new Walrus(getMapTile(30, 10).getLocation().subtractY(13)));
+        Walrus walrus = new Walrus(getMapTile(30, 10).getLocation().subtractY(13));
+        npcs.add(walrus);
 
         return npcs;
     }

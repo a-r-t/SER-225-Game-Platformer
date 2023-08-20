@@ -80,6 +80,10 @@ public class Sprite extends Rectangle implements IntersectableRectangle {
         this.bounds = new Rectangle(x, y, width, height, scale);
     }
 
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
     public Rectangle getIntersectRectangle() {
         return getBounds();
     }

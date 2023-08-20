@@ -32,12 +32,6 @@ public class GameObject extends AnimatedSprite {
     // previous location the game object was in from the last frame
     protected float previousX, previousY;
 
-    // current direction game object is attempting to move in
-    protected Direction currentXDirection, currentYDirection;
-
-    // previous direction game object attempted to move in on the last frame
-    protected Direction previousXDirection, previousYDirection;
-
     // the map instance this game object "belongs" to.
     protected Map map;
 
@@ -95,8 +89,6 @@ public class GameObject extends AnimatedSprite {
     // move game object along the x axis
     // will stop object from moving based on map collision logic (such as if it hits a solid tile)
     public float moveXHandleCollision(float dx) {
-        previousXDirection = currentXDirection;
-        currentXDirection = dx < 0 ? Direction.LEFT : Direction.RIGHT;
         if (map != null) {
             return handleCollisionX(dx);
         } else {
@@ -108,8 +100,6 @@ public class GameObject extends AnimatedSprite {
     // move game object along the y axis
     // will stop object from moving based on map collision logic (such as if it hits a solid tile)
     public float moveYHandleCollision(float dy) {
-        previousYDirection = currentYDirection;
-        currentYDirection = dy < 0 ? Direction.UP : Direction.DOWN;
         if (map != null) {
             return handleCollisionY(dy);
         } else {
@@ -123,8 +113,12 @@ public class GameObject extends AnimatedSprite {
         // determines amount to move (whole number)
         int amountToMove = (int) Math.abs(moveAmountX);
 
+
         // gets decimal remainder from amount to move
         float moveAmountXRemainder = MathUtils.getRemainder(moveAmountX);
+
+        // determines direction that will be moved in based on if moveAmountX is positive or negative
+        Direction direction = moveAmountX < 0 ? Direction.LEFT : Direction.RIGHT;
 
         // moves game object one pixel at a time until total move amount is reached
         // if at any point a map tile collision is determined to have occurred from the move, adjust player position to right in front of the "solid" map tile's position, and stop attempting to move further
@@ -134,39 +128,36 @@ public class GameObject extends AnimatedSprite {
         MapEntity entityCollidedWith = null;
         for (int i = 0; i < amountToMove; i++) {
             // determines if player is in proximity with a slope (needed for later if moving down a slope)
-            SlopeProximityStatus slopeProximityStatus = MapCollisionHandler.getCurrentSlopeProximityStatus(this, map, currentXDirection);
+            SlopeProximityStatus slopeProximityStatus = MapCollisionHandler.getCurrentSlopeProximityStatus(this, map, direction);
 
             // move player in intended direction
-            moveX(currentXDirection.getVelocity());
+            moveX(direction.getVelocity());
 
             // adjust x position if a collision occurred
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
                 setX(collisionCheckResult.getAdjustedLocation().x);
-                setY(collisionCheckResult.getAdjustedLocation().y);
             }
 
             // adjust y position if moving down a slope
-            MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
-            if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
-                setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-                setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+            MapCollisionCheckResult slopeCollisionMovingDownCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
+            if (slopeCollisionMovingDownCheckResult.getAdjustedLocation() != null) {
+                setY(slopeCollisionMovingDownCheckResult.getAdjustedLocation().y);
             }
 
             // adjust y position if moving up a slope
-            MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-            if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
-                setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
-                setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
+            MapCollisionCheckResult slopeCollisionMovingUpCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+            if (slopeCollisionMovingUpCheckResult.getAdjustedLocation() != null) {
+                setY(slopeCollisionMovingUpCheckResult.getAdjustedLocation().y);
             }
 
             if (hasCollided) {
                 break;
             }
 
-            amountMoved = (i + 1) * currentXDirection.getVelocity();
+            amountMoved = i + 1;
         }
 
         // if no collision occurred in the above steps, this deals with the decimal remainder from the original move amount (stored in moveAmountXRemainder)
@@ -174,38 +165,37 @@ public class GameObject extends AnimatedSprite {
         // it then does one more check for a collision in the case that this added decimal amount was enough to change the rounding and move the game object to the next pixel over
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
         // there is special logic to handle movement across slope map tiles
-        SlopeProximityStatus slopeProximityStatus = MapCollisionHandler.getCurrentSlopeProximityStatus(this, map, currentXDirection);
+        SlopeProximityStatus slopeProximityStatus = MapCollisionHandler.getCurrentSlopeProximityStatus(this, map, direction);
 
         if (!hasCollided) {
-            moveX(moveAmountXRemainder * currentXDirection.getVelocity());
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, currentXDirection);
+            moveX(moveAmountXRemainder * direction.getVelocity());
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckX(this, map, direction);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
+                float xLocationBeforeAdjustment = getX();
                 setX(collisionCheckResult.getAdjustedLocation().x);
-                setY(collisionCheckResult.getAdjustedLocation().y);
+                amountMoved += Math.abs(xLocationBeforeAdjustment - getX());
             }
         }
 
         // adjust y position if moving down a slope
-        MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
-        if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
-            setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-            setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+        MapCollisionCheckResult slopeCollisionMovingDownCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckX(this, map, slopeProximityStatus);
+        if (slopeCollisionMovingDownCheckResult.getAdjustedLocation() != null) {
+            setY(slopeCollisionMovingDownCheckResult.getAdjustedLocation().y);
         }
 
         // adjust y position if moving up a slope
-        MapCollisionCheckResult slopeCollisionCheckResult2 = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-        if (slopeCollisionCheckResult2.getAdjustedLocation() != null) {
-            setX(slopeCollisionCheckResult2.getAdjustedLocation().x);
-            setY(slopeCollisionCheckResult2.getAdjustedLocation().y);
+        MapCollisionCheckResult slopeCollisionMovingUpCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+        if (slopeCollisionMovingUpCheckResult.getAdjustedLocation() != null) {
+            setY(slopeCollisionMovingUpCheckResult.getAdjustedLocation().y);
         }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
-        onEndCollisionCheckX(hasCollided, currentXDirection, entityCollidedWith);
+        onEndCollisionCheckX(hasCollided, direction, entityCollidedWith);
 
-        // returns the amount actually moved -- this isn't really used by the game, but I have it here for debug purposes
-        return amountMoved + (moveAmountXRemainder * currentXDirection.getVelocity());
+        // returns the amount actually moved
+        return amountMoved * direction.getVelocity();
     }
 
     // performs collision check logic for moving along the y axis against the map's tiles
@@ -216,6 +206,9 @@ public class GameObject extends AnimatedSprite {
         // gets decimal remainder from amount to move
         float moveAmountYRemainder = MathUtils.getRemainder(moveAmountY);
 
+        // determines direction that will be moved in based on if moveAmountY is positive or negative
+        Direction direction = moveAmountY < 0 ? Direction.UP : Direction.DOWN;
+
         // moves game object one pixel at a time until total move amount is reached
         // if at any point a map tile collision is determined to have occurred from the move, adjust player position back to right in front of the "solid" map tile's position, and stop attempting to move further
         // there is special logic to handle movement across slope map tiles
@@ -223,27 +216,25 @@ public class GameObject extends AnimatedSprite {
         boolean hasCollided = false;
         MapEntity entityCollidedWith = null;
         for (int i = 0; i < amountToMove; i++) {
-            moveY(currentYDirection.getVelocity());
+            moveY(direction.getVelocity());
 
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, currentYDirection);
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-                setX(collisionCheckResult.getAdjustedLocation().x);
                 setY(collisionCheckResult.getAdjustedLocation().y);
             }
 
-            if (currentYDirection == Direction.DOWN) {
-                MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-                if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
+            if (direction == Direction.DOWN) {
+                MapCollisionCheckResult slopeCollisionMovingDownCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+                if (slopeCollisionMovingDownCheckResult.getAdjustedLocation() != null) {
                     hasCollided = true;
-                    entityCollidedWith = slopeCollisionCheckResult.getEntityCollidedWith();
-                    setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-                    setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+                    entityCollidedWith = slopeCollisionMovingDownCheckResult.getEntityCollidedWith();
+                    setY(slopeCollisionMovingDownCheckResult.getAdjustedLocation().y);
                 }
             }
 
-            amountMoved = (i + 1) * currentYDirection.getVelocity();
+            amountMoved = i + 1;
             if (hasCollided) {
                 break;
             }
@@ -255,31 +246,29 @@ public class GameObject extends AnimatedSprite {
         // if a collision occurs from this move, the player is moved back to right in front of the "solid" map tile's position
         // there is special logic to handle movement across slope map tiles
         if (!hasCollided) {
-            moveY(moveAmountYRemainder * currentYDirection.getVelocity());
-            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, currentYDirection);
+            moveY(moveAmountYRemainder * direction.getVelocity());
+            MapCollisionCheckResult collisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionCheckY(this, map, direction);
             if (collisionCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
                 entityCollidedWith = collisionCheckResult.getEntityCollidedWith();
-                setX(collisionCheckResult.getAdjustedLocation().x);
                 setY(collisionCheckResult.getAdjustedLocation().y);
             }
         }
 
-        if (currentYDirection == Direction.DOWN) {
-            MapCollisionCheckResult slopeCollisionCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
-            if (slopeCollisionCheckResult.getAdjustedLocation() != null) {
+        if (direction == Direction.DOWN) {
+            MapCollisionCheckResult slopeCollisionMovingDownCheckResult = MapCollisionHandler.getAdjustedPositionAfterCollisionSlopeCheckY(this, map);
+            if (slopeCollisionMovingDownCheckResult.getAdjustedLocation() != null) {
                 hasCollided = true;
-                entityCollidedWith = slopeCollisionCheckResult.getEntityCollidedWith();
-                setX(slopeCollisionCheckResult.getAdjustedLocation().x);
-                setY(slopeCollisionCheckResult.getAdjustedLocation().y);
+                entityCollidedWith = slopeCollisionMovingDownCheckResult.getEntityCollidedWith();
+                setY(slopeCollisionMovingDownCheckResult.getAdjustedLocation().y);
             }
         }
 
         // call this method which a game object subclass can override to listen for collision events and react accordingly
-        onEndCollisionCheckY(hasCollided, currentYDirection, entityCollidedWith);
+        onEndCollisionCheckY(hasCollided, direction, entityCollidedWith);
 
-        // returns the amount actually moved -- this isn't really used by the game, but I have it here for debug purposes
-        return amountMoved + (moveAmountYRemainder * currentYDirection.getVelocity());
+        // returns the amount actually moved
+        return amountMoved * direction.getVelocity();
     }
 
     // game object subclass can override this method to listen for x axis collision events and react accordingly after calling "moveXHandleCollision"

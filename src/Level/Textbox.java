@@ -3,9 +3,7 @@ package Level;
 import java.awt.*;
 
 import Engine.GraphicsHandler;
-import GameObject.Rectangle;
 import SpriteFont.SpriteFont;
-
 
 public class Textbox {
     private int x;
@@ -26,8 +24,8 @@ public class Textbox {
         int textWidth = graphicsHandler.getGraphics().getFontMetrics().stringWidth(spriteFont.getText());
         int textLines = spriteFont.getText().split("\n").length;
         int textHeight = spriteFont.getFont().getSize() * textLines;
-        int width = textWidth + (padding * 2) + borderThickness;
-        int height = textHeight + (padding * 2) + borderThickness + ((textLines - 1) * spriteFont.getGap());
+        int width = textWidth + (padding * 2) + (borderThickness * 2);
+        int height = textHeight + (padding * 2) + (borderThickness * 2) + ((textLines - 1) * spriteFont.getGap());
         return new Dimension(width, height);
     }
 
@@ -38,13 +36,13 @@ public class Textbox {
 
     public void setY(int y) {
         this.y = y;
-        spriteFont.setY(y + padding + spriteFont.getFont().getSize());
+        spriteFont.setY(y + padding);
     }
 
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
-        spriteFont.setLocation(x + padding, y + padding + spriteFont.getFont().getSize());
+        spriteFont.setLocation(x + padding, y + padding);
     }
 
     public void setText(String text) {
@@ -97,9 +95,9 @@ public class Textbox {
 
     public void draw(GraphicsHandler graphicsHandler) {
         Dimension boxSize = getCalculatedBoxSize(graphicsHandler);
-        graphicsHandler.drawFilledRectangle(x, y, boxSize.width, boxSize.height, fillColor);
+        graphicsHandler.drawFilledRectangle(x - borderThickness, y - borderThickness, boxSize.width, boxSize.height, fillColor);
         if (borderColor != null && borderThickness > 0) {
-            graphicsHandler.drawRectangle(x, y, boxSize.width, boxSize.height, borderColor, borderThickness);
+            graphicsHandler.drawRectangle(x - borderThickness, y - borderThickness, boxSize.width, boxSize.height, borderColor, borderThickness);
         }
         spriteFont.drawWithParsedNewLines(graphicsHandler);
     }

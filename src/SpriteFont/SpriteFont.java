@@ -3,6 +3,9 @@ package SpriteFont;
 import Engine.GraphicsHandler;
 
 import java.awt.*;
+import java.awt.font.GlyphVector;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 
 // This class represents a sprite font, which is graphic text (text drawn to the screen as if it were an image)
 public class SpriteFont {
@@ -121,16 +124,23 @@ public class SpriteFont {
 	}
 
 	public void draw(GraphicsHandler graphicsHandler) {
+		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
+		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
+		System.out.println(ascent);
+
 		if (outlineColor != null && !outlineColor.equals(color)) {
-			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y), font, color, outlineColor, outlineThickness);
+			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y) + ascent, font, color, outlineColor, outlineThickness);
 		} else {
-			graphicsHandler.drawString(text, Math.round(x), Math.round(y), font, color);
+			graphicsHandler.drawString(text, Math.round(x), Math.round(y) + ascent, font, color);
 		}
 	}
 
 	// this can be called instead of regular draw to have the text drop to the next line in graphics space on a new line character
 	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
-		int drawLocationY = Math.round(this.y);
+		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
+		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
+		
+		int drawLocationY = Math.round(this.y) + ascent;
 		for (String line: text.split("\n")) {
 			if (outlineColor != null && !outlineColor.equals(color)) {
 				graphicsHandler.drawStringWithOutline(line, Math.round(x), drawLocationY, font, color, outlineColor, outlineThickness);

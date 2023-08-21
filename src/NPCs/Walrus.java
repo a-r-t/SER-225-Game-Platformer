@@ -8,6 +8,7 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
+import Level.Textbox;
 import SpriteFont.SpriteFont;
 import Utils.Point;
 
@@ -17,9 +18,14 @@ import java.util.HashMap;
 // This class is for the walrus NPC
 public class Walrus extends NPC {
 
+    private Textbox tb;
+
     public Walrus(Point location) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("Walrus.png"), 24, 24), "TAIL_DOWN");
         this.talkedToTime = 5000;
+
+        tb = new Textbox("Hello!");
+        tb.setLocation((int)getCalibratedXLocation() - 4, (int)getCalibratedYLocation() - 70);
     }
 
     @Override
@@ -37,6 +43,8 @@ public class Walrus extends NPC {
 
         // set message box relative to walrus's current calibrated location
         message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation() - 8);
+
+        tb.setLocation((int)getCalibratedXLocation() - 4, (int)getCalibratedYLocation() - 34);
 
         super.update(player);
     }
@@ -66,10 +74,11 @@ public class Walrus extends NPC {
 
     @Override
     public void drawMessage(GraphicsHandler graphicsHandler) {
-        // draws a box with a border (think like a speech box)
-        graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation() - 2), Math.round(getCalibratedYLocation() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
-
-        // draws message "Hello" in the above speech box
-        message.draw(graphicsHandler);
+//        // draws a box with a border (think like a speech box)
+//        graphicsHandler.drawFilledRectangleWithBorder(Math.round(getCalibratedXLocation() - 2), Math.round(getCalibratedYLocation() - 24), 40, 25, Color.WHITE, Color.BLACK, 2);
+//
+//        // draws message "Hello" in the above speech box
+//        message.draw(graphicsHandler);
+        tb.draw(graphicsHandler);
     }
 }

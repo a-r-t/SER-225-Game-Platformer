@@ -13,10 +13,19 @@ public class SpriteFont {
 	protected Color color;
 	protected Color outlineColor;
 	protected float outlineThickness = 1f;
+	protected int gap = 0;
 
 	public SpriteFont(String text, float x, float y, String fontName, int fontSize, Color color) {
 		this.text = text;
 		font = new Font(fontName, Font.PLAIN, fontSize);
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
+
+	public SpriteFont(String text, float x, float y, Font font, Color color) {
+		this.text = text;
+		this.font = font;
 		this.x = x;
 		this.y = y;
 		this.color = color;
@@ -29,6 +38,8 @@ public class SpriteFont {
 	public String getText() {
 		return text;
 	}
+
+	public Font getFont() { return font; }
 
 	public void setText(String text) {
 		this.text = text;
@@ -45,6 +56,8 @@ public class SpriteFont {
 	public void setFontSize(int size) {
 		this.font = new Font(font.getFontName(), this.font.getStyle(), size);
 	}
+
+	public void setFont(Font font) { this.font = font; }
 
 	public void setOutlineColor(Color outlineColor) {
 		this.outlineColor = outlineColor;
@@ -73,6 +86,14 @@ public class SpriteFont {
 	public void setLocation(float x, float y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public int getGap() {
+		return gap;
+	}
+
+	public void setGap(int gap) {
+		this.gap = gap;
 	}
 
 	public void moveX(float dx) {
@@ -116,7 +137,7 @@ public class SpriteFont {
 			} else {
 				graphicsHandler.drawString(line, Math.round(x), drawLocationY, font, color);
 			}
-			drawLocationY += font.getSize();
+			drawLocationY += font.getSize() + gap;
 		}
 	}
 }

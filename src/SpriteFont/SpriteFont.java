@@ -126,7 +126,6 @@ public class SpriteFont {
 	public void draw(GraphicsHandler graphicsHandler) {
 		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
 		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
-		System.out.println(ascent);
 
 		if (outlineColor != null && !outlineColor.equals(color)) {
 			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y) + ascent, font, color, outlineColor, outlineThickness);
@@ -139,7 +138,7 @@ public class SpriteFont {
 	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
 		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
 		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
-		
+
 		int drawLocationY = Math.round(this.y) + ascent;
 		for (String line: text.split("\n")) {
 			if (outlineColor != null && !outlineColor.equals(color)) {

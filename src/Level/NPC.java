@@ -15,7 +15,7 @@ public class NPC extends MapEntity {
     protected boolean isInteractable = false;
     protected boolean talkedTo = false;
     protected SpriteFont message;
-    protected int talkedToTime;
+    protected int talkedToTime; // how long after talking to NPC will textbox stay open -- use negative number to have it be infinite time
     protected Stopwatch timer = new Stopwatch();
     protected Textbox textbox = new Textbox("");
     protected int textboxOffsetX = 0;

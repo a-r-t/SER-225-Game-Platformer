@@ -12,10 +12,14 @@ import java.util.HashMap;
 
 // This class is a base class for all npcs in the game -- all npcs should extend from it
 public class NPC extends MapEntity {
+    protected boolean isInteractable = false;
     protected boolean talkedTo = false;
     protected SpriteFont message;
-    protected int talkedToTime;
+    protected int talkedToTime; // how long after talking to NPC will textbox stay open -- use negative number to have it be infinite time
     protected Stopwatch timer = new Stopwatch();
+    protected Textbox textbox = new Textbox("");
+    protected int textboxOffsetX = 0;
+    protected int textboxOffsetY = 0;
 
     public NPC(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
         super(x, y, spriteSheet, startingAnimation);
@@ -49,14 +53,18 @@ public class NPC extends MapEntity {
     public void update(Player player) {
         super.update();
         checkTalkedTo(player);
+        textbox.setLocation((int)getCalibratedXLocation() + textboxOffsetX, (int)getCalibratedYLocation() + textboxOffsetY);
     }
 
     public void checkTalkedTo(Player player) {
-        if (intersects(player) && Keyboard.isKeyDown(Key.SPACE)) {
+        if (isInteractable && intersects(player) && Keyboard.isKeyDown(Key.SPACE)) {
             talkedTo = true;
-            timer.setWaitTime(talkedToTime);
-        };
-        if (talkedTo && timer.isTimeUp()) {
+            if (talkedToTime >= 0) {
+                timer.setWaitTime(talkedToTime);
+            }
+        }
+
+        if (talkedTo && talkedToTime >= 0 && timer.isTimeUp()) {
             talkedTo = false;
         }
     }
@@ -64,11 +72,8 @@ public class NPC extends MapEntity {
     @Override
     public void draw(GraphicsHandler graphicsHandler) {
         super.draw(graphicsHandler);
-        if (message != null && talkedTo) {
-            drawMessage(graphicsHandler);
+        if (talkedTo) {
+            textbox.draw(graphicsHandler);
         }
     }
-
-    // A subclass can override this method to specify what message it displays upon being talked to
-    public void drawMessage(GraphicsHandler graphicsHandler) {}
 }

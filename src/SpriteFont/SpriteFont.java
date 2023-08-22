@@ -3,6 +3,9 @@ package SpriteFont;
 import Engine.GraphicsHandler;
 
 import java.awt.*;
+import java.awt.font.GlyphVector;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 
 // This class represents a sprite font, which is graphic text (text drawn to the screen as if it were an image)
 public class SpriteFont {
@@ -13,10 +16,19 @@ public class SpriteFont {
 	protected Color color;
 	protected Color outlineColor;
 	protected float outlineThickness = 1f;
+	protected int gap = 0;
 
 	public SpriteFont(String text, float x, float y, String fontName, int fontSize, Color color) {
 		this.text = text;
 		font = new Font(fontName, Font.PLAIN, fontSize);
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
+
+	public SpriteFont(String text, float x, float y, Font font, Color color) {
+		this.text = text;
+		this.font = font;
 		this.x = x;
 		this.y = y;
 		this.color = color;
@@ -29,6 +41,8 @@ public class SpriteFont {
 	public String getText() {
 		return text;
 	}
+
+	public Font getFont() { return font; }
 
 	public void setText(String text) {
 		this.text = text;
@@ -45,6 +59,8 @@ public class SpriteFont {
 	public void setFontSize(int size) {
 		this.font = new Font(font.getFontName(), this.font.getStyle(), size);
 	}
+
+	public void setFont(Font font) { this.font = font; }
 
 	public void setOutlineColor(Color outlineColor) {
 		this.outlineColor = outlineColor;
@@ -75,6 +91,14 @@ public class SpriteFont {
 		this.y = y;
 	}
 
+	public int getGap() {
+		return gap;
+	}
+
+	public void setGap(int gap) {
+		this.gap = gap;
+	}
+
 	public void moveX(float dx) {
 		x += dx;
 	}
@@ -100,23 +124,29 @@ public class SpriteFont {
 	}
 
 	public void draw(GraphicsHandler graphicsHandler) {
+		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
+		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
+
 		if (outlineColor != null && !outlineColor.equals(color)) {
-			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y), font, color, outlineColor, outlineThickness);
+			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y) + ascent, font, color, outlineColor, outlineThickness);
 		} else {
-			graphicsHandler.drawString(text, Math.round(x), Math.round(y), font, color);
+			graphicsHandler.drawString(text, Math.round(x), Math.round(y) + ascent, font, color);
 		}
 	}
 
 	// this can be called instead of regular draw to have the text drop to the next line in graphics space on a new line character
 	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
-		int drawLocationY = Math.round(this.y);
+		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
+		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
+
+		int drawLocationY = Math.round(this.y) + ascent;
 		for (String line: text.split("\n")) {
 			if (outlineColor != null && !outlineColor.equals(color)) {
 				graphicsHandler.drawStringWithOutline(line, Math.round(x), drawLocationY, font, color, outlineColor, outlineThickness);
 			} else {
 				graphicsHandler.drawString(line, Math.round(x), drawLocationY, font, color);
 			}
-			drawLocationY += font.getSize();
+			drawLocationY += font.getSize() + gap;
 		}
 	}
 }

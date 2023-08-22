@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
 public class GraphicsHandler {
     private Graphics2D g;
 
+    public Graphics2D getGraphics() {
+        return g;
+    }
+
     public void setGraphics(Graphics2D g) {
         this.g = g;
     }

@@ -11,10 +11,7 @@ import java.util.HashMap;
 public class MapEntity extends GameObject {
     protected MapEntityStatus mapEntityStatus = MapEntityStatus.ACTIVE;
 
-    // if true, if entity goes out of the camera's update range, and then ends up back in range, the entity will "respawn" back to its starting parameters
-    protected boolean isRespawnable = true;
-
-    // if true, entity cannot go out of camera's update range
+    // if true, entity will continue to be updated even if off camera
     protected boolean isUpdateOffScreen = false;
 
     public MapEntity(float x, float y, SpriteSheet spriteSheet, String startingAnimation) {
@@ -53,14 +50,6 @@ public class MapEntity extends GameObject {
 
     public void setMapEntityStatus(MapEntityStatus mapEntityStatus) {
         this.mapEntityStatus = mapEntityStatus;
-    }
-
-    public boolean isRespawnable() {
-        return isRespawnable;
-    }
-
-    public void setIsRespawnable(boolean isRespawnable) {
-        this.isRespawnable = isRespawnable;
     }
 
     public boolean isUpdateOffScreen() {

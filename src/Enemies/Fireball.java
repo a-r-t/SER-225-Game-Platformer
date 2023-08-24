@@ -28,9 +28,6 @@ public class Fireball extends Enemy {
         // how long the fireball will exist for before disappearing
         existenceTimer.setWaitTime(existenceTime);
 
-        // this enemy will not respawn after it has been removed
-        isRespawnable = false;
-
         initialize();
     }
 

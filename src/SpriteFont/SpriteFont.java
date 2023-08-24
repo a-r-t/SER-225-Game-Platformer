@@ -3,9 +3,6 @@ package SpriteFont;
 import Engine.GraphicsHandler;
 
 import java.awt.*;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
 
 // This class represents a sprite font, which is graphic text (text drawn to the screen as if it were an image)
 public class SpriteFont {
@@ -16,7 +13,7 @@ public class SpriteFont {
 	protected Color color;
 	protected Color outlineColor;
 	protected float outlineThickness = 1f;
-	protected int gap = 0;
+	protected int gap = 0; // only affects drawing multiline strings -- will dictate amount of vertical space between each line
 
 	public SpriteFont(String text, float x, float y, String fontName, int fontSize, Color color) {
 		this.text = text;
@@ -123,10 +120,13 @@ public class SpriteFont {
 		y -= dy;
 	}
 
-	public void draw(GraphicsHandler graphicsHandler) {
-		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
-		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
+	private int getAscent(Graphics2D graphics) {
+		FontMetrics fm = graphics.getFontMetrics(font);
+		return fm.getAscent();
+	}
 
+	public void draw(GraphicsHandler graphicsHandler) {
+		int ascent = getAscent(graphicsHandler.getGraphics());
 		if (outlineColor != null && !outlineColor.equals(color)) {
 			graphicsHandler.drawStringWithOutline(text, Math.round(x), Math.round(y) + ascent, font, color, outlineColor, outlineThickness);
 		} else {
@@ -136,9 +136,7 @@ public class SpriteFont {
 
 	// this can be called instead of regular draw to have the text drop to the next line in graphics space on a new line character
 	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
-		FontMetrics fm = graphicsHandler.getGraphics().getFontMetrics(font);
-		int ascent = (int)fm.getLineMetrics(text, graphicsHandler.getGraphics()).getAscent();
-
+		int ascent = getAscent(graphicsHandler.getGraphics());
 		int drawLocationY = Math.round(this.y) + ascent;
 		for (String line: text.split("\n")) {
 			if (outlineColor != null && !outlineColor.equals(color)) {

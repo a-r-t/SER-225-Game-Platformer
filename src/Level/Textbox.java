@@ -14,6 +14,7 @@ public class Textbox {
     private int borderThickness = 1;
     private int vPadding = 10; // spacing above and below text
     private int hPadding = 10; // spacing to right and left of text
+    int gap = 0; // horizontal space between lines of text -- only matters with multiline text
 
     public Textbox(String text) {
         Font font = new Font("Arial", Font.PLAIN, 12);
@@ -89,7 +90,7 @@ public class Textbox {
     }
 
     public void setGap(int gap) {
-        spriteFont.setGap(gap);
+        this.gap = gap;
     }
 
     private void refreshSpriteFontLocation() {
@@ -101,7 +102,7 @@ public class Textbox {
         int textWidth = getLongestTextWidth(lines, graphics);
         int textHeight = spriteFont.getFont().getSize() * lines.length;
         int boxWidth = textWidth + (hPadding * 2) + (borderThickness * 2);
-        int boxHeight = textHeight + (vPadding * 2) + (borderThickness * 2) + ((lines.length - 1) * spriteFont.getGap());
+        int boxHeight = textHeight + (vPadding * 2) + (borderThickness * 2) + ((lines.length - 1) * gap);
         return new Dimension(boxWidth, boxHeight);
     }
 
@@ -122,6 +123,6 @@ public class Textbox {
         if (borderColor != null && borderThickness > 0) {
             graphicsHandler.drawRectangle(x, y, boxSize.width, boxSize.height, borderColor, borderThickness);
         }
-        spriteFont.drawWithParsedNewLines(graphicsHandler);
+        spriteFont.drawWithParsedNewLines(graphicsHandler, gap);
     }
 }

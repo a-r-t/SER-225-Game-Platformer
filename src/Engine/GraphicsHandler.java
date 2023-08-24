@@ -45,19 +45,33 @@ public class GraphicsHandler {
     }
 
     public void drawRectangle(int x, int y, int width, int height, Color color) {
+        Color oldColor = g.getColor();
+
         g.setColor(color);
         g.drawRect(x, y, width, height);
+
+        g.setColor(oldColor);
     }
 
     public void drawRectangle(int x, int y, int width, int height, Color color, int borderThickness) {
+        Stroke oldStroke = g.getStroke();
+        Color oldColor = g.getColor();
+
         g.setStroke(new BasicStroke(borderThickness));
         g.setColor(color);
         g.drawRect(x, y, width, height);
+
+        g.setStroke(oldStroke);
+        g.setColor(oldColor);
     }
 
     public void drawFilledRectangle(int x, int y, int width, int height, Color color) {
+        Color oldColor = g.getColor();
+
         g.setColor(color);
         g.fillRect(x, y, width, height);
+
+        g.setColor(oldColor);
     }
 
     public void drawFilledRectangleWithBorder(int x, int y, int width, int height, Color fillColor, Color borderColor, int borderThickness) {
@@ -66,9 +80,15 @@ public class GraphicsHandler {
     }
 
     public void drawString(String text, int x, int y, Font font, Color color) {
+        Font oldFont = g.getFont();
+        Color oldColor = g.getColor();
+
         g.setFont(font);
         g.setColor(color);
         g.drawString(text, x, y);
+
+        g.setFont(oldFont);
+        g.setColor(oldColor);
     }
 
     // https://stackoverflow.com/a/35222059 and https://stackoverflow.com/a/31831120

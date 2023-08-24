@@ -13,7 +13,6 @@ public class SpriteFont {
 	protected Color color;
 	protected Color outlineColor;
 	protected float outlineThickness = 1f;
-	protected int gap = 0; // only affects drawing multiline strings -- will dictate amount of vertical space between each line
 
 	public SpriteFont(String text, float x, float y, String fontName, int fontSize, Color color) {
 		this.text = text;
@@ -88,14 +87,6 @@ public class SpriteFont {
 		this.y = y;
 	}
 
-	public int getGap() {
-		return gap;
-	}
-
-	public void setGap(int gap) {
-		this.gap = gap;
-	}
-
 	public void moveX(float dx) {
 		x += dx;
 	}
@@ -135,7 +126,7 @@ public class SpriteFont {
 	}
 
 	// this can be called instead of regular draw to have the text drop to the next line in graphics space on a new line character
-	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler) {
+	public void drawWithParsedNewLines(GraphicsHandler graphicsHandler, int gapBetweenLines) {
 		int ascent = getAscent(graphicsHandler.getGraphics());
 		int drawLocationY = Math.round(this.y) + ascent;
 		for (String line: text.split("\n")) {
@@ -144,7 +135,7 @@ public class SpriteFont {
 			} else {
 				graphicsHandler.drawString(line, Math.round(x), drawLocationY, font, color);
 			}
-			drawLocationY += font.getSize() + gap;
+			drawLocationY += font.getSize() + gapBetweenLines;
 		}
 	}
 }

@@ -30,7 +30,6 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     public void initialize() {
         // define/setup map
         this.map = new TestMap();
-        map.reset();
 
         // setup player
         this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
@@ -38,10 +37,11 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.player.addListener(this);
         Point playerStartPosition = map.getPlayerStartPosition();
         this.player.setLocation(playerStartPosition.x, playerStartPosition.y);
-        this.playLevelScreenState = PlayLevelScreenState.RUNNING;
 
         levelClearedScreen = new LevelClearedScreen();
         levelLoseScreen = new LevelLoseScreen(this);
+
+        this.playLevelScreenState = PlayLevelScreenState.RUNNING;
     }
 
     public void update() {

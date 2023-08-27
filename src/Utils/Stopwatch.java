@@ -16,6 +16,11 @@ public class Stopwatch {
         return System.currentTimeMillis() - beforeTime > millisecondsToWait;
     }
 
+    // will return how much time is remaining (in milliseconds) until goal time amount is hit
+    public long getTimeRemaining() {
+        return millisecondsToWait - (System.currentTimeMillis() - beforeTime);
+    }
+
     // reset timer to wait again for specified number of milliseconds
     public void reset() {
         setWaitTime(millisecondsToWait);

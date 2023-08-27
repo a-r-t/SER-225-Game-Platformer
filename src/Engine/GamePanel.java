@@ -73,7 +73,7 @@ public class GamePanel extends JPanel {
 						update();
 						repaint();
 						frames++;
-						delta--;
+						delta = 0;
 
 						if (System.currentTimeMillis() - lastCycleTime >= 1000) {
 							currentFPS = frames;

@@ -13,8 +13,8 @@ public class MapCollisionHandler {
         float edgeBoundX = direction == Direction.LEFT ? gameObject.getBounds().getX1() : gameObject.getBounds().getX2();
         Point tileIndex = map.getTileIndexByPosition(edgeBoundX, gameObject.getBounds().getY1());
         MapTile entityCollidedWith = null;
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + j));
+        for (int i = -1; i <= numberOfTilesToCheck + 1; i++) {
+            MapTile mapTile = map.getMapTile(Math.round(tileIndex.x), Math.round(tileIndex.y + i));
             if (mapTile != null && hasCollidedWithMapEntity(gameObject, mapTile, direction)) {
                 entityCollidedWith = mapTile;
                 float adjustedPositionX = gameObject.getX();
@@ -53,8 +53,8 @@ public class MapCollisionHandler {
         float edgeBoundY = direction == Direction.UP ? gameObject.getBounds().getY() : gameObject.getBounds().getY2();
         Point tileIndex = map.getTileIndexByPosition(gameObject.getBounds().getX1(), edgeBoundY);
         MapTile entityCollidedWith = null;
-        for (int j = -1; j <= numberOfTilesToCheck + 1; j++) {
-            MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + j, Math.round(tileIndex.y));
+        for (int i = -1; i <= numberOfTilesToCheck + 1; i++) {
+            MapTile mapTile = map.getMapTile(Math.round(tileIndex.x) + i, Math.round(tileIndex.y));
             if (mapTile != null && hasCollidedWithMapEntity(gameObject, mapTile, direction)) {
                 entityCollidedWith = mapTile;
                 float adjustedPositionY = gameObject.getY();

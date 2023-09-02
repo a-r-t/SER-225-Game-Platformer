@@ -57,7 +57,6 @@ public class GamePanel extends JPanel {
 		gameLoop = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				// Notch's game loop
 				long previousTime = System.nanoTime();
 				double targetTickRate = 1000000000 / (float)Config.TARGET_FPS;
 				double delta = 0;

@@ -53,10 +53,10 @@ public class CommonTileset extends Tileset {
 
         // sun
         Frame[] sunFrames = new Frame[]{
-                new FrameBuilder(getSubImage(2, 0), 400)
+                new FrameBuilder(getSubImage(2, 0), 50)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(2, 1), 400)
+                new FrameBuilder(getSubImage(2, 1), 50)
                         .withScale(tileScale)
                         .build()
         };
@@ -120,16 +120,16 @@ public class CommonTileset extends Tileset {
 
         // yellow flower
         Frame[] yellowFlowerFrames = new Frame[] {
-                new FrameBuilder(getSubImage(1, 2), 500)
+                new FrameBuilder(getSubImage(1, 2), 65)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(1, 3), 500)
+                new FrameBuilder(getSubImage(1, 3), 65)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(1, 2), 500)
+                new FrameBuilder(getSubImage(1, 2), 65)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(1, 4), 500)
+                new FrameBuilder(getSubImage(1, 4), 65)
                         .withScale(tileScale)
                         .build()
         };
@@ -140,16 +140,16 @@ public class CommonTileset extends Tileset {
 
         // purple flower
         Frame[] purpleFlowerFrames = new Frame[] {
-                new FrameBuilder(getSubImage(0, 3), 500)
+                new FrameBuilder(getSubImage(0, 3), 65)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 4), 500)
+                new FrameBuilder(getSubImage(0, 4), 65)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 3), 500)
+                new FrameBuilder(getSubImage(0, 3), 65)
                         .withScale(tileScale)
                         .build(),
-                new FrameBuilder(getSubImage(0, 5), 500)
+                new FrameBuilder(getSubImage(0, 5), 65)
                         .withScale(tileScale)
                         .build()
         };

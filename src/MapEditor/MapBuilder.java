@@ -13,12 +13,10 @@ public class MapBuilder extends JPanel {
     private JLabel mapWidthLabel;
     private JLabel mapHeightLabel;
     private JLabel hoveredTileIndexLabel;
-    private JLabel hoveredTileTypeLabel;
 
     public MapBuilder(SelectedTileIndexHolder controlPanelHolder) {
         setBackground(Colors.CORNFLOWER_BLUE);
         setLocation(205, 5);
-        // setSize(585, 562);
         setLayout(new BorderLayout());
 
         JPanel labelPanel = new JPanel();

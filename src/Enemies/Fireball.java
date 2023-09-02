@@ -10,7 +10,6 @@ import Level.MapEntityStatus;
 import Level.Player;
 import Utils.Direction;
 import Utils.Point;
-import Utils.Stopwatch;
 
 import java.util.HashMap;
 
@@ -19,14 +18,14 @@ import java.util.HashMap;
 // it will disappear early if it collides with a solid map tile
 public class Fireball extends Enemy {
     private float movementSpeed;
-    private Stopwatch existenceTimer = new Stopwatch();
+    private int existenceFrames;
 
-    public Fireball(Point location, float movementSpeed, int existenceTime) {
+    public Fireball(Point location, float movementSpeed, int existenceFrames) {
         super(location.x, location.y, new SpriteSheet(ImageLoader.load("Fireball.png"), 7, 7), "DEFAULT");
         this.movementSpeed = movementSpeed;
 
         // how long the fireball will exist for before disappearing
-        existenceTimer.setWaitTime(existenceTime);
+        this.existenceFrames = existenceFrames;
 
         initialize();
     }
@@ -35,13 +34,14 @@ public class Fireball extends Enemy {
     public void update(Player player) {
         // if timer is up, set map entity status to REMOVED
         // the camera class will see this next frame and remove it permanently from the map
-        if (existenceTimer.isTimeUp()) {
+        if (existenceFrames == 0) {
             this.mapEntityStatus = MapEntityStatus.REMOVED;
         } else {
             // move fireball forward
             moveXHandleCollision(movementSpeed);
             super.update(player);
         }
+        existenceFrames--;
     }
 
     @Override

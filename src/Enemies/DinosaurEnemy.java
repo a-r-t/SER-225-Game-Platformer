@@ -113,7 +113,7 @@ public class DinosaurEnemy extends Enemy {
                     fireballX = Math.round(getX()) + getWidth();
                     movementSpeed = 1.5f;
                 } else {
-                    fireballX = Math.round(getX());
+                    fireballX = Math.round(getX() - 21);
                     movementSpeed = -1.5f;
                 }
 
@@ -121,7 +121,7 @@ public class DinosaurEnemy extends Enemy {
                 int fireballY = Math.round(getY()) + 4;
 
                 // create Fireball enemy
-                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000);
+                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 60);
 
                 // add fireball enemy to the map for it to offically spawn in the level
                 map.addEnemy(fireball);
@@ -152,23 +152,23 @@ public class DinosaurEnemy extends Enemy {
     public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("WALK_LEFT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 14)
                             .withScale(3)
                             .withBounds(4, 2, 5, 13)
                             .build(),
-                    new FrameBuilder(spriteSheet.getSprite(0, 1), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 1), 14)
                             .withScale(3)
                             .withBounds(4, 2, 5, 13)
                             .build()
             });
 
             put("WALK_RIGHT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 14)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(4, 2, 5, 13)
                             .build(),
-                    new FrameBuilder(spriteSheet.getSprite(0, 1), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 1), 14)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(4, 2, 5, 13)

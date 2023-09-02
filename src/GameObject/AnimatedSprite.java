@@ -2,7 +2,6 @@ package GameObject;
 
 import Engine.GraphicsHandler;
 import Utils.Point;
-import Utils.Stopwatch;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -35,8 +34,8 @@ public class AnimatedSprite implements IntersectableRectangle {
 	// this is essential for the class, as it uses this to be treated as "one sprite"
 	protected Frame currentFrame;
 
-	// times frame delay before transitioning into the next frame of an animation
-	private Stopwatch frameTimer = new Stopwatch();
+	// frame delay before transitioning into the next frame of an animation
+	private int frameDelayCounter;
 
 	public AnimatedSprite(SpriteSheet spriteSheet, float x, float y, String startingAnimationName) {
 		this.x = x;
@@ -79,22 +78,23 @@ public class AnimatedSprite implements IntersectableRectangle {
 		if (!previousAnimationName.equals(currentAnimationName)) {
 			currentFrameIndex = 0;
 			updateCurrentFrame();
-			frameTimer.setWaitTime(getCurrentFrame().getDelay());
+			frameDelayCounter = getCurrentFrame().getDelay();
 			hasAnimationLooped = false;
 		} else {
 			// if animation has more than one frame, check if it's time to transition to a new frame based on that frame's delay
 			if (getCurrentAnimation().length > 1 && currentFrame.getDelay() > 0) {
+				frameDelayCounter--;
 
-				// if enough time has passed based on current frame's delay and it's time to transition to a new frame,
+				// if enough frames have passed based on current frame's delay and it's time to transition to a new frame,
 				// update frame index to the next frame
 				// It will also wrap around back to the first frame index if it was already on the last frame index (the animation will loop)
-				if (frameTimer.isTimeUp()) {
+				if (frameDelayCounter == 0) {
 					currentFrameIndex++;
 					if (currentFrameIndex >= animations.get(currentAnimationName).length) {
 						currentFrameIndex = 0;
 						hasAnimationLooped = true;
 					}
-					frameTimer.setWaitTime(getCurrentFrame().getDelay());
+					frameDelayCounter = getCurrentFrame().getDelay();
 					updateCurrentFrame();
 				}
 			}

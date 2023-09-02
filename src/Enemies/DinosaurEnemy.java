@@ -152,23 +152,23 @@ public class DinosaurEnemy extends Enemy {
     public HashMap<String, Frame[]> loadAnimations(SpriteSheet spriteSheet) {
         return new HashMap<String, Frame[]>() {{
             put("WALK_LEFT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 14)
                             .withScale(3)
                             .withBounds(4, 2, 5, 13)
                             .build(),
-                    new FrameBuilder(spriteSheet.getSprite(0, 1), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 1), 14)
                             .withScale(3)
                             .withBounds(4, 2, 5, 13)
                             .build()
             });
 
             put("WALK_RIGHT", new Frame[]{
-                    new FrameBuilder(spriteSheet.getSprite(0, 0), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 0), 14)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(4, 2, 5, 13)
                             .build(),
-                    new FrameBuilder(spriteSheet.getSprite(0, 1), 200)
+                    new FrameBuilder(spriteSheet.getSprite(0, 1), 14)
                             .withScale(3)
                             .withImageEffect(ImageEffect.FLIP_HORIZONTAL)
                             .withBounds(4, 2, 5, 13)

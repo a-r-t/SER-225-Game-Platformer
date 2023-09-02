@@ -25,8 +25,10 @@ public class GameLoop {
         return new Runnable() {
             @Override
             public void run() {
-                long previousTime = System.nanoTime();
+                // FPS and UPS are tied together for engine simplicity
                 double targetTickRate = 1000000000 / (float) Config.TARGET_FPS;
+
+                long previousTime = System.nanoTime();
                 double delta = 0;
                 int frames = 0;
                 double lastCycleTime = System.currentTimeMillis();
@@ -60,12 +62,13 @@ public class GameLoop {
         return new Runnable() {
             @Override
             public void run() {
+                // UPS and FPS are tied together for engine simplicity
+                final double TIME_BETWEEN_UPDATES = 1000000000 / (double)Config.TARGET_FPS;
+                final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / (double)Config.TARGET_FPS;
+
                 final int MAX_UPDATES_BEFORE_RENDER = 5;
                 double lastUpdateTime = System.nanoTime();
                 double lastRenderTime = System.nanoTime();
-
-                final double TIME_BETWEEN_UPDATES = 1000000000 / (double)Config.TARGET_UPS;;
-                final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / (double)Config.TARGET_FPS;
 
                 int lastSecondTime = (int)(lastUpdateTime / 1000000000);
 

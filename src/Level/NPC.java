@@ -6,7 +6,6 @@ import Engine.Keyboard;
 import GameObject.Frame;
 import GameObject.SpriteSheet;
 import SpriteFont.SpriteFont;
-import Utils.Stopwatch;
 
 import java.util.HashMap;
 
@@ -16,7 +15,7 @@ public class NPC extends MapEntity {
     protected boolean talkedTo = false;
     protected SpriteFont message;
     protected int talkedToTime; // how long after talking to NPC will textbox stay open -- use negative number to have it be infinite time
-    protected Stopwatch timer = new Stopwatch();
+    protected int timer;
     protected Textbox textbox = new Textbox("");
     protected int textboxOffsetX = 0;
     protected int textboxOffsetY = 0;
@@ -60,12 +59,16 @@ public class NPC extends MapEntity {
         if (isInteractable && intersects(player) && Keyboard.isKeyDown(Key.SPACE)) {
             talkedTo = true;
             if (talkedToTime >= 0) {
-                timer.setWaitTime(talkedToTime);
+                timer = talkedToTime;
             }
         }
 
-        if (talkedTo && talkedToTime >= 0 && timer.isTimeUp()) {
+        if (talkedTo && talkedToTime >= 0 && timer == 0) {
             talkedTo = false;
+        }
+
+        if (timer > 0) {
+            timer--;
         }
     }
 

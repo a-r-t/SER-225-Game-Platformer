@@ -6,7 +6,6 @@ import Game.ScreenCoordinator;
 import Level.Map;
 import Maps.TitleScreenMap;
 import SpriteFont.SpriteFont;
-import Utils.Stopwatch;
 
 import java.awt.*;
 
@@ -18,7 +17,7 @@ public class MenuScreen extends Screen {
     protected SpriteFont playGame;
     protected SpriteFont credits;
     protected Map background;
-    protected Stopwatch keyTimer = new Stopwatch();
+    protected int keyPressTimer;
     protected int pointerLocationX, pointerLocationY;
     protected KeyLocker keyLocker = new KeyLocker();
 
@@ -36,7 +35,7 @@ public class MenuScreen extends Screen {
         credits.setOutlineThickness(3);
         background = new TitleScreenMap();
         background.setAdjustCamera(false);
-        keyTimer.setWaitTime(200);
+        keyPressTimer = 0;
         menuItemSelected = -1;
         keyLocker.lockKey(Key.SPACE);
     }
@@ -46,12 +45,16 @@ public class MenuScreen extends Screen {
         background.update(null);
 
         // if down or up is pressed, change menu item "hovered" over (blue square in front of text will move along with currentMenuItemHovered changing)
-        if (Keyboard.isKeyDown(Key.DOWN) && keyTimer.isTimeUp()) {
-            keyTimer.reset();
+        if (Keyboard.isKeyDown(Key.DOWN) &&  keyPressTimer == 0) {
+            keyPressTimer = 14;
             currentMenuItemHovered++;
-        } else if (Keyboard.isKeyDown(Key.UP) && keyTimer.isTimeUp()) {
-            keyTimer.reset();
+        } else if (Keyboard.isKeyDown(Key.UP) &&  keyPressTimer == 0) {
+            keyPressTimer = 14;
             currentMenuItemHovered--;
+        } else {
+            if (keyPressTimer > 0) {
+                keyPressTimer--;
+            }
         }
 
         // if down is pressed on last menu item or up is pressed on first menu item, "loop" the selection back around to the beginning/end

@@ -8,8 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /*
- * This is where the game loop starts
- * The JPanel uses a timer to continually call cycles of update and draw
+ * This is where the game loop process and render back buffer is setup
  */
 public class GamePanel extends JPanel {
 	// loads Screens on to the JPanel
@@ -26,7 +25,6 @@ public class GamePanel extends JPanel {
 	private final Key pauseKey = Key.P;
 	private Thread gameLoopProcess;
 
-	// if true, the game's actual FPS will be printed to the console every so often
 	private Key showFPSKey = Key.G;
 	private SpriteFont fpsDisplayLabel;
 	private boolean showFPS = false;

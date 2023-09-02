@@ -6,6 +6,8 @@ import Utils.Colors;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /*
  * This is where the game loop starts
@@ -25,6 +27,7 @@ public class GamePanel extends JPanel {
 	private KeyLocker keyLocker = new KeyLocker();
 	private final Key pauseKey = Key.P;
 	private Thread gameLoopProcess;
+	private Timer timer;
 
 	// if true, the game's actual FPS will be printed to the console every so often
 	private Key showFPSKey = Key.G;
@@ -56,6 +59,8 @@ public class GamePanel extends JPanel {
 		// will continually update the game's logic and repaint the game's graphics
 		GameLoop gameLoop = new GameLoop(this);
 		gameLoopProcess = new Thread(gameLoop.getGameLoopProcess());
+
+		timer = new Timer(true);
 	}
 
 	// this is called later after instantiation, and will initialize screenManager
@@ -68,7 +73,14 @@ public class GamePanel extends JPanel {
 
 	// this starts the timer (the game loop is started here
 	public void startGame() {
-		gameLoopProcess.start();
+		//gameLoopProcess.start();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				update();
+				repaint();
+			}
+		}, 0, 1000/Config.TARGET_FPS);
 	}
 
 	public ScreenManager getScreenManager() {

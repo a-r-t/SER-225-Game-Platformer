@@ -18,7 +18,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
     protected Map map;
     protected Player player;
     protected PlayLevelScreenState playLevelScreenState;
-    protected Stopwatch screenTimer = new Stopwatch();
+    protected int screenTimer;
     protected LevelClearedScreen levelClearedScreen;
     protected LevelLoseScreen levelLoseScreen;
     protected boolean levelCompletedStateChangeStart;
@@ -55,11 +55,12 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
             // if level has been completed, bring up level cleared screen
             case LEVEL_COMPLETED:
                 if (levelCompletedStateChangeStart) {
-                    screenTimer.setWaitTime(2500);
+                    screenTimer = 130;
                     levelCompletedStateChangeStart = false;
                 } else {
                     levelClearedScreen.update();
-                    if (screenTimer.isTimeUp()) {
+                    screenTimer--;
+                    if (screenTimer == 0) {
                         goBackToMenu();
                     }
                 }

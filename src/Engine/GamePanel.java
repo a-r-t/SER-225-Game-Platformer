@@ -80,11 +80,6 @@ public class GamePanel extends JPanel {
 							frames = 0;
 						}
 					}
-					else {
-						try {
-							Thread.sleep(1);
-						} catch(InterruptedException e) {}
-					}
 				}
 			}
 		});

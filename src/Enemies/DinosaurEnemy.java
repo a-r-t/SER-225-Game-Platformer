@@ -113,7 +113,7 @@ public class DinosaurEnemy extends Enemy {
                     fireballX = Math.round(getX()) + getWidth();
                     movementSpeed = 1.5f;
                 } else {
-                    fireballX = Math.round(getX());
+                    fireballX = Math.round(getX() - 21);
                     movementSpeed = -1.5f;
                 }
 
@@ -121,7 +121,7 @@ public class DinosaurEnemy extends Enemy {
                 int fireballY = Math.round(getY()) + 4;
 
                 // create Fireball enemy
-                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 1000);
+                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 60);
 
                 // add fireball enemy to the map for it to offically spawn in the level
                 map.addEnemy(fireball);

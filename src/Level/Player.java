@@ -1,6 +1,5 @@
 package Level;
 
-import Engine.GraphicsHandler;
 import Engine.Key;
 import Engine.KeyLocker;
 import Engine.Keyboard;

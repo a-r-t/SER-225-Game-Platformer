@@ -8,11 +8,8 @@ import GameObject.ImageEffect;
 import GameObject.SpriteSheet;
 import Level.NPC;
 import Level.Player;
-import Level.Textbox;
-import SpriteFont.SpriteFont;
 import Utils.Point;
 
-import java.awt.*;
 import java.util.HashMap;
 
 // This class is for the walrus NPC

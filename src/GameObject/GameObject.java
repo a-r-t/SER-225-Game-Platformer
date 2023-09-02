@@ -5,7 +5,6 @@ import Level.*;
 import Utils.Direction;
 import Utils.ImageUtils;
 import Utils.MathUtils;
-import Utils.Point;
 
 import java.awt.*;
 import java.util.HashMap;

@@ -9,6 +9,7 @@ import java.awt.*;
  * Tweak these as needed prior to running the application
  */
 public class Config {
+    public static final int TARGET_UPS = 30;
     public static final int TARGET_FPS = 60;
     public static final String RESOURCES_PATH = "Resources/";
     public static final String MAP_FILES_PATH = "MapFiles/";

@@ -11,7 +11,6 @@ import Level.Player;
 import Utils.AirGroundState;
 import Utils.Direction;
 import Utils.Point;
-import Utils.Stopwatch;
 
 import java.util.HashMap;
 
@@ -30,8 +29,11 @@ public class DinosaurEnemy extends Enemy {
     protected Direction facingDirection;
     protected AirGroundState airGroundState;
 
+    // timer is used to determine how long dinosaur freezes in place before shooting fireball
+    protected int shootWaitTimer;
+
     // timer is used to determine when a fireball is to be shot out
-    protected Stopwatch shootTimer = new Stopwatch();
+    protected int shootTimer;
 
     // can be either WALK or SHOOT based on what the enemy is currently set to do
     protected DinosaurState dinosaurState;
@@ -58,8 +60,8 @@ public class DinosaurEnemy extends Enemy {
         }
         airGroundState = AirGroundState.GROUND;
 
-        // every 2 seconds, the fireball will be shot out
-        shootTimer.setWaitTime(2000);
+        // every certain number of frames, the fireball will be shot out
+        shootWaitTimer = 65;
     }
 
     @Override
@@ -68,11 +70,12 @@ public class DinosaurEnemy extends Enemy {
         float endBound = endLocation.x;
 
         // if shoot timer is up and dinosaur is not currently shooting, set its state to SHOOT
-        if (shootTimer.isTimeUp() && dinosaurState != DinosaurState.SHOOT) {
-            dinosaurState = DinosaurState.SHOOT;
+        if (shootWaitTimer == 0 && dinosaurState != DinosaurState.SHOOT_WAIT) {
+            dinosaurState = DinosaurState.SHOOT_WAIT;
         }
-
-        super.update(player);
+        else {
+            shootWaitTimer--;
+        }
 
         // if dinosaur is walking, determine which direction to walk in based on facing direction
         if (dinosaurState == DinosaurState.WALK) {
@@ -96,41 +99,54 @@ public class DinosaurEnemy extends Enemy {
                 moveXHandleCollision(difference);
                 facingDirection = Direction.RIGHT;
             }
+        }
 
-            // if dinosaur is shooting, it first turns read for 1 second
-            // then the fireball is actually shot out
-        } else if (dinosaurState == DinosaurState.SHOOT) {
+        // if dinosaur is waiting to shoot, it first turns read for a set number of frames
+        // after this waiting period is over, the fireball is actually shot out
+        if (dinosaurState == DinosaurState.SHOOT_WAIT) {
             if (previousDinosaurState == DinosaurState.WALK) {
-                shootTimer.setWaitTime(1000);
+                shootTimer = 65;
                 currentAnimationName = facingDirection == Direction.RIGHT ? "SHOOT_RIGHT" : "SHOOT_LEFT";
-            } else if (shootTimer.isTimeUp()) {
-
-                // define where fireball will spawn on map (x location) relative to dinosaur enemy's location
-                // and define its movement speed
-                int fireballX;
-                float movementSpeed;
-                if (facingDirection == Direction.RIGHT) {
-                    fireballX = Math.round(getX()) + getWidth();
-                    movementSpeed = 1.5f;
-                } else {
-                    fireballX = Math.round(getX() - 21);
-                    movementSpeed = -1.5f;
-                }
-
-                // define where fireball will spawn on the map (y location) relative to dinosaur enemy's location
-                int fireballY = Math.round(getY()) + 4;
-
-                // create Fireball enemy
-                Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 60);
-
-                // add fireball enemy to the map for it to offically spawn in the level
-                map.addEnemy(fireball);
-
-                // change dinosaur back to its WALK state after shooting, reset shootTimer to wait another 2 seconds before shooting again
-                dinosaurState = DinosaurState.WALK;
-                shootTimer.setWaitTime(2000);
+            } else if (shootTimer == 0) {
+                dinosaurState = DinosaurState.SHOOT;
+            }
+            else {
+                shootTimer--;
             }
         }
+
+        // this is for actually having the dinosaur spit out the fireball
+        if (dinosaurState == DinosaurState.SHOOT) {
+            // define where fireball will spawn on map (x location) relative to dinosaur enemy's location
+            // and define its movement speed
+            int fireballX;
+            float movementSpeed;
+            if (facingDirection == Direction.RIGHT) {
+                fireballX = Math.round(getX()) + getWidth();
+                movementSpeed = 1.5f;
+            } else {
+                fireballX = Math.round(getX() - 21);
+                movementSpeed = -1.5f;
+            }
+
+            // define where fireball will spawn on the map (y location) relative to dinosaur enemy's location
+            int fireballY = Math.round(getY()) + 4;
+
+            // create Fireball enemy
+            Fireball fireball = new Fireball(new Point(fireballX, fireballY), movementSpeed, 60);
+
+            // add fireball enemy to the map for it to spawn in the level
+            map.addEnemy(fireball);
+
+            // change dinosaur back to its WALK state after shooting, reset shootTimer to wait a certain number of frames before shooting again
+            dinosaurState = DinosaurState.WALK;
+
+            // reset shoot wait timer so the process can happen again (dino walks around, then waits, then shoots)
+            shootWaitTimer = 130;
+        }
+
+        super.update(player);
+
         previousDinosaurState = dinosaurState;
     }
 
@@ -193,6 +209,6 @@ public class DinosaurEnemy extends Enemy {
     }
 
     public enum DinosaurState {
-        WALK, SHOOT
+        WALK, SHOOT_WAIT, SHOOT
     }
 }

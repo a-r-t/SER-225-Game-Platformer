@@ -6,12 +6,9 @@ import Utils.Colors;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /*
- * This is where the game loop starts
- * The JPanel uses a timer to continually call cycles of update and draw
+ * This is where the game loop process and render back buffer is setup
  */
 public class GamePanel extends JPanel {
 	// loads Screens on to the JPanel

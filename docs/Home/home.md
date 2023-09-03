@@ -27,6 +27,7 @@ GitHub Repo: [https://github.com/a-r-t/SER-225-Game](https://github.com/a-r-t/SE
 - [Map Editor](../MapEditor/map-editor.md)
 - [Bug Report](../BugReport/bug-report.md)
 - [Enhancement Ideas](../EnhancementIdeas/enhancement-ideas.md)
+- [FAQs](../FAQs/faqs.md)
 - [Advice](../Advice/advice.md)
 
 <script>

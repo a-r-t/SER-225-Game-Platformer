@@ -18,10 +18,10 @@ permalink: /GameEngine/KeyboardDetection
 
 ## Keyboard Input
 
-There is a `Keyboard` class in the engine that handles detecting if a key is currently pressed (or not pressed)
-on the keyboard at any point while the game is running. The class is a "static" class (meaning it can't be instantiated) and exists
+There is a `Keyboard` class in the engine that handles detecting if a key is currently pressed (or not pressed) on the keyboard at any point while the game is running. 
+The class is a "static" class (meaning it can't be instantiated and all methods are static) and exists
 solely to poll the global keyboard state, which is generally used in `update` methods to check if a certain key is currently being pressed or not. 
-Every class has the ability to detect keyboard input and multiple classes can detect keyboard input at the same time and react to it as desired.
+Every class has the ability to detect keyboard input, and multiple classes can detect keyboard input during the same update cycle and react to it as desired.
 
 ## Key Detection Methods
 The `Keyboard` class supplies the following methods:
@@ -30,7 +30,7 @@ The `Keyboard` class supplies the following methods:
 - **areKeysDown** -- check if multiple keys are being pressed at the same time
 - **areKeysUp** -- check if multiple keys are not being pressed at the same time
 
-Since these methods are all static methods, they can be referenced directly from the `Keyboard` type (examples for this below).
+Since these methods are all static methods, they can be referenced directly from the `Keyboard` type.
 
 Using these methods are really easy. There is a `Key` enum in the engine that has predefined keys set up to be checked for.
 These can be used as arguments for the `Keyboard` class's methods.
@@ -112,8 +112,8 @@ public void update() {
 </details>
 
 ## Adding More Supported Keys
-If additional keys are needed to be supported for key detection, an entry for it must be added to the `Key` enum (`Key.java`),
+If additional supported keys than the ones included are desired, an entry for it must be added to the `Key` enum (`Key.java`),
 and then an entry also needs to be added to the `Keyboard` class's `buildKeyMap` `EnumMap` method mapping the enum entry with its
-key code. You can look up each key's key code in the StackOverflow answer [here](https://stackoverflow.com/a/31637206). Note:
-key codes for Java differ slightly from those in JavaScript, which most other websites will give you when googling for key codes -- please
-use the provided link for correct key codes for Java.
+key code. 
+You can look up each key's key code in the StackOverflow answer [here](https://stackoverflow.com/a/31637206). 
+Note: key codes for Java differ slightly from those in JavaScript, which most other websites will give you when googling for key codes -- please use the provided link for correct key codes for Java.

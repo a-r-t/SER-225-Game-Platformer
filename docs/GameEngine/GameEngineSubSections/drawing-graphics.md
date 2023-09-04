@@ -19,7 +19,7 @@ permalink: /GameEngine/DrawingGraphics
 ## Painting an image to the JPanel
 
 A `GraphicsHandler` class instance is passed into the `draw` method of every class, and is used to paint an image to the engine's backing JPanel.
-The engine sets up the `GraphicsHandler` class instance on creation, and from that point on it can be used in any `draw` method in any class that needs it.
+The engine sets up the `GraphicsHandler` class instance on creation, and from that point on it is passed down the chain so that it can be used in any `draw` method in any class that needs to render graphics.
 
 The `GraphicsHandler` class has many methods, but the following methods are the most commonly used:
 - **drawRectangle** -- draws a hollow rectangle to the screen, can optionally set border color and border thickness
@@ -47,8 +47,8 @@ The `ImageEffect` enum contains all the image effects that can be applied to an 
 Something important to keep in mind is that the order that graphics are drawn to the JPanel matters, because each graphic
 is "pasted" on over whatever was there beforehand.
 
-For an in game example, the map tiles (light blue sky, tree, etc) in the below image are drawn BEFORE the cat image to ensure
-that the map tiles do not cover up the cat. This also ensures that every time the cat moves, the map tiles
+For an in game example, the grass map tiles in the below image are drawn BEFORE the cat image to ensure
+that the grass does not cover up the cat. This also ensures that every time the cat moves, the grass map tiles
 continue to stay behind.
 
 ![game-screen-3.png](../../assets/images/game-screen-3.png)

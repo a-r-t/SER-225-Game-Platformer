@@ -87,56 +87,53 @@ This is especially true due to how quickly (in real time) each game loop iterati
 can easily count as multiple key presses due to the game loop iterating quicker than a human can lift their finger off the key. Sometimes this is fine,
 like when moving a player throughout the level, but sometimes this is not desired which is what this pattern resolves.
 
-## Stopwatch
+## Frame Timers
 
-The `Stopwatch` class, located in the `Utils` folder, will act as a stopwatch in game to allow for timed events. This is used
-in several different classes, and is also used for the game's overall animation process to move from frame to frame based on a set delay time.
-
-Like the `KeyLocker`, `Stopwatch` classes tend to be instantiated as an instance variable, and many of them can be used in the same class
-if there are multiple processes that need to be timed.
-
-```java
-Stopwatch timer = new Stopwatch();
-```
-
-Upon initializing a `Stopwatch` class, the method `setWaitTime` is where the number of milliseconds to time is specified. 1000 milliseconds in a second
-in case you forgot.
+Across the game, there are many situations where something is being "waited for".
+For example, the game may want to wait x number of frames after a certain event has taken place before another event can take place.
+To do this, the game often uses a simple int variable to keep track of how many frames have passed.
+It usually looks like this:
 
 ```java
-timer.setWaitTime(1000); // wait for 1 second
-```
+int frameTimer = 0;
 
-The `isTimeUp` method will return true or false based on if wait time set by the `setWaitTime` method has completed.
-```java
-if (timer.isTimeUp()) {
-    
-}
-```
+public void update() { 
+    if (...something happened) {
+        frameTimer = 20;
+    }
 
-The `reset` method will reset the timer:
-
-```java
-timer.reset();
-```
-
-Sometimes, the `Stopwatch` class will be used in a way similar to `KeyLocker`, but instead of forcing a key to be pressed and released each time, it will
-"delay" how often key detection will take place while a key is held down. Below is an example of that:
-
-```java
-
-// some constructor somewhere
-timer.setWaitTime(1000);
-
-public void update() {
-    if (Keyboard.isKeyDown(Key.SPACE) && timer.isTimeUp()) {
-        timer.reset();
-        // other action logic...
+    if (frameTimer > 0) {
+        // tick timer down
+        frameTimer--;
+    }       
+    else {
+        // time is up
+        ... do something
     }
 }
 ```
 
-The above forces 1 second to pass by each time for the space key detection to cause an action to occur even if it is held down.
-This pattern is common in games that include a shooting mechanic to prevent the player from being able to continuously spam projectiles even when holding down the "shoot" key input.
+An example of this can be see in the `MenuScreen` class.
+The code that allows for the menu selection to change when up or down is pressed looks like this:
+
+```java
+if (Keyboard.isKeyDown(Key.DOWN) && keyPressTimer == 0) {
+    keyPressTimer = 14;
+    currentMenuItemHovered++;
+} else if (Keyboard.isKeyDown(Key.UP) && keyPressTimer == 0) {
+    keyPressTimer = 14;
+    currentMenuItemHovered--;
+} else {
+    if (keyPressTimer > 0) {
+        keyPressTimer--;
+    }
+}
+```
+
+Due to how fast the game loop runs, one key press can often register as many key presses,
+as the game may register that a press is still happening before the user had a chance to take their finger off of a key.
+This would be an issue in the menu screen, as pressing an arrow key up or down should only move one selection for a good user experience.
+This code solves the issue by implementing a simple "keyPressTimer" that forces 14 frames to pass after each time either the up or down key is pressed before it can check again for another key press.
 
 ## Builder Pattern
 
@@ -144,9 +141,9 @@ I use the Builder Pattern around the code base, and all builder classes are defi
 into detail on what the Builder Pattern is and how it makes Java programming life easier.
 
 The Builder Pattern is a code pattern that is used in the Java programming language a lot out of necessity because there are no
-default parameters in the language. Java is one of the only modern day programming languages to not have default parameters. Default parameters (also often called
-named parameters or optional parameters) are the ability to specify a method parameter and give it a default value, 
-and allow any class to optionally pass in an argument for that value -- if no value is passed in, that parameter will just use its default value. 
+named parameters in the language. Java is one of the only modern day programming languages to not have named parameters. Named parameters (also often called
+default parameters or optional parameters) are the ability to specify an optional method parameter and give it a default value, 
+and allow any class to pass in an argument for that value if needed -- if no value is passed in, that parameter will just use its default value. 
 An example of how this looks in the C# programming language is below:
 
 ```cs
@@ -168,7 +165,7 @@ which is "Hello".
 printMessage();
 ```
 
-Such a nice powerful tool but Java does not have it. This causes a lot of problems, mostly because there are A LOT of situations where
+Named parameters are such a nice language feature...but Java does not have it. This causes a lot of problems, mostly because there are A LOT of situations where
 default parameters really help make code more clear, and also prevent having to make 1000 of the same named methods with one parameter difference
 each. Lastly, when constructors in Java get really long, the lack of being able to specify the parameter name to the value when calling it
 makes it REALLY hard to know which value goes well. For example:
@@ -189,7 +186,7 @@ Cat cat = new Cat("Callie", "Beeboo", 2, "tortoiseshell", 7, true, true);
 
 Which argument is age and which one is weight? Name vs nickname? Rabies shot vs distemper shot?
 It's hard to tell without looking back at the `Cat` class, and even then lining each argument up is a pain. Imagine
-if these were all more complicated data types as well...it really is a huge issue with this programming language. Add on the fact that there is no ability to create objects or dictionaries "on the fly" to make creating a param grouping easier (which languages like JavaScript and Python have), class constrcutors can quickly become bloated and difficult to read/manage.
+if these were all more complicated data types as well...it really is a huge issue with the Java programming language in my opinion. Add on the fact that there is no ability to create objects or dictionaries "on the fly" to make creating a param grouping easier (which languages like JavaScript and Python have), class constrcutors can quickly become bloated and difficult to read/manage.
 
 The builder pattern attempts to alleviate this issue by creating a class called a "builder" class which will "build" and then
 instantiate/initialize a class for you. For my `Cat` class example above, I would create a `CatBuilder` class SEPARATE from the `Cat` class.
@@ -258,7 +255,7 @@ public class CatBuilder {
 }
 ```
 
-Whew, what a weird looking class. What is going on here? Well, the result is that the actual call to the `Cat` class's
+What is going on here? Well, the result is that the actual call to the `Cat` class's
 constructor is now abstracted away behind the builder's `build` method. This class as a result of its structure allows us to create a new
 `Cat` in a much cleaner way:
 
@@ -273,7 +270,7 @@ Cat cat = new CatBuilder("Callie", 2)
 ```
 
 With this pattern, it's very obvious which argument goes to which parameter. Additionally, the actual call to the `Cat` constructor is abstracted
-away behind the `build` method, so the messy call is hidden. Finally, default parameters now exist -- if I left off `hasRabiesShot(true)`,
+away behind the `build` method, so the messy object instantiation is hidden. Finally, default parameters now exist -- if I left off `hasRabiesShot(true)`,
 the `CatBuilder` class will just default it to false and construct the `Cat` using that. Even just immediately doing a `build` without
 any of the other optional parameters works, as all of them have default values (e.g. `nickname` would be "N/A", `weight` would be -1, etc.).
 
@@ -284,86 +281,18 @@ Cat cat = new CatBuilder("Callie", 2).build();
 One more thing this pattern does is removes the need for multiple constructors. The `GameObject` class and its subclasses that they have A LOT of constructors due to Java's limitations. Unfortunately it wasn't feasible to make a builder class for every single subclass that extends from `GameObject`, so as a result, constructor hell exists over there.
 
 The builder pattern is used in the code base where the constructor for a class was getting too crazy, which commonly happens
-with game code due to how much setup is required for resources like graphics. It really isn't scary once you know what it's doing.
+with game code due to how much setup is required for resources like graphics.
 
-A nice side effect of the bulider pattern also is it allows an object's instantiation to be delayed, as the `build` method
+A nice side effect of the bulider pattern is it allows an object's instantiation to be delayed, as the `build` method
 can be called at any point in time to actually instantiate the object. This technique is used in the `Map` class when loading a map file -- the `Tileset` defines
-all tiles using the `MapTileBuilder`, but it doesn't `build` them and instead lets the `Map` class build them since they require additional information from the `Map` class
-to finish their creation.
+all tiles using the `MapTileBuilder`, but it doesn't `build` them -- it instead lets the `Map` class build them since they require additional information from the `Map` class to finish their creation.
 
-In the `Builders` package, there are two builders defined: `FrameBuilder` (for creating a `Frame` object instance) and `MapTileBuilder` (for creating a `MapTile` object instance). Both are used heavily in the `CommonTileset` class to construct `MapTile` class instances, and the `FrameBuilder` is used in nearly every game object's `loadAnimations` method (such as the player, enemies, etc.).
-
-## Observer Pattern
-
-I use the Observer Pattern one time to enable the `Player` class to trigger events in the `PlayLevelClass` when the `Player` has
-either completed a level or died, which then lets the `PlayerLevelClass` react to those events.
-
-I'm not going to go into much detail on this pattern since it's only used one time. Basically,
-an interface named `PlayerListener` is defined in the `Level` class, and any class that implements this interface must implement the methods
-`onLevelCompleted` and `onDeath`. A class would implement this interface to "listen" to events from the `Player` class.
-
-Then in the `Player` class, an `ArrayList` instance variable of type `PlayerListener` is defined (the variable's name is `listeners`). There is also an
-`addListener` method which will add a `PlayerListener` to the player's list of listeners. The `PlayLevelScreen` implements `PlayerListener` and
-then passes itself in to the `Player` using the `addListener` method:
-
-```java
-// create new player
-this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
-this.player.setMap(map);
-
-// PlayLevelScreen adds itself to the Player class as a "listener"
-this.player.addListener(this);
-```
-
-That's all the setup that's needed. Now whenever the player wants, it can "trigger" events for its listeners by calling their
-`onLevelCompleted` or `onDeath` method where appropriate. For example, the `Player` does this in its `updateLevelCompleted` method once it
-has finished playing out the "win" animation to let the `PlayLevelScreen` know that a level has been completed:
-
-```java
-for (PlayerListener listener : listeners) {
-    listener.onLevelCompleted();
-}
-```
-
-And then in the `PlayLevelScreen`, which HAS to have an `onLevelCompleted` method because it implements `PlayerListner`, the method
-looks like this:
-
-```java
-@Override
-public void onLevelCompleted() {
-    if (playLevelScreenState != PlayLevelScreenState.LEVEL_COMPLETED) {
-        playLevelScreenState = PlayLevelScreenState.LEVEL_COMPLETED;
-        levelCompletedStateChangeStart = true;
-    }
-}
-```
-
-Essentially it just updates its own level state here and then its `update` cycle logic will see that change and perform the
-desired actions (in this case, will load the level cleared message screen).
-
-Now, while I could have just passed in the `PlayLevelScreen` instance to the `Player` class, I didn't want to do that because it really
-didn't belong in the `Player` class. The `PlayLevelScreen` has nothing to do with the `Player` class, and if I ever wanted to use the `Player` class
-somewhere else/in another program, that dependency on the `PlayLevelScreen` would not be welcomed. Additionally, if the `Player` were
-to be used on a different screen (like maybe the menu screen, like how some games show the character walking around), the `PlayLevelScreen`
-would be unavailable to be passed in. Instead, with this pattern, ANY class can be a `PlayerListener` and have events for `onLevelCompleted`
-and `onPlayerDeath`, and the `Player` is free to trigger them by just calling those methods on its `listeners` when its ready to.
-
-Like I said, this pattern is only used in that one place, so you won't see it or have to interact with it much. The Observer Pattern
-is actually really simple assuming you understand how interfaces work and is very commonly used elsewhere in programming.
-Notably, Android development relies heavily on the observer pattern.
-
-[This video](https://www.youtube.com/watch?v=WRkw0l72BL4) provides a good overview of the Observer Pattern and why it's important
-using real-world examples.
+In the `Builders` package, there are two builders defined: `FrameBuilder` (for creating a `Frame` object instance) and `MapTileBuilder` (for creating a `MapTile` object instance). Both are used heavily in the `CommonTileset` class to construct `MapTile` class instances, and the `FrameBuilder` is used in nearly every game object's `loadAnimations` method (such as the player, NPCs, etc.).
 
 ## Utility Enums
 
-There are a two enums defined in the `Utils` package that several classes use: `Direction` and `AirGroundState`.
-
-`Direction` has four possible values: `LEFT`, `RIGHT`, `UP`, and `DOWN`. It is used in various places around the program. Since
+The `Direction` enum defined in the `Utils` package creates a data type that has four possible values: `LEFT`, `RIGHT`, `UP`, and `DOWN`. It is used in various places around the program. Since
 a 2D space only has those four directions, it's a very nice data type to have available.
-
-The `AirGroundState` enum is used mainly for map entities that can have a concept of being on ground vs in the air (such as the `Player` when
-jumping/falling or various enemies). This enum only has two possible values: `GROUND` and `AIR`. Nice and simple but very handy! Wish I could've come up with a better name for the class, but you know what, the name is self-documenting and I've grown to like it.
 
 ## Utility Point
 

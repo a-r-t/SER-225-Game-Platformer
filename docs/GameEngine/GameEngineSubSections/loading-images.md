@@ -18,7 +18,7 @@ permalink: /GameEngine/LoadingImages
 
 ## Reading images into the game
 
-The engine's `ImageLoader` class has methods that will read an image into the game into Java's `BufferedImage` data type.
+The engine's `ImageLoader` class has methods that will read an image into the game as Java's `BufferedImage` data type.
 
 The Image Loader provides two methods:
 - **load** -- reads an image into the game
@@ -47,16 +47,14 @@ BufferedImage catImage = ImageLoader.load("CatPics/cat.png");
 ### Changing resources directory
 
 You are free to change the value of the `RESOURCE_PATH` variable in the `Config` class to change the location
-of the folder that the `ImageLoader` will look for images in. It is not advisable to remove this restriction as a game
-generally needs to guarantee that all of its assets are where they should be in order to run properly, and keeping them in one
-base location limits room for error.
+of the folder that the `ImageLoader` will look for images in. 
+It is not recommended to remove this restriction, as a game needs to guarantee that all of its assets are where they should be in order to run properly, and keeping them in one base location limits room for error.
 
 ## Image Transparency
 
-The "transparent" color of an image is a particular color in an image that is desired to be "invisible", meaning it will not be included
-when the image is loaded into the game. Every sprite in the base game uses the color magenta (RGB 255 0 255) as its transparent color,
-as that color is ugly and very rarely, if ever, used by any image. This magenta color is set as the default transparent color by
-the `TRANSPARENT_COLOR` variable in the `Config` class.
+The "transparent" color of an image is a particular color in an image that is desired to be "invisible", meaning it will not be visible when the image is loaded into the game. 
+Every sprite in the base game uses the color magenta (RGB 255 0 255) as its transparent color, as that color is ugly and very rarely, if ever, used by any image. 
+This magenta color is set as the default transparent color by the `TRANSPARENT_COLOR` variable in the `Config` class.
 
 For example, the following cat image used in game has its background set as magenta:
 
@@ -67,11 +65,11 @@ This allows for graphics to be drawn on top of each other without having to worr
 
 ![game-screen-3.png](../../assets/images/game-screen-3.png)
 
-If you're wondering why I didn't just load up a program like PhotoShop and create an alpha channel for image transparency,
-it's because I'm not very experience with image editing, and those tools are massive overkill for working with tiny pixel art images.
-It's a lot faster and easier to load up an image in Microsoft Paint and fill the background in.
+There are pros and cons to this approach vs adding a proper alpha channel.
+The main pro is it's a lot faster and easier to load up an image in a simple image editing tool and fill the background in with a transparent color vs using a more advanced image editing program to setup an alpha channel.
+Additionally, the file size will be smaller doing it this way, which makes the images load into the game faster.
 
-If you have an image file that requires a different transparent color other than magenta (R255 G0 B255), the `ImageLoader` class has alternate methods
+If you have an image file that requires a different transparent color other than magenta (RGB 255 0 255), the `ImageLoader` class has alternate methods
 to allow for a transparent color to be specified instead of just using the default one.
 
 ```java

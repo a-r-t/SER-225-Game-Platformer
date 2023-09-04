@@ -18,7 +18,6 @@ public class GamePanel extends JPanel {
 	// used to draw graphics to the panel
 	private GraphicsHandler graphicsHandler;
 
-	private boolean doPaint = false;
 	private boolean isGamePaused = false;
 	private SpriteFont pauseLabel;
 	private KeyLocker keyLocker = new KeyLocker();
@@ -61,7 +60,6 @@ public class GamePanel extends JPanel {
 	public void setupGame() {
 		setBackground(Colors.CORNFLOWER_BLUE);
 		screenManager.initialize(new Rectangle(getX(), getY(), getWidth(), getHeight()));
-		doPaint = true;
 	}
 
 	// this starts the timer (the game loop is started here
@@ -130,8 +128,6 @@ public class GamePanel extends JPanel {
 		// every repaint call will schedule this method to be called
 		// when called, it will setup the graphics handler and then call this class's draw method
 		graphicsHandler.setGraphics((Graphics2D) g);
-		if (doPaint) {
-			draw();
-		}
+		draw();
 	}
 }

@@ -18,16 +18,16 @@ permalink: /GameCodeDetails/SpriteFont
 
 ## What is a sprite font?
 
-A sprite font is what it sounds like -- a "sprite" (graphic) of a font (like Times New Roman, Arial, etc). The `SpriteFont`
-class in the `SpriteFont` package allows for easily creating and customizing a sprite font that can be displayed on screen. An example of sprite fonts in action
-are on the menu screen -- both the "PLAY GAME" and "CREDITS" menu options are separate `SpriteFont` class instances defined in the `MenuScreen` class:
+A sprite font is what it sounds like -- a "sprite" (graphic) of a font (like Times New Roman, Arial, etc). 
+The `SpriteFont` class in the `SpriteFont` package allows for easily creating and customizing a sprite font that can be displayed on screen. 
+An example of sprite fonts in action are on the menu screen -- both the "PLAY GAME" and "CREDITS" menu options are separate `SpriteFont` class instances defined in the `MenuScreen` class:
 
 ![menu-screen.png](../../assets/images/menu-screen.png)
 
 ## SpriteFont class
 
-The `SpriteFont` class provides `draw` logic that will properly draw any sprite font to the screen. The following
-values must be provided to initialize a `SpriteFont` instance:
+The `SpriteFont` class provides `draw` logic that will properly draw any sprite font to the screen.
+The following values must be provided to initialize a `SpriteFont` instance:
 
 - **text** -- the text of the sprite font
 - **x** -- the x location on screen of the sprite font
@@ -38,7 +38,7 @@ values must be provided to initialize a `SpriteFont` instance:
 
 Additionally, there are a couple other values that can be set after initialization with the appropriate setter methods:
 
-- **setFontStyle**-- using Java's built in `Font` enum, you can set the sprite font to have a style such as bold or italic. For example, the font can be set to bold like this: `setFontStyle(Font.BOLD);` 
+- **setFontStyle** -- using Java's built in `Font` enum, you can set the sprite font to have a style such as bold or italic. For example, the font can be set to bold like this: `setFontStyle(Font.BOLD);` 
 - **setOutlineColor** -- when this is set, the sprite font will be drawn with an outline around it with the chosen color
 - **setOutlineThickness** -- the thickness of the outline drawn around the sprite font (will only take effect if outline color has also been set)
 
@@ -60,24 +60,7 @@ playGame.draw();
 
 ## Using sprite fonts in game objects
 
-Using a `SpriteFont` inside a `GameObject` to have the sprite font text show on the map works just like normal. To do this,
-simply set up the sprite font and add it to the game object's `draw` cycle. One thing to look out for is that a `SpriteFont` will not automatically
-calibrate its draw location based on the map's camera unlike a `GameObject` does, since `GameObjects` have extra logic added for that. To
-resolve this issue, you can update the `SpriteFont's` location relative to the `GameObject's` location. This is done in the NPC `Walrus` class
-to create its speech bubble when taking to it:
-
-![walrus-talking.PNG](../../assets/images/walrus-talking.PNG)
-
-The draw method for the `Walrus` NPC class will make sure the "Hello!" sprite font message is always drawn
-at a location relative to itself so the `SpriteFont` follows map camera draw logic.
-
-```java
-// SpriteFont variable is named "message"
-
-// set message box relative to walrus's current calibrated location
-message.setLocation(getCalibratedXLocation() + 2, getCalibratedYLocation() - 8);
-```
-
-Each update cycle, the location of `message` is set to the calibrated location of the `Walrus` class (read more about the "calibrated" methods [here](./game-object.md#gameobject-class)). 
-This ensures its location stays relative to the walrus entity's location.
-
+Using a `SpriteFont` inside a `GameObject` to have the sprite font text show on the map works just like normal. 
+To do this, simply set up the sprite font and add it to the game object's `draw` cycle. 
+One thing to look out for is that a `SpriteFont` will not automatically calibrate its draw location based on the map's camera unlike a `GameObject` does, since `GameObjects` have extra logic added for that. 
+To resolve this issue, you can update the `SpriteFont's` location relative to the `GameObject's` calibrated location. 

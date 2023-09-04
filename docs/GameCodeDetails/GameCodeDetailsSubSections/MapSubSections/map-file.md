@@ -23,7 +23,7 @@ A map file is a text file that contains information on the map dimensions as wel
 Map files can be created with the Map Editor, which you can find information on [here](../../../MapEditor/map-editor.md), and are located in the `MapFiles` folder.
 
 ## Map file structure
-There are two parts to a map file. If you did the `Maze` project in Quinnipiac's CSC111 course, this file will look very familiar.
+There are two parts to a map file. If you did the infamous `Maze` project in Quinnipiac's CSC111 course, this file will look very familiar.
 
 Below is an example map file:
 
@@ -45,22 +45,21 @@ Below is an example map file:
 
 The first two numbers (in this case 17 and 12) are the width and height of the map.
 
-Afterwards, each number in the "grid" corresponds to a specific map tile from a tileset. The Map Editor handles for you
-which index maps to which map tile, so that is not something that has to be worried about. For example, the Map Editor may have mapped
-the grass tile to the number 0, the sky tile to the number 1, etc.
+Afterwards, each number in the "grid" corresponds to a specific map tile from a tileset.
+The Map Editor handles for you which index maps to which map tile, so that is not something that has to be worried about.
+For example, the Map Editor may have mapped the grass tile to the number 0, the water tile to the number 1, etc.
 
 ## Reading the map file into the game
 
-The `Map` class's `loadMapFile` method handles reading in a map file. It starts by opening up the map file and reading in the
-width and height values. 
+The `Map` class's `loadMapFile` method handles reading in a map file. 
+It starts by opening up the map file and reading in the width and height values. 
 
-The `Map` class then defines an array of `MapTile` of length `width * height`. This is a regular one-dimensional array and NOT
-a two-dimensional array, however it is being used in a way where it still has the concept of "rows" and "columns". While a 2D array would be fine to use, they have slower accessing speeds (especially when taking into account caching) and use more memory,
-which are both things that a game doesn't want in order to get the best possible FPS. 
-For this reason, a one-dimensional array is used, and items are retrieved from the array as if it were a two-dimensional array by using `x + width * y`, where
-`x` is the row and `y` is the column.
+The `Map` class then defines an array of `MapTile` of length `width * height`. 
+This is a regular one-dimensional array and NOT a two-dimensional array, however it is being used in a way where it still has the concept of "rows" and "columns". 
+While a 2D array would be fine to use, they have slower accessing speeds (especially when taking into account caching) and use more memory,
+which are both things that are bad for a game that is trying to achieve the best possible FPS. 
+For this reason, a one-dimensional array is used, and items are retrieved from the array as if it were a two-dimensional array by using `x + width * y`, where `x` is the row and `y` is the column.
 
-Afterwards, each tile index of the map is read in one at a time and is given to the map's `Tileset` instance. The `Tileset`
-then returns a `MapTileBuilder` that maps to that tile index (the `MapTilBuilder` is basically a pre-setup `MapTile` defined in the `Tileset`, however
-it has not been instantiated yet). It is at this point that the `Map` class actually instantiates and initializes each `MapTile`
-and sets its location to the correct position to construct the entire "map image".
+Afterwards, each tile index of the map is read in one at a time and is given to the map's `Tileset` instance. 
+The `Tileset` then returns a `MapTileBuilder` that maps to that tile index (the `MapTilBuilder` is basically a pre-setup `MapTile` defined in the `Tileset`, however it has not been instantiated yet). 
+It is at this point that the `Map` class actually instantiates and initializes each `MapTile` and sets its location to the correct position to construct the entire "map image".

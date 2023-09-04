@@ -31,7 +31,7 @@ and the play level screen. The menu screen is always loaded at the start of the 
 
 ![menu-screen.png](../../../assets/images/menu-screen.png)
 
-When the "Play Game" option on the menu screen is selected, the `ScreenCoordinator` class responds by loading the play level screen (which starts the platformer game level):
+When the "Play Game" option on the menu screen is selected, the `ScreenCoordinator` class responds by loading the play level screen (which starts the actual game up):
 
 ![game-screen-1.png](../../../assets/images/game-screen-1.png)
 
@@ -43,12 +43,12 @@ The `ScreenCoordinator` can support as many screens as necessary -- there is no 
 
 ## Game State
 
-The `ScreenCoordinator` class has an instance variable for keeping track of the current game state. This `gameState` variable
-can be of any type defined in the `GameState` enum, which can be found in the `GameState.java` file located in the `Game` package.
+The `ScreenCoordinator` class has an instance variable for keeping track of the current game state. 
+This `gameState` variable can be of any type defined in the `GameState` enum, which can be found in the `GameState.java` file located in the `Game` package.
 
 The current states defined in the `GameState` enum are `MENU`, `LEVEL`, `CREDITS`, which all coincide with a specific screen.
-Based on the value of the `gameState` instnace variable, the `ScreenCoordinator` will choose to load its corresponding screen. How
-this is done can be seen in the below snippet of the `ScreenCoordinator's` `update` method:
+Based on the value of the `gameState` instance variable, the `ScreenCoordinator` will choose to load its corresponding screen.
+How this is done can be seen in the below snippet of the `ScreenCoordinator's` `update` method:
 
 ```java
 switch(gameState) {
@@ -64,12 +64,8 @@ switch(gameState) {
 }
 ```
 
-The `ScreenCoordinator` will only change screens when it detects that its `gameState` has been changed. The class exposes
-a method `setGameState` which any other class can use to change the current game state and force `ScreenCoordinator` to load a different
-screen. As you can see in the above code snippet, `ScreenCoordinator` is passing an instance of itself into each screen instance (e.g. `MenuScreen`).
-This allows those screen classes to set the game state of `ScreenCoordinator` when necessary. An example of where this is used is when the `MenuScreen` is loaded
-and the player selects the "Play Game" option -- this causes the `MenuScreen` to set `ScreenCoordinator's` game state to `LEVEL`, which triggers it to load
-the `PlayLevelScreen` class (as shown in the above `switch` statement).
-
-
-
+The `ScreenCoordinator` will only change screens when it detects that its `gameState` has been changed. 
+The class exposes a method `setGameState` which any other class can use to change the current game state and force `ScreenCoordinator` to load a different screen. 
+As you can see in the above code snippet, `ScreenCoordinator` is passing an instance of itself into each screen instance (e.g. `MenuScreen`).
+This allows those screen classes to set the game state of `ScreenCoordinator` when necessary. 
+An example of where this is used is when the `MenuScreen` is loaded and the player selects the "Play Game" option -- this causes the `MenuScreen` to set `ScreenCoordinator's` game state to `LEVEL`, which triggers it to load the `PlayLevelScreen` class.

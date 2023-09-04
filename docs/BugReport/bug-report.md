@@ -53,12 +53,15 @@ The reason for this is that I originally made a simple version of this game engi
 I never fixed it as I scaled the engine up, which is why the pause functionality now works everywhere.
 
 I think the best course of action is moving the pause logic from the `GamePanel` over to something like the `PlayLevelScreen` which handles the running of the actual level. 
-Or maybe a better pause solution exists that I'm not thinking of.
 
 ## Moving the player with arrow keys doesn't override previous key press properly
 
-The reason for this is that I originally made a simple version of this game engine that I later built off of to create this game engine (which can be found [here](https://github.com/a-r-t/Simple-2D-Game-Engine) that essentially had only one screen, so having the pause functionality be in that "global" space made sense. 
-I never fixed it as I scaled the engine up, which is why the pause functionality now works everywhere.
+If you are holding the key to move the player to the right and then press left while holding the right key down still,
+the left key overrides the right key and moves the player left. 
+However, if holding the key to move the player to the left and then press the right while holding the left key down still, the let key does not override the right key and player will continue moving left. 
+This is inconsistent. 
+For a more natural feel in a game that moves a player with keyboard input,
+it's generally best to have both keys able to continually override each other.
 
-I think the best course of action is moving the pause logic from the `GamePanel` over to something like the `PlayLevelScreen` which handles the running of the actual level. 
-Or maybe a better pause solution exists that I'm not thinking of.
+This is not an arrow key specific thing -- this happens because of the order in which the if statement is checking which key is currently being pressed.
+Solving this will require updating the player walking logic to allow the movement keys to override one another.

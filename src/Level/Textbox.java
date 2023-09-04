@@ -6,15 +6,15 @@ import Engine.GraphicsHandler;
 import SpriteFont.SpriteFont;
 
 public class Textbox {
-    private int x;
-    private int y;
-    private SpriteFont spriteFont;
-    private Color fillColor = Color.white;
-    private Color borderColor = Color.black;
-    private int borderThickness = 1;
-    private int vPadding = 10; // spacing above and below text
-    private int hPadding = 10; // spacing to right and left of text
-    int gap = 0; // horizontal space between lines of text -- only matters with multiline text
+    protected int x;
+    protected int y;
+    protected SpriteFont spriteFont;
+    protected Color fillColor = Color.white;
+    protected Color borderColor = Color.black;
+    protected int borderThickness = 1;
+    protected int vPadding = 10; // spacing above and below text
+    protected int hPadding = 10; // spacing to right and left of text
+    protected int gap = 0; // horizontal space between lines of text -- only matters with multiline text
 
     public Textbox(String text) {
         Font font = new Font("Arial", Font.PLAIN, 12);
@@ -44,10 +44,6 @@ public class Textbox {
 
     public void setTextColor(Color textColor) {
         spriteFont.setColor(textColor);
-    }
-
-    public void setTextFont(Font textFont) {
-        spriteFont.setFont(textFont);
     }
 
     public void setFillColor(Color fillColor) {

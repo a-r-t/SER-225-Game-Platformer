@@ -225,3 +225,7 @@ The available tile types are defined in the `TileType` enum, and include:
 - **PASSABLE** -- player can pass through it, such as the sky tiles
 - **JUMP_THROUGH_PLATFORM** -- the player can walk on top of it and cannot pass through it when coming downwards from above, but can pass through it when coming upwards from below, such as the tree branch tiles
 - **WATER** -- the player can pass through it; this tile type is just for informational purposes so an entity can react to touching it (which the player does by changing to its swim animation)
+
+## Slope Tiles
+
+TBD

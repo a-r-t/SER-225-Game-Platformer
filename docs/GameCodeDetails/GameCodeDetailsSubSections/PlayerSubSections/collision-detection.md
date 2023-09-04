@@ -117,6 +117,9 @@ private static boolean hasCollidedWithMapEntity(GameObject gameObject, MapEntity
 More tile types can easily be added to this method to determine if a collision occurred or not. The other two methods don't really have to be
 modified at all, as new tiles types added to this `hasCollidedWithMapEntity` method will work just as the existing three tile types do.
 
+There is also a ton of extra logic for handling collisions with slope tiles.
+Read more about slope tiles [here](../MapSubSections/map-tiles-and-tilesets.md#slope-tiles).
+
 ## Player collision detection with Enhanced Map Tiles
 
 Additionally, these methods check against all active [enhanced map tiles](../MapSubSections/enhanced-map-tiles.md) in the map, as they
@@ -135,8 +138,6 @@ The `Player` actually does not seek out collision detection with enemies -- inst
 detection aganist the player. This allows an `Enemy` to specify to the `Player` class what to do upon being touched. For example,
 the enemies in the game (coming from the generic `Enemy` class) call the `Player` class's `hurtPlayer` method upon touching the player,
 and the `Player` can then determine how it "hurts" itself (as of now, the player dies and it's a game over).
-
-
 
 ## Player collision detection with NPCs
 

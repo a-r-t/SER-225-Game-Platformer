@@ -88,6 +88,7 @@ textboxOffsetY = -34;
 ```
 
 The `talkedToTime` is how many frames the textbox will stay up for.
+Setting `talkedToTime` to a negative number will cause it to last indefinitely.
 
 The `setText` method adds text to be displayed in the textbox.
 Text can be displayed on separate lines by using new line characters `\n`.

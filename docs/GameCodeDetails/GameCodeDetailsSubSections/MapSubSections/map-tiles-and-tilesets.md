@@ -232,7 +232,7 @@ The available tile types are defined in the `TileType` enum, and include:
 A staple of the platformer drama, slope tiles (inclines) allow more creating more dynamic and interesting levels.
 Believe it or not, implementing slopes in a 2D space is rather complex, and is probably one of the most logic-heavy features in this entire project.
 
-TODO: Gif of going up and down slopes here
+![walking-on-slopes.gif](../../../assets/images/walking-on-slopes.gif)
 
 ### How slope tiles work
 
@@ -246,7 +246,7 @@ For example, look at the below slope tile:
 
 As the player walks forward (left or right) while on the ground, they are expected to follow the incline.
 
-TODO: Gif of going up and down 45 degree slope
+![walking-on-45-left-slope.gif](../../../assets/images/walking-on-45-left-slope.gif)
 
 This is clearly not something that can be achieved with simple rectangle math alone.
 

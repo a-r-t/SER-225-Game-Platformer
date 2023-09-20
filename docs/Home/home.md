@@ -15,7 +15,7 @@ search_exclude: true
 Welcome to the website for the unnamed SER225 platformer game! Here you can find information on the game, documentation on how the code works, 
 and other miscellaneous notes.
 
-GitHub Repo: [https://github.com/a-r-t/SER-225-Game](https://github.com/a-r-t/SER-225-Game)
+GitHub Repo: [https://github.com/a-r-t/SER-225-Game-Platformer](https://github.com/a-r-t/SER-225-Game-Platformer)
 
 ## Table of contents
 

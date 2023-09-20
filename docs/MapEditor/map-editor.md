@@ -17,7 +17,7 @@ permalink: /MapEditor
 
 ## What is a map editor?
 
-In this project, there is another application separate from the game itself called the Map Editor (all located in the `MapEditor` package) that will load up a GUI for designing game [tile maps](/GameDetails/Map/MapTilesAndTilesets).
+In this project, there is another application separate from the game itself called the Map Editor (all located in the `MapEditor` package) that will load up a GUI for designing game [tile maps](/GameCodeDetails/Map/MapTilesAndTilesets).
 The map editor provides a nice interactive display to work with when creating maps instead of having to do so purely through code.
 Nearly every video game uses a map editor (level editor, level maker, etc.) that game developers use to design the game's maps. 
 

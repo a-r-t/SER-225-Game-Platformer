@@ -161,8 +161,8 @@ public ArrayList<MapTileBuilder> defineTiles() {
 }
 ```
 
-Unlike with the grass tile, the sky tile is not "solid" and can be passed through by the player, 
-To achieve this, its `TileType` needs to be set to `PASSABLE`. 
+Unlike with the grass tile, the sky tile is not "solid" and can be passed through by the player.
+To achieve this behavior, its `TileType` needs to be set to `PASSABLE`. 
 This is the default tile type, so it does not need to be specified, but it can be by adding `.withTileType(TileType.PASSABLE)`.
 
 ### Adding an animated map tile to a tileset
@@ -229,7 +229,7 @@ The available tile types are defined in the `TileType` enum, and include:
 
 ## Slope Tiles
 
-A staple of the platformer drama, slope tiles (inclines) allow more creating more dynamic and interesting levels.
+A staple of the platformer genre, slope tiles (inclines) allow for creating more dynamic and interesting levels.
 Believe it or not, implementing slopes in a 2D space is rather complex, and is probably one of the most logic-heavy features in this entire project.
 
 ![walking-on-slopes.gif](../../../assets/images/walking-on-slopes.gif)

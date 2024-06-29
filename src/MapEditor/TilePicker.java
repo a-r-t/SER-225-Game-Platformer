@@ -87,6 +87,10 @@ public class TilePicker extends JPanel {
         }
 
         MapTile selectedTile = mapTiles.get(selectedTileIndex);
+        if (selectedTile == null) {
+            selectedTile = mapTiles.get(0);
+            getParent().revalidate();
+        }
         graphicsHandler.drawRectangle(
                 Math.round(selectedTile.getX()) - 2,
                 Math.round(selectedTile.getY()) - 2,

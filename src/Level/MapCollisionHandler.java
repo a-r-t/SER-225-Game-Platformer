@@ -4,11 +4,14 @@ import GameObject.GameObject;
 import Utils.Direction;
 import Utils.Point;
 
-// This class has methods to check if a game object has collided with a map tile or an enhanced map tile
+// This class has methods to check if a game object has collided with a map entity (map tile, enhanced map tile, npc, or trigger if applicable)
 // it is used by the game object class to determine if and where a collision occurred
 public class MapCollisionHandler {
 
+    // x axis collision logic
+    // determines if a collision occurred with another entity on the map, and calculates where gameobject should be placed to resolve the collision
     public static MapCollisionCheckResult getAdjustedPositionAfterCollisionCheckX(GameObject gameObject, Map map, Direction direction) {
+        // check map tiles in surrounding radius for potential collision
         int numberOfTilesToCheck = Math.max(gameObject.getBounds().getHeight() / map.getTileset().getScaledSpriteHeight(), 1);
         float edgeBoundX = direction == Direction.LEFT ? gameObject.getBounds().getX1() : gameObject.getBounds().getX2();
         Point tileIndex = map.getTileIndexByPosition(edgeBoundX, gameObject.getBounds().getY1());
@@ -29,6 +32,8 @@ public class MapCollisionHandler {
 
             }
         }
+
+        // check active enhanced map tiles for potential collision
         for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
             if (!gameObject.equals(enhancedMapTile) && hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
                 entityCollidedWith = enhancedMapTile;
@@ -48,7 +53,10 @@ public class MapCollisionHandler {
         return new MapCollisionCheckResult(null, null);
     }
 
+    // y axis collision logic
+    // determines if a collision occurred with another entity on the map, and calculates where gameobject should be placed to resolve the collision
     public static MapCollisionCheckResult getAdjustedPositionAfterCollisionCheckY(GameObject gameObject, Map map, Direction direction) {
+        // check map tiles in surrounding radius for potential collision
         int numberOfTilesToCheck = Math.max(gameObject.getBounds().getWidth() / map.getTileset().getScaledSpriteWidth(), 1);
         float edgeBoundY = direction == Direction.UP ? gameObject.getBounds().getY() : gameObject.getBounds().getY2();
         Point tileIndex = map.getTileIndexByPosition(gameObject.getBounds().getX1(), edgeBoundY);
@@ -68,6 +76,8 @@ public class MapCollisionHandler {
                 return new MapCollisionCheckResult(new Point(gameObject.getX(), adjustedPositionY), entityCollidedWith);
             }
         }
+
+        // check active enhanced map tiles for potential collision
         for (EnhancedMapTile enhancedMapTile : map.getActiveEnhancedMapTiles()) {
             if (!gameObject.equals(enhancedMapTile) && hasCollidedWithMapEntity(gameObject, enhancedMapTile, direction)) {
                 entityCollidedWith = enhancedMapTile;
@@ -89,6 +99,8 @@ public class MapCollisionHandler {
 
     // based on tile type, perform logic to determine if a collision did occur with an intersecting tile or not
     private static boolean hasCollidedWithMapEntity(GameObject gameObject, MapEntity mapEntity, Direction direction) {
+        // if entity that is being checked for collision against is a map tile
+        // collision is determined based on tile type
         if (mapEntity instanceof MapTile) {
             MapTile mapTile = (MapTile)mapEntity;
             switch (mapTile.getTileType()) {
@@ -108,6 +120,8 @@ public class MapCollisionHandler {
                     return false;
             }
         }
+
+        // for all other cases other than MapTile, let game object subclass (enhanced map tile, etc.) handle the intersection logic
         else {
             return mapEntity.intersects(gameObject);
         }

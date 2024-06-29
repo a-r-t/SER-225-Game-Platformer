@@ -41,6 +41,7 @@ public class GameLoop {
 
                     if (delta >= 1) {
                         gamePanel.update();
+                        gamePanel.setDoPaint(true);
                         gamePanel.repaint();
                         frames++;
                         delta--;
@@ -83,6 +84,7 @@ public class GameLoop {
                     //Do as many game updates as we need to, potentially playing catchup.
                     while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                         gamePanel.update();
+                        gamePanel.setDoPaint(true);
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
                         updateCount++;
                     }

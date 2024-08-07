@@ -339,8 +339,8 @@ public abstract class Map {
     // adjust the player's and camera's positions accordingly in order to properly create the map "scrolling" effect
     private void adjustMovementX(Player player) {
         // if player goes past center screen (on the right side) and there is more map to show on the right side, push player back to center and move camera forward
-        if (player.getCalibratedXLocation() > xMidPoint && camera.getEndBoundX() < endBoundX) {
-            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation();
+        if ((player.getCalibratedXLocation() + (player.getWidth() / 2)) > xMidPoint && camera.getEndBoundX() < endBoundX) {
+            float xMidPointDifference = xMidPoint - (player.getCalibratedXLocation() + (player.getWidth() / 2));
             camera.moveX(-xMidPointDifference);
 
             // if camera moved past the right edge of the map as a result from the move above, move camera back and push player forward
@@ -350,8 +350,8 @@ public abstract class Map {
             }
         }
         // if player goes past center screen (on the left side) and there is more map to show on the left side, push player back to center and move camera backwards
-        else if (player.getCalibratedXLocation() < xMidPoint && camera.getX() > startBoundX) {
-            float xMidPointDifference = xMidPoint - player.getCalibratedXLocation();
+        else if ((player.getCalibratedXLocation() + (player.getWidth() / 2)) < xMidPoint && camera.getX() > startBoundX) {
+            float xMidPointDifference = xMidPoint - (player.getCalibratedXLocation() + (player.getWidth() / 2));
             camera.moveX(-xMidPointDifference);
 
             // if camera moved past the left edge of the map as a result from the move above, move camera back and push player backward
@@ -366,8 +366,8 @@ public abstract class Map {
     // adjust the player's and camera's positions accordingly in order to properly create the map "scrolling" effect
     private void adjustMovementY(Player player) {
         // if player goes past center screen (below) and there is more map to show below, push player back to center and move camera upward
-        if (player.getCalibratedYLocation() > yMidPoint && camera.getEndBoundY() < endBoundY) {
-            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation();
+        if ((player.getCalibratedYLocation() + (player.getHeight() / 2)) > yMidPoint && camera.getEndBoundY() < endBoundY) {
+            float yMidPointDifference = yMidPoint - (player.getCalibratedYLocation() + (player.getHeight() / 2));
             camera.moveY(-yMidPointDifference);
 
             // if camera moved past the bottom of the map as a result from the move above, move camera upwards and push player downwards
@@ -377,8 +377,8 @@ public abstract class Map {
             }
         }
         // if player goes past center screen (above) and there is more map to show above, push player back to center and move camera upwards
-        else if (player.getCalibratedYLocation() < yMidPoint && camera.getY() > startBoundY) {
-            float yMidPointDifference = yMidPoint - player.getCalibratedYLocation();
+        else if ((player.getCalibratedYLocation() + (player.getHeight() / 2)) < yMidPoint && camera.getY() > startBoundY) {
+            float yMidPointDifference = yMidPoint - (player.getCalibratedYLocation() + (player.getHeight() / 2));
             camera.moveY(-yMidPointDifference);
 
             // if camera moved past the top of the map as a result from the move above, move camera downwards and push player upwards

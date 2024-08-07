@@ -44,7 +44,7 @@ public class FrameBuilder {
         if (this.scale >= 0) {
             this.scale = scale;
         } else {
-            this.scale = 0;
+            this.scale = 1;
         }
         return this;
     }

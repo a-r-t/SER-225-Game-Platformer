@@ -15,9 +15,8 @@ public class Frame extends Sprite {
 		super(image, 0, 0, imageEffect);
 		this.scale = scale;
 		if (bounds != null) {
-			this.bounds = bounds;
+			setBounds(bounds);
 		}
-		this.bounds.setScale(scale);
 		this.delay = delay;
 	}
 
@@ -25,9 +24,8 @@ public class Frame extends Sprite {
 		super(image, 0, 0, imageEffect);
 		this.scale = scale;
 		if (bounds != null) {
-			this.bounds = bounds;
+			setBounds(bounds);		
 		}
-		this.bounds.setScale(scale);
 	}
 
 	public int getDelay() {
@@ -35,6 +33,6 @@ public class Frame extends Sprite {
 	}
 
 	public Frame copy() {
-		return new Frame(image, imageEffect, scale, bounds, delay);
+		return new Frame(image, imageEffect, scale, getBoundsDimensions(), delay);
 	}
 }

@@ -47,7 +47,7 @@ The `SpriteFont` class is used all across the application from the menus to vari
 Below is the code for creating the "PLAY GAME" sprite font for the `MenuScreen`:
 
 ```java
-SpriteFont playGame = new SpriteFont("PLAY GAME", 200, 150, "Comic Sans", 30, new Color(49, 207, 240));
+SpriteFont playGame = new SpriteFont("PLAY GAME", 200, 150, "Arial", 30, new Color(49, 207, 240));
 playGame.setOutlineColor(Color.black);
 playGame.setOutlineThickness(3);
 ```

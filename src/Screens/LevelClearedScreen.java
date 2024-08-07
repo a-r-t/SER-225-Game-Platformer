@@ -17,7 +17,7 @@ public class LevelClearedScreen extends Screen {
 
     @Override
     public void initialize() {
-        winMessage = new SpriteFont("Level Cleared", 320, 239, "Comic Sans", 30, Color.white);
+        winMessage = new SpriteFont("Level Cleared", 320, 239, "Arial", 30, Color.white);
     }
 
     @Override

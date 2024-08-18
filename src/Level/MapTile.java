@@ -63,6 +63,12 @@ public class MapTile extends MapEntity {
 
     public void draw(GraphicsHandler graphicsHandler) {
         super.draw(graphicsHandler);
-        //drawBounds(graphicsHandler, new Color(0, 0, 255, 100));
+
+        // uncomment this to draw bounds of all non passable tiles (useful for debugging)
+        /*
+        if (tileType == TileType.NOT_PASSABLE) {
+            drawBounds(graphicsHandler, new Color(0, 0, 255, 100));
+        }
+        */
     }
 }

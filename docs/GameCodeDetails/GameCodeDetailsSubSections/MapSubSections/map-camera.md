@@ -53,7 +53,7 @@ The rectangle shows that only a piece of the entire map is being shown on the sc
 
 As the player moves throughout the map, the camera follows it to show different pieces of the map.
 
-![entire-map-with-camera-1.png](../../../assets/images/entire-map-with-camera-2.png)
+![entire-map-with-camera-2.png](../../../assets/images/entire-map-with-camera-2.png)
 
 
 ## Active Map Resources

@@ -68,17 +68,17 @@ public class HorizontalMovingPlatform extends EnhancedMapTile {
 
         // if tile type is NOT PASSABLE, if the platform is moving and hits into the player (x axis), it will push the player
         if (tileType == TileType.NOT_PASSABLE) {
-            if (intersects(player) && moveAmountX >= 0 && player.getBoundsX1() <= getBoundsX2()) {
-                player.moveXHandleCollision(getBoundsX2() - player.getBoundsX1());
-            } else if (intersects(player) && moveAmountX <= 0 && player.getBoundsX2() >= getBoundsX1()) {
-                player.moveXHandleCollision(getBoundsX1() - player.getBoundsX2());
+            if (intersects(player) && moveAmountX >= 0 && player.getBounds().getX1() <= getBounds().getX2()) {
+                player.moveXHandleCollision(getBounds().getX2() - player.getBounds().getX1());
+            } else if (intersects(player) && moveAmountX <= 0 && player.getBounds().getX2() >= getBounds().getX1()) {
+                player.moveXHandleCollision(getBounds().getX1() - player.getBounds().getX2());
             }
         }
 
         // if player is on standing on top of platform, move player by the amount the platform is moving
         // this will cause the player to "ride" with the moving platform
         // without this code, the platform would slide right out from under the player
-        if (overlaps(player) && (player.getBoundsY2() + 1) == getBoundsY1() && player.getAirGroundState() == AirGroundState.GROUND) {
+        if (touching(player) && (player.getBounds().getY2() + 1) == getBounds().getY1() && player.getAirGroundState() == AirGroundState.GROUND) {
             player.moveXHandleCollision(moveAmountX);
         }
 

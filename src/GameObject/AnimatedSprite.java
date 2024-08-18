@@ -11,7 +11,7 @@ import java.util.HashMap;
 	Animations can either be passed in directly or loaded automatically in a subclass by overriding the getAnimations method
 	This class contains logic for transitioning animations as well as playing out the frames in an animation in a loop
 	Subclasses need to call down to this class's update method in order for animation logic to be performed
-	While this calls does not extend from Sprite, it is set up in a way where it is still treated by other classes as if it is a singular sprite (based on value of currentFrame)
+	While this class does not extend from Sprite, it is set up in a way where it is still treated by other classes as if it is a singular sprite (based on value of currentFrame)
 */
 public class AnimatedSprite implements IntersectableRectangle {
 	// location of entity
@@ -229,22 +229,6 @@ public class AnimatedSprite implements IntersectableRectangle {
 		return currentFrame.getBounds();
 	}
 
-    public float getBoundsX1() {
-        return currentFrame.getBoundsX1();
-    }
-
-    public float getBoundsX2() {
-        return currentFrame.getBoundsX2();
-    }
-
-    public float getBoundsY1() {
-        return currentFrame.getBoundsY1();
-    }
-
-    public float getBoundsY2() {
-        return currentFrame.getBoundsY2();
-    }
-
 	public void setBounds(Rectangle bounds) {
 		currentFrame.setBounds(bounds);
 	}
@@ -258,10 +242,10 @@ public class AnimatedSprite implements IntersectableRectangle {
         return currentFrame.intersects(other);
     }
 
-	public boolean overlaps(IntersectableRectangle other) { return currentFrame.overlaps(other); }
+	public boolean touching(IntersectableRectangle other) { return currentFrame.touching(other); }
 
 	@Override
 	public String toString() {
-		return String.format("Current Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", x, y, getWidth(), getHeight(), getBoundsX1(), getBoundsY1(), getBounds().getWidth(), getBounds().getHeight());
+		return String.format("Current Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", x, y, getWidth(), getHeight(), getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight());
 	}
 }

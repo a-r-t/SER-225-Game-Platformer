@@ -65,3 +65,8 @@ it's generally best to have both keys able to continually override each other.
 
 This is not an arrow key specific thing -- this happens because of the order in which the if statement is checking which key is currently being pressed.
 Solving this will require updating the player walking logic to allow the movement keys to override one another.
+
+## JFrame size inconsistency between Windows and MacOS
+
+On MacOS, the JFrame size is slightly larger than it is on Windows.
+Might have to do with how the frame style changes across the different operating systems, but I am not 100% sure...

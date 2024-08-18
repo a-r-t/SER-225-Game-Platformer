@@ -28,6 +28,7 @@ public class GamePanel extends JPanel {
 	private SpriteFont fpsDisplayLabel;
 	private boolean showFPS = false;
 	private int currentFPS;
+	private boolean doPaint;
 
 	// The JPanel and various important class instances are setup here
 	public GamePanel() {
@@ -41,11 +42,11 @@ public class GamePanel extends JPanel {
 
 		screenManager = new ScreenManager();
 
-		pauseLabel = new SpriteFont("PAUSE", 365, 280, "Comic Sans", 24, Color.white);
+		pauseLabel = new SpriteFont("PAUSE", 365, 280, "Arial", 24, Color.white);
 		pauseLabel.setOutlineColor(Color.black);
 		pauseLabel.setOutlineThickness(2.0f);
 
-		fpsDisplayLabel = new SpriteFont("FPS", 4, 3, "Comic Sans", 12, Color.black);
+		fpsDisplayLabel = new SpriteFont("FPS", 4, 3, "Arial", 12, Color.black);
 
 		currentFPS = Config.TARGET_FPS;
 
@@ -62,7 +63,7 @@ public class GamePanel extends JPanel {
 		screenManager.initialize(new Rectangle(getX(), getY(), getWidth(), getHeight()));
 	}
 
-	// this starts the timer (the game loop is started here
+	// this starts the timer (the game loop is started here)
 	public void startGame() {
 		gameLoopProcess.start();
 	}
@@ -73,6 +74,10 @@ public class GamePanel extends JPanel {
 
 	public void setCurrentFPS(int currentFPS) {
 		this.currentFPS = currentFPS;
+	}
+
+	public void setDoPaint(boolean doPaint) {
+		this.doPaint = doPaint;
 	}
 
 	public void update() {
@@ -125,9 +130,11 @@ public class GamePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		// every repaint call will schedule this method to be called
-		// when called, it will setup the graphics handler and then call this class's draw method
-		graphicsHandler.setGraphics((Graphics2D) g);
-		draw();
+		if (doPaint) {
+			// every repaint call will schedule this method to be called
+			// when called, it will setup the graphics handler and then call this class's draw method
+			graphicsHandler.setGraphics((Graphics2D) g);
+			draw();
+		}
 	}
 }

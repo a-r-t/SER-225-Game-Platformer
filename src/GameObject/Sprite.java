@@ -10,8 +10,9 @@ import java.awt.image.BufferedImage;
 // it also includes an attribute for "bounds", which can be thought of a sub rectangle on the image where it can be interacted with (like for collisions)
 public class Sprite extends Rectangle {
 	protected BufferedImage image;
-    protected Rectangle bounds;
     protected ImageEffect imageEffect;
+
+    private Rectangle bounds;
 
     public Sprite (BufferedImage image) {
         super(0, 0, image.getWidth(), image.getHeight(), 1);
@@ -52,32 +53,20 @@ public class Sprite extends Rectangle {
         this.imageEffect = imageEffect;
     }
 
-    public float getBoundsX1() {
-        return getX() + (bounds.getX1() * scale);
+       public Rectangle getBounds() {
+        return new Rectangle(getX() + (bounds.getX1() * scale), getY() + (bounds.getY1() * scale), bounds.getWidth(), bounds.getHeight(), scale);
     }
 
-    public float getBoundsX2() {
-        return (getBoundsX1() + bounds.getWidth()) - 1;
-    }
-
-    public float getBoundsY1() {
-        return getY() + (bounds.getY1() * scale);
-    }
-
-    public float getBoundsY2() {
-        return (getBoundsY1() + bounds.getHeight()) - 1;
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(getBoundsX1(), getBoundsY1(), bounds.getWidth(), bounds.getHeight());
+    public Rectangle getBoundsDimensions() {
+        return bounds;
     }
 
     public void setBounds(Rectangle bounds) {
-        this.bounds = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), scale);
+        this.bounds = new Rectangle(bounds.getX1(), bounds.getY1(), bounds.getWidth(), bounds.getHeight(), 1);
     }
 
     public void setBounds(float x, float y, int width, int height) {
-        this.bounds = new Rectangle(x, y, width, height, scale);
+        setBounds(new Rectangle(x, y, width, height, 1));
     }
 
     public void setScale(float scale) {
@@ -107,6 +96,6 @@ public class Sprite extends Rectangle {
 
     @Override
     public String toString() {
-        return String.format("Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", getX(), getY(), getWidth(), getHeight(), getBoundsX1(), getBoundsY1(), getBounds().getWidth(), getBounds().getHeight());
+        return String.format("Sprite: x=%s y=%s width=%s height=%s bounds=(%s, %s, %s, %s)", getX(), getY(), getWidth(), getHeight(), getBounds().getX(), getBounds().getY(), getBounds().getWidth(), getBounds().getHeight());
     }
 }

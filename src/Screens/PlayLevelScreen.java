@@ -34,8 +34,6 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
         this.player = new Cat(map.getPlayerStartPosition().x, map.getPlayerStartPosition().y);
         this.player.setMap(map);
         this.player.addListener(this);
-        Point playerStartPosition = map.getPlayerStartPosition();
-        this.player.setLocation(playerStartPosition.x, playerStartPosition.y);
 
         levelClearedScreen = new LevelClearedScreen();
         levelLoseScreen = new LevelLoseScreen(this);

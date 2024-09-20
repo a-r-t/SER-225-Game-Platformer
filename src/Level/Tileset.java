@@ -18,20 +18,15 @@ public abstract class Tileset extends SpriteSheet {
     // stores tiles mapped to an index
     protected HashMap<Integer, MapTileBuilder> tiles;
 
-    // default tile defined for situations where no tile information for an index can be found (failsafe basically)
-    protected MapTileBuilder defaultTile;
-
     public Tileset(BufferedImage image, int tileWidth, int tileHeight) {
         super(image, tileWidth, tileHeight);
         this.tiles = mapDefinedTilesToIndex();
-        this.defaultTile = getDefaultTile();
     }
 
     public Tileset(BufferedImage image, int tileWidth, int tileHeight, int tileScale) {
         super(image, tileWidth, tileHeight);
         this.tileScale = tileScale;
         this.tiles = mapDefinedTilesToIndex();
-        this.defaultTile = getDefaultTile();
     }
 
     // a subclass of this class must implement this method to define tiles in the tileset
@@ -39,7 +34,7 @@ public abstract class Tileset extends SpriteSheet {
 
     // get specific tile from tileset by index, if not found the default tile is returned
     public MapTileBuilder getTile(int tileNumber) {
-        return tiles.getOrDefault(tileNumber, defaultTile);
+        return tiles.getOrDefault(tileNumber, getDefaultTile());
     }
 
     public float getTileScale() {
@@ -64,6 +59,7 @@ public abstract class Tileset extends SpriteSheet {
         return tilesToIndex;
     }
 
+    // default tile defined for situations where no tile information for an index can be found (failsafe basically)
     public MapTileBuilder getDefaultTile() {
         BufferedImage defaultTileImage = ImageUtils.createSolidImage(new Color(0, 0, 0));
         return new MapTileBuilder(new FrameBuilder(ImageUtils.resizeImage(defaultTileImage, spriteWidth, spriteHeight), 0).withScale(tileScale).build());

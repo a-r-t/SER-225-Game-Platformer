@@ -206,8 +206,10 @@ mapTiles.add(purpleFlowerTile);
 ```
 
 Instead of just one `Frame` being created, an array of `Frame` instances is defined. 
-Each `Frame` specifies its own subimage location, and its delay value (milliseconds), which is the amount of time that needs to pass before the animation transitions to its next frame.
-Each frame in this animation has a delay of 500 milliseconds (half a second). This animation defines these four frames in the following order:
+Each `Frame` specifies its own subimage location, and its delay value.
+The delay value is the number of game cycles that need to pass before the animation will transition to its next frame.
+Each frame in the above animation has a delay of 65 game cycles.
+This animation defines these four frames in the following order:
 
 ![purple-flower-image-1.png](../../../assets/images/purple-flower-image-1.png)
 ![purple-flower-image-2.png](../../../assets/images/purple-flower-image-2.png)

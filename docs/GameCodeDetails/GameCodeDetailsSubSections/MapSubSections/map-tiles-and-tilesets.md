@@ -168,7 +168,7 @@ This is the default tile type, so it does not need to be specified, but it can b
 ### Adding an animated map tile to a tileset
 
 Tiles can be animated! How fun!
-Currently, the `CommonTileset` contains three animated tiles: the yellow flower, the purple flower, and the rising/falling water on the shore.
+Currently, the `CommonTileset` contains two animated tiles: the yellow flower and the purple flower
 To set this up, the tileset image file must have a separate image for each frame in the tile's animation. 
 
 For example, below are the frame tiles used for the flower (three different frame images):

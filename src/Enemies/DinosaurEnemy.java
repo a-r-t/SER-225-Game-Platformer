@@ -18,7 +18,6 @@ import java.util.HashMap;
 // It walks back and forth between two set points (startLocation and endLocation)
 // Every so often (based on shootTimer) it will shoot a Fireball enemy
 public class DinosaurEnemy extends Enemy {
-
     // start and end location defines the two points that it walks between
     // is only made to walk along the x axis and has no air ground state logic, so make sure both points have the same Y value
     protected Point startLocation;

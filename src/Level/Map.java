@@ -136,7 +136,6 @@ public abstract class Map {
                 int xLocation = j * tileset.getScaledSpriteWidth();
                 int yLocation = i * tileset.getScaledSpriteHeight();
                 MapTile tile = tileset.getTile(tileIndex).build(xLocation, yLocation);
-                tile.setMap(this);
                 setMapTile(j, i, tile);
 
                 if (tile.isAnimated()) {
@@ -223,6 +222,8 @@ public abstract class Map {
             MapTile oldMapTile = getMapTile(x, y);
             animatedMapTiles.remove(oldMapTile);
             mapTiles[getConvertedIndex(x, y)] = tile;
+            tile.setMap(this);
+            
             if (tile.isAnimated()) {
                 animatedMapTiles.add(tile);
             }
@@ -241,8 +242,8 @@ public abstract class Map {
 
     // returns the index of a tile (x index and y index) based on a position in the map
     public Point getTileIndexByPosition(float xPosition, float yPosition) {
-        int xIndex = Math.round(xPosition) / tileset.getScaledSpriteWidth();
-        int yIndex = Math.round(yPosition) / tileset.getScaledSpriteHeight();
+        int xIndex = Math.round(xPosition / tileset.getScaledSpriteWidth());
+        int yIndex = Math.round(yPosition / tileset.getScaledSpriteHeight());
         return new Point(xIndex, yIndex);
     }
 

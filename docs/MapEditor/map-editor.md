@@ -50,7 +50,7 @@ It should be pretty self-explanatory how to use the map editor after playing aro
 
 The left-hand sidebar contain the tiles that can be used for the map. 
 Each `Map` subclass (such as `TestMap`) defines its own `Tileset` (such as `CommonTileset`) which is where these tile options come from.
-You can read more about the `Map` class [here](/GameDetails/Map) and about map tiles and tilesets [here](/GameDetails/Map/MapTilesAndTilesets). 
+You can read more about the `Map` class [here](../GameCodeDetails/GameCodeDetailsSubSections/map.md) and about map tiles and tilesets [here](../GameCodeDetails/GameCodeDetailsSubSections/MapSubSections/map-tiles-and-tilesets.md).
 
 Any tile on the left-hand sidebar can be clicked to "select" it. 
 The tile is highlighted with a yellow box. 

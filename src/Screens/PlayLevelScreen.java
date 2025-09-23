@@ -48,7 +48,7 @@ public class PlayLevelScreen extends Screen implements PlayerListener {
                 player.update();
                 map.update(player);
                 break;
-            // if level has been completed, bring up level cleared screen
+            // if level has been completed, bring up the level cleared screen
             case LEVEL_COMPLETED:
                 if (levelCompletedStateChangeStart) {
                     screenTimer = 130;
